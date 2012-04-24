@@ -19,7 +19,10 @@ class Welcome extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->load->view('welcome_message');
+		$this->load->library("Computer");
+		$Computer = new Computer();
+		$Computer->Load(1);
+		print_r($Computer->Export());
 	}
 }
 
