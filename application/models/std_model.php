@@ -35,7 +35,6 @@ class Std_Model extends CI_Model{
 	 */
 	public function __construct()
     {
-		//$this->CI =& get_instance();
         parent::__construct();
     }
 
@@ -64,10 +63,11 @@ class Std_Model extends CI_Model{
 		        	} else {
 		        		$this->_INTERNAL_ROW_NAME_CONVERT = $Names;
 		        	}
-		        break;
-
-		        default :
-
+		        	if(is_null($this->_INTERNAL_DATABASE_NAME_CONVERT)){
+		        		foreach ($Names as $Key => $Value) {
+		        			$this->_INTERNAL_DATABASE_NAME_CONVERT[$Value] = $Key;
+		        		}
+		        	}
 		        break;
         	}
         }
@@ -86,14 +86,10 @@ class Std_Model extends CI_Model{
 	 */
 	private function Convert_Properties_To_Database_Row($Data = NULL,&$Class = NULL){
 		if(!is_null($Data) && !is_null($Class)){
-			if(property_exists($Class, "_INTERNAL_DATABASE_NAME_CONVERT") && isset($Class->_INTERNAL_DATABASE_NAME_CONVERT) && !is_null($Class->_INTERNAL_DATABASE_NAME_CONVERT)){
+			if(isset($Object->_INTERNAL_DATABASE_NAME_CONVERT) || isset($this->_INTERNAL_DATABASE_NAME_CONVERT)){
 				$Array = array();
 				foreach ($Data as $Key => $Value) {
-					if(array_key_exists($Key,$Class->_INTERNAL_DATABASE_NAME_CONVERT)){
-						$Array[$Class->_INTERNAL_DATABASE_NAME_CONVERT[$Key]] = $Value;
-					} else {
-						$Array[$Key] = $Value;
-					}
+					$Array[self::_Get_Database_Row_Name($Class,$Key)] = $Value;
 				}
 				return $Array;
 			} else {
@@ -105,28 +101,53 @@ class Std_Model extends CI_Model{
 	}
 
 	/**
+	 * This function converts the class properties to database row names
+	 * @param object $Object The object that is going to be converted
+	 * @param string $Key    Thd class property to convert
+	 * @since 1.1
+	 * @access private
+	 * @return string
+	 */
+	private function _Get_Database_Row_Name($Object = NULL,$Key = NULL){
+		if(!is_null($Object) && isset($Object->_INTERNAL_DATABASE_NAME_CONVERT) && array_key_exists($Key, $Object->_INTERNAL_DATABASE_NAME_CONVERT)){
+			return $Object->_INTERNAL_DATABASE_NAME_CONVERT[$Key];
+		} else if(isset($this->_INTERNAL_DATABASE_NAME_CONVERT) && array_key_exists($Key, $this->_INTERNAL_DATABASE_NAME_CONVERT)){
+			return $this->_INTERNAL_DATABASE_NAME_CONVERT[$Key];
+		} else {
+			return $Key;
+		}
+	}
+
+	/**
 	 * This function loads data from $Table, based on the query in $Link
 	 * @param string||array $Table  The table(s) to search in 
 	 * @param array $Link   An array with the query
 	 * @example
 	 * Link("Questions",array("Lmmaa" => "Duck",$this));
 	 * @param object &$Class The class where the data is taken from
+	 * @param string|array $Select The row/rows to select
 	 * @return array An array of the query result data
 	 * @since 1.0
 	 * @todo  Add a link like, example with, link all the users if their TargetGroup contains this group id
 	 * @access public
 	 */
-	public function Link($Table = NULL,$Link = NULL,&$Class = NULL){
+	public function Link($Table = NULL,$Link = NULL,&$Class = NULL,$Select = NULL){
 		if(!is_null($Table) && !is_null($Link) && !is_null($Class) && is_array($Link)){
+			if(is_null($Select)){
+				$Select = "Id";
+			}
+			if(is_array($Select)){
+				$Select = implode(",", $Select);
+			}
 			if(!is_array($Table)){
-				$this->db->select('Id');
+				$this->db->select($Select);
 				$Query = $this->db->get_where($Table,$Link);
 				$Result = $Query->result();
 				return $Query->result();
 			} else {
 				$Result = array();
 				foreach ($Table as $Name) {
-					$this->db->select('Id');
+					$this->db->select($Select);
 					$Query = $this->db->get_where($Name,$Link);
 					$Temp = $Query->result();
 					$Result[] = $Temp[0];
@@ -245,7 +266,7 @@ class Std_Model extends CI_Model{
 	public function Save(&$Class = NULL){
 		if( property_exists($Class, "Database_Table")){
 			self::_Data_Exists($Class);
-			if($Class->Id != NULL && self::Exists($Class->Id,$Class->Database_Table)){
+			if((isset($Class->Id) || isset($Class->id)) && self::Exists($Class->Id,$Class->Database_Table)){
 				$Data = $Class->Export(true);
 				if(property_exists($Class, "Database_Table") && count($Data) > 0){
 					$this->db->where(array('Id' => $Class->Id))->update($Class->Database_Table, self::Convert_Properties_To_Database_Row($Data,$Class));
@@ -255,7 +276,14 @@ class Std_Model extends CI_Model{
 				}
 			}
 			else{
-				if(!self::Exists($Class->Id)){
+				if(isset($Class->Id)){
+					$Id = $Class->Id;
+				} else if($Class->id){
+					$Id = $Class->id;
+				} else {	
+					$Id = NULL;
+				}
+				if(!self::Exists($Id)){
 					$Data = $Class->Export(true);
 					if(!is_null($Data) && !is_null($Class) && count($Data) > 0){
 						$this->db->insert($Class->Database_Table, self::Convert_Properties_To_Database_Row($Data,$Class));
@@ -401,11 +429,12 @@ class Std_Model extends CI_Model{
 	 * and tries to get the right result if the data is splitted
 	 * @param array $Array The search query
 	 * @param string $Table The table to search in
+	 * @param object &$Class The class the is going to be filled with data
 	 * @since 1.1
 	 * @access private
 	 * @return integer The database id of the data
 	 */
-	 private function _Get_Query_Data($Array = NULL,$Table = NULL){
+	 private function _Get_Query_Data($Array = NULL,$Table = NULL,&$Class){
        if(!is_null($Array) && !is_null($Table)){
             $Like = array();
             $Or_Like = array();
@@ -418,12 +447,17 @@ class Std_Model extends CI_Model{
                     $Or_Like[$Key] = $Value;
                 }
             }
+            if(property_exists($Class, "id")){
+            	$Select = "id";
+            } else {
+            	$Select = "Id";
+            }
            if(count($Like) > 0){
-                $this->db->limit(1)->select("Id")->like($Like);
+                $this->db->limit(1)->select($Select)->like($Like);
             }
             $Raw = $this->db->get($Table);
             if($Raw->num_rows == 0 && count($Or_Like) > 0){
-                $Raw = $this->db->like($Or_Like)->limit(1)->select("Id")->get($Table);
+                $Raw = $this->db->like($Or_Like)->limit(1)->select($Select)->get($Table);
             }
             return $Raw;
         } else {
@@ -447,10 +481,14 @@ class Std_Model extends CI_Model{
 		if(!is_null($Query) && is_array($Query) && !is_null($Table)){
 			$Data = self::Convert_Properties_To_Database_Row($Query,$Class);
 			if(!is_null($Data)){
-				$Raw = self::_Get_Query_Data($Data,$Table);
+				$Raw = self::_Get_Query_Data($Data,$Table,$Class);
 				if($Raw->num_rows() > 0){
-					$Row = $Raw->result();
-					return $Row[0]->Id;
+					$Row = current($Raw->result());
+					if(isset($Row->Id)){
+						return $Row->Id;
+					} else {
+						return $Row->id;
+					}
 				} else {
 					return FALSE;
 				}

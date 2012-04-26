@@ -106,7 +106,7 @@ class Std_Library{
 	 * @access public
 	 * @example
 	 * @static
-	 * $this->_INTERNAL_LINK_PROPERTIES = array("Questions" => array("Questions",array("SeriesId" => "Id")));
+	 * $this->_INTERNAL_LINK_PROPERTIES = array("Questions" => array("Questions",array("SeriesId" => "Id"),array("Properties to select data from")));
 	 * @see Link
 	 */
 	public static $_INTERNAL_LINK_PROPERTIES = NULL;
@@ -251,8 +251,15 @@ class Std_Library{
 		if(!is_null($Id)){
 			$this->Id = $Id;
 		}
-		if(!is_null($this->Id) && !is_null($this->_CI) && !is_null($this->_CI->_INTERNAL_DATABASE_MODEL)){
-			if(!$this->_CI->_INTERNAL_DATABASE_MODEL->Load($this->Id,$this)){
+		if(isset($this->Id)){
+			$Id = $this->Id;
+		} else if(isset($this->id)){
+			$Id = $this->id;
+		} else {
+			$Id = NULL;
+		}
+		if(!is_null($Id) && !is_null($this->_CI->_INTERNAL_DATABASE_MODEL)){
+			if(!$this->_CI->_INTERNAL_DATABASE_MODEL->Load($Id,$this)){
 				return FALSE;
 			}
 		}
@@ -274,16 +281,21 @@ class Std_Library{
 				if(property_exists($this, $Property) && !is_null($this->{$Property})){
 					$Table = $Data[0];
 					$Row = $Data[1];
+					if(isset($Data[2])){
+						$Select = $Data[2];
+					} else {
+						$Select = NULL;
+					}
 					if(is_array($this->{$Property})){
 						foreach ($this->{$Property} as $Key => $Value) {
 							if(gettype($Value) != "object"){
-								self::Link($Table,array($Row => $Value),$Property,true);
+								self::Link($Table,array($Row => $Value),$Property,true,$Select);
 								unset($this->{$Property}[$Key]);
 							}
 						}
 					} else {
 						if(gettype($this->{$Property}) != "object"){
-							self::Link($Table,array($Row => $this->{$Property}),$Property,true);
+							self::Link($Table,array($Row => $this->{$Property}),$Property,true,$Select);
 						}
 					}
 				}
@@ -393,8 +405,13 @@ class Std_Library{
 				if(is_array($LinkData)){
 					$Table = $LinkData[0];
 					$Query = $LinkData[1];
+					if(isset($LinkData[2])){
+						$Select = $LinkData[2];
+					} else {
+						$Select = NULL;
+					}
 					if(method_exists($this, "Link")){
-						self::Link($Table,$Query,$ClassProperty,true);
+						self::Link($Table,$Query,$ClassProperty,true,$Select);
 					}
 				}
 			}
@@ -902,17 +919,99 @@ class Std_Library{
 	}
 
 	/**
+	 * This function gets either one property
+	 * from and object or more properties
+	 * @param object $Object     The object to get the data from
+	 * @param string|array $Properties The property/properties to get
+	 * @return array|string
+	 * @since 1.1
+	 * @access private
+	 */
+	private function _Get_Data_From_Object($Object = NULL,$Properties = NULL){
+		if(!is_null($Object) && is_object($Object) && !is_null($Properties)){
+			if(is_array($Properties)){
+				$Temp = array();
+				foreach ($Properties as $Property) {
+					if(property_exists($Object, $Property)){
+						$Temp[$Property] = $Object->{$Property};
+					}
+				}
+				return $Temp;
+			} else {
+				if(property_exists($Object, $Properties)){
+					return $Object->{$Properties};
+				}
+			}
+		}
+	}
+
+	/**
+	 * This function sets the data returned from a link query
+	 * @param array $Data     The data to get the objects from
+	 * @param string $Property The class property to set the data too
+	 * @param string|array $Select   The row/rows to select
+	 * @since 1.1
+	 * @access private
+	 */
+	private function _Link_Set_Data($Data = NULL,$Property = NULL,$Select = NULL){
+		if(!is_null($Data) && is_array($Data) &&!is_null($Property) && property_exists($this, $Property)){
+			if(!is_null($Select)){
+				$UseProperty = $Select;
+			} else {
+				$UseProperty = "Id";
+			}
+
+			if(count($Data) > 1){
+				$Temp = array();
+				foreach ($Data as $Object) {
+					if(is_array($UseProperty)){
+						$Temp[] = self::_Get_Data_From_Object($Object,$UseProperty);
+					} else {
+						if(property_exists($Object, $UseProperty)){
+							self:: _Remove_Where($Property,$Object->{$UseProperty});
+							$Temp[] = self::_Get_Data_From_Object($Object,$UseProperty);
+						}	
+					}
+				}
+				if(count($Temp) > 0){
+					if(is_null($this->{$Property})){
+						$this->{$Property} = $Temp;
+					} else {
+						if(is_array($this->{$Property})){
+							$this->{$Property} = array_merge($this->{$Property},$Temp);
+						} else {
+							$this->{$Property} = $Temp;
+						}
+					}
+				}
+			} else {
+				if(isset($Data[0])){
+					$Data = $Data[0];
+				}
+				if(!is_null($Data) && is_object($Data)){
+					if(is_array($this->{$Property})){
+						$this->{$Property}[] = self::_Get_Data_From_Object($Data,$UseProperty);
+					} else {
+						$this->{$Property} = self::_Get_Data_From_Object($Data,$UseProperty);
+					}
+				}
+			}
+		}
+	}
+
+	/**
 	 * This function links a class property to data collected from other databases
 	 * @param string||array $Table    The table(s) to search in
 	 * @param array $Link     An array in this format array("Row Name" => "Class property or  a value"...) 
 	 * with the search queries to search with.
 	 * @param string $Property The class property to link
 	 * @param boolean $Simple if this flag is set to true, then the load from class isn't executed
+	 * @param array $Select The rows to select/use
 	 * @since 1.0
 	 * @return boolean If success or fail
 	 * @access public
 	 */
-	public function Link($Table = NULL,$Link = NULL,$Property = NULL,$Simple = false){
+	public function Link($Table = NULL,$Link = NULL,$Property = NULL,$Simple = false,$Select = NULL){
 		if(!is_null($Table) && !is_null($Link) && is_array($Link) && !is_null($Property)){
 			//Check if the properties exists else remove them from the list
 			foreach($Link as $Search => $Key){
@@ -935,43 +1034,17 @@ class Std_Library{
 			//If there is properties left, then start linking
 			if(count($Link) > 0){
 				if(method_exists($this->_CI->_INTERNAL_DATABASE_MODEL, "Link")){
-					$Data = $this->_CI->_INTERNAL_DATABASE_MODEL->Link($Table,$Link,$this);
+					$Data = $this->_CI->_INTERNAL_DATABASE_MODEL->Link($Table,$Link,$this,$Select);
 					if(property_exists($this, $Property)){
-						if(count($Data) > 1){
-							$Temp = array();
-							foreach ($Data as $Object) {
-								if(property_exists($Object, "Id")){
-									self:: _Remove_Where($Property,$Object->Id);
-									$Temp[] = $Object->Id;
-								}
+						self::_Link_Set_Data($Data,$Property,$Select);
+						if(count($Data) > 0){
+							if(!$Simple){
+								self::_Load_From_Class();
 							}
-							if(count($Temp) > 0){
-								if(is_null($this->{$Property})){
-									$this->{$Property} = $Temp;
-								} else {
-									if(is_array($this->{$Property})){
-										$this->{$Property} = array_merge($this->{$Property},$Temp);
-									} else {
-										$this->{$Property} = $Temp;
-									}
-								}
-							}
+							return TRUE;
 						} else {
-							if(isset($Data[0])){
-								$Data = $Data[0];
-							}
-							if(!is_null($Data) && is_object($Data) && property_exists($Data, "Id")){
-								if(is_array($this->{$Property})){
-									$this->{$Property}[] = $Data->Id;
-								} else {
-									$this->{$Property} = $Data->Id;
-								}
-							}
+							return FALSE;
 						}
-						if(!$Simple){
-							self::_Load_From_Class();
-						}
-						return TRUE;
 					}
 				}
 			}
@@ -1159,7 +1232,7 @@ class Std_Library{
 			foreach (get_class_vars(get_class($this)) as $Name => $Value) {
 
 				//If the property is the CodeIgniter instance, the id or an internal property dont do anything
-				if (!self::Ignore($Name,$Ignore) && !is_null($this->{$Name})) {
+				if (!self::Ignore($Name,$Ignore) && !is_null($this->{$Name}) && !self::_Is_Linked_Property($Name)) {
 					$Data = $this->{$Name};
 					if(self::_Contains_Object($Data) && !self::_Is_Property_Linked_Row($Name)){
 						$Data = self::_Convert_From_Object($Data);
