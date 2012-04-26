@@ -1,8 +1,8 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');  
-class Computer_Model extends Std_Library{
+class Device extends Std_Library{
 
 	/**
-	 * The database id of this Computer model
+	 * The database id of the device
 	 * @var integer
 	 * @since 1.0
 	 * @access public
@@ -10,28 +10,60 @@ class Computer_Model extends Std_Library{
 	public $id = NULL;
 
 	/**
-	 * The id of the manufacturer of the computer
-	 * @var integer
-	 * @since 1.0
-	 * @access public
-	 */
-	public $manufacturer = NULL;
-
-	/**
-	 * Th computer type "Laptop","Stationary" etc
-	 * @var integer
-	 * @since 1.0
-	 * @access public
-	 */
-	public $type = NULL;
-
-	/**
-	 * The name of the model
+	 * An optional identifier for you device etc a physic number on it
 	 * @var string
 	 * @since 1.0
 	 * @access public
 	 */
-	public $name = NULL;
+	public $identifier = NULL;
+
+	/**
+	 * An optional description of the device usage etc
+	 * @var string
+	 * @since 1.0
+	 * @access public
+	 */
+	public $description = NULL;
+
+	/**
+	 * The device model object
+	 * @var object
+	 * @since 1.0
+	 * @access public
+	 */
+	public $model = NULL;
+
+	/**
+	 * An optional location description
+	 * @var string
+	 * @since 1.0
+	 * @access public
+	 */
+	public $location = NULL;
+
+	/**
+	 * An optional serial number of the device
+	 * @var string
+	 * @since 1.0
+	 * @access public
+	 */
+	public $serial = NULL;
+
+	/**
+	 * An optional integer, to describe what year the device was purchased
+	 * @var integer
+	 * @since 1.0
+	 * @access public
+	 */
+	public $year_of_purchase = NULL;
+
+	/**
+	 * The organization object, showing the organization details
+	 * @var object
+	 * @since 1.0
+	 * @access public
+	 */
+	public $organization = NULL;
 
 	### Class Settings ###
 
@@ -50,7 +82,7 @@ class Computer_Model extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Database_Table = "computer_models";
+	public $Database_Table = "devices";
 
 	/**
 	 * This property can contain properties to be ignored when exporting
@@ -77,30 +109,6 @@ class Computer_Model extends Std_Library{
 	 * @access public
 	 */
 	public static $_INTERNAL_DATABASE_MODEL = NULL;
-
-	/**
-	 * This property is used to force a specific property to be an array
-	 * @var array
-	 * @static
-	 * @access public
-	 * @since 1.0
-	 * @example
-	 * $this->_INTERNAL_FORCE_ARRAY = array("Questions");
-	 */
-	public static $_INTERNAL_FORCE_ARRAY = NULL;
-
-	/**
-	 * This property is used to deffine a set of rows that is gonna be
-	 * unique for this row of data
-	 * @var array
-	 * @access public
-	 * @since 1.1
-	 * @static
-	 * @internal This is a internal settings variable
-	 * @example
-	 * array("SeriesId","Title");
-	 */
-	public static $_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = NULL;
 
 	/**
 	 * This property contain values for converting databse rows to class properties
@@ -131,24 +139,25 @@ class Computer_Model extends Std_Library{
 	public static $_INTERNAL_LOAD_FROM_CLASS = NULL;
 
 	/**
-	 * This is the constructor it configurates the Std_Library
+	 * This is the constructor, it configurates the Std_Library
 	 * @since 1.0
 	 * @access public
 	 */
-	public function Computer_Model(){
+	public function Device(){
 		$this->_CI =& get_instance();
 		self::Config($this->_CI);
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
-		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_INTERNAL_ROW_NAME_CONVERT = array(
-			"manufacturer_id" => "manufacturer",
-			"device_type" => "type"
+			"organization_id" => "organization",
+			"model_id" => "model"
 		);
 		$this->_INTERNAL_LOAD_FROM_CLASS = array(
-			"manufacturer" => "Manufacturer",
-			"type" => "Device_Type"
+			"organization" => "Organization",
+			"model" => "Device_Model"
 		);
+		$this->_INTERNAL_SIMPLE_LOAD = array("organization" => true);
+		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_ROW_NAME_CONVERT,"ROW_NAME_CONVERT");
 	}
 }

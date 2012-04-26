@@ -38,7 +38,29 @@
 |
 */
 
-$route['default_controller'] = "welcome";
+/**
+ * Api Routes
+ */
+$route["printer"] = "api/printer";
+$route["printer/search"] = "api/printer/search";
+$route["computer"] = "api/computer";
+$route["computer/search"] = "api/computer/search";
+$routeg["device"] = "api/device";
+$route["computer/model"] = "api/computer_model";
+$route["device/model"] = "api/device_model";
+$route["device/model/search"] = "api/device/model/search";
+$route["printer/model"] = "api/printer_model";
+$route["printer/model/search"] = "api/printer/model/search";
+$route["token"] = "api/generate_token";
+$route["token/(:any)"] = "api/token/$1";
+$route["manufaturer"] = "api/manufaturer";
+$route["manufaturer/search"] = "api/manufaturer/search";
+$route["cpu"] = "api/cpu";
+
+/**
+ * Standard routes
+ */
+$route['default_controller'] = "ui";
 $route['404_override'] = '';
 
 

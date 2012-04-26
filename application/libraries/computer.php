@@ -25,7 +25,7 @@ class Computer extends Std_Library{
 	 * @since 1.0
 	 * @access public
 	 */
-	public $organization_id = NULL;
+	public $organization = NULL;
 
 	/**
 	 * The primary LAN mac of the computer
@@ -75,7 +75,7 @@ class Computer extends Std_Library{
 	 * @since 1.0
 	 * @access public
 	 */
-	public $model_id = NULL;
+	public $model = NULL;
 
 	/**
 	 * The computers serial key
@@ -107,7 +107,7 @@ class Computer extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $cpu_id = NULL;
+	public $cpu = NULL;
 
 	/**
 	 * The UNIX timestap of the time
@@ -138,12 +138,28 @@ class Computer extends Std_Library{
 	public $location = NULL;
 
 	/**
+	 * An array storing the connected printers to this device
+	 * @var array
+	 * @since 1.0
+	 * @access public
+	 */
+	public $printers = NULL;
+
+	/**
 	 * An array containig all the lan macs
 	 * @var array
 	 * @since 1.0
 	 * @access public
 	 */
 	public $lan_macs = NULL;
+
+	/**
+	 * A list of other connected devices
+	 * @var string
+	 * @since 1.0
+	 * @access public
+	 */
+	public $connected_devices = NULL;
 
 	/**
 	 * A string storing the power usage per
@@ -174,56 +190,6 @@ class Computer extends Std_Library{
 	public $Database_Table = "computers";
 
 	/**
-	 * This property can contain properties to be ignored when exporting
-	 * @var array
-	 * @access public
-	 * @static
-	 * @since 1.0
-	 */
-	public static $_INTERNAL_EXPORT_INGNORE = NULL;
-
-	/**
-	 * This property can contain properties to be ignored, when the database flag is true in export.
-	 * @var array
-	 * @access public
-	 * @static
-	 * @since 1.0
-	 */
-	public static $_INTERNAL_DATABASE_EXPORT_INGNORE = NULL;
-
-	/**
-	 * This property contains the database model to use
-	 * @var object
-	 * @since 1.0
-	 * @access public
-	 */
-	public static $_INTERNAL_DATABASE_MODEL = NULL;
-
-	/**
-	 * This property is used to force a specific property to be an array
-	 * @var array
-	 * @static
-	 * @access public
-	 * @since 1.0
-	 * @example
-	 * $this->_INTERNAL_FORCE_ARRAY = array("Questions");
-	 */
-	public static $_INTERNAL_FORCE_ARRAY = NULL;
-
-	/**
-	 * This property is used to deffine a set of rows that is gonna be
-	 * unique for this row of data
-	 * @var array
-	 * @access public
-	 * @since 1.1
-	 * @static
-	 * @internal This is a internal settings variable
-	 * @example
-	 * array("SeriesId","Title");
-	 */
-	public static $_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = NULL;
-
-	/**
 	 * This is the constructor, it configurates the std library
 	 * @since 1.0
 	 * @access private
@@ -232,9 +198,24 @@ class Computer extends Std_Library{
 		$this->_CI =& get_instance();
 		self::Config($this->_CI);
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
-		$this->_INTERNAL_FORCE_ARRAY = array("lan_macs");
+		$this->_INTERNAL_FORCE_ARRAY = array("lan_macs","printers","connected_devices");
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("identifier");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
+		$this->_INTERNAL_LOAD_FROM_CLASS = array(
+			"model" => "Computer_Model",
+			"organization" => "Organization",
+			"cpu" => "Cpu",
+			"printers" => "Printer",
+			"connected_devices" => "device"
+		);
 		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
+		$this->_INTERNAL_SIMPLE_LOAD = array("printers" => true);
+		$this->_INTERNAL_ROW_NAME_CONVERT = array(
+			"organization_id" => "organization",
+			"cpu_id" => "cpu",
+			"model_id" => "model"
+		);
+		$this->_INTERNAL_LINK_PROPERTIES = array("printers" => array("connected_to_printers",array("device_id" => "id"),"printer_id"),"connected_devices" => array("connected_devices",array("connected_id" => "id"),"device_id"));
+		$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_ROW_NAME_CONVERT,"ROW_NAME_CONVERT");
 	}
 }
