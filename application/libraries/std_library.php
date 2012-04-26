@@ -6,6 +6,7 @@
  * @license http://illution.dk/copyright © Illution 2012
  * @subpackage Std Data Library Template
  * @category Library template
+ * @package ClicKThis
  * @version 1.1
  * @author Illution <support@illution.dk>
  */ 
