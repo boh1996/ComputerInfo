@@ -152,13 +152,41 @@ class Api_Response{
 	 * @access public
 	 */
 	public function Send_Response(){
-		if(is_null($Response)){
+		if(is_null($this->Response)){
 			$this->Code = 204;
 		}
 		self::_Create_Response();
 		self::_Response_Format();
 		self::_Build_Headers();
-		self::_Send_Headers();
+		self::_Send_Data();
+		self::_Send_Headers();		
+	}
+
+	/**
+	 * This function adds response data
+	 * @param array|string $Data The response data to add
+	 * @since 1.0
+	 * @access public
+	 */
+	public function Add_Response($Data = NULL){
+		if(!is_null($Data)){
+			if(is_array($Data)){
+				$this->Response = array_merge($this->Response,$Data);
+			} else {
+				$this->Response[] = $Data;
+			}
+		}
+	}
+
+	/**
+	 * This function outputs the response stirng
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _Send_Data(){
+		if(!is_null($this->ResponseString)){
+			echo $this->ResponseString;
+		}
 	}
 
 	/**
@@ -221,11 +249,13 @@ class Api_Response{
 	 * @access private
 	 */
 	private function _Send_Headers(){
-		foreach ($this->Headers as $Header => $Value) {
-			if($Headers != "" && !is_integer($Headers)){
-				header($Headers.": ".$Value);
-			} else {
-				header($Value);
+		if(is_array($this->Headers)){
+			foreach ($this->Headers as $Header => $Value) {
+				if($Header != "" && !is_integer($Header)){
+					header($Header.": ".$Value);
+				} else {
+					header($Value);
+				}
 			}
 		}
 	}
@@ -252,7 +282,7 @@ class Api_Response{
 	 */
 	private function _Build_Headers(){
 		$Headers = array();
-		$Headers[""] = 'HTTP/1.1 ' . $Code . ' ' . Status_Message($this->Code);
+		$Headers[""] = 'HTTP/1.1 ' . $this->Code . ' ' . Status_Message($this->Code);
 		$Headers["Content-Language"] = $this->Language;
 		$Headers["Age"] = $this->Age;
 		$Headers["Expires"] = $this->Expires;
@@ -273,6 +303,11 @@ class Api_Response{
 			$Headers["Content-type"] = self::_Get_Mime();
 			$Headers["Content-MD5"] = md5($this->ResponseString);
 			$Headers["Content-Length"] = strlen($this->ResponseString);
+		}
+		if(!is_null($this->Headers) && is_array($this->Headers)){
+			$this->Headers = array_merge($Headers,$this->Headers);
+		} else {
+			$this->Headers = $Headers;
 		}
 	}
 }

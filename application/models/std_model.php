@@ -207,7 +207,7 @@ class Std_Model extends CI_Model{
 						{
 							if(property_exists(get_class($Class), $this->_INTERNAL_ROW_NAME_CONVERT[$Key])){
 								if(!is_null($Value) && !empty($Value) && $Value != ""){
-									if(strpos($Value, ";") == true){
+									if(strpos($Value, ";") !== false){
 										$Value = rtrim($Value,";");
 										$Value = ltrim($Value,";");
 										$Class->{$this->_INTERNAL_ROW_NAME_CONVERT[$Key]} = explode(";", $Value);
@@ -219,7 +219,7 @@ class Std_Model extends CI_Model{
 						} else {
 							if(property_exists(get_class($Class), $Key)){
 								if(!is_null($Value) && !empty($Value) && $Value != ""){
-									if(strpos($Value, ";") == true){
+									if(strpos($Value, ";") !== false){
 										$Value = rtrim($Value,";");
 										$Value = ltrim($Value,";");
 										$Class->{$Key} = explode(";", $Value);

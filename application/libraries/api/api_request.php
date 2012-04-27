@@ -166,7 +166,11 @@ class Api_Request{
 				$this->_Format = "json";
 			}
 		}
-		$this->_Request_Method = (strtolower($_SERVER['REQUEST_METHOD'])) ? strtolower($_SERVER['REQUEST_METHOD']) : "get"; 
+		if(!isset($_GET["method"])){
+			$this->_Request_Method = (strtolower($_SERVER['REQUEST_METHOD'])) ? strtolower($_SERVER['REQUEST_METHOD']) : "get"; 
+		} else {
+			$this->_Request_Method = $_GET["method"];
+		}
 		$this->_Request_Vars = array(); 
 		if(isset($_SERVER["CONTENT_TYPE"])){
 			$this->_Request_Format = (strpos($_SERVER["CONTENT_TYPE"], 'xml')) ? 'xml' : 'json';
@@ -187,7 +191,9 @@ class Api_Request{
 				$this->_Request_Vars = $_GET;
 				break;
 			case 'post':
-				$this->_Request_Vars = $GLOBALS["HTTP_RAW_POST_DATA"];
+				if(isset($GLOBALS["HTTP_RAW_POST_DATA"])){
+					$this->_Request_Vars = $GLOBALS["HTTP_RAW_POST_DATA"];
+				}
 				break;
 			case 'put':
 				parse_str(file_get_contents('php://input', $this->_Request_Vars));
@@ -222,7 +228,9 @@ class Api_Request{
 			if($this->_Request_Format == "xml"){
 				self::Request_Data(object_to_array(simplexml_load_string($this->_Request_Vars)));
 			} else {
-				self::Request_Data(json_decode($this->_Request_Vars,true));
+				if(is_string(self::Request_Data())){
+					self::Request_Data(json_decode($this->_Request_Vars,true));
+				}
 			}
 			if(is_null($this->_Request_Data) && $this->_Request_Method == "post"){
 				$this->_Request_Data = $_POST;

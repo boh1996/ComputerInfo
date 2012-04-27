@@ -259,6 +259,9 @@ class Std_Library{
 	 * @return boolean If the load is succes with data is true returned else is false returned
 	 */
 	public function Load($Id = NULL,$Simple = false) {
+		$Arguments = func_get_args();
+		unset($Arguments[0]);
+		unset($Arguments[1]);
 		if(!is_null($Id)){
 			$this->Id = $Id;
 		}
@@ -276,7 +279,7 @@ class Std_Library{
 		}
 		self::_Load_Link();
 		self::_Link_Properties();
-		self::_Load_From_Class($Simple);
+		self::_Load_From_Class($Simple,$Arguments);
 		self::_Force_Array();
 		self::_Convert_To_Boolean();
 		return TRUE;
@@ -378,10 +381,11 @@ class Std_Library{
 	 * This function uses the _INTERNAL_LOAD_FROM_CLASS settings property,
 	 * to load up data stored in the specified properties as classes
 	 * @param boolean $Simple If this flag is set to true, then this function woundn't do a thing
+	 * @param array $Arguments Other arguments parsed from the load function
 	 * @since 1.0
 	 * @access private
 	 */
-	private function _Load_From_Class($Simple = false){
+	private function _Load_From_Class($Simple = false,$Arguments = NULL){
 		if(property_exists($this, "_INTERNAL_LOAD_FROM_CLASS") && isset($this->_INTERNAL_LOAD_FROM_CLASS) && !is_null($this->_INTERNAL_LOAD_FROM_CLASS) && is_array($this->_INTERNAL_LOAD_FROM_CLASS) && !$Simple){
 			if(!is_null($this->_INTERNAL_LOAD_FROM_CLASS)){
 				foreach ($this->_INTERNAL_LOAD_FROM_CLASS as $Key => $Value) {
@@ -407,8 +411,12 @@ class Std_Library{
 										$Temp[] = $Name;
 									} else {
 										if(!is_null($Value) && class_exists($Value) && !is_null($Name) && $Name != ""){
+											$Pass = array($Name,$ChildSimple);
+											if(!is_null($Arguments) && count($Arguments) > 0){
+												$Pass = call_user_func_array("self::_Merge_Arguments", array_merge($Pass,$Arguments));
+											}
 											$Object = new $Value();
-											if($Object->Load($Name,$ChildSimple)){
+											if(call_user_func_array(array($Object,"Load"),$Pass)){
 												if(!is_null($Object)){
 													$Temp[] = $Object;
 												}
@@ -425,7 +433,11 @@ class Std_Library{
 								if(!is_null($this->{$Key})){
 									if(class_exists($Value) && gettype($this->{$Key}) != "object"){
 										$Object = new $Value();
-										if($Object->Load($this->{$Key},$ChildSimple)){
+										$Pass = array($this->{$Key},$ChildSimple);
+										if(!is_null($Arguments) && count($Arguments) > 0){
+											$Pass = call_user_func_array("self::_Merge_Arguments", array_merge($Pass,$Arguments));
+										}
+										if(call_user_func_array(array($Object,"Load"),$Pass)){
 											if(!is_null($Object)){
 												$this->{$Key} = $Object;
 											}
@@ -438,6 +450,30 @@ class Std_Library{
 				}
 			}
 		}
+	}
+
+	/**
+	 * This function merges as many arguments as you but only until level 2
+	 * wish
+	 * @since 1.1
+	 * @access private
+	 * @return array
+	 */
+	private function _Merge_Arguments(){
+		$Arguments = func_get_args();
+		$Return = array();
+		foreach ($Arguments as $Key => $Value) {
+			if(is_array($Value)){
+				foreach ($Value as $Val) {
+					if(is_array($Val)){
+						$Return = array_merge($Return,array_values($Val));
+					}
+				}
+			} else {
+				$Return[] = $Value;
+			}
+		}
+		return $Return;
 	}
 
 	/**
@@ -1561,6 +1597,7 @@ class Std_Library{
 	 * @since 1.0
 	 * @access public
 	 * @return object This function returns this object
+	 * @todo Add hierrachy delete function
 	 */
 	public function Delete($Database = false){
 		if($Database){
