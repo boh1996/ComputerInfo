@@ -200,6 +200,16 @@ class Std_Library{
 	public static $_INTERNAL_PROPERTY_LINK = NULL;
 
 	/**
+	 * This function concerts "1" to true and 0 and NULL to false,
+	 * in the parameters deffined here.
+	 * @var array
+	 * @since 1.1
+	 * @access public
+	 * @static
+	 */
+	public static $_INTERNAL_CONVERT_TO_BOOLEAN = NULL;
+
+	/**
 	 * This property will contain a local instance of CodeIgniter,
 	 * if the children set's it
 	 * @var object
@@ -268,7 +278,44 @@ class Std_Library{
 		self::_Link_Properties();
 		self::_Load_From_Class($Simple);
 		self::_Force_Array();
+		self::_Convert_To_Boolean();
 		return TRUE;
+	}
+
+	/**
+	 * This function loops through all the properties deffined in _INTERNAL_CONVERT_TO_BOOLEAN
+	 * and converts "1" to true and everything else to false
+	 * @since 1.1
+	 * @access private
+	 */
+	private function _Convert_To_Boolean(){
+		if(property_exists($this, "_INTERNAL_CONVERT_TO_BOOLEAN") && isset($this->_INTERNAL_CONVERT_TO_BOOLEAN) && is_array($this->_INTERNAL_CONVERT_TO_BOOLEAN)){
+			foreach ($this->_INTERNAL_CONVERT_TO_BOOLEAN as $Key => $Property) {
+				if(property_exists($this, $Property)){
+					if(is_array($this->{$Property})){	
+						foreach ($this->{$Property} as $Key => $Value) {
+							if(is_integer($Value) || is_string($this->{$Property})){
+								if($Value === 1 || $this->{$Property} === "1"){
+									$this->{$Property}[$Key] = true;
+								} else {
+									$this->{$Property}[$Key] = false;
+								}
+							} else if(is_null($this->{$Property})){
+								$this->{$Property} = false;
+							}
+						}
+					} else if(is_integer($this->{$Property}) || is_string($this->{$Property})){
+						if($this->{$Property} === 1 || $this->{$Property} === "1"){
+							$this->{$Property} = true;
+						} else {
+							$this->{$Property} = false;
+						}
+					} else if(is_null($this->{$Property})){
+						$this->{$Property} = false;
+					}
+				}
+			}
+		}
 	}
 
 	/**
