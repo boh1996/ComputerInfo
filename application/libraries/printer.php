@@ -28,6 +28,24 @@ class Printer extends Std_Library{
 	public $name = NULL;
 
 	/**
+	 * The UNIX timestap when the
+	 * printer was created
+	 * @var integer
+	 * @since 1.0
+	 * @access public
+	 */
+	public $created_time = NULL;
+
+	/**
+	 * The UNIX timestap when the printer last was
+	 * updated using the API
+	 * @var integer
+	 * @since 1.0
+	 * @access public
+	 */
+	public $last_updated = NULL;
+
+	/**
 	 * An optional location of the printer
 	 * "In the toilet" etc
 	 * @var string

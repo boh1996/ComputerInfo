@@ -61,19 +61,12 @@ class User extends Std_Library{
 	 * @since 1.0
 	 */
 	public $Database_Table = "users";
-
+	
 	/**
-	 * This property is used to determine what properties is going to be ignored,
-	 * if the secrure parameter is turned on in the export function
-	 * @var array
+	 * This is the concstructor, it configurates the std library
 	 * @since 1.0
-	 * @static
 	 * @access public
-	 * @example
-	 * $this->_INTERNAL_LINK_PROPERTIES = array("Email,"Google_Id");
 	 */
-	public static $_INTERNAL_SECURE_EXPORT_IGNORE = NULL;
-
 	public function User(){
 		$this->_CI =& get_instance();
 		self::Config($this->_CI);

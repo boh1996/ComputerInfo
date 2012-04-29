@@ -152,7 +152,7 @@ class Api_Response{
 	 * @access public
 	 */
 	public function Send_Response(){
-		if(is_null($this->Response)){
+		if(is_null($this->Response) && ($this->Code == 200 || is_null($this->Code))){
 			$this->Code = 204;
 		}
 		self::_Create_Response();
@@ -170,7 +170,7 @@ class Api_Response{
 	 */
 	public function Add_Response($Data = NULL){
 		if(!is_null($Data)){
-			if(is_array($Data)){
+			if(is_array($Data) && is_array($this->Response)){
 				$this->Response = array_merge($this->Response,$Data);
 			} else {
 				$this->Response[] = $Data;
@@ -229,7 +229,7 @@ class Api_Response{
 			} else {
 				$Response = $this->Response;
 			}
-			if(is_array($Response)){
+			if(is_array($Response) || $this->Code == 200){
 				$Response["error_message"] = NULL;
 				$Response["error_code"] = NULL;
 			}

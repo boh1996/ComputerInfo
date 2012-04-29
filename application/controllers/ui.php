@@ -7,11 +7,6 @@ class UI extends CI_Controller {
 	 * @access public
 	 */
 	public function _remap(){
-		$this->load->library("Computer");
-		$Computer = new Computer();
-		$Computer->load(1);
-		echo "<pre>";
-		print_r($Computer->Export(false,true));
-		echo "</pre>";
+		$this->load->view("test");
 	}
 }

@@ -287,7 +287,11 @@ class Std_Model extends CI_Model{
 					$Data = $Class->Export(true);
 					if(!is_null($Data) && !is_null($Class) && count($Data) > 0){
 						$this->db->insert($Class->Database_Table, self::Convert_Properties_To_Database_Row($Data,$Class));
-						$Class->Id = $this->db->insert_id();
+						if(property_exists($Class, "id")){
+							$Class->id = $this->db->insert_id();
+						} else {
+							$Class->Id = $this->db->insert_id();
+						}
 						return true; //Maybe a check for mysql errors?
 					} else {
 						return FALSE;
@@ -403,14 +407,25 @@ class Std_Model extends CI_Model{
 	 */
 	public function Match_Data(&$Class = NULL,$QueryData = NULL){
 		if(!is_null($QueryData) && !is_null($Class) && is_array($QueryData)){
+			if(isset($Class->Id)){
+				$QueryData["Id"] = "!= ".$Class->Id;
+			}
+			if(isset($Class->id)){
+				$QueryData["id"] = "!= ".$Class->id;
+			}
 			$QueryData = self::Convert_Properties_To_Database_Row($QueryData,$Class);
 			if(property_exists($Class, "Database_Table")){
 				$Query = $this->db->limit(1)->get_where($Class->Database_Table,$QueryData);
 				if($Query->num_rows() > 0){
 					foreach ($Query->result() as $Row) {
 						if(property_exists($Class, "Id")){
-							$Class->Id = $Row->Id;
-							return TRUE;
+							if(!property_exists($Row, "id")){
+								$Class->Id = $Row->Id;
+								return TRUE;
+							} else {
+								$Class->Id = $Row->id;
+								return TRUE;
+							}
 						}
 					}
 				} else {

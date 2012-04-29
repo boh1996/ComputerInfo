@@ -199,7 +199,7 @@ class Computer extends Std_Library{
 		self::Config($this->_CI);
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_FORCE_ARRAY = array("lan_macs","printers","connected_devices");
-		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("identifier");
+		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("identifier","organization");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
 		$this->_INTERNAL_LOAD_FROM_CLASS = array(
 			"model" => "Computer_Model",

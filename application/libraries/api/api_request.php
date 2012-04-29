@@ -18,6 +18,14 @@ class Api_Request{
 	private $_CI = NULL;
 
 	/**
+	 * The JSONP callback
+	 * @var string
+	 * @since 1.1
+	 * @access public
+	 */
+	public $Callback = NULL;
+
+	/**
 	 * The response format json or xml
 	 * @var string
 	 * @since 1.0
@@ -166,6 +174,10 @@ class Api_Request{
 				$this->_Format = "json";
 			}
 		}
+		if($this->_Format === "json" && isset($_GET["callback"])){
+			$this->_Format = "jsonp";
+			$this->Callback = $_GET["callback"];
+		}
 		if(!isset($_GET["method"])){
 			$this->_Request_Method = (strtolower($_SERVER['REQUEST_METHOD'])) ? strtolower($_SERVER['REQUEST_METHOD']) : "get"; 
 		} else {
@@ -187,32 +199,21 @@ class Api_Request{
 	public function Perform_Request(){
 		switch ($this->_Request_Method)
 		{
-			case 'get':
+			case 'get' || 'head':
 				$this->_Request_Vars = $_GET;
 				break;
 			case 'post':
 				if(isset($GLOBALS["HTTP_RAW_POST_DATA"])){
 					$this->_Request_Vars = $GLOBALS["HTTP_RAW_POST_DATA"];
+				} else if(isset($_POST)){
+					$this->_Request_Vars = $_POST;
 				}
 				break;
 			case 'put':
-				parse_str(file_get_contents('php://input', $this->_Request_Vars));
+				parse_str(file_get_contents('php://input'), $this->_Request_Vars);
 				break;
 			case 'delete':
 				parse_str(file_get_contents('php://input'), $this->_Request_Vars);
-				break;
-			case 'head':
-				ob_start();
-				header("Content-type: ".$this->_Format);
-		       	header('Allow: ' . implode(", ", array("POST","GET","PUT","DELETE","HEAD","PATCH","OPTIONS")), true, 200);
-		       	header("Date:".time());
-		       	header("X-Powered-By: PHP/5.2.0");
-		       	header("X-UA-Compatible: IE=EmulateIE7 X-UA-Compatible: IE=edge X-UA-Compatible: Chrome=1");
-		       	header("X-Forwarded-Proto: http");
-		       	header("X-XSS-Protection: 1; mode=block");
-		       	header("Retry-After: 120");
-		       	header("Content-MD5:".md5(ob_get_contents()));
-				header("Content-Length:".ob_get_length());
 				break;
 			case 'options':
 				break;
@@ -230,6 +231,8 @@ class Api_Request{
 			} else {
 				if(is_string(self::Request_Data())){
 					self::Request_Data(json_decode($this->_Request_Vars,true));
+				} else {
+					self::Request_Data($this->_Request_Vars);
 				}
 			}
 			if(is_null($this->_Request_Data) && $this->_Request_Method == "post"){

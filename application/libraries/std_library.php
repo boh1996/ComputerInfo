@@ -953,8 +953,12 @@ class Std_Library{
 				}
 			}
 			if(method_exists($this->_CI->_INTERNAL_DATABASE_MODEL, "Match_Data")){
-				return !$this->_CI->_INTERNAL_DATABASE_MODEL->Match_Data($this,$Query);
+				return $this->_CI->_INTERNAL_DATABASE_MODEL->Match_Data($this,$Query);
+			} else {
+				return FALSE;
 			}
+		} else {
+			return FALSE;
 		}
 	}
 
@@ -967,11 +971,11 @@ class Std_Library{
 	 */
 	public function Save() {
 		if(!is_null($this->_CI) && !is_null($this->_CI->_INTERNAL_DATABASE_MODEL) ){
-			if(!self::_Not_Allowed_Dublicate_Rows()){
+			if(self::_Not_Allowed_Dublicate_Rows() === false){
 				$this->_CI->_INTERNAL_DATABASE_MODEL->Save($this);		
 				self::_Save_Linked_Properties();
 				self::_Save_ChildClasses_Properties();
-			return true;
+				return true;
 			} else {
 				return FALSE;
 			}
@@ -1599,9 +1603,9 @@ class Std_Library{
 	 * @return object This function returns this object
 	 * @todo Add hierrachy delete function
 	 */
-	public function Delete($Database = false){
+	public function Delete($Database = true){
 		if($Database){
-			if(method_exists($this, "_RemoveDatabaseData") && property_exists(get_class($this), "Id")){
+			if(method_exists($this, "_RemoveDatabaseData") && isset($this->Id)){
 				self::_RemoveDatabaseData($this->Id,$this->Database_Table);
 			}
 			if(method_exists($this, "_RemoveUserData")){
