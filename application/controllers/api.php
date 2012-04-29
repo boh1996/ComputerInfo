@@ -23,16 +23,13 @@ class Api extends CI_Controller {
 	    	$method = $method."_".ucfirst($params[0]);
 	    	unset($params[0]);
 	    }
-	    if($this->api_request->Request_Method() == "get" || $this->api_request->Request_Method() == "head"){
-		    if(isset($params[0]) && $params[0] == "search"){
+	   	if(isset($params[0]) && $params[0] == "search"){
 		    	$method .= "_Search";
 		    	unset($params[0]);
-		    } 
-		    if(isset($params[1]) && $params[1] == "search"){
+		} else if(isset($params[1]) && $params[1] == "search"){
 		    	$method .= "_Search";
 		    	unset($params[1]);
-		    }
-		} else {
+		} else if($this->api_request->Request_Method() != "get" && $this->api_request->Request_Method() != "head"){
 			$methods_table = array(
 				"post" => "create",
 				"patch" => "update",
@@ -194,6 +191,75 @@ class Api extends CI_Controller {
 				}
 			} else {
 				$this->api_response->Code = 404;
+			}
+		} else {
+			$this->api_response->Code = 400;
+		}
+	}
+
+	/**
+	 * This function converts property names to row names
+	 * used in the search function
+	 * @param array $Query  The query to convert
+	 * @param object $Object The pbject to get the convert table from
+	 * @param array $Secure An optional secure export ignore list
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _Convert($Query = NULL,$Object = NULL,$Secure = NULL){
+		if(!is_null($Object)){
+			$Rows = $Object->Database_Rows();
+			$Return = array();
+			foreach ($Query as $Key => $Term) {
+				if((!is_null($Secure) && array_key_exists($Key, $Secure)) || is_null($Secure)){
+					if(array_key_exists($Key, $Rows)){
+						$Return[$Rows[$Key]] = $Term;
+					} else {
+						$Return[$Key] = $Term;
+					}
+				}
+			}
+			return $Return;
+		} else {
+			return $Query;
+		}
+	}
+
+	private function _Computer_Search(){
+		$this->api_request->Request_Data(array("identifier" => "Lal"));
+		if(is_array($this->api_request->Request_Data()) && count($this->api_request->Request_Data()) > 0 && $this->api_request->Request_Method() === "post" || "get"){
+			$this->load->library("Computer");
+			$this->api_response->ResponseKey = "Computers";
+			$Computer = new Computer();
+			$Organizations = array();
+			if(!is_null($this->_User->organizations) && is_array($this->_User->organizations)){
+				foreach ($this->_User->organizations as $Organization) {
+					if(is_object($Organizations)){
+						if(property_exists($Organization, "id")){
+							$Organizations[] = (int)$Organization->id;
+						}
+					} else {
+						if(is_object($Organization)){
+							if(property_exists($Organization, "id")){
+								$Organizations[] = (int)$Organization->id;
+							}
+						} else {
+							$Organizations[] = (int)$Organization;
+						}
+					}
+				}
+			} else {
+				$Organizations[] = (int)$this->_User->organizations;
+			}
+			$Organization_Id_Row = self::_Convert(array("organization" => "1"),$Computer);
+			$Organization_Id_Row = key($Organization_Id_Row);
+			$Secure = $Computer->Export(false,true);
+			$Query = self::_Convert($this->api_request->Request_Data(),$Computer,$Secure);
+			$Raw = $this->db->or_like($Query,"after")->where_in($Organization_Id_Row,$Organizations)->group_by("id")->get($Computer->Database_Table);
+			if($Raw->num_rows() > 0){
+
+			} else {
+				$this->api_response = 404;
 			}
 		} else {
 			$this->api_response->Code = 400;

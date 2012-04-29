@@ -286,6 +286,16 @@ class Std_Library{
 	}
 
 	/**
+	 * This function returns an array of the database name convert array
+	 * @since 1.1
+	 * @access public
+	 * @return array
+	 */
+	public function Database_Rows(){
+		return $this->_CI->_INTERNAL_DATABASE_MODEL->Get_Names();
+	}
+
+	/**
 	 * This function loops through all the properties deffined in _INTERNAL_CONVERT_TO_BOOLEAN
 	 * and converts "1" to true and everything else to false
 	 * @since 1.1

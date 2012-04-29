@@ -281,7 +281,7 @@ class Api_Response{
 	 * @access public
 	 */
 	private function _Build_Headers(){
-		$Headers = array();
+		/*$Headers = array();
 		$Headers[""] = 'HTTP/1.1 ' . $this->Code . ' ' . Status_Message($this->Code);
 		$Headers["Content-Language"] = $this->Language;
 		$Headers["Age"] = $this->Age;
@@ -308,6 +308,6 @@ class Api_Response{
 			$this->Headers = array_merge($Headers,$this->Headers);
 		} else {
 			$this->Headers = $Headers;
-		}
+		}*/
 	}
 }

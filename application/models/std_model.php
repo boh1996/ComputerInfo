@@ -74,6 +74,27 @@ class Std_Model extends CI_Model{
     }
 
     /**
+     * This function either returns the Database name convert
+     * or the row name convert
+     * @param string $Type The array to return DATABASE_NAME_CONVERT
+     * or  "ROW_NAME_CONVERT"
+     * @return array
+     * @since 1.1
+     * @access public
+     */
+    public function Get_Names($Type = "DATABASE_NAME_CONVERT"){
+    	switch($Type){
+			case "DATABASE_NAME_CONVERT":
+				return $this->_INTERNAL_DATABASE_NAME_CONVERT;
+			break;
+
+	        case "ROW_NAME_CONVERT":
+	        	return $this->_INTERNAL_ROW_NAME_CONVERT;
+	        break;
+        }
+    }
+
+    /**
 	 * This function uses the internal _INTERNAL_DATABASE_NAME_CONVERT to convert the property names,
 	 * to the database row names
 	 * @param array $Data The exported data, from the class
