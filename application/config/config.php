@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= '127.0.0.1/ci/';
+$config['base_url']	= 'http://127.0.0.1/ci/';
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +27,21 @@ $config['base_url']	= '127.0.0.1/ci/';
 |
 */
 $config['index_page'] = '';
+	
+/**
+ * The standard redirect page if logged in
+ */
+$config["front_page"] = "ui";
+	
+/**
+ * This contains the controllers that doesn't need security
+ */
+$config['non_security'] = array("login","api");
+
+/**
+ * The login controller
+ */
+$config["login_page"] = "login";
 
 /*
 |--------------------------------------------------------------------------

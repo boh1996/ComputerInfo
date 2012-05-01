@@ -42,6 +42,9 @@
  * Api Routes
  */
 //$route["computer"] = "api/computer";
+$route["printer/model"] = "api/printer_model";
+$route["printer/model/(:num)"] = "api/printer_model/$1";
+$route["printer/model/search"] = "api/printer/model/search";
 $route["printer/(:num)"] = "api/printer/$1";
 $route["printer"] = "api/printer";
 $route["printer/search"] = "api/printer/search";
@@ -54,8 +57,6 @@ $route["device"] = "api/device";
 $route["computer/model"] = "api/computer_model";
 $route["device/model"] = "api/device_model";
 $route["device/model/search"] = "api/device/model/search";
-$route["printer/model"] = "api/printer_model";
-$route["printer/model/search"] = "api/printer/model/search";
 $route["token"] = "api/generate_token";
 $route["token/(:any)"] = "api/token/$1";
 $route["manufaturer/(:any)"] = "api/manufaturer/$1";

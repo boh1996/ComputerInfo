@@ -292,6 +292,28 @@ class Std_Library{
 	 * @return array
 	 */
 	public function Database_Rows(){
+		$Variables = self::Export(false,true);
+		$Return = array();
+		$Convert = $this->_CI->_INTERNAL_DATABASE_MODEL->Get_Names();
+		foreach ($Variables as $Key => $Value) {
+			if((isset($this->_INTERNAL_DATABASE_EXPORT_INGNORE) && (!in_array($Key, $this->_INTERNAL_DATABASE_EXPORT_INGNORE)) || ($Key == "id" || $Key == "Id")) || !isset($this->_INTERNAL_DATABASE_EXPORT_INGNORE)){
+				if(!is_null($Convert) && is_array($Convert) && array_key_exists($Key, $Convert)){
+					$Return[$Convert[$Key]] = $Value;
+				} else {
+					$Return[$Key] = $Value;
+				}
+			}
+		}
+		return $Return;
+	}
+
+	/**
+	 * This function returns an array of the database convertion table
+	 * @since 1.1
+	 * @access public
+	 * @return array
+	 */
+	public function Database_Names(){
 		return $this->_CI->_INTERNAL_DATABASE_MODEL->Get_Names();
 	}
 

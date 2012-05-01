@@ -18,7 +18,11 @@ class Api extends CI_Controller {
 	 */
 	public function _remap($method = NULL, $params = NULL)
 	{	
-	   $method = '_'.ucfirst($method);
+		$method = explode("_", $method);
+		foreach ($method as $key => $value) {
+			$method[$key] = ucfirst($value);
+		}
+	   	$method = '_'.implode("_", $method);
 	    if(isset($params[0]) and method_exists($this, $method."_".ucfirst($params[0]))){ 
 	    	$method = $method."_".ucfirst($params[0]);
 	    	unset($params[0]);
@@ -29,7 +33,7 @@ class Api extends CI_Controller {
 		} else if(isset($params[1]) && $params[1] == "search"){
 		    	$method .= "_Search";
 		    	unset($params[1]);
-		} else if($this->api_request->Request_Method() != "get" && $this->api_request->Request_Method() != "head"){
+		} else if($this->api_request->Request_Method() != "get" && $this->api_request->Request_Method() != "head" && strpos($method, "_Search") === false){
 			$methods_table = array(
 				"post" => "create",
 				"patch" => "update",
@@ -47,8 +51,8 @@ class Api extends CI_Controller {
 				return TRUE;
 			}
 		}
-	    if (method_exists($this, $method))
-	    {	if(self::_Authenticate()){
+	    if (method_exists($this, $method)) {	
+	    	if(self::_Authenticate()){
 	    		return call_user_func_array(array($this, $method), $params);
 	    	} else {
 	    		$this->api_response->Code = 403;
@@ -203,19 +207,24 @@ class Api extends CI_Controller {
 	 * @param array $Query  The query to convert
 	 * @param object $Object The pbject to get the convert table from
 	 * @param array $Secure An optional secure export ignore list
+	 * @param array $Fields An optional array of the requested fields
 	 * @since 1.0
 	 * @access private
 	 */
-	private function _Convert($Query = NULL,$Object = NULL,$Secure = NULL){
+	private function _Convert($Query = NULL,$Object = NULL,$Secure = NULL,$Fields = NULL){
 		if(!is_null($Object)){
-			$Rows = $Object->Database_Rows();
+			$Rows = $Object->Database_Names();
+			$Allowed = $Object->Database_Rows();
 			$Return = array();
 			foreach ($Query as $Key => $Term) {
 				if((!is_null($Secure) && array_key_exists($Key, $Secure)) || is_null($Secure)){
-					if(array_key_exists($Key, $Rows)){
-						$Return[$Rows[$Key]] = $Term;
-					} else {
-						$Return[$Key] = $Term;
+					if((!is_null($Fields) && is_array($Fields) && (array_key_exists($Key, $Fields) || in_array($Key, $Fields))) || is_null($Fields)){
+						if(array_key_exists($Key, $Rows)){
+							$Key = $Rows[$Key];
+						}
+						if(array_key_exists($Key, $Allowed)){
+							$Return[$Key] = $Term;
+						}
 					}
 				}
 			}
@@ -225,41 +234,131 @@ class Api extends CI_Controller {
 		}
 	}
 
-	private function _Computer_Search(){
-		$this->api_request->Request_Data(array("identifier" => "Lal"));
-		if(is_array($this->api_request->Request_Data()) && count($this->api_request->Request_Data()) > 0 && $this->api_request->Request_Method() === "post" || "get"){
-			$this->load->library("Computer");
-			$this->api_response->ResponseKey = "Computers";
-			$Computer = new Computer();
-			$Organizations = array();
-			if(!is_null($this->_User->organizations) && is_array($this->_User->organizations)){
-				foreach ($this->_User->organizations as $Organization) {
-					if(is_object($Organizations)){
+	/**
+	 * This function builds the search query based on the request data
+	 * and the request object
+	 * @param object $Object The object that are being searched on
+	 * @since 1.0
+	 * @access private
+	 * @return array
+	 */
+	private function _Search_Build_Query($Object = NULL){
+		if(!is_null($Object)){
+			$Request_Data = $this->api_request->Request_Data();
+
+			//Loop through the fields that the requester reqeusts or use all fields
+			if(isset($Request_Data["fields"])){
+				$Fields = explode(",",$Request_Data["fields"]);
+			} else {
+				$Fields = array_keys($Object->Export(false,true));
+			}
+
+			//Build the query
+			$InputQuery = array();
+			foreach ($Fields as $Field) {
+				$InputQuery[$Field] = $Request_Data["q"];
+			}
+
+			$Organizations = self::_Get_User_Organizations();
+			if(is_null($Organizations)){
+				$this->api_response->Code = 401;
+				return;
+			}
+
+			//If the object has an organization row use it
+			$Organization_Id_Row = self::_Convert(array("organization" => "1"),$Object);
+			if(count($Organization_Id_Row) > 9){
+				$Organization_Id_Row = key($Organization_Id_Row);
+			} else {
+				$Organization_Id_Row = NULL;
+			}
+
+			//Build the query array
+			$Secure = $Object->Export(false,true);
+			$Query = self::_Convert($InputQuery,$Object,$Secure,$Fields);
+			if(count($Query) > 0){
+				//Assemble thw query
+				$this->db->or_like($Query,"after")->select("id")->group_by("id");
+
+				//If the organization row isset use it
+				if(!is_null($Organization_Id_Row)){
+					$this->db->where_in($Organization_Id_Row,$Organizations);
+				}
+
+				//Get the database raw data
+				$Raw = $this->db->get($Object->Database_Table);
+
+				return $Raw;
+			} else {
+				$this->api_response->Code = 400;
+			}
+		}
+	}
+
+	/**
+	 * This function creates a array containing all the users organizations
+	 * @since 1.0
+	 * @access private
+	 * @return array
+	 */
+	private function _Get_User_Organizations(){
+		$Organizations = array();
+		if(!is_null($this->_User->organizations) && is_array($this->_User->organizations)){
+			foreach ($this->_User->organizations as $Organization) {
+				if(is_object($Organizations)){
+					if(property_exists($Organization, "id")){
+						$Organizations[] = (int)$Organization->id;
+					}
+				} else {
+					if(is_object($Organization)){
 						if(property_exists($Organization, "id")){
 							$Organizations[] = (int)$Organization->id;
 						}
 					} else {
-						if(is_object($Organization)){
-							if(property_exists($Organization, "id")){
-								$Organizations[] = (int)$Organization->id;
-							}
-						} else {
-							$Organizations[] = (int)$Organization;
-						}
+						$Organizations[] = (int)$Organization;
 					}
 				}
-			} else {
-				$Organizations[] = (int)$this->_User->organizations;
 			}
-			$Organization_Id_Row = self::_Convert(array("organization" => "1"),$Computer);
-			$Organization_Id_Row = key($Organization_Id_Row);
-			$Secure = $Computer->Export(false,true);
-			$Query = self::_Convert($this->api_request->Request_Data(),$Computer,$Secure);
-			$Raw = $this->db->or_like($Query,"after")->where_in($Organization_Id_Row,$Organizations)->group_by("id")->get($Computer->Database_Table);
-			if($Raw->num_rows() > 0){
+		} else if(!is_null($this->_User->organizations) && is_integer($this->_User->organizations)){
+			$Organizations[] = (int)$this->_User->organizations;
+		} else {
+			$this->api_response->Code = 401;
+			return;
+		}
+		return $Organizations;
+	}
 
+	/**
+	 * This function performs the search query for the computers
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _Computer_Search(){
+		$Request_Data = $this->api_request->Request_Data();
+		if(isset($Request_Data["q"]) && is_array($this->api_request->Request_Data()) && count($this->api_request->Request_Data()) > 0 && ($this->api_request->Request_Method() === "post" || "get")){		
+			$this->load->library("Computer");
+			$this->api_response->ResponseKey = "Computers";
+			$Computer = new Computer();			
+
+			//Get the response
+			$Raw = self::_Search_Build_Query($Computer);
+			if(is_null($Raw)){
+				$this->api_response->Code = 400;
+				return;
+			}
+
+			//Assemble the response
+			$Response = array();
+			if($Raw->num_rows() > 0){
+				foreach ($Raw->result() as $Row) {
+					$Object = new Computer();
+					$Object->Load($Row->id);
+					$Response[] = $Object->Export(false,true);
+				}
+				$this->api_response->Response = $Response;
+				$this->api_response->Code = 200;
 			} else {
-				$this->api_response = 404;
+				$this->api_response->Code = 404;
 			}
 		} else {
 			$this->api_response->Code = 400;
@@ -740,11 +839,120 @@ class Api extends CI_Controller {
 		}
 	}
 
-	private function _Printer_Search(){
+	/**
+	 * This function performs a standadirized search
+	 * @param string $Key     The name of the type we are using etc "Computer"
+	 * @param string $Library An optional library overwrite
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _Simple_Search($Key = NULL,$Library = NULL){
+		if(!is_null($Key)){
+			if(is_null($Library)){
+				$Library = $Key;
+			}
 
+			if(substr($Key, -1) !== "s"){
+				$ResponseKey = $Key."s";
+			} else {
+				$ResponseKey = $Key;
+			}
+			$Request_Data = $this->api_request->Request_Data();
+			if(isset($Request_Data["q"]) && is_array($this->api_request->Request_Data()) && count($this->api_request->Request_Data()) > 0 && ($this->api_request->Request_Method() === "post" || "get")){		
+				$this->load->library($Library);
+				$this->api_response->ResponseKey = $ResponseKey;
+				$Class = new $Library();			
+
+				//Get the response
+				$Raw = self::_Search_Build_Query($Class);
+				if(is_null($Raw)){
+					$this->api_response->Code = 400;
+					return;
+				}
+
+				//Assemble the response
+				$Response = array();
+				if($Raw->num_rows() > 0){
+					foreach ($Raw->result() as $Row) {
+						$Object = new $Library();
+						$Object->Load($Row->id);
+						$Response[] = $Object->Export(false,true);
+					}
+					$this->api_response->Response = $Response;
+					$this->api_response->Code = 200;
+				} else {
+					$this->api_response->Code = 404;
+				}
+			} else {
+				$this->api_response->Code = 400;
+			}
+		} else {
+			$this->api_response->Code = 500;
+		}
 	}
 
+	/**
+	 * This function is used to search for printers using fields or all fields
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _Printer_Search(){
+		self::_Simple_Search("Printer");
+	}
+
+	/**
+	 * This function is used to search for printer models
+	 * @since 1.0
+	 * @access private
+	 */
 	private function _Printer_Model_Search(){
-		echo "Searching for printer model";
+		self::_Simple_Search("Printer_Model");
+	}
+
+	/**
+	 * This function is used to search for manufacturers
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _Manufacturer_Search(){
+		self::_Simple_Search("Manufacturer");
+	}
+
+	/**
+	 * This function is called when a requester searches for a device
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _Device_Search(){
+		self::_Simple_Search("Device");
+	}
+
+	/**
+	 * This function is called when a requester searches for 
+	 * a device model
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _Device_Model_Search(){
+		self::_Simple_Search("Device_Model");
+	}
+
+	/**
+	 * This function is used to search for computer models
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _Computer_Model_Search(){
+		self::_Simple_Search("Computer_Model");
+	}
+
+	/**
+	 * This function just configurates the Simple search
+	 * so it can search for Cpu's
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _Cpu_Search(){
+			self::_Simple_Search("Cpu");
 	}
 }

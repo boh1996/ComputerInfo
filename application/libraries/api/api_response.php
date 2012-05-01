@@ -106,7 +106,7 @@ class Api_Response{
 	 * @since 1.0
 	 * @access public
 	 */
-	public $Expires = 100;
+	public $Expires = 1;
 
 	/**
 	 * How many seconds the content is going to be stored in cache
@@ -114,7 +114,7 @@ class Api_Response{
 	 * @since 1.0
 	 * @access public
 	 */
-	public $CacheControl = 100;
+	public $CacheControl = 1;
 
 	/**
 	 * The response location, the host of the api
@@ -281,12 +281,12 @@ class Api_Response{
 	 * @access public
 	 */
 	private function _Build_Headers(){
-		/*$Headers = array();
+		$Headers = array();
 		$Headers[""] = 'HTTP/1.1 ' . $this->Code . ' ' . Status_Message($this->Code);
-		$Headers["Content-Language"] = $this->Language;
-		$Headers["Age"] = $this->Age;
-		$Headers["Expires"] = $this->Expires;
-		$Headers["Cache-Control"] = $this->CacheControl;
+		//$Headers["Content-Language"] = $this->Language;
+		//$Headers["Age"] = $this->Age;
+		//$Headers["Expires"] = $this->Expires;
+		//$Headers["Cache-Control"] = $this->CacheControl;
 		if(!is_null($this->ContentLocation)){
 			$Headers["Content-Location"] = $this->ContentLocation;
 		}
@@ -308,6 +308,6 @@ class Api_Response{
 			$this->Headers = array_merge($Headers,$this->Headers);
 		} else {
 			$this->Headers = $Headers;
-		}*/
+		}
 	}
 }
