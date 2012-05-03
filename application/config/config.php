@@ -15,6 +15,11 @@
 |
 */
 $config['base_url']	= 'http://127.0.0.1/ci/';
+	
+/**
+ * If this is set to true, then the login system is turned off
+ */
+$config["dev_mode"] = true;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +47,21 @@ $config['non_security'] = array("login","api");
  * The login controller
  */
 $config["login_page"] = "login";
+
+/**
+ * The url where to find the assets
+ */
+$config["asset_url"] = "assets/";
+
+/**
+ * The url to jquery
+ */
+$config["jquery_url"] = "https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js";
+
+/**
+ * The url where to request jquery ui
+ */
+$config["jqueryui_version"] = "1.8.19";
 
 /*
 |--------------------------------------------------------------------------

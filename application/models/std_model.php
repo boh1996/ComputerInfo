@@ -1,6 +1,6 @@
 <?php
 /**
- * This is the standard model, for normal data
+ * This is the standard model, for normal datas
  * @package Standard Model
  * @license http://illution.dk/copyright © Illution 2012
  * @subpackage Std_Model

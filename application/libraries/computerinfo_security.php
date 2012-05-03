@@ -16,9 +16,11 @@ class Computerinfo_Security{
 	 */
 	public function __construct(){
 		$this->_CI =& get_instance();
-		session_start();
-		$this->_CI->load->config("api");
-		self::_Is_Logged_In();
+		if($this->_CI->config->item("dev_mode") !== true){
+			session_start();
+			$this->_CI->load->config("api");
+			self::_Is_Logged_In();
+		}
 	}
 
 	/**

@@ -62,6 +62,8 @@ $route["token/(:any)"] = "api/token/$1";
 $route["manufaturer/(:any)"] = "api/manufaturer/$1";
 $route["manufaturer/search"] = "api/manufaturer/search";
 $route["cpu/(:any)"] = "api/cpu/$1";
+$route["logout"] = "login/logout";
+$route["get/computers/(:num)"] = "api/get/computers/$1";
 
 /**
  * Standard routes

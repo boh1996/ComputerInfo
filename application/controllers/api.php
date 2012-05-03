@@ -131,6 +131,22 @@ class Api extends CI_Controller {
 	}
 
 	/**
+	 * This function gets the computers for a specific organization
+	 * @param integer $Id The organization id
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _Get_Computers($Id = NULL){
+		if(in_array($Id, self::_Get_User_Organizations())){
+			$Data = array("q" => $Id,"fields" => "organization");
+			$this->api_request->Request_Data($Data);
+			self::_Simple_Search("Computer");
+		} else {
+			$this->api_response->Code = 401;
+		}
+	}
+
+	/**
 	 * This function performs the PATCH and PUT request
 	 * @param integer  $Id        The id of the computer to update
 	 * @param boolean $Overwrite If the request is PATCH, "false" or PUT, "true"
@@ -953,6 +969,6 @@ class Api extends CI_Controller {
 	 * @access private
 	 */
 	private function _Cpu_Search(){
-			self::_Simple_Search("Cpu");
+		self::_Simple_Search("Cpu");
 	}
 }

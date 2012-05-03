@@ -210,7 +210,8 @@ class Computer extends Std_Library{
 			"organization" => "Organization",
 			"cpu" => "Cpu",
 			"printers" => "Printer",
-			"connected_devices" => "device"
+			"connected_devices" => "device",
+			"location" => "location"
 		);
 		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_INTERNAL_SIMPLE_LOAD = array("printers" => true);

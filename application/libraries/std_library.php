@@ -438,8 +438,8 @@ class Std_Library{
 							//If the property is an array and it contains data, then make the output an array of objects
 							if(is_array($this->{$Key}) && count($this->{$Key}) > 0){
 								$Temp = array();
-								foreach ($this->{$Key} as $Name) {
-									if(gettype($Name) == "object"){
+								foreach ($this->{$Key} as $Name => $Value) {
+									if(is_object($Name) || is_object($Value)){
 										$Temp[] = $Name;
 									} else {
 										if(!is_null($Value) && class_exists($Value) && !is_null($Name) && $Name != ""){
@@ -594,6 +594,9 @@ class Std_Library{
 					}
 				}
 			}
+			/*foreach ($variable as $key => $value) {
+				# code...
+			}*/
 			self::_Force_Array();
 			self::_Load_From_Class();
 		} else {
