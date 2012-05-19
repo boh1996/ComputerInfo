@@ -200,6 +200,7 @@ class Computer extends Std_Library{
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_FORCE_ARRAY = array("lan_macs","printers","connected_devices");
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("identifier","organization");
+		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = array("location","printers","model","cpu","organization","connected_devices");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array(
 			"id",
 			"printers",
@@ -218,7 +219,8 @@ class Computer extends Std_Library{
 		$this->_INTERNAL_ROW_NAME_CONVERT = array(
 			"organization_id" => "organization",
 			"cpu_id" => "cpu",
-			"model_id" => "model"
+			"model_id" => "model",
+			"location_id" => "location"
 		);
 		$this->_INTERNAL_LINK_PROPERTIES = array("printers" => array("connected_to_printers",array("device_id" => "id"),"printer_id"),"connected_devices" => array("connected_devices",array("connected_id" => "id"),"device_id"));
 		$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_ROW_NAME_CONVERT,"ROW_NAME_CONVERT");

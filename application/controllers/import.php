@@ -4,18 +4,15 @@ class Import extends CI_Controller {
 	public function index(){
 		$this->load->library("Computer");
 		$xml = simplexml_load_file("assets/illutio_Computerinfo.xml");
-		/*foreach ($xml->Computers as $Computer) {
-			$Computers[] = $Computer;
+		foreach ($xml->Computers as $Computer) {
+			self::_Import_Computer($Computer);
 		}
-		foreach ($xml->Units as $Unit) {
+		/*foreach ($xml->Units as $Unit) {
 			$Units[] = $Unit;
 		}
 		foreach ($xml->Printers as $Printer) {
 			$Printers[] = $Printer;
 		}*/
-		self::_Import_Computer($xml->Computers[3]);
-		//echo "<pre>",print_r($Computers,true),"</pre>";
-
 	}
 
 	private function _Import_Computer($Computer){
@@ -39,24 +36,27 @@ class Import extends CI_Controller {
 				$Card = rtrim((string)$Card,"-");
 				$LacMacs[] = $Card;
 			}
-			$Data["lacmacs"] = $LacMacs;
+			$Data["lan_macs"] = $LacMacs;
 
 			//Cpu
 			$Cpu = array(
-				"name" => (string)$Computer->CpuName[0],
+				"detection_string" => (string)$Computer->CpuName[0],
 				"cores" => (string)$Computer->CpuCores[0]
 			);
 			$Data["cpu"] = $Cpu;
+			$Data["operating_system"] = "Windows";
 
 			//Location
 			if(is_integer((int)$Computer->Room) && (int)$Computer->Room != 0){
 				$Location = array(
 					"name" => (string)$Computer->Room,
-					"room_number" => (int)$Computer->Room
+					"room_number" => (int)$Computer->Room,
+					"organization" => 1
 				);
 			} else {
 				$Location = array(
-					"name" => (string)$Computer->Room
+					"name" => (string)$Computer->Room,
+					"organization" => 1
 				);
 			}
 			$Data["location"] = $Location;
@@ -66,7 +66,7 @@ class Import extends CI_Controller {
 				$Model = array(
 					"name" => (string)$Computer->Model
 				);
-				if($Computer->SB == 1){
+				if($Computer->SBB == 0){
 					$Model["type"] = 2;
 				} else {
 					$Model["type"] = 1;
@@ -74,7 +74,7 @@ class Import extends CI_Controller {
 				$Data["model"] = $Model;
 			}		
 			$Object->Import($Data);
-			echo "<pre>",print_r($Object->Export(),true),"</pre>";
+			$Object->Save();
 		}
 	}
 }

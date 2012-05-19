@@ -43,6 +43,14 @@ class Cpu extends Std_Library{
 	 */
 	public $name = NULL;
 
+	/**
+	 * The string returned from windows when detecting the CPU
+	 * @var string
+	 * @since 1.0
+	 * @access public
+	 */
+	public $detection_string = NULL;
+
 	### Class Settings ###
 
 	/**
@@ -125,6 +133,8 @@ class Cpu extends Std_Library{
 		$this->_CI =& get_instance();
 		self::Config($this->_CI);
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
+		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("detection_string");
+		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS_ABORT_ON_NULL = TRUE;
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
 		$this->_INTERNAL_ROW_NAME_CONVERT = array(
 			"manufacturer_id" => "manufacturer",

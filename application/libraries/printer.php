@@ -125,11 +125,13 @@ class Printer extends Std_Library{
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("identifier");
 		$this->_INTERNAL_FORCE_ARRAY = array("connected_devices");
+		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = array("model","organization","location","connected_devices");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
 		$this->_INTERNAL_LOAD_FROM_CLASS = array(
 			"model" => "Printer_Model",
 			"organization" => "Organization",
-			"connected_devices" => "Computer"
+			"connected_devices" => "Computer",
+			"location" => "Location"
 		);
 		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_INTERNAL_ROW_NAME_CONVERT = array(

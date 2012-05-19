@@ -52,6 +52,7 @@ class Printer_Model extends Std_Library{
 		$this->_CI =& get_instance();
 		self::Config($this->_CI);
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
+		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = array("manufacturer");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
 		$this->_INTERNAL_LOAD_FROM_CLASS = array(
 			"manufacturer" => "Manufacturer"
