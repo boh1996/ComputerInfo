@@ -3196,24 +3196,6 @@
     <Type>1</Type>
     <School>GVS</School>
   </Units>
-  <Units>
-    <Id>53</Id>
-    <Room></Room>
-    <BUFUUF></BUFUUF>
-    <Manifacturer></Manifacturer>
-    <Model></Model>
-    <Type>1</Type>
-    <School></School>
-  </Units>
-  <Units>
-    <Id>54</Id>
-    <Room></Room>
-    <BUFUUF></BUFUUF>
-    <Manifacturer></Manifacturer>
-    <Model></Model>
-    <Type>1</Type>
-    <School></School>
-  </Units>
   <!-- Tabel Users -->
   <Users>
     <Id>1</Id>

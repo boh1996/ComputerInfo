@@ -10,12 +10,20 @@ class Printer_Model extends Std_Library{
 	public $id = NULL;
 
 	/**
-	 * The name of the printer model
+	 * The name of the printer series
 	 * @var string
 	 * @since 1.0
 	 * @access public
 	 */
 	public $name = NULL;
+
+	/**
+	 * The name/calling sign of the printer model
+	 * @var string
+	 * @since 1.0
+	 * @access public
+	 */
+	public $model_name = NULL;
 
 	/**
 	 * The manufacturer of the printer
@@ -53,6 +61,7 @@ class Printer_Model extends Std_Library{
 		self::Config($this->_CI);
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = array("manufacturer");
+		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("name");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
 		$this->_INTERNAL_LOAD_FROM_CLASS = array(
 			"manufacturer" => "Manufacturer"

@@ -3,18 +3,119 @@ class Import extends CI_Controller {
 
 	public function index(){
 		$this->load->library("Computer");
+		$this->load->library("Device");
+		$this->load->library("Printer");
 		$xml = simplexml_load_file("assets/illutio_Computerinfo.xml");
-		foreach ($xml->Computers as $Computer) {
+		/*foreach ($xml->Computers as $Computer) {
 			self::_Import_Computer($Computer);
-		}
+		}*/
 		/*foreach ($xml->Units as $Unit) {
-			$Units[] = $Unit;
-		}
-		foreach ($xml->Printers as $Printer) {
-			$Printers[] = $Printer;
+			self::_Import_Unit($Unit);
+		}*/
+		/*foreach ($xml->Printers as $Printer) {
+			self::_Import_Printer($Printer);
+		}*/
+		/*foreach ($xml->Rooms as $Room) {
+			echo "<pre>";
+			print_r($Room);
+			echo "</pre>";
 		}*/
 	}
 
+	/**
+	 * This function imports printers from the old format to the new one
+	 * @param object $Printer The printer to import
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _Import_Printer($Printer){
+		if((string)$Printer->School == "GVS"){
+			$Object = new Printer();
+			$Data = array(
+				"identifier" => (string)$Printer->Realid,
+				"ip" => (string)$Printer->Ip,
+				"name" => (string)$Printer->Name,
+				"mac" => (string)$Printer->Mac,
+				"organization" => 1,
+				"last_updated" => time(),
+				"created_time" => time()
+			);
+			$Model = array(
+				"name" => (string)$Printer->Model
+			);
+			$Data["model"] = $Model;
+			if((string)$Printer->Location != "XX"){
+				$Location = array(
+					"name" => (string)$Printer->Location,
+					"organization" => 1
+				);
+				$Data["location"] = $Location;
+			}
+			$Object->Import($Data);
+			$Object->Save();
+		}
+	}
+
+	/**
+	 * This function is used to import units from
+	 * the old format and convert it to the new format
+	 * @param object $Unit The Unit XML object
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _Import_Unit($Unit){
+		if((string)$Unit->School == "GVS"){
+			$Object = new Device();
+			$Data = array(
+				"organization" => 1,
+				"identifier" => (string)$Unit->BUFUUF,
+				"last_updated" => time(),
+				"created_time" => time(),
+			);
+			if((int)$Unit->Type == 1){
+				$Data["type"] = 3;
+				$Type = 3;
+			} else if((int)$Unit->Type == 2){
+				$Data["type"] = 4;
+				$Type = 4;
+			}
+			if((string)$Unit->Model != "" && (string)$Unit->Model != "xx"){
+				$Data["model"] = array(
+					"name" => (string)$Unit->Model,
+					"manufacturer" => array("name" => (string)$Unit->Manifacturer)
+				);
+				if(is_integer($Type)){
+
+				}
+				$Data["model"]["type"] = (int)$Type;
+			}
+			if(is_integer((int)$Unit->Room)){
+				$Location = array(
+					"name" => (string)$Unit->Room,
+					"room_number" => (int)$Unit->Room,
+					"organization" => 1
+				);
+			} else {
+				$Location = array(
+					"name" => (string)$Unit->Room,
+					"organization" => 1
+				);
+			}
+			$Data["location"] = $Location;
+			$Object->Import($Data);
+			/*echo "<pre>";
+			print_r($Object->Export());
+			echo "</pre>";*/
+			$Object->Save();
+		}
+	}
+
+	/**
+	 * This function Imports all the computers from the old format to the new
+	 * @param object $Computer The computer object
+	 * @since 1.0
+	 * @access private
+	 */
 	private function _Import_Computer($Computer){
 		if((string)$Computer->School == "GVS"){
 			$Object = new Computer();

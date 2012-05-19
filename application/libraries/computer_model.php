@@ -26,12 +26,28 @@ class Computer_Model extends Std_Library{
 	public $type = NULL;
 
 	/**
+	 * The manufacturer calling code of the model
+	 * @since 1.0
+	 * @access public
+	 * @var string
+	 */
+	public $model_code = NULL;
+
+	/**
 	 * The name of the model
 	 * @var string
 	 * @since 1.0
 	 * @access public
 	 */
 	public $name = NULL;
+
+	/**
+	 * The string returned from windows, when detecting model
+	 * @since 1.0
+	 * @access public
+	 * @var string
+	 */
+	public $detection_string = NULL;
 
 	### Class Settings ###
 
