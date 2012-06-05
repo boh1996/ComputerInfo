@@ -5,3 +5,9 @@
 	margin-top:80px;
 	margin-left:40px;
 }
+
+.container{
+	width:100%;
+	position: relative;
+	right:20px;
+}

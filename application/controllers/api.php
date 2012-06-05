@@ -137,6 +137,8 @@ class Api extends CI_Controller {
 	 * @access private
 	 */
 	private function _Get_Computers($Id = NULL){
+		$this->load->library("Computer");
+		$Computer = new Computer();
 		if(in_array($Id, self::_Get_User_Organizations())){
 			$Data = array("q" => $Id,"fields" => "organization");
 			$this->api_request->Request_Data($Data);

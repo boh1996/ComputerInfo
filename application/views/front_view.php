@@ -49,20 +49,6 @@
 		<div class="container" style="margin-top: 10px">		
 			<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="computer">
 				<thead>
-					<!--<tr>
-						<th>Id</th>
-						<th>Identifier</th>
-						<th>LAN MAC</th>
-						<th>Wifi MAC</th>
-						<th>Ip</th>
-						<th>Disk</th>
-						<th>RAM</th>
-						<th>Serial</th>
-						<th>OS</th>
-						<th>Screen size</th>
-						<th>Location</th>
-						<th>Power usage</th>
-					</tr>-->
 				</thead>
 				<tbody>
 	
@@ -79,6 +65,7 @@
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/jquery.dataTables.min.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/dataTables.bootstrap.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/computerGenerator.js"></script>
+	<script type="text/javascript" src="<?php echo $asset_url; ?>js/objx.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/script.js"></script>
 	</body>
 </html>

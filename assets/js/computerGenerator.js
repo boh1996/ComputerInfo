@@ -18,9 +18,19 @@ var computerGenerator = {
 	 * @type {Object}
 	 */
 	columns : {	
-		"id" : "Id",
 		"identifier" : "Identifier",
-		"operating_system" : "OS"
+		"operating_system" : "OS",
+		"model.type.name" : "Type",
+		"model.name" : "Model",
+		"location.name" : "Location"
+	},
+
+	/**
+	 * The funciton to be called when a operaiton is done
+	 * @return {function}
+	 */
+	readyCallback : function(){
+		this.generateTable()
 	},
 
 	dataTable : null,
@@ -36,6 +46,7 @@ var computerGenerator = {
 			success : $.proxy(function (data){ 
 				data = data.Computer;
 				this.generateComputer(data);
+				this.readyCallback();
 			}, this)
 		});
 	},
@@ -47,8 +58,8 @@ var computerGenerator = {
 	generateComputer : function (data){
 		var compuertElement = $('<tr></tr>');
 		$.each(this.columns, $.proxy(function (index,element){ 
-			if(data[index] !== undefined && data[index] != null){
-				compuertElement.append('<th>'+data[index]+'</th>');
+			if(objx.get(data,index) !== undefined && objx.get(data,index) != null && objx.get(data,index) != -1 && objx.get(data,index) != false){
+				compuertElement.append('<th>'+objx.get(data,index)+'</th>');
 			} else {
 				compuertElement.append('<th></th>');
 			}
@@ -67,7 +78,10 @@ var computerGenerator = {
 			success : $.proxy(function (data){ 
 				data = data.Computers;
 				$.each(data, $.proxy(function (index,element){ 
-					this.generateComputer(element);	
+					this.generateComputer(element);
+					if(index == data.length-1){
+						this.readyCallback();
+					}	
 				}, this));	
 			}, this)
 		});
@@ -92,6 +106,7 @@ var computerGenerator = {
 			header.append('<th>'+element+'</th>');
 		}, this));
 		this.container.find("thead").append(header);
+		this.initializeDatatables();
 	},
 
 	/**
@@ -99,7 +114,7 @@ var computerGenerator = {
 	 */
 	initializeDatatables : function (){
 		this.dataTable = $(this.container).dataTable( {
-			"sDom": "<'row'<'span6'l><'span6'f>r>t<'row'<'span6'i><'span6'p>>",
+			"sDom": "<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
 			"sPaginationType": "bootstrap",
 			"oLanguage": {
 				"sLengthMenu": "_MENU_ records per page"

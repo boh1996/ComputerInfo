@@ -158,8 +158,8 @@ class Api_Response{
 		self::_Create_Response();
 		self::_Response_Format();
 		self::_Build_Headers();
-		self::_Send_Data();
-		self::_Send_Headers();		
+		self::_Send_Headers();	
+		self::_Send_Data();	
 	}
 
 	/**
@@ -283,10 +283,10 @@ class Api_Response{
 	private function _Build_Headers(){
 		$Headers = array();
 		$Headers[""] = 'HTTP/1.1 ' . $this->Code . ' ' . Status_Message($this->Code);
-		//$Headers["Content-Language"] = $this->Language;
-		//$Headers["Age"] = $this->Age;
-		//$Headers["Expires"] = $this->Expires;
-		//$Headers["Cache-Control"] = $this->CacheControl;
+		$Headers["Content-Language"] = $this->Language;
+		$Headers["Age"] = $this->Age;
+		$Headers["Expires"] = $this->Expires;
+		$Headers["Cache-Control"] = $this->CacheControl;
 		if(!is_null($this->ContentLocation)){
 			$Headers["Content-Location"] = $this->ContentLocation;
 		}
@@ -300,7 +300,7 @@ class Api_Response{
 		}
 		$Headers["Allow"] = implode(",", $this->Allow);
 		if(!is_null($this->ResponseString)){
-			$Headers["Content-type"] = self::_Get_Mime();
+			$Headers["Content-Type"] = self::_Get_Mime();
 			$Headers["Content-MD5"] = md5($this->ResponseString);
 			$Headers["Content-Length"] = strlen($this->ResponseString);
 		}

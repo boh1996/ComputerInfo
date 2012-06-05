@@ -20,6 +20,13 @@ div.dataTables_paginate {
 	margin: 0;
 }
 
+.dataTables_wrapper {
+	position: relative;
+	clear: both;
+	*zoom: 1;
+	width:100%;
+}
+
 table.table {
 	clear: both;
 	margin-bottom: 6px !important;

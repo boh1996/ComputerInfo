@@ -33,11 +33,8 @@ $(window).on('hashchange', function (event) {
 });
 
 $(window).on('pageshow', function (event) {
-	computerGenerator.generateTable();
 	computerGenerator.getComputers(1);
-	setTimeout(function(){
-		computerGenerator.initializeDatatables();
-	},300);
+	$(".dataTables_filter").find("input").addClass("input-large");
 });
 
 $(window).on('pagehide', function (event) {

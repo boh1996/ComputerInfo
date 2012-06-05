@@ -42,7 +42,7 @@
  * Api Routes
  */
 //$route["computer"] = "api/computer";
-$route["printer/model"] = "api/printer_model";
+/*$route["printer/model"] = "api/printer_model";
 $route["printer/model/(:num)"] = "api/printer_model/$1";
 $route["printer/model/search"] = "api/printer/model/search";
 $route["printer/(:num)"] = "api/printer/$1";
@@ -62,7 +62,7 @@ $route["token/(:any)"] = "api/token/$1";
 $route["manufaturer/(:any)"] = "api/manufaturer/$1";
 $route["manufaturer/search"] = "api/manufaturer/search";
 $route["cpu/(:any)"] = "api/cpu/$1";
-$route["logout"] = "login/logout";
+$route["logout"] = "login/logout";*/
 $route["get/computers/(:num)"] = "api/get/computers/$1";
 
 /**
