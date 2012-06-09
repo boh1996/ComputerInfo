@@ -18,6 +18,14 @@ class Manufacturer extends Std_Library{
 	public $name = NULL;
 
 	/**
+	 * The webiste of the manufacturer
+	 * @since 1.0
+	 * @access public
+	 * @var string
+	 */
+	public $website = NULL;
+
+	/**
 	 * The abbrevation of the manufacturer HP as an example
 	 * @var string
 	 * @since 1.0

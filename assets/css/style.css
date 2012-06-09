@@ -11,3 +11,14 @@
 	position: relative;
 	right:20px;
 }
+
+.length_select{
+	background: transparent;
+   	padding: 5px;
+   	font-size: 16px;
+   	border: 1px solid #ccc;
+   	width: 240px;
+   	height: 34px;
+   	overflow: hidden;
+   	/*background: url(new_arrow.png) no-repeat right #ddd;*/
+}

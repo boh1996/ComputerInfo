@@ -1,16 +1,40 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');  
-class Location extends Std_Library{
+class Screen_Model extends Std_Library{
 
 	/**
-	 * The database id of the location
-	 * @var integer
+	 * The database id of the screen model
 	 * @since 1.0
 	 * @access public
+	 * @var integer
 	 */
 	public $id = NULL;
 
 	/**
-	 * An optional name of the location
+	 * The number of pixels per inch of the screen model
+	 * @since 1.0
+	 * @access public
+	 * @var integer
+	 */
+	public $pixed_per_inch = NULL;
+
+	/**
+	 * The manufacturer object, that has manufactured the screen model
+	 * @var object
+	 * @since 1.0
+	 * @access public
+	 */
+	public $manufacturer = NULL;
+
+	/**
+	 * The screen size object of the screen model
+	 * @since 1.0
+	 * @access public
+	 * @var object
+	 */
+	public $screen_size = NULL;
+
+	/**
+	 * The name of the screen model
 	 * @var string
 	 * @since 1.0
 	 * @access public
@@ -18,36 +42,12 @@ class Location extends Std_Library{
 	public $name = NULL;
 
 	/**
-	 * An optional floor where the location is based
+	 * The usage of power per hour in watt
 	 * @var string
 	 * @since 1.0
 	 * @access public
 	 */
-	public $floor = NULL;
-
-	/**
-	 * An optional building if there is more buildings
-	 * @var string
-	 * @since 1.0
-	 * @access public
-	 */
-	public $building = NULL;
-
-	/**
-	 * An optional room number for this location
-	 * @var string
-	 * @since 1.0
-	 * @access public
-	 */
-	public $room_number = NULL;
-
-	/**
-	 * The organization this location belongs too
-	 * @var integer
-	 * @since 1.0
-	 * @access public
-	 */
-	public $organization = NULL;
+	public $power_usage = NULL;
 
 	### Class Settings ###
 
@@ -66,29 +66,28 @@ class Location extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Database_Table = "locations";
+	public $Database_Table = "screen_models";
 
 	/**
-	 * This is the constructor, it configurates the Std Library
+	 * The constructor, it configurates the Std Library
 	 * @since 1.0
 	 * @access public
 	 */
-	public function Location(){
+	public function Screen_Model(){
 		$this->_CI =& get_instance();
 		self::Config($this->_CI);
-		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
-		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("name","organization_id");
-		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
-		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = array("organization","building","floor");
 		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
+		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
+		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = array("manufacturer","screen_size");
+		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("manufacturer,name","screen_size");
 		$this->_INTERNAL_ROW_NAME_CONVERT = array(
-			"organization_id" => "organization",
-			"floor_id" => "floor",
-			"building_id" => "building"
+			"manufacturer_id" => "manufacturer",
+			"model_name" => "name",
+			"screen_size_id" => "screen_size",
 		);
 		$this->_INTERNAL_LOAD_FROM_CLASS = array(
-			"building" => "Building",
-			"floor" => "Floor"
+			"manufacturer" => "Manufacturer",
+			"screen_size" => "Screen_Size"
 		);
 		$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_ROW_NAME_CONVERT,"ROW_NAME_CONVERT");
 	}

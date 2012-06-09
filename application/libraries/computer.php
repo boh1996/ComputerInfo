@@ -211,8 +211,10 @@ class Computer extends Std_Library{
 			"organization" => "Organization",
 			"cpu" => "Cpu",
 			"printers" => "Printer",
-			"connected_devices" => "device",
-			"location" => "location"
+			"connected_devices" => "Device",
+			"location" => "Location",
+			"screen_size" => "Screen_Size",
+			"operating_system" => "Operating_System"
 		);
 		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_INTERNAL_SIMPLE_LOAD = array("printers" => true);
@@ -220,7 +222,9 @@ class Computer extends Std_Library{
 			"organization_id" => "organization",
 			"cpu_id" => "cpu",
 			"model_id" => "model",
-			"location_id" => "location"
+			"location_id" => "location",
+			"screen_size_id" => "screen_size",
+			"operating_system_id" => "operating_system"
 		);
 		$this->_INTERNAL_LINK_PROPERTIES = array("printers" => array("connected_to_printers",array("device_id" => "id"),"printer_id"),"connected_devices" => array("connected_devices",array("connected_id" => "id"),"device_id"));
 		$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_ROW_NAME_CONVERT,"ROW_NAME_CONVERT");

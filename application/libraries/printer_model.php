@@ -32,6 +32,13 @@ class Printer_Model extends Std_Library{
 	 */
 	public $manufacturer = NULL;
 
+	/**
+	 * If the model is a color printer or not
+	 * @var boolean
+	 * @since 1.0
+	 */
+	public $color = NULL;
+
 	### Class Settings ###
 
 	/**

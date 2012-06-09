@@ -1,53 +1,46 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');  
-class Location extends Std_Library{
+class Screen extends Std_Library{
 
 	/**
-	 * The database id of the location
-	 * @var integer
+	 * The database id of the screen
 	 * @since 1.0
 	 * @access public
+	 * @var integer
 	 */
 	public $id = NULL;
 
 	/**
-	 * An optional name of the location
+	 * The identifier of the screen
 	 * @var string
 	 * @since 1.0
 	 * @access public
 	 */
-	public $name = NULL;
+	public $identifier = NULL;
 
 	/**
-	 * An optional floor where the location is based
-	 * @var string
+	 * The screen model object
+	 * @var object
 	 * @since 1.0
 	 * @access public
 	 */
-	public $floor = NULL;
+	public $model = NULL;
 
 	/**
-	 * An optional building if there is more buildings
-	 * @var string
+	 * The organization object
 	 * @since 1.0
 	 * @access public
-	 */
-	public $building = NULL;
-
-	/**
-	 * An optional room number for this location
-	 * @var string
-	 * @since 1.0
-	 * @access public
-	 */
-	public $room_number = NULL;
-
-	/**
-	 * The organization this location belongs too
-	 * @var integer
-	 * @since 1.0
-	 * @access public
+	 * @var object
 	 */
 	public $organization = NULL;
+
+	/**
+	 * The location object of the screen
+	 * @since 1.0
+	 * @access public
+	 * @var object
+	 */
+	public $location = NULL;
+
 
 	### Class Settings ###
 
@@ -66,29 +59,29 @@ class Location extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Database_Table = "locations";
+	public $Database_Table = "screens";
 
 	/**
-	 * This is the constructor, it configurates the Std Library
+	 * The constructor, it configurates the Std Library
 	 * @since 1.0
 	 * @access public
 	 */
-	public function Location(){
+	public function Screen(){
 		$this->_CI =& get_instance();
 		self::Config($this->_CI);
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
-		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("name","organization_id");
-		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
-		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = array("organization","building","floor");
-		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
+		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("identifier,organization");
+		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = array("organization","model","location");
+		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS_ABORT_ON_NULL = true;
 		$this->_INTERNAL_ROW_NAME_CONVERT = array(
 			"organization_id" => "organization",
-			"floor_id" => "floor",
-			"building_id" => "building"
+			"model_id" => "model",
+			"location_id" => "location"
 		);
 		$this->_INTERNAL_LOAD_FROM_CLASS = array(
-			"building" => "Building",
-			"floor" => "Floor"
+			"model" => "Screen_Model",
+			"organization" => "Organization",
+			"location" => "Location"
 		);
 		$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_ROW_NAME_CONVERT,"ROW_NAME_CONVERT");
 	}

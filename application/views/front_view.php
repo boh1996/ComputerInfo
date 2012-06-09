@@ -3,6 +3,7 @@
 		<title>ComputerInfo - Home</title>
 		<link rel="stylesheet" type="text/css" href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>bootstrap/css/bootstrap-responsive.min.css">
+		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>bootstrap/css/bootstrap-combobox.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/dataTables.bootstrap.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/style.css">
 		<script type="text/javascript">var root = "<?php echo $base_url; ?>";</script>
@@ -61,6 +62,7 @@
 	<script type="text/javascript" src="<?php echo $jquery_url; ?>"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>bootstrap/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>bootstrap/js/bootstrap-collapse.js"></script>
+	<script type="text/javascript" src="<?php echo $asset_url; ?>bootstrap/js/bootstrap-combobox.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/jquery.history.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/jquery.dataTables.min.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/dataTables.bootstrap.js"></script>

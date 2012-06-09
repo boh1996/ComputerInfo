@@ -19,7 +19,7 @@ var computerGenerator = {
 	 */
 	columns : {	
 		"identifier" : "Identifier",
-		"operating_system" : "OS",
+		"screen_size.detection_string" : "Screen Size",
 		"model.type.name" : "Type",
 		"model.name" : "Model",
 		"location.name" : "Location"
@@ -33,7 +33,17 @@ var computerGenerator = {
 		this.generateTable()
 	},
 
+	/**
+	 * A variable to store datatables
+	 * @type {object}
+	 */
 	dataTable : null,
+
+	/**
+	 * The code/object/string to use as length filtering
+	 * @type {[type]}
+	 */
+	length_menu : '<select class="length_select"><option value="10" selected="selected">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select>',
 
 	/**
 	 * This function gets a computer from the api by the id
@@ -117,8 +127,16 @@ var computerGenerator = {
 			"sDom": "<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
 			"sPaginationType": "bootstrap",
 			"oLanguage": {
-				"sLengthMenu": "_MENU_ records per page"
+				"sLengthMenu": this.length_menu
 			}
 		});
+		$('.combobox').combobox();
+		/*$(".length-select").html($("#filter-select-container").html());
+		$("#computer_length").appendTo($(".length-select").parent("div"));
+		$(".filter-select-ul a").live("click",function(){
+			event.preventDefault();
+			$("#computer-length-select option[selected=selected]").removeAttr("selected");
+			$('#computer-length-select option:contains("'+$(this).html()+'")').attr('selected', 'selected');
+		});*/
 	}
 }
