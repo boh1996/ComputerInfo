@@ -1,12 +1,37 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');  
 class Operating_System_Family extends Std_Library{
 
+	/**
+	 * The database id of the operating system family
+	 * @var integer
+	 * @since 1.0
+	 * @access public
+	 */
 	public $id = NULL;
 
+	/**
+	 * The manufacturer object of the operating system family
+	 * @var object
+	 * @since 1.0
+	 * @access public
+	 */
 	public $manufacturer = NULL;
 
+	/**
+	 * The name of the operating system family
+	 * @since 1.0
+	 * @access public
+	 * @var string
+	 */
 	public $name = NULL;
 
+	/**
+	 * The operating system core object
+	 * @var object
+	 * @since 1.0
+	 * 
+	 * @access public
+	 */
 	public $core = NULL;
 
 	### Class Settings ###

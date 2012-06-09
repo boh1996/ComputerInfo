@@ -1,16 +1,44 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');  
 class Operating_System extends Std_Library{
 
+	/**
+	 * The database id of the operating system
+	 * @since 1.0
+	 * @access public
+	 * @var integer
+	 */
 	public $id = NULL;
 
-	public $manufacturer = NULL;
-
+	/**
+	 * The name of the operating system Windows XP etc
+	 * @since 1.0
+	 * @access public
+	 * @var strign
+	 */
 	public $name = NULL;
 
+	/**
+	 * The input detection string of the os
+	 * @var string
+	 * @since 1.0
+	 * @access public
+	 */
 	public $detection_string = NULL;
 
+	/**
+	 * The version of the operating system
+	 * @since 1.0
+	 * @access public
+	 * @var string
+	 */
 	public $version = NULL;
 
+	/**
+	 * The family object of the family that the os belongs too Windows/Android/Linux etx
+	 * @var object
+	 * @since 1.0
+	 * @access public
+	 */
 	public $family = NULL;
 
 	### Class Settings ###

@@ -1,10 +1,28 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');  
 class Building extends Std_Library{
 
+	/**
+	 * The database id of the building
+	 * @since 1.0
+	 * @access public
+	 * @var integer
+	 */
 	public $id = NULL;
 
+	/**
+	 * The organization object of the organization that the building belongs too
+	 * @since 1.0
+	 * @access public
+	 * @var object
+	 */
 	public $organization = NULL;
 
+	/**
+	 * The name of the building
+	 * @since 1.0
+	 * @access public
+	 * @var string
+	 */
 	public $name = NULL;
 
 	### Class Settings ###

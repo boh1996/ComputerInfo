@@ -1,10 +1,28 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');  
 class Computer_Series extends Std_Library{
 
+	/**
+	 * The database id of the computer series
+	 * @since 1.0
+	 * @access public
+	 * @var integer
+	 */
 	public $id = NULL;
 
+	/**
+	 * The manufacturer object of the computer series manufacturer
+	 * @since 1.0
+	 * @access public
+	 * @var object
+	 */
 	public $manufacturer = NULL;
 
+	/**
+	 * The name of the computer series
+	 * @since 1.0
+	 * @access public
+	 * @var string
+	 */
 	public $name = NULL;
 
 	### Class Settings ###

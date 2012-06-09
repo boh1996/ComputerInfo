@@ -49,6 +49,14 @@ class Computer_Model extends Std_Library{
 	 */
 	public $detection_string = NULL;
 
+	/**
+	 * The series object of the computer series that the model belongs too
+	 * @since 1.0
+	 * @access public
+	 * @var object
+	 */
+	public $computer_series = NULL;
+
 	### Class Settings ###
 
 	/**
@@ -83,11 +91,13 @@ class Computer_Model extends Std_Library{
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("name");
 		$this->_INTERNAL_ROW_NAME_CONVERT = array(
 			"manufacturer_id" => "manufacturer",
-			"device_type" => "type"
+			"device_type" => "type",
+			"computer_series_id" => "computer_series"
 		);
 		$this->_INTERNAL_LOAD_FROM_CLASS = array(
 			"manufacturer" => "Manufacturer",
-			"type" => "Device_Type"
+			"type" => "Device_Type",
+			"computer_series" => "Computer_Series"
 		);
 		$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_ROW_NAME_CONVERT,"ROW_NAME_CONVERT");
 	}
