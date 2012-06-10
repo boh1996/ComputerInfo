@@ -41,30 +41,37 @@
 /**
  * Api Routes
  */
-//$route["computer"] = "api/computer";
-/*$route["printer/model"] = "api/printer_model";
-$route["printer/model/(:num)"] = "api/printer_model/$1";
-$route["printer/model/search"] = "api/printer/model/search";
-$route["printer/(:num)"] = "api/printer/$1";
-$route["printer"] = "api/printer";
-$route["printer/search"] = "api/printer/search";
-$route["computer/(:num)"] = "api/computer/$1";
-$route["computer"] = "api/computer";
-$route["computer/model/(:num)"] = "api/computer/model/$1";
-$route["computer/search"] = "api/computer/search";
-$route["device/(:num)"] = "api/device/$1";
-$route["device"] = "api/device";
-$route["computer/model"] = "api/computer_model";
-$route["device/model"] = "api/device_model";
-$route["device/model/search"] = "api/device/model/search";
-$route["token"] = "api/generate_token";
-$route["token/(:any)"] = "api/token/$1";
-$route["manufaturer/(:any)"] = "api/manufaturer/$1";
-$route["manufaturer/search"] = "api/manufaturer/search";
-$route["cpu/(:any)"] = "api/cpu/$1";
-$route["logout"] = "login/logout";*/
-$route["get/computers/(:num)"] = "api/get/computers/$1";
-
+if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+  	$route["computer"] = "api/computer";
+	$route["printer/model"] = "api/printer_model";
+	$route["printer/model/(:num)"] = "api/printer_model/$1";
+	$route["printer/model/search"] = "api/printer/model/search";
+	$route["printer/(:num)"] = "api/printer/$1";
+	$route["printer"] = "api/printer";
+	$route["printer/search"] = "api/printer/search";
+	$route["computer/(:num)"] = "api/computer/$1";
+	$route["computer"] = "api/computer";
+	$route["computer/model/(:num)"] = "api/computer/model/$1";
+	$route["computer/search"] = "api/computer/search";
+	$route["device/(:num)"] = "api/device/$1";
+	$route["device"] = "api/device";
+	$route["computer/model"] = "api/computer_model";
+	$route["device/model"] = "api/device_model";
+	$route["device/model/search"] = "api/device/model/search";
+	$route["token"] = "api/generate_token";
+	$route["token/(:any)"] = "api/token/$1";
+	$route["manufaturer/(:any)"] = "api/manufaturer/$1";
+	$route["manufaturer/search"] = "api/manufaturer/search";
+	$route["cpu/(:any)"] = "api/cpu/$1";
+	$route["logout"] = "login/logout";
+	$route["get/computers/(:num)"] = "api/get/computers/$1";
+} 
+/**
+ * User Routes
+ */
+else {
+	$route["(:any)"] = "ui/$1";
+}
 /**
  * Standard routes
  */

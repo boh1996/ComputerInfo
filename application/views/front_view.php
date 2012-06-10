@@ -1,12 +1,12 @@
 <html>
 	<head>
 		<title>ComputerInfo - Home</title>
-		<link rel="stylesheet" type="text/css" href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>bootstrap/css/bootstrap.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>bootstrap/css/bootstrap-responsive.min.css">
-		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>bootstrap/css/bootstrap-combobox.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/dataTables.bootstrap.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/style.css">
 		<script type="text/javascript">var root = "<?php echo $base_url; ?>";</script>
+		<script type="text/javascript">var method = "<?php echo $method; ?>";</script>
 	</head>
 	<body>
 
@@ -39,11 +39,19 @@
 				  	<li>
 				  		<a data-target="organizations" href="#">Organizationer</a>
 				  	</li>
+				  	<li>
+				  		<a data-target="screens" href="#">Screens</a>
+				  	</li>
+				  	<li>
+				  		<a data-target="users" href="#">Users</a>
+				  	</li>
 				</ul>
 	      	</div>
 	 
 	    </div>
 	  </div>
+	</div>
+
 	</div>
 
 	<div id="page">

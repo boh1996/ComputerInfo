@@ -2,7 +2,9 @@ var data = {
 	"computer" : "computer",
 	"printer" : "printer",
 	"units" : "units",
-	"organizations" : "organizations"
+	"organizations" : "organizations",
+	"users" : "users",
+	"screens" : "screens"
 } 
 
 if (typeof history.pushState === 'undefined') {
@@ -16,7 +18,7 @@ $(".nav li a").live('click', function (event) {
   	if (event.target.nodeName == 'A') {
 	   	url = event.target.getAttribute('data-target');
 	    title = event.target.getAttribute('data-title');
-	    History.pushState(null,title, root + "#/"+ data[url]);
+	    History.pushState(null,title, data[url]);
 	}
 });
 

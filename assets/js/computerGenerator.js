@@ -34,6 +34,12 @@ var computerGenerator = {
 	},
 
 	/**
+	 * The last computers response sent from the server
+	 * @type {object}
+	 */
+	response : null,
+
+	/**
 	 * A variable to store datatables
 	 * @type {object}
 	 */
@@ -85,8 +91,9 @@ var computerGenerator = {
 	getComputers : function(id){
 		$.ajax({
 			url : root+"get/computers/"+id,
-			success : $.proxy(function (data){ 
-				data = data.Computers;
+			success : $.proxy(function (data){
+				this.response = data.Computers; 
+				data = this.response;
 				$.each(data, $.proxy(function (index,element){ 
 					this.generateComputer(element);
 					if(index == data.length-1){
@@ -130,13 +137,5 @@ var computerGenerator = {
 				"sLengthMenu": this.length_menu
 			}
 		});
-		$('.combobox').combobox();
-		/*$(".length-select").html($("#filter-select-container").html());
-		$("#computer_length").appendTo($(".length-select").parent("div"));
-		$(".filter-select-ul a").live("click",function(){
-			event.preventDefault();
-			$("#computer-length-select option[selected=selected]").removeAttr("selected");
-			$('#computer-length-select option:contains("'+$(this).html()+'")').attr('selected', 'selected');
-		});*/
 	}
 }
