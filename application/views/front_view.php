@@ -52,10 +52,11 @@
 	  </div>
 	</div>
 
-	</div>
-
 	<div id="page">
-		<div class="container" style="margin-top: 10px">		
+		<div id="lalalal">
+			
+		</div>
+		<div class="container" style="margin-top: 10px">	
 			<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="computer">
 				<thead>
 				</thead>
@@ -68,9 +69,7 @@
 
 	<!-- Include jquery,boostrap and script -->
 	<script type="text/javascript" src="<?php echo $jquery_url; ?>"></script>
-	<script type="text/javascript" src="<?php echo $asset_url; ?>bootstrap/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="<?php echo $asset_url; ?>bootstrap/js/bootstrap-collapse.js"></script>
-	<script type="text/javascript" src="<?php echo $asset_url; ?>bootstrap/js/bootstrap-combobox.js"></script>
+	<script type="text/javascript" src="<?php echo $asset_url; ?>bootstrap/js/bootstrap.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/jquery.history.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/jquery.dataTables.min.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/dataTables.bootstrap.js"></script>

@@ -18,11 +18,11 @@ var computerGenerator = {
 	 * @type {Object}
 	 */
 	columns : {	
-		"identifier" : "Identifier",
-		"screen_size.detection_string" : "Screen Size",
-		"model.type.name" : "Type",
-		"model.name" : "Model",
-		"location.name" : "Location"
+		"identifier" : {"string" : "Identifier", "active" : true},
+		"screen_size.detection_string" : {"string" : "Screen Size", "active" : true},
+		"model.type.name" : {"string" : "Type", "active" : true},
+		"model.name" : {"string" : "Model", "active" : true},
+		"location.name" : {"string" : "Location", "active" : true}
 	},
 
 	/**
@@ -85,6 +85,21 @@ var computerGenerator = {
 	},
 
 	/**
+	 * This function counts object properties in a object
+	 * @param  {object|array} obj The object to count the number of properties ib
+	 * @return {integer}
+	 */
+	countProperties :function (obj) {
+		  var prop;
+		  var propCount = 0;
+
+		  for (prop in obj) {
+		    propCount++;
+		  }
+		return propCount;
+	},
+
+	/**
 	 * This function gets all the computers for a specific organization
 	 * @param  {integer} id The organization id
 	 */
@@ -105,6 +120,71 @@ var computerGenerator = {
 	},
 
 	/**
+	 * This function generates the field selector dropdoen
+	 * @param  {string} text      The dropdown text
+	 * @param  {object} container The container to append too
+	 */
+	generateFieldsDropdown : function ( text, container ) {
+		var parentElement = $('<ul class="nav nav-pills"></ul>'), 
+		dropdown = $('<li class="dropdown"></li>'),
+		linkElement = $('<a class="dropdown-toggle" data-toggle="dropdown" data-target="#">'+text+'<b class="caret"></b></a>'),
+		items = $('<ul class="dropdown-menu inputs-list"></ul>'),
+		length = this.countProperties(this.columns),
+		i = 0;
+
+		$.each(this.columns,$.proxy(function (value,object) {
+			i++;
+			if(this.columns[value] !== undefined) {
+				items.append(
+					'<li>'+
+						'<a href="#">'+
+							'<input type="checkbox" name="' + value +'" value="'+ value +'" id="'+ value +'" checked/> '+
+							'  <label for="'+ value +'">' + object.string +'</label>'+
+						'</a>'+
+					'</li>'
+				);
+			} else {
+				items.append(
+					'<li>'+
+						'<a href="#">'+
+							'<input type="checkbox" name="' + value +'" value="'+ value +'" "/> '+
+							'  <label for="'+ value +'">' + object.string +'</label>'+
+						'</a>'+
+					'</li>'
+				);
+			}
+
+			//If it's the last run
+			if (i == length) {
+				dropdown.append(linkElement);
+				dropdown.append(items);
+				parentElement.append(dropdown);
+				container.append(parentElement);
+				$(".dropdown-menu li a").click(function() {
+					var select = $(this).find("input");
+					if ( $(select).prop("checked") == true) {
+						$(select).prop("checked",false);
+					} else {
+						$(select).prop("checked",true);
+					}
+				});
+				$('.dropdown-menu input, .dropdown-menu label, .dropdown-menu li').click(function(event) {
+    				event.stopPropagation();
+				});
+				$(".dropdown-menu input").change(function() {
+					if ($(this).prop("checked") == true) {
+						computerGenerator.columns[this.value].active = true;
+						computerGenerator.refreshTable();
+					} else {
+						computerGenerator.columns[this.value].active = false;
+						computerGenerator.refreshTable();
+					}
+				});
+			}
+		},this));	
+	},
+
+	/**
 	 * This function ensures that the layout is correct,
 	 * also after new rows are added
 	 */
@@ -118,12 +198,21 @@ var computerGenerator = {
 	 * This function generates the computers table
 	 */
 	generateTable : function(){
+		this.initializeDatatables();
+		this.generateColumns();
+	},
+
+	/**
+	 * This function generates the table headers
+	 */
+	generateColumns : function () {
 		var header = $("<tr></tr>");
 		$.each(this.columns, $.proxy(function (index,element){ 
-			header.append('<th>'+element+'</th>');
+			if(element.active === true){
+				header.append('<th>'+element.string+'</th>');
+			}
 		}, this));
-		this.container.find("thead").append(header);
-		this.initializeDatatables();
+		computerGenerator.container.find("thead").append(header);
 	},
 
 	/**
@@ -137,5 +226,17 @@ var computerGenerator = {
 				"sLengthMenu": this.length_menu
 			}
 		});
+		$(".dropdown").dropdown();
+	},
+
+	/**
+	 * This function is used to redraw the table
+	 */
+	refreshTable : function () {
+		computerGenerator.container.find("thead").html("");
+		computerGenerator.generateColumns();
+		if (computerGenerator.dataTable !== null) {
+			computerGenerator.dataTable.fnDraw();
+		}
 	}
 }
