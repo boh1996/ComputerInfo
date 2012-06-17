@@ -35,9 +35,8 @@ $(window).on('hashchange', function (event) {
 });
 
 $(window).on('pageshow', function (event) {
-	//computerGenerator.getComputers(1);
-	//$(".dataTables_filter").find("input").addClass("input-large");
-	computerGenerator.generateFieldsDropdown("Fields",$("#lalalal"));
+	computerGenerator.getComputers(1);
+	$(".dataTables_filter").find("input").addClass("input-large");
 	//$(".dropdown").dropdown();
 });
 

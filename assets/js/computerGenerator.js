@@ -22,7 +22,27 @@ var computerGenerator = {
 		"screen_size.detection_string" : {"string" : "Screen Size", "active" : true},
 		"model.type.name" : {"string" : "Type", "active" : true},
 		"model.name" : {"string" : "Model", "active" : true},
-		"location.name" : {"string" : "Location", "active" : true}
+		"location.name" : {"string" : "Location", "active" : false},
+		"lan_mac" : {"string" : "Lan Mac", "active" : false},
+		"wifimac" : {"string" : "Wifi Mac", "active" : false},
+		"ip" : {"string" : "Ip", "active" : false},
+		"disk_space" : {"string" : "Disk", "active" : false},
+		"ram_size" : {"string" : "Ram", "active" : false},
+		"model.manufacturer.abbrevation" : {"string" : "Model Manufacturer", "active" : false},
+		"serial" : {"string" : "Serial", "active" : false},
+		//"operating_system.version" : {"string" : "OS Version", "active" : false},
+		//"operating_system.family.manufacturer.name" : {"string" : "OS Manufacturer", "active" : false},
+		//"screen_size.name" : {"string" : "Screen Size Name", "active" : false},
+		"screen_size.aspect_ratio" : {"string" : "Screen Aspect Ratio", "active" : false},
+		//"screen_size.abbrevation" : {"string" : "Screen Size Abbrevation", "active" : false},
+		"cpu.name" : {"string" : "CPU", "active" : false},
+		"cpu.cores" : {"string" : "CPU Cores", "active" : false},
+		"cpu.clock_rate" : {"string" : "CPU Clock Rate", "active" : false},
+		"cpu.manufacturer.name" : {"string" : "CPU Manufacturer", "active" : false},
+		"location.room_number" : {"string" : "Room Number", "active" : false},
+		"location.floor.name" : {"string" : "Floor Number", "active" : false},
+		"location.building.name" : {"string" : "Building Number", "active" : false},
+		"power_usage_per_hour" : {"string" : "Power", "active" : false},
 	},
 
 	/**
@@ -38,6 +58,12 @@ var computerGenerator = {
 	 * @type {object}
 	 */
 	response : null,
+
+	/**
+	 * The current filter value
+	 * @type {Number}
+	 */
+	filter_value : 10,
 
 	/**
 	 * A variable to store datatables
@@ -73,15 +99,24 @@ var computerGenerator = {
 	 */
 	generateComputer : function (data){
 		var compuertElement = $('<tr></tr>');
-		$.each(this.columns, $.proxy(function (index,element){ 
-			if(objx.get(data,index) !== undefined && objx.get(data,index) != null && objx.get(data,index) != -1 && objx.get(data,index) != false){
-				compuertElement.append('<th>'+objx.get(data,index)+'</th>');
-			} else {
-				compuertElement.append('<th></th>');
-			}
-		}, this));
-		this.container.find("tbody").append(compuertElement);
-		this.ensureLayout();
+		if(data != null && data != undefined){
+			var i = 0;
+			$.each(this.columns, $.proxy(function (index,element){ 
+				i++;
+				if(this.columns[index].active == true){
+					var row = objx.get(data,index);
+					if(row !== undefined && row !== null && row !== -1 && row !== false){
+						compuertElement.append('<th>'+ row.toString() +'</th>');
+					} else {
+						compuertElement.append('<th></th>');
+					}
+				}
+				if(i == this.countProperties(this.columns)) {
+					this.container.find("tbody").append(compuertElement);
+					this.ensureLayout();
+				}	
+			}, this));
+		}
 	},
 
 	/**
@@ -134,7 +169,7 @@ var computerGenerator = {
 
 		$.each(this.columns,$.proxy(function (value,object) {
 			i++;
-			if(this.columns[value] !== undefined) {
+			if(this.columns[value].active == true) {
 				items.append(
 					'<li>'+
 						'<a href="#">'+
@@ -167,18 +202,19 @@ var computerGenerator = {
 					} else {
 						$(select).prop("checked",true);
 					}
+					$(select).trigger("change");
 				});
 				$('.dropdown-menu input, .dropdown-menu label, .dropdown-menu li').click(function(event) {
     				event.stopPropagation();
 				});
 				$(".dropdown-menu input").change(function() {
-					if ($(this).prop("checked") == true) {
+					if ($(this).prop("checked") === true) {
 						computerGenerator.columns[this.value].active = true;
-						computerGenerator.refreshTable();
 					} else {
 						computerGenerator.columns[this.value].active = false;
-						computerGenerator.refreshTable();
+						
 					}
+					computerGenerator.refreshTable();
 				});
 			}
 		},this));	
@@ -198,8 +234,8 @@ var computerGenerator = {
 	 * This function generates the computers table
 	 */
 	generateTable : function(){
-		this.initializeDatatables();
 		this.generateColumns();
+		this.initializeDatatables(true);
 	},
 
 	/**
@@ -217,16 +253,25 @@ var computerGenerator = {
 
 	/**
 	 * This function initializes the jQuery datatables
+	 * @param {boolean} first If it's the first run
 	 */
-	initializeDatatables : function (){
+	initializeDatatables : function (first){
 		this.dataTable = $(this.container).dataTable( {
-			"sDom": "<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
+			"sDom": "<'row-fluid'<'span6'l<'fields'>><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
 			"sPaginationType": "bootstrap",
 			"oLanguage": {
 				"sLengthMenu": this.length_menu
-			}
+			},
+			"bScrollCollapse": true,
+            "bAutoWidth": false,
+             "sWrapper": "dataTables_wrapper form-inline"
 		});
-		$(".dropdown").dropdown();
+		computerGenerator.generateFieldsDropdown("Fields",$(".fields"));
+		$(".length_select").change($.proxy(function (){ 
+			this.filter_value = $(".length_select").val();
+		}, this));
+		$(".length_select").val(this.filter_value);
+		$(".length_select").trigger("change");
 	},
 
 	/**
@@ -235,8 +280,14 @@ var computerGenerator = {
 	refreshTable : function () {
 		computerGenerator.container.find("thead").html("");
 		computerGenerator.generateColumns();
-		if (computerGenerator.dataTable !== null) {
-			computerGenerator.dataTable.fnDraw();
-		}
+		computerGenerator.container.find("tbody").html("");
+		this.dataTable.fnClearTable();
+		this.dataTable.fnDestroy();
+		$.each(this.response, $.proxy(function (index,element){ 
+			this.generateComputer(element);
+			if(index == this.response.length-1){
+				computerGenerator.initializeDatatables(false);
+			}	
+		}, this));
 	}
 }

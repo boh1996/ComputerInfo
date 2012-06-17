@@ -299,13 +299,18 @@ objx.bind = function() {
  */
 objx.get = function(o, p) {
 
-	var dotPos = p.indexOf(".");
+	if(o !== null && p !== null) {
+		var dotPos = p.indexOf(".");
 
-	if (dotPos == -1) {
-		return o[p];
+		if (dotPos == -1 && p in o) {
+			return o[p];
+		}
+
+		return objx.get(o[p.substring(0, dotPos)], p.substring(dotPos + 1));
+	} else {
+		return null;
 	}
-
-	return objx.get(o[p.substring(0, dotPos)], p.substring(dotPos + 1));
+	
 
 };
 

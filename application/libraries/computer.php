@@ -60,6 +60,14 @@ class Computer extends Std_Library{
 	public $disk_space = NULL;
 
 	/**
+	 * The printer groups that this computer is a member off
+	 * @since 1.0
+	 * @access public
+	 * @var array
+	 */
+	public $groups = NULL;
+
+	/**
 	 * The amount of available RAM 
 	 * space at the computer
 	 * @var string
@@ -204,7 +212,8 @@ class Computer extends Std_Library{
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array(
 			"id",
 			"printers",
-			"connected_devices"
+			"connected_devices",
+			"groups"
 		);
 		$this->_INTERNAL_LOAD_FROM_CLASS = array(
 			"model" => "Computer_Model",
@@ -214,7 +223,8 @@ class Computer extends Std_Library{
 			"connected_devices" => "Device",
 			"location" => "Location",
 			"screen_size" => "Screen_Size",
-			"operating_system" => "Operating_System"
+			"operating_system" => "Operating_System",
+			"groups" => "Computer_Group"
 		);
 		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_INTERNAL_SIMPLE_LOAD = array("printers" => true);
@@ -226,7 +236,7 @@ class Computer extends Std_Library{
 			"screen_size_id" => "screen_size",
 			"operating_system_id" => "operating_system"
 		);
-		$this->_INTERNAL_LINK_PROPERTIES = array("printers" => array("connected_to_printers",array("device_id" => "id"),"printer_id"),"connected_devices" => array("connected_devices",array("connected_id" => "id"),"device_id"));
+		$this->_INTERNAL_LINK_PROPERTIES = array("printers" => array("connected_to_printers",array("device_id" => "id"),"printer_id"),"connected_devices" => array("connected_devices",array("connected_id" => "id"),"device_id"),"groups" => array("computer_group_members",array("computer_id" => "id"),"group_id"));
 		$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_ROW_NAME_CONVERT,"ROW_NAME_CONVERT");
 	}
 }

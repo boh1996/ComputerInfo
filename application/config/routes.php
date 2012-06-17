@@ -41,7 +41,7 @@
 /**
  * Api Routes
  */
-if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+if ((!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') || (isset($_GET["dev"]) && $_GET["dev"] == "true")) {
   	$route["computer"] = "api/computer";
 	$route["printer/model"] = "api/printer_model";
 	$route["printer/model/(:num)"] = "api/printer_model/$1";
