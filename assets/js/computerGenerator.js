@@ -75,7 +75,7 @@ var computerGenerator = {
 	 * The code/object/string to use as length filtering
 	 * @type {[type]}
 	 */
-	length_menu : '<select class="length_select"><option value="10" selected="selected">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select>',
+	length_menu : '<form class="jqtransform"><select class="length_select"><option value="10" selected="selected">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select></form>',
 
 	/**
 	 * This function gets a computer from the api by the id
@@ -173,7 +173,7 @@ var computerGenerator = {
 				items.append(
 					'<li>'+
 						'<a href="#">'+
-							'<input type="checkbox" name="' + value +'" value="'+ value +'" id="'+ value +'" checked/> '+
+							'<input type="checkbox" class="styled" name="' + value +'" value="'+ value +'" id="'+ value +'" checked/> '+
 							'  <label for="'+ value +'">' + object.string +'</label>'+
 						'</a>'+
 					'</li>'
@@ -182,7 +182,7 @@ var computerGenerator = {
 				items.append(
 					'<li>'+
 						'<a href="#">'+
-							'<input type="checkbox" name="' + value +'" value="'+ value +'" "/> '+
+							'<input type="checkbox" class="styled" name="' + value +'" value="'+ value +'" "/> '+
 							'  <label for="'+ value +'">' + object.string +'</label>'+
 						'</a>'+
 					'</li>'
@@ -195,24 +195,18 @@ var computerGenerator = {
 				dropdown.append(items);
 				parentElement.append(dropdown);
 				container.append(parentElement);
-				$(".dropdown-menu li a").click(function() {
-					var select = $(this).find("input");
-					if ( $(select).prop("checked") == true) {
-						$(select).prop("checked",false);
-					} else {
-						$(select).prop("checked",true);
-					}
-					$(select).trigger("change");
+				Custom.init();
+				$(".dropdown-menu li a").click(function(event) {
+					$(this).find("span").parent().find('input[type="checkbox"]').prop("checked",true);
+					$(this).find("span").trigger("click");
 				});
-				$('.dropdown-menu input, .dropdown-menu label, .dropdown-menu li').click(function(event) {
-    				event.stopPropagation();
-				});
-				$(".dropdown-menu input").change(function() {
-					if ($(this).prop("checked") === true) {
-						computerGenerator.columns[this.value].active = true;
+				$(".dropdown-menu li span").click(function() {
+					var checkbox = $(this).parent().find('input[type="checkbox"]');
+					console.log("Clicked");
+					if (checkbox.prop("checked") === true) {
+						computerGenerator.columns[checkbox.val()].active = true;
 					} else {
-						computerGenerator.columns[this.value].active = false;
-						
+						computerGenerator.columns[checkbox.val()].active = false;
 					}
 					computerGenerator.refreshTable();
 				});
@@ -257,7 +251,7 @@ var computerGenerator = {
 	 */
 	initializeDatatables : function (first){
 		this.dataTable = $(this.container).dataTable( {
-			"sDom": "<'row-fluid'<'span6'l<'fields'>><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
+			"sDom": "<'row-fluid'<'span4'l<'fields'>><'span8'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
 			"sPaginationType": "bootstrap",
 			"oLanguage": {
 				"sLengthMenu": this.length_menu
@@ -272,6 +266,14 @@ var computerGenerator = {
 		}, this));
 		$(".length_select").val(this.filter_value);
 		$(".length_select").trigger("change");
+		$(".jqtransform").jqTransform();
+		$(".jqtransform").find("select").css("display","none");
+		$("div.jqTransformSelectWrapper ul li a").click(function(){
+		    var value = $("div.jqTransformSelectWrapper span").text()
+		    $(".length_select").val(value);
+			$(".length_select").trigger("change");
+		    return false;
+		});
 	},
 
 	/**

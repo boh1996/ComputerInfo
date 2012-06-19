@@ -299,7 +299,7 @@ objx.bind = function() {
  */
 objx.get = function(o, p) {
 
-	if(o !== null && p !== null) {
+	if(o !== null && p !== null && o !== undefined && p !== undefined) {
 		var dotPos = p.indexOf(".");
 
 		if (dotPos == -1 && p in o) {

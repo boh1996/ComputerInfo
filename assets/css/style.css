@@ -22,3 +22,7 @@
    	overflow: hidden;
    	/*background: url(new_arrow.png) no-repeat right #ddd;*/
 }
+
+.disabled_page{
+   display: none;
+}

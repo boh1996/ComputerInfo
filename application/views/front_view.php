@@ -4,7 +4,9 @@
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>bootstrap/css/bootstrap.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>bootstrap/css/bootstrap-responsive.min.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/dataTables.bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/jqtransform.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/style.css">
+		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/form.css">
 		<script type="text/javascript">var root = "<?php echo $base_url; ?>";</script>
 		<script type="text/javascript">var method = "<?php echo $method; ?>";</script>
 	</head>
@@ -31,19 +33,19 @@
 			    		<a data-target="computer" data-title="ComputerInfo - Computers" href="#">Computere</a>
 			  		</li>
 				  	<li>
-				  		<a data-target="printer" href="#">Printere</a>
+				  		<a data-target="printer" data-title="ComputerInfo - Printere" href="#">Printere</a>
 				  	</li>
 					<li>
-				    	<a data-target="units" href="#">Enheder</a>
+				    	<a data-target="units" data-title="ComputerInfo - Enheder" href="#">Enheder</a>
 				  	</li>
 				  	<li>
-				  		<a data-target="organizations" href="#">Organizationer</a>
+				  		<a data-target="organizations" data-title="ComputerInfo - Organizationer" href="#">Organizationer</a>
 				  	</li>
 				  	<li>
-				  		<a data-target="screens" href="#">Screens</a>
+				  		<a data-target="screens" data-title="ComputerInfo - Skaerme" href="#">Screens</a>
 				  	</li>
 				  	<li>
-				  		<a data-target="users" href="#">Users</a>
+				  		<a data-target="users" data-title="ComputerInfo - Brugere" href="#">Users</a>
 				  	</li>
 				</ul>
 	      	</div>
@@ -54,15 +56,45 @@
 
 	<div id="page">
 		<div class="container" style="margin-top: 10px">	
-			<!--<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="computer">-->
-			<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="computer">
 
-				<thead>
-				</thead>
-				<tbody>
-	
-				</tbody>
-			</table>	
+			<!-- Computers -->
+			<div id="computers" class="active_page">
+				<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="computer">
+
+					<thead>
+					</thead>
+					<tbody>
+		
+					</tbody>
+				</table>
+			</div>	
+
+			<div id="printers" class="disabled_page">
+				<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="printer">
+
+					<thead>
+					</thead>
+					<tbody>
+		
+					</tbody>
+				</table>
+			</div>	
+
+			<div id="screens">
+
+			</div>
+
+			<div id="units">
+
+			</div>
+
+			<div id="users">
+
+			</div>
+
+			<div id="organizations">
+
+			</div>
 		</div>
 	</div>
 
@@ -71,7 +103,9 @@
 	<script type="text/javascript" src="<?php echo $asset_url; ?>bootstrap/js/bootstrap.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/jquery.history.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="<?php echo $asset_url; ?>js/custom-form-elements.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/dataTables.bootstrap.js"></script>
+	<script type="text/javascript" src="<?php echo $asset_url; ?>js/jquery.jqtransform.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/computerGenerator.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/objx.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/script.js"></script>

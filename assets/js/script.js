@@ -1,10 +1,10 @@
 var data = {
-	"computer" : "computer",
-	"printer" : "printer",
+	"computer" : "computers",
+	"printer" : "printers",
 	"units" : "units",
-	"organizations" : "organizations",
+	"screens" : "screens",
 	"users" : "users",
-	"screens" : "screens"
+	"organizations" : "organizations",
 } 
 
 if (typeof history.pushState === 'undefined') {
@@ -18,28 +18,46 @@ $(".nav li a").live('click', function (event) {
   	if (event.target.nodeName == 'A') {
 	   	url = event.target.getAttribute('data-target');
 	    title = event.target.getAttribute('data-title');
-	    History.pushState(null,title, data[url]);
+	    History.pushState(data[url],title, data[url]);
 	}
 });
 
-$(window).on('popstate', function (event) {
-
+$(window).ready(function(){
+	History.Adapter.bind(window,'statechange',function(){
+		showPage();
+    });
+    showPage();
 });
 
-$(window).on("onanchorchange", function (event) {
-  	console.log(History.getState());
-});
+function showPage () {
+   var state = History.getState();
+   page = state.cleanUrl.replace(root,"");
+   if ($("#"+page).length > 0) {
+   		$(".active_page").addClass("disabled_page").removeClass("active_page");
+   		$("#"+page).removeClass("disabled_page").addClass("active_page");
+   		if ($('a[data-target="'+findPageString(page)+'"]').length > 0 && !$('a[data-target="'+findPageString(page)+'"]').parent("li").hasClass("active")) {
+   			$(".active").removeClass("active");
+   			$('a[data-target="'+findPageString(page)+'"]').parent("li").addClass("active");
+   		}
+   }
+}
 
-$(window).on('hashchange', function (event) {
-	//For old browsers
-});
+function findPageString (str) {
+	var returnValue = "";
+	$.each(data,function(index,element){
+		if (element == str) {
+			returnValue = index;
+		}
+	});
+	return returnValue;
+}
+
+/*$(window).on('hashchange', function (event) {
+	showPage();
+});*/
 
 $(window).on('pageshow', function (event) {
-	computerGenerator.getComputers(1);
+	var organization = 1;
+	computerGenerator.getComputers(organization);
 	$(".dataTables_filter").find("input").addClass("input-large");
-	//$(".dropdown").dropdown();
-});
-
-$(window).on('pagehide', function (event) {
-	//Minimize
 });
