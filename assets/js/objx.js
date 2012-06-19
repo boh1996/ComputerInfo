@@ -301,9 +301,12 @@ objx.get = function(o, p) {
 
 	if(o !== null && p !== null && o !== undefined && p !== undefined) {
 		var dotPos = p.indexOf(".");
-
-		if (dotPos == -1 && p in o) {
-			return o[p];
+		if (typeof o === "object"){
+			if (dotPos == -1 && p in o) {
+				return o[p];
+			}
+		} else {
+			return null;
 		}
 
 		return objx.get(o[p.substring(0, dotPos)], p.substring(dotPos + 1));

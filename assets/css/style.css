@@ -24,5 +24,7 @@
 }
 
 .disabled_page{
-   display: none;
+   /*display: none;*/
+  margin-left: -9999px;
+  position: absolute;
 }

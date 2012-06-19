@@ -65,6 +65,10 @@ if ((!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_RE
 	$route["cpu/(:any)"] = "api/cpu/$1";
 	$route["logout"] = "login/logout";
 	$route["get/computers/(:num)"] = "api/get/computers/$1";
+	$route["get/devices/(:num)"] = "api/get/devices/$1";
+	$route["get/printers/(:num)"] = "api/get/printers/$1";
+	$route["get/screens/(:num)"] = "api/get/screens/$1";
+	$route["get/locations/(:num)"] = "api/get/locations/$1";
 } 
 /**
  * User Routes

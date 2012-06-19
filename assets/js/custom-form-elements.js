@@ -34,8 +34,8 @@ var selectWidth = "190";
 document.write('<style type="text/css">input.styled { display: none; } select.styled { position: relative; width: ' + selectWidth + 'px; opacity: 0; filter: alpha(opacity=0); z-index: 5; } .disabled { opacity: 0.5; filter: alpha(opacity=50); }</style>');
 
 var Custom = {
-	init: function() {
-		var inputs = document.getElementsByTagName("input"), span = Array(), textnode, option, active;
+	init: function(container) {
+		var inputs = $(container).find("input"), span = Array(), textnode, option, active;
 		for(a = 0; a < inputs.length; a++) {
 			if((inputs[a].type == "checkbox" || inputs[a].type == "radio") && inputs[a].className == "styled") {
 				span[a] = document.createElement("span");

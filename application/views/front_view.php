@@ -24,7 +24,7 @@
 	      	</a>
 	 
 	      	<!-- Be sure to leave the brand out there if you want it shown -->
-	      	<a class="brand pull-left" href="#">ComputerInfo</a>
+	      	<a class="brand" href="#">ComputerInfo</a>
 
 		    <!-- Everything you want hidden at 940px or less, place within here -->
 		    <div class="nav-collapse">
@@ -37,6 +37,9 @@
 				  	</li>
 					<li>
 				    	<a data-target="units" data-title="ComputerInfo - Enheder" href="#">Enheder</a>
+				  	</li>
+				  	<li>
+				  		<a data-target="locations" data-title="ComputerInfo - Rum" href="#">Rum</a>
 				  	</li>
 				  	<li>
 				  		<a data-target="organizations" data-title="ComputerInfo - Organizationer" href="#">Organizationer</a>
@@ -80,20 +83,38 @@
 				</table>
 			</div>	
 
-			<div id="screens">
+			<div id="screens" class="disabled_page">
 
 			</div>
 
-			<div id="units">
+			<div id="units" class="disabled_page">
+				<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="unit">
+
+					<thead>
+					</thead>
+					<tbody>
+		
+					</tbody>
+				</table>
+			</div>
+
+			<div id="users" class="disabled_page">
 
 			</div>
 
-			<div id="users">
+			<div id="organizations" class="disabled_page">
 
 			</div>
 
-			<div id="organizations">
+			<div id="locations" class="disabled_page">
+				<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="location">
 
+					<thead>
+					</thead>
+					<tbody>
+		
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
@@ -106,7 +127,8 @@
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/custom-form-elements.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/dataTables.bootstrap.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/jquery.jqtransform.js"></script>
-	<script type="text/javascript" src="<?php echo $asset_url; ?>js/computerGenerator.js"></script>
+	<script type="text/javascript" src="<?php echo $asset_url; ?>js/settings.js"></script>
+	<script type="text/javascript" src="<?php echo $asset_url; ?>js/tableGenerator.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/objx.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/script.js"></script>
 	</body>

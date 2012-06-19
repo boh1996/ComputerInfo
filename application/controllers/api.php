@@ -149,6 +149,78 @@ class Api extends CI_Controller {
 	}
 
 	/**
+	 * This function is used to get all devices of an organizations
+	 * @param integer $Id The organization id
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _Get_Devices($Id = NULL){
+		$this->load->library("Device");
+		$Device = new Device();
+		if(in_array($Id, self::_Get_User_Organizations())){
+			$Data = array("q" => $Id,"fields" => "organization");
+			$this->api_request->Request_Data($Data);
+			self::_Simple_Search("Device");
+		} else {
+			$this->api_response->Code = 401;
+		}
+	}
+
+	/**
+	 * This function is used to get all the printers of an organization
+	 * @since 1.0
+	 * @access private
+	 * @param integer $Id The organization id
+	 */
+	private function _Get_Printers($Id = NULL){
+		$this->load->library("Printer");
+		$Printer = new Printer();
+		if(in_array($Id, self::_Get_User_Organizations())){
+			$Data = array("q" => $Id,"fields" => "organization");
+			$this->api_request->Request_Data($Data);
+			self::_Simple_Search("Printer");
+		} else {
+			$this->api_response->Code = 401;
+		}
+	}
+
+	/**
+	 * This function is used to get all the screens of an organization
+	 * @since 1.0
+	 * @access private
+	 * @param integer $Id The organization id
+	 */
+	private function _Get_Screens($Id = NULL){
+		$this->load->library("Screen");
+		$Screen = new Screen();
+		if(in_array($Id, self::_Get_User_Organizations())){
+			$Data = array("q" => $Id,"fields" => "organization");
+			$this->api_request->Request_Data($Data);
+			self::_Simple_Search("Screen");
+		} else {
+			$this->api_response->Code = 401;
+		}
+	}
+
+	/**
+	 * This function is used tog et all the locations of a organization
+	 * @since 1.0
+	 * @access private
+	 * @param integer $Id The organization id
+	 */
+	private function _Get_Locations($Id = NULL){
+		$this->load->library("Location");
+		$Location = new Location();
+		if(in_array($Id, self::_Get_User_Organizations())){
+			$Data = array("q" => $Id,"fields" => "organization");
+			$this->api_request->Request_Data($Data);
+			self::_Simple_Search("Location");
+		} else {
+			$this->api_response->Code = 401;
+		}
+	}
+
+	/**
 	 * This function performs the PATCH and PUT request
 	 * @param integer  $Id        The id of the computer to update
 	 * @param boolean $Overwrite If the request is PATCH, "false" or PUT, "true"

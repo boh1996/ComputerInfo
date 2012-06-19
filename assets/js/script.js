@@ -5,6 +5,7 @@ var data = {
 	"screens" : "screens",
 	"users" : "users",
 	"organizations" : "organizations",
+	"locations" : "locations",
 } 
 
 if (typeof history.pushState === 'undefined') {
@@ -58,6 +59,45 @@ function findPageString (str) {
 
 $(window).on('pageshow', function (event) {
 	var organization = 1;
-	computerGenerator.getComputers(organization);
+	var unitsGenerator = new tableGenerator({
+		requestType : "device",
+		container : $("#unit"),
+		columns : settings.unitColumns,
+		responseNode : "Device",
+		multipleResponseNode : "Devices",
+		multipleRequestType : "devices",
+		root : root
+	});
+	unitsGenerator.getNodes(organization);
+	var computerGenerator = new tableGenerator({
+		requestType : "computer",
+		container : $("#computer"),
+		columns : settings.computerColumns,
+		responseNode : "Computer",
+		multipleResponseNode : "Computers",
+		multipleRequestType : "computers",
+		root : root
+	});
+	computerGenerator.getNodes(organization);
+	var locationGenerator = new tableGenerator({
+		requestType : "location",
+		container : $("#location"),
+		columns : settings.locationColumns,
+		responseNode : "Location",
+		multipleResponseNode : "Locations",
+		multipleRequestType : "locations",
+		root : root
+	});
+	locationGenerator.getNodes(organization);
+	var printerGenerator = new tableGenerator({
+		requestType : "prnter",
+		container : $("#printer"),
+		columns : settings.printerColumns,
+		responseNode : "Printer",
+		multipleResponseNode : "Printers",
+		multipleRequestType : "printers",
+		root : root
+	});
+	printerGenerator.getNodes(organization);
 	$(".dataTables_filter").find("input").addClass("input-large");
 });

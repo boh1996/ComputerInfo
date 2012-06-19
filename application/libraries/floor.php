@@ -1,10 +1,28 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');  
 class Floor extends Std_Library{
 
+	/**
+	 * The id of the floor
+	 * @since 1.0
+	 * @access public
+	 * @var integer
+	 */
 	public $id = NULL;
 
+	/**
+	 * The building object of the floor
+	 * @since 1.0
+	 * @access public
+	 * @var object
+	 */
 	public $building = NULL;
 
+	/**
+	 * The name of the floor
+	 * @since 1.0
+	 * @access public
+	 * @var string
+	 */
 	public $name = NULL;
 
 	### Class Settings ###
