@@ -136,6 +136,22 @@ class Computer extends Std_Library{
 	 */
 	public $last_updated = NULL;
 
+	/** 
+	 * The obect of the user that created the object
+	 * @since 1.21
+	 * @access public
+	 * @var object
+	 */
+	public $creator_user = NULL;
+
+	/**
+	 * The user object of the user that last updated the object
+	 * @since 1.21
+	 * @access public
+	 * @var object
+	 */
+	public $last_updated_user = NULL;
+
 	/**
 	 * An optional location
 	 * where the computer is based
@@ -215,8 +231,10 @@ class Computer extends Std_Library{
 			"connected_devices",
 			"groups"
 		);
-		$this->_INTERNAL_LAST_UPDATED_PROPERTY = array("last_updated");
-		$this->_INTERNAL_CREATED_TIME_PROPERTY = array("created_time");
+		$this->_INTERNAL_LAST_UPDATED_PROPERTY = "last_updated";
+		$this->_INTERNAL_CREATED_TIME_PROPERTY = "created_time";
+		$this->_INTERNAL_LAST_UPDATED_USER_PROPERTY = "last_updated_user";
+		$this->_INTERNAL_CREATED_USER_PROPERTY = "creator_user";
 		$this->_INTERNAL_LOAD_FROM_CLASS = array(
 			"model" => "Computer_Model",
 			"organization" => "Organization",
@@ -226,7 +244,9 @@ class Computer extends Std_Library{
 			"location" => "Location",
 			"screen_size" => "Screen_Size",
 			"operating_system" => "Operating_System",
-			"groups" => "Computer_Group"
+			"groups" => "Computer_Group",
+			"last_updated_user" => "User",
+			"creator_user" => "User"
 		);
 		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_INTERNAL_SIMPLE_LOAD = array("printers" => true);
@@ -236,7 +256,9 @@ class Computer extends Std_Library{
 			"model_id" => "model",
 			"location_id" => "location",
 			"screen_size_id" => "screen_size",
-			"operating_system_id" => "operating_system"
+			"operating_system_id" => "operating_system",
+			"creator_user_id" => "creator_user",
+			"last_updated_user_id" => "last_updated_user"
 		);
 		$this->_INTERNAL_LINK_PROPERTIES = array("printers" => array("connected_to_printers",array("device_id" => "id"),"printer_id"),"connected_devices" => array("connected_devices",array("connected_id" => "id"),"device_id"),"groups" => array("computer_group_members",array("computer_id" => "id"),"group_id"));
 		$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_ROW_NAME_CONVERT,"ROW_NAME_CONVERT");
