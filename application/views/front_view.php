@@ -41,9 +41,9 @@
 				  	<li>
 				  		<a data-target="locations" data-title="ComputerInfo - Rum" href="#">Rum</a>
 				  	</li>
-				  	<li>
+				  	<!--<li>
 				  		<a data-target="organizations" data-title="ComputerInfo - Organizationer" href="#">Organizationer</a>
-				  	</li>
+				  	</li>-->
 				  	<li>
 				  		<a data-target="screens" data-title="ComputerInfo - Skaerme" href="#">Screens</a>
 				  	</li>

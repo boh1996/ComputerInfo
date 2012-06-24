@@ -136,6 +136,8 @@ class Printer extends Std_Library{
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS_ABORT_ON_NULL = true;
 		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = array("model","organization","location","connected_devices");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id","groups");
+		$this->_INTERNAL_LAST_UPDATED_PROPERTY = array("last_updated");
+		$this->_INTERNAL_CREATED_TIME_PROPERTY = array("created_time");
 		$this->_INTERNAL_LOAD_FROM_CLASS = array(
 			"model" => "Printer_Model",
 			"organization" => "Organization",

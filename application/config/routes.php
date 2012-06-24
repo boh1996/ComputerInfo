@@ -74,7 +74,12 @@ if ((!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_RE
  * User Routes
  */
 else {
-	$route["(:any)"] = "ui/$1";
+	if(isset($_GET["normal"]) && $_GET["normal"] == "true"){
+		//Normal Routes
+	} else {
+		$route["(:any)"] = "ui/$1";
+	}
+	
 }
 /**
  * Standard routes

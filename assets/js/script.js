@@ -4,7 +4,7 @@ var data = {
 	"units" : "units",
 	"screens" : "screens",
 	"users" : "users",
-	"organizations" : "organizations",
+	//"organizations" : "organizations",
 	"locations" : "locations",
 } 
 
@@ -59,6 +59,8 @@ function findPageString (str) {
 
 $(window).on('pageshow', function (event) {
 	var organization = 1;
+
+	//Units
 	var unitsGenerator = new tableGenerator({
 		requestType : "device",
 		container : $("#unit"),
@@ -69,6 +71,8 @@ $(window).on('pageshow', function (event) {
 		root : root
 	});
 	unitsGenerator.getNodes(organization);
+
+	//Computers
 	var computerGenerator = new tableGenerator({
 		requestType : "computer",
 		container : $("#computer"),
@@ -79,6 +83,8 @@ $(window).on('pageshow', function (event) {
 		root : root
 	});
 	computerGenerator.getNodes(organization);
+
+	//Locations
 	var locationGenerator = new tableGenerator({
 		requestType : "location",
 		container : $("#location"),
@@ -89,8 +95,10 @@ $(window).on('pageshow', function (event) {
 		root : root
 	});
 	locationGenerator.getNodes(organization);
+
+	//Printers
 	var printerGenerator = new tableGenerator({
-		requestType : "prnter",
+		requestType : "printer",
 		container : $("#printer"),
 		columns : settings.printerColumns,
 		responseNode : "Printer",
@@ -99,5 +107,17 @@ $(window).on('pageshow', function (event) {
 		root : root
 	});
 	printerGenerator.getNodes(organization);
+
+	//Screeens
+	var screenGenerator = new tableGenerator({
+		requestType : "screen",
+		container : $("#screen"),
+		columns : settings.screenColumns,
+		responseNode : "Screen",
+		multipleResponseNode : "Screens",
+		multipleRequestType : "screens",
+		root : root
+	});
+	screenGenerator.getNodes(organization);
 	$(".dataTables_filter").find("input").addClass("input-large");
 });

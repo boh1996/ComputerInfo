@@ -2,11 +2,15 @@
 class Data extends CI_Controller {
 
 	public function index(){
-		$this->load->library("Operating_System");
-		$os = new Operating_System();
-		$os->Load(1);
-		echo "<pre>";
-		print_r($os->Export());
+		$this->load->library("screen");
+		$Screen = new Screen();
+		$Screen->Set_Current_User(2);
+		$Screen->Import(array(
+			"identifier" => "Lal3",
+			"organization" => 1,
+			"location" => 3
+		));
+		$Screen->Save();
 	}
 }
 ?>

@@ -27,10 +27,7 @@ var settings = {
 		"location.building.name" : {"string" : "Building Number", "active" : false},
 		"power_usage_per_hour" : {"string" : "Power", "active" : false},
 		"created_time" : {"string" : "Time created", "active" : false},
-		//"screen_size.abbrevation" : {"string" : "Screen Size Abbrevation", "active" : false},
-		//"operating_system.version" : {"string" : "OS Version", "active" : false},
-		//"operating_system.family.manufacturer.name" : {"string" : "OS Manufacturer", "active" : false},
-		//"screen_size.name" : {"string" : "Screen Size Name", "active" : false},
+		"last_updated" : {"string" : "Last updated", "active" : false},
 	},
 
 	/**
@@ -71,5 +68,18 @@ var settings = {
 		"model.manufacturer.name" : {"string" : "Manufacturer", "active" : false},
 		"location.name" : {"string" : "Location", "active" : true},
 		"location.room_number" : {"string" : "Room Number", "active" : false},
+	},
+
+	/**
+	 * The available columns for the screen object
+	 * @type {Object}
+	 */
+	screenColumns : {
+		"identifier" : {"string" : "Identifier", "active" : true},
+		"location.name" : {"string" : "Location", "active" : true},
+		"model.name" : {"string" : "Model", "active" : false},
+		"model.manufacturer" : {"string" : "Manufacturer", "active" : false},
+		"scren_size.detection_string" : {"string" : "Screen Size", "active" : false},
+		"screen_size.aspect_ratio" : {"string" : "Aspect ratio", "active" : false},
 	}
 }

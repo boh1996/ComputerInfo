@@ -238,6 +238,7 @@ class Api extends CI_Controller {
 			}
 			$this->load->library("Computer");
 			$Computer = new Computer();
+			$Computer->Set_Current_User($this->_User->id);
 			if(!$Computer->Load($Id)){
 				$this->api_request->Code = 404;
 				return;
@@ -516,6 +517,7 @@ class Api extends CI_Controller {
 			}
 			$this->load->library("Computer");
 			$Computer = new Computer();
+			$Computer->Set_Current_User($this->_User->id);
 			$Computer->Import($Request_Data);
 			if(!is_null($Computer->organization)){
 				if(!self::_Has_Access("organizations",$this->_User,$Computer->organization)){
@@ -554,6 +556,7 @@ class Api extends CI_Controller {
 			}
 			$this->load->library("Printer");
 			$Printer = new Printer();
+			$Printer->Set_Current_User($this->_User->id);
 			$Printer->Import($Request_Data);
 			if(!is_null($Printer->organization)){
 				if(!self::_Has_Access("organizations",$this->_User,$Printer->organization)){
@@ -596,6 +599,7 @@ class Api extends CI_Controller {
 			}
 			$this->load->library("Printer");
 			$Printer = new Printer();
+			$Printer->Set_Current_User($this->_User->id);
 			if(!$Printer->Load($Id)){
 				$this->api_request->Code = 404;
 				return;
@@ -637,6 +641,7 @@ class Api extends CI_Controller {
 			}
 			$this->load->library("Device");
 			$Device = new Device();
+			$Device->Set_Current_User($this->_User->id);
 			$Device->Import($Request_Data);
 			if(!is_null($Device->organization)){
 				if(!self::_Has_Access("organizations",$this->_User,$Device->organization)){
@@ -680,6 +685,7 @@ class Api extends CI_Controller {
 			}
 			$this->load->library("Device");
 			$Device = new Device();
+			$Device->Set_Current_User($this->_User->id);
 			if(!$Device->Load($Id)){
 				$this->api_request->Code = 404;
 				return;
@@ -768,6 +774,7 @@ class Api extends CI_Controller {
 			$this->load->library("Device");
 			$this->api_response->ResponseKey = "Device";
 			$Device = new Device();
+			$Device->Set_Current_User($this->_User->id);
 			if($Device->Load($Id)){
 				if(self::_Has_Access("organizations",$this->_User,$Device->organization)){
 					$this->api_response->Code = 200;
@@ -891,6 +898,7 @@ class Api extends CI_Controller {
 			$this->load->library("Printer");
 			$this->api_response->ResponseKey = "Printer";
 			$Printer = new Printer();
+			$Printer->Set_Current_User($this->_User->id);
 			if($Printer->Load($Id)){
 				if(self::_Has_Access("organizations",$this->_User,$Printer->organization)){
 					$this->api_response->Code = 200;

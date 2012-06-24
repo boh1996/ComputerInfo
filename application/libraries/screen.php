@@ -41,6 +41,38 @@ class Screen extends Std_Library{
 	 */
 	public $location = NULL;
 
+	/**
+	 * The timestamp of the time when the object last was updated
+	 * @since 1.0
+	 * @access public
+	 * @var integer
+	 */
+	public $last_updated = NULL;
+
+	/**
+	 * The timestamp of the time when the object was created in the database
+	 * @since 1.0
+	 * @access public
+	 * @var integer
+	 */
+	public $created_time = NULL;
+
+	/**
+	 * The obect of the user that created the object
+	 * @since 1.21
+	 * @access public
+	 * @var object
+	 */
+	public $creator_user = NULL;
+
+	/**
+	 * The user object of the user that last updated the object
+	 * @since 1.21
+	 * @access public
+	 * @var object
+	 */
+	public $last_updated_user = NULL;
+
 
 	### Class Settings ###
 
@@ -69,19 +101,29 @@ class Screen extends Std_Library{
 	public function Screen(){
 		$this->_CI =& get_instance();
 		self::Config($this->_CI);
+		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
-		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("identifier,organization");
+		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("identifier","organization");
 		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = array("organization","model","location");
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS_ABORT_ON_NULL = true;
+		$this->_INTERNAL_OVERWRITE_ON_DUBLICATE = true;
+		$this->_INTERNAL_LAST_UPDATED_PROPERTY = "last_updated";
+		$this->_INTERNAL_CREATED_TIME_PROPERTY = "created_time";
+		$this->_INTERNAL_LAST_UPDATED_USER_PROPERTY = "last_updated_user";
+		$this->_INTERNAL_CREATED_USER_PROPERTY = "creator_user";
 		$this->_INTERNAL_ROW_NAME_CONVERT = array(
 			"organization_id" => "organization",
 			"model_id" => "model",
-			"location_id" => "location"
+			"location_id" => "location",
+			"creator_user_id" => "creator_user",
+			"last_updated_user_id" => "last_updated_user"
 		);
 		$this->_INTERNAL_LOAD_FROM_CLASS = array(
 			"model" => "Screen_Model",
 			"organization" => "Organization",
-			"location" => "Location"
+			"location" => "Location",
+			"last_updated_user" => "User",
+			"creator_user" => "User"
 		);
 		$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_ROW_NAME_CONVERT,"ROW_NAME_CONVERT");
 	}
