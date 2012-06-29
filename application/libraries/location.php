@@ -73,14 +73,13 @@ class Location extends Std_Library{
 	 * @since 1.0
 	 * @access public
 	 */
-	public function Location(){
-		$this->_CI =& get_instance();
-		self::Config($this->_CI);
+	public function __construct(){
+		parent::__construct();
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("name","organization_id");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
 		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = array("organization","building","floor");
-		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
+		//$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_INTERNAL_ROW_NAME_CONVERT = array(
 			"organization_id" => "organization",
 			"floor_id" => "floor",
@@ -90,6 +89,6 @@ class Location extends Std_Library{
 			"building" => "Building",
 			"floor" => "Floor"
 		);
-		$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_ROW_NAME_CONVERT,"ROW_NAME_CONVERT");
+		//$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_ROW_NAME_CONVERT,"ROW_NAME_CONVERT");
 	}
 }

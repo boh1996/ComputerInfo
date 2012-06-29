@@ -81,12 +81,11 @@ class Computer_Model extends Std_Library{
 	 * @since 1.0
 	 * @access public
 	 */
-	public function Computer_Model(){
-		$this->_CI =& get_instance();
-		self::Config($this->_CI);
+	public function __construct(){
+		parent::__construct();
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
-		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
+		//$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = array("manufacturer");
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("name");
 		$this->_INTERNAL_ROW_NAME_CONVERT = array(
@@ -99,6 +98,6 @@ class Computer_Model extends Std_Library{
 			"type" => "Device_Type",
 			"computer_series" => "Computer_Series"
 		);
-		$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_ROW_NAME_CONVERT,"ROW_NAME_CONVERT");
+		//$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_ROW_NAME_CONVERT,"ROW_NAME_CONVERT");
 	}
 }

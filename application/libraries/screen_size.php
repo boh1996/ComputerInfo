@@ -81,10 +81,8 @@ class Screen_Size extends Std_Library{
 	 * @since 1.0
 	 * @access public
 	 */
-	public function Screen_Size(){
-		$this->_CI =& get_instance();
-		self::Config($this->_CI);;
-		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
+	public function __construct(){
+		parent::__construct();
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("detection_string");
 	}

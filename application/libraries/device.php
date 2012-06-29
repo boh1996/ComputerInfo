@@ -90,7 +90,7 @@ class Device extends Std_Library{
 	 * @access private
 	 * @internal This is just a local container for Code Igniter
 	 */
-	private $_CI = NULL;
+	//private $_CI = NULL;
 
 	/**
 	 * This variable stores the database table for the class
@@ -105,9 +105,8 @@ class Device extends Std_Library{
 	 * @since 1.0
 	 * @access public
 	 */
-	public function Device(){
-		$this->_CI =& get_instance();
-		self::Config($this->_CI);
+	public function __construct(){
+		parent::__construct();
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("identifier","organization","model");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
@@ -126,7 +125,7 @@ class Device extends Std_Library{
 			"location" => "Location"
 		);
 		$this->_INTERNAL_SIMPLE_LOAD = array("organization" => true);
-		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
-		$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_ROW_NAME_CONVERT,"ROW_NAME_CONVERT");
+		/*$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
+		$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_ROW_NAME_CONVERT,"ROW_NAME_CONVERT");*/
 	}
 }

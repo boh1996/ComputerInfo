@@ -26,7 +26,7 @@ class Device_Category extends Std_Library{
 	 * @access private
 	 * @internal This is just a local container for Code Igniter
 	 */
-	private $_CI = NULL;
+	//private $_CI = NULL;
 
 	/**
 	 * This variable stores the database table for the class
@@ -41,11 +41,10 @@ class Device_Category extends Std_Library{
 	 * @since 1.0
 	 * @access public
 	 */
-	public function Device_Category(){
-		$this->_CI =& get_instance();
-		self::Config($this->_CI);
+	public function __construct(){
+		parent::__construct();
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
-		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
+		//$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 	}
 }

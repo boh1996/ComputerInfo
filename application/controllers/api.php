@@ -56,6 +56,7 @@ class Api extends CI_Controller {
 	    		return call_user_func_array(array($this, $method), $params);
 	    	} else {
 	    		$this->api_response->Code = 403;
+	    		exit;
 	    	}
 	    }
 	    show_404();
@@ -116,6 +117,7 @@ class Api extends CI_Controller {
 			$this->api_response->ResponseKey = "Computer";
 			$Computer = new Computer();
 			if($Computer->Load($Id)){
+				print_r($Computer->Export());
 				if(self::_Has_Access("organizations",$this->_User,$Computer->organization)){
 					$this->api_response->Code = 200;
 					$this->api_response->Response = $Computer->Export(false);
@@ -137,14 +139,16 @@ class Api extends CI_Controller {
 	 * @access private
 	 */
 	private function _Get_Computers($Id = NULL){
-		$this->load->library("Computer");
-		$Computer = new Computer();
-		if(in_array($Id, self::_Get_User_Organizations())){
-			$Data = array("q" => $Id,"fields" => "organization");
-			$this->api_request->Request_Data($Data);
-			self::_Simple_Search("Computer");
-		} else {
-			$this->api_response->Code = 401;
+		if (self::_Get_User_Organizations() != null) {
+			$this->load->library("Computer");
+			$Computer = new Computer();
+			if(in_array($Id, self::_Get_User_Organizations())){
+				$Data = array("q" => $Id,"fields" => "organization");
+				$this->api_request->Request_Data($Data);
+				self::_Simple_Search("Computer");
+			} else {
+				$this->api_response->Code = 401;
+			}
 		}
 	}
 
@@ -155,14 +159,16 @@ class Api extends CI_Controller {
 	 * @access private
 	 */
 	private function _Get_Devices($Id = NULL){
-		$this->load->library("Device");
-		$Device = new Device();
-		if(in_array($Id, self::_Get_User_Organizations())){
-			$Data = array("q" => $Id,"fields" => "organization");
-			$this->api_request->Request_Data($Data);
-			self::_Simple_Search("Device");
-		} else {
-			$this->api_response->Code = 401;
+		if (self::_Get_User_Organizations() !== null) {
+			$this->load->library("Device");
+			$Device = new Device();
+			if(in_array($Id, self::_Get_User_Organizations())){
+				$Data = array("q" => $Id,"fields" => "organization");
+				$this->api_request->Request_Data($Data);
+				self::_Simple_Search("Device");
+			} else {
+				$this->api_response->Code = 401;
+			}
 		}
 	}
 
@@ -173,14 +179,16 @@ class Api extends CI_Controller {
 	 * @param integer $Id The organization id
 	 */
 	private function _Get_Printers($Id = NULL){
-		$this->load->library("Printer");
-		$Printer = new Printer();
-		if(in_array($Id, self::_Get_User_Organizations())){
-			$Data = array("q" => $Id,"fields" => "organization");
-			$this->api_request->Request_Data($Data);
-			self::_Simple_Search("Printer");
-		} else {
-			$this->api_response->Code = 401;
+		if (self::_Get_User_Organizations() !== null) {
+			$this->load->library("Printer");
+			$Printer = new Printer();
+			if(in_array($Id, self::_Get_User_Organizations())){
+				$Data = array("q" => $Id,"fields" => "organization");
+				$this->api_request->Request_Data($Data);
+				self::_Simple_Search("Printer");
+			} else {
+				$this->api_response->Code = 401;
+			}
 		}
 	}
 
@@ -191,14 +199,16 @@ class Api extends CI_Controller {
 	 * @param integer $Id The organization id
 	 */
 	private function _Get_Screens($Id = NULL){
-		$this->load->library("Screen");
-		$Screen = new Screen();
-		if(in_array($Id, self::_Get_User_Organizations())){
-			$Data = array("q" => $Id,"fields" => "organization");
-			$this->api_request->Request_Data($Data);
-			self::_Simple_Search("Screen");
-		} else {
-			$this->api_response->Code = 401;
+		if (self::_Get_User_Organizations() !== null) {
+			$this->load->library("Screen");
+			$Screen = new Screen();
+			if(in_array($Id, self::_Get_User_Organizations())){
+				$Data = array("q" => $Id,"fields" => "organization");
+				$this->api_request->Request_Data($Data);
+				self::_Simple_Search("Screen");
+			} else {
+				$this->api_response->Code = 401;
+			}
 		}
 	}
 
@@ -209,14 +219,16 @@ class Api extends CI_Controller {
 	 * @param integer $Id The organization id
 	 */
 	private function _Get_Locations($Id = NULL){
-		$this->load->library("Location");
-		$Location = new Location();
-		if(in_array($Id, self::_Get_User_Organizations())){
-			$Data = array("q" => $Id,"fields" => "organization");
-			$this->api_request->Request_Data($Data);
-			self::_Simple_Search("Location");
-		} else {
-			$this->api_response->Code = 401;
+		if (self::_Get_User_Organizations() !== null) {
+			$this->load->library("Location");
+			$Location = new Location();
+			if(in_array($Id, self::_Get_User_Organizations())){
+				$Data = array("q" => $Id,"fields" => "organization");
+				$this->api_request->Request_Data($Data);
+				self::_Simple_Search("Location");
+			} else {
+				$this->api_response->Code = 401;
+			}
 		}
 	}
 
@@ -466,8 +478,9 @@ class Api extends CI_Controller {
 	 * @access private
 	 */
 	private function _Has_Access($Node = NULL,$Object = NULL,$Id = NULL){
-		if(is_object($Id) && property_exists($Id, "id")){
-			$Id = (int)$Id->id;
+		var_dump($Id);
+		if(is_object($Object) && property_exists($Object, "id")){
+			$Id = (int)$Object->id;
 		} else {
 			return FALSE;
 		}

@@ -49,10 +49,9 @@ class Floor extends Std_Library{
 	 * @since 1.0
 	 * @access public
 	 */
-	public function Floor(){
-		$this->_CI =& get_instance();
-		self::Config($this->_CI);
-		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
+	public function __construct(){
+		parent::__construct();
+		//$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("building,name");
 		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = array("building");
@@ -63,6 +62,6 @@ class Floor extends Std_Library{
 		$this->_INTERNAL_LOAD_FROM_CLASS = array(
 			"building" => "Building"
 		);
-		$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_ROW_NAME_CONVERT,"ROW_NAME_CONVERT");
+		//$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_ROW_NAME_CONVERT,"ROW_NAME_CONVERT");
 	}
 }

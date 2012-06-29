@@ -60,8 +60,6 @@ class Printer_Group extends Std_Library{
 	 */
 	public function __construct(){
 		parent::__construct();
-		$this->_CI =& get_instance();
-		self::Config($this->_CI);
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
 		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = array("organization");
@@ -69,7 +67,7 @@ class Printer_Group extends Std_Library{
 			"members" => "Printer",
 			"organization" => "Organization"
 		);
-		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
+		//$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_INTERNAL_ROW_NAME_CONVERT = array(
 			"organization_id" => "organization"
 		);
@@ -78,6 +76,6 @@ class Printer_Group extends Std_Library{
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS_ABORT_ON_NULL = true;
 		$this->_INTERNAL_SIMPLE_LOAD = array("members" => true);
 		$this->_INTERNAL_LINK_PROPERTIES = array("members" => array("printer_groups_members",array("group_id" => "id"),"printer_id"));
-		$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_ROW_NAME_CONVERT,"ROW_NAME_CONVERT");
+		//$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_ROW_NAME_CONVERT,"ROW_NAME_CONVERT");
 	}
 }

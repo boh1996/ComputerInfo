@@ -127,9 +127,8 @@ class Printer extends Std_Library{
 	 * @since 1.0
 	 * @access public
 	 */
-	public function Printer(){
-		$this->_CI =& get_instance();
-		self::Config($this->_CI);
+	public function __construct(){
+		parent::__construct();
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("identifier");
 		$this->_INTERNAL_FORCE_ARRAY = array("connected_devices");
@@ -145,7 +144,7 @@ class Printer extends Std_Library{
 			"location" => "Location",
 			"groups" => "Printer_Group"
 		);
-		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
+		//$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_INTERNAL_ROW_NAME_CONVERT = array(
 			"organization_id" => "organization",
 			"model_id" => "model",
@@ -153,6 +152,6 @@ class Printer extends Std_Library{
 		);
 		$this->_INTERNAL_SIMPLE_LOAD = array("connected_devices" => true);
 		$this->_INTERNAL_LINK_PROPERTIES = array("connected_devices" => array("connected_to_printers",array("printer_id" => "id"),"device_id"),"groups" => array("printer_group_members",array("printer_id" => "id"),"group_id"));
-		$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_ROW_NAME_CONVERT,"ROW_NAME_CONVERT");
+		//$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_ROW_NAME_CONVERT,"ROW_NAME_CONVERT");
 	}
 }

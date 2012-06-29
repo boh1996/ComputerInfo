@@ -67,18 +67,18 @@ class Token extends Std_Library{
 	 * @since 1.0
 	 * @access private
 	 */
-	public function Token(){
+	public function __construct(){
+		parent::__construct();
 		$this->_CI =& get_instance();
-		self::Config($this->_CI);
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
-		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
+		//$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_INTERNAL_LOAD_FROM_CLASS = array("user" => "User");
 		$this->_INTERNAL_SIMPLE_LOAD = array("user" => true);
 		$this->_INTERNAL_ROW_NAME_CONVERT = array(
 			"user_id" => "user",
 			"created_time" => "created"
 		);
-		$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_ROW_NAME_CONVERT,"ROW_NAME_CONVERT");
+		//$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_ROW_NAME_CONVERT,"ROW_NAME_CONVERT");
 	}
 
 	/**
@@ -100,7 +100,6 @@ class Token extends Std_Library{
 		$this->token = Rand_Str(16);
 		$this->created = time();
 		if($Save && isset($this->user->id) && isset($this->user->name)){
-			echo $this->token;
 			self::Save();
 		}
 	}

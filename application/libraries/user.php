@@ -67,9 +67,8 @@ class User extends Std_Library{
 	 * @since 1.0
 	 * @access public
 	 */
-	public function User(){
-		$this->_CI =& get_instance();
-		self::Config($this->_CI);
+	public function __construct(){
+		parent::__construct();
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
 		$this->_INTERNAL_LOAD_FROM_CLASS = array(
@@ -78,6 +77,6 @@ class User extends Std_Library{
 		$this->_INTERNAL_FORCE_ARRAY = array("organizations");
 		$this->_INTERNAL_SECURE_EXPORT_IGNORE = array("username","password","google");
 		$this->_INTERNAL_LINK_PROPERTIES = array("organizations" => array("employees",array("user_id" => "id"),"organization_id"));
-		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
+		//$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 	}
 }

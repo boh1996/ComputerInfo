@@ -98,10 +98,9 @@ class Screen extends Std_Library{
 	 * @since 1.0
 	 * @access public
 	 */
-	public function Screen(){
-		$this->_CI =& get_instance();
-		self::Config($this->_CI);
-		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
+	public function __construct(){
+		parent::__construct();
+		//$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("identifier","organization");
 		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = array("organization","model","location");
@@ -125,6 +124,6 @@ class Screen extends Std_Library{
 			"last_updated_user" => "User",
 			"creator_user" => "User"
 		);
-		$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_ROW_NAME_CONVERT,"ROW_NAME_CONVERT");
+		//$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_ROW_NAME_CONVERT,"ROW_NAME_CONVERT");
 	}
 }
