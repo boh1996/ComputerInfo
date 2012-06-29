@@ -2,11 +2,11 @@
 class Data extends CI_Controller {
 
 	public function index(){
-		/*$this->load->library("device");
-		$Device = new Device();
-		$Device->Load(1);
+		$this->load->library("Computer");
+		$Computer = new Computer();
+		$Computer->Load(1,false);
 		echo "<pre>";
-		print_r($Device->Export());
+		print_r($Computer->Export());
 		echo "</pre>";
 		echo "Done";
 		/*$Screen->Set_Current_User(2);
