@@ -197,15 +197,6 @@ class Computer extends Std_Library{
 	### Class Settings ###
 
 	/**
-	 * This property contains a pointer to Code Igniter
-	 * @var object
-	 * @since 1.0
-	 * @access private
-	 * @internal This is just a local container for Code Igniter
-	 */
-	//private $_CI = NULL;
-
-	/**
 	 * This variable stores the database table for the class
 	 * @var string
 	 * @access public
@@ -234,6 +225,7 @@ class Computer extends Std_Library{
 		$this->_INTERNAL_CREATED_TIME_PROPERTY = "created_time";
 		$this->_INTERNAL_LAST_UPDATED_USER_PROPERTY = "last_updated_user";
 		$this->_INTERNAL_CREATED_USER_PROPERTY = "creator_user";
+		$this->_INTERNAL_EXPORT_FORMATING = array("created_time" => array("date","d-m-Y"));
 		$this->_INTERNAL_LOAD_FROM_CLASS = array(
 			"model" => "Computer_Model",
 			"organization" => "Organization",
@@ -259,6 +251,5 @@ class Computer extends Std_Library{
 			"last_updated_user_id" => "last_updated_user"
 		);
 		$this->_INTERNAL_LINK_PROPERTIES = array("printers" => array("connected_to_printers",array("device_id" => "id"),"printer_id"),"connected_devices" => array("connected_devices",array("connected_id" => "id"),"device_id"),"groups" => array("computer_group_members",array("computer_id" => "id"),"group_id"));
-		//$this->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_ROW_NAME_CONVERT,"ROW_NAME_CONVERT");
 	}
 }

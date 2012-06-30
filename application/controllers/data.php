@@ -4,18 +4,8 @@ class Data extends CI_Controller {
 	public function index(){
 		$this->load->library("Computer");
 		$Computer = new Computer();
-		$Computer->Load(1,false);
-		echo "<pre>";
+		$Computer->Load(1,false,array("identifier","wifi_mac","ram_size","lan_mac","serial","created_time"));
 		print_r($Computer->Export());
-		echo "</pre>";
-		echo "Done";
-		/*$Screen->Set_Current_User(2);
-		$Screen->Import(array(
-			"identifier" => "Lal3",
-			"organization" => 1,
-			"location" => 3
-		));
-		$Screen->Save();*/
 	}
 }
 ?>
