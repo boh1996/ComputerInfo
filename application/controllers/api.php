@@ -117,10 +117,9 @@ class Api extends CI_Controller {
 			$this->api_response->ResponseKey = "Computer";
 			$Computer = new Computer();
 			if($Computer->Load($Id)){
-				print_r($Computer->Export());
 				if(self::_Has_Access("organizations",$this->_User,$Computer->organization)){
 					$this->api_response->Code = 200;
-					$this->api_response->Response = $Computer->Export(false);
+					$this->api_response->Response = $Computer->Export();
 				} else {
 					$this->api_response->Code = 401;
 				}
@@ -353,7 +352,7 @@ class Api extends CI_Controller {
 			if(isset($Request_Data["fields"])){
 				$Fields = explode(",",$Request_Data["fields"]);
 			} else {
-				$Fields = array_keys($Object->Export(false,true));
+				$Fields = array_keys($Object->Export());
 			}
 
 			//Build the query
@@ -377,7 +376,7 @@ class Api extends CI_Controller {
 			}
 
 			//Build the query array
-			$Secure = $Object->Export(false,true);
+			$Secure = $Object->Export(null,false);
 			$Query = self::_Convert($InputQuery,$Object,$Secure,$Fields);
 			if(count($Query) > 0){
 				//Assemble thw query
@@ -456,7 +455,7 @@ class Api extends CI_Controller {
 				foreach ($Raw->result() as $Row) {
 					$Object = new Computer();
 					$Object->Load($Row->id);
-					$Response[] = $Object->Export(false,true);
+					$Response[] = $Object->Export();
 				}
 				$this->api_response->Response = $Response;
 				$this->api_response->Code = 200;
@@ -478,7 +477,6 @@ class Api extends CI_Controller {
 	 * @access private
 	 */
 	private function _Has_Access($Node = NULL,$Object = NULL,$Id = NULL){
-		var_dump($Id);
 		if(is_object($Object) && property_exists($Object, "id")){
 			$Id = (int)$Object->id;
 		} else {
@@ -740,7 +738,7 @@ class Api extends CI_Controller {
 			$ComputerModel = new Computer_Model();
 			if($ComputerModel->Load($Id)){
 				$this->api_response->Code = 200;
-				$this->api_response->Response = $ComputerModel->Export(false,true);
+				$this->api_response->Response = $ComputerModel->Export();
 			} else {
 				$this->api_response->Code = 404;
 			}
@@ -764,7 +762,7 @@ class Api extends CI_Controller {
 			if($Device->Load($Id)){
 				if(self::_Has_Access("organizations",$this->_User,$Device->organization)){
 					$this->api_response->Code = 200;
-					$this->api_response->Response = $Device->Export(false,true);
+					$this->api_response->Response = $Device->Export();
 				} else {
 					$this->api_response->Code = 401;
 				}
@@ -818,7 +816,7 @@ class Api extends CI_Controller {
 			$Cpu = new Cpu();
 			if($Cpu->Load($Id)){
 				$this->api_response->Code = 200;
-				$this->api_response->Response = $Cpu->Export(false,true);
+				$this->api_response->Response = $Cpu->Export();
 			} else {
 				$this->api_response->Code = 404;
 			}
@@ -841,7 +839,7 @@ class Api extends CI_Controller {
 			$DeviceModel = new Device_Model();
 			if($DeviceModel->Load($Id)){
 				$this->api_response->Code = 200;
-				$this->api_response->Response = $DeviceModel->Export(false,true);
+				$this->api_response->Response = $DeviceModel->Export();
 			} else {
 				$this->api_response->Code = 404;
 			}
@@ -864,7 +862,7 @@ class Api extends CI_Controller {
 			$Manufacturer = new Manufacturer();
 			if($Manufacturer->Load($Id)){
 				$this->api_response->Code = 200;
-				$this->api_response->Response = $Manufaturer->Export(false,true);
+				$this->api_response->Response = $Manufaturer->Export();
 			} else {
 				$this->api_response->Code = 404;
 			}
@@ -887,7 +885,7 @@ class Api extends CI_Controller {
 			if($Printer->Load($Id)){
 				if(self::_Has_Access("organizations",$this->_User,$Printer->organization)){
 					$this->api_response->Code = 200;
-					$this->api_response->Response = $Printer->Export(false,true);
+					$this->api_response->Response = $Printer->Export();
 				} else {
 					$this->api_response->Code = 401;
 				}
@@ -941,7 +939,7 @@ class Api extends CI_Controller {
 			$PrinterModel = new Printer_Model();
 			if($PrinterModel->Load($Id)){
 				$this->api_response->Code = 200;
-				$this->api_response->Response = $PrinterModel->Export(false,true);
+				$this->api_response->Response = $PrinterModel->Export();
 			} else {
 				$this->api_response->Code = 404;
 			}
@@ -987,7 +985,7 @@ class Api extends CI_Controller {
 					foreach ($Raw->result() as $Row) {
 						$Object = new $Library();
 						$Object->Load($Row->id);
-						$Response[] = $Object->Export(false,true);
+						$Response[] = $Object->Export();
 					}
 					$this->api_response->Response = $Response;
 					$this->api_response->Code = 200;

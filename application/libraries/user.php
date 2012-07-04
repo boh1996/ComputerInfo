@@ -77,6 +77,5 @@ class User extends Std_Library{
 		$this->_INTERNAL_FORCE_ARRAY = array("organizations");
 		$this->_INTERNAL_SECURE_EXPORT_IGNORE = array("username","password","google");
 		$this->_INTERNAL_LINK_PROPERTIES = array("organizations" => array("employees",array("user_id" => "id"),"organization_id"));
-		//$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 	}
 }

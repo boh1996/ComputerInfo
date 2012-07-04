@@ -225,7 +225,7 @@ class Computer extends Std_Library{
 		$this->_INTERNAL_CREATED_TIME_PROPERTY = "created_time";
 		$this->_INTERNAL_LAST_UPDATED_USER_PROPERTY = "last_updated_user";
 		$this->_INTERNAL_CREATED_USER_PROPERTY = "creator_user";
-		$this->_INTERNAL_EXPORT_FORMATING = array("created_time" => array("date","d-m-Y"));
+		$this->_INTERNAL_EXPORT_FORMATING = array("created_time" => array("date","d/m-Y - H:i:s"),"last_updated" => array("date","d/m-Y - H:i:s"));
 		$this->_INTERNAL_LOAD_FROM_CLASS = array(
 			"model" => "Computer_Model",
 			"organization" => "Organization",

@@ -112,7 +112,7 @@ class Screen extends Std_Library{
 		$this->_INTERNAL_CREATED_USER_PROPERTY = "creator_user";
 		$this->_INTERNAL_ROW_NAME_CONVERT = array(
 			"organization_id" => "organization",
-			"model_id" => "model",
+			"screen_model_id" => "model",
 			"location_id" => "location",
 			"creator_user_id" => "creator_user",
 			"last_updated_user_id" => "last_updated_user"

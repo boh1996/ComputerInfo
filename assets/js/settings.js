@@ -28,6 +28,8 @@ var settings = {
 		"power_usage_per_hour" : {"string" : "Power", "active" : false},
 		"created_time" : {"string" : "Time created", "active" : false},
 		"last_updated" : {"string" : "Last updated", "active" : false},
+		"creator_user.name" : {"string" : "Creator", "active" : false},
+		"last_updated_user.name" : {"string" : "Last updated by", "active" : false},
 	},
 
 	/**
