@@ -84,7 +84,14 @@
 			</div>	
 
 			<div id="screens" class="disabled_page">
+				<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="screen">
 
+					<thead>
+					</thead>
+					<tbody>
+		
+					</tbody>
+				</table>
 			</div>
 
 			<div id="units" class="disabled_page">
@@ -119,6 +126,33 @@
 		</div>
 	</div>
 
+	<div class="modal hide" id="edit_computer">
+		<div class="modal-header">
+	    	<button type="button" class="close" data-dismiss="modal">&times;</button>
+	    	<h3>Edit {identifier}</h3>
+	 	</div>
+	  	<div class="modal-body">
+	  		<table cellpadding="0" cellspacing="10" border="0" class="table table-striped table-bordered">
+		  		<tr><td>Identifier</td><td><input type="text" class="input-large" value="{identifier}" name="model"></td></tr>
+		    	<tr><td>Model</td><td><input type="text" class="input-large" value="{model.name}" name="model"></td></tr>
+		    	<tr><td>Type</td><td><input type="text" class="input-large" value="{model.type.name}" name="type"></td></tr>
+		    	<tr><td>Location</td><td><input type="text" class="input-large" value="{location.name}" name="location"></td></tr>
+		    	<tr><td>LAN Mac</td><td><input type="text" class="input-large" value="{lan_mac}" name="lan_mac"></td></tr>
+		    	<tr><td>Wifi Mac</td><td><input type="text" class="input-large" value="{wifi_mac}" name="wifi_mac"></td></tr>
+		    	<tr><td>IP</td><td><input type="text" class="input-large" value="{ip}" name="ip"></td></tr>
+		    	<tr><td>Disk space</td><td><input type="text" class="input-large" value="{disk_space}" name="disk_space"></td></tr>
+		    	<tr><td>Ram size</td><td><input type="text" class="input-large" value="{ram_size}" name="ram_size"></td></tr>
+		    	<tr><td>Serial</td><td><input type="text" class="input-large" value="{serial}" name="serial"></td></tr>
+		    	<tr><td>Screen size</td><td><input type="text" class="input-large" value="{screen_size.detection_string}" name="screen_size"></td></tr>
+		    	<tr><td>Power usage</td><td><input type="text" class="input-large" value="{power_usage_per_hour}" name="power_usage_per_hour"></td></tr>
+	    	</table>
+	  	</div>
+	  	<div class="modal-footer">
+	    	<a href="#" class="btn" data-dismiss="modal">Close</a>
+	    	<a href="#" class="btn btn-primary">Save changes</a>
+	  	</div>
+	</div>
+
 	<!-- Include jquery,boostrap and script -->
 	<script type="text/javascript" src="<?php echo $jquery_url; ?>"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>bootstrap/js/bootstrap.js"></script>
@@ -128,8 +162,8 @@
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/dataTables.bootstrap.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/jquery.jqtransform.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/settings.js"></script>
-	<script type="text/javascript" src="<?php echo $asset_url; ?>js/tableGenerator.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/objx.js"></script>
+	<script type="text/javascript" src="<?php echo $asset_url; ?>js/tableGenerator.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/script.js"></script>
 	</body>
 </html>

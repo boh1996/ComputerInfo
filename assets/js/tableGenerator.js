@@ -11,6 +11,14 @@ function tableGenerator (settings) {
 	this.multipleResponseNode = settings.multipleResponseNode;
 	this.multipleRequestType = settings.multipleRequestType;
 	this.root = settings.root;
+
+	if (typeof settings.callback != "undefined") {
+		this.doneCallback = settings.callback;
+	}
+
+	if (typeof settings.modal != "undefined") {
+		this.onCickModal = settings.modal;
+	}
 }
 	
 /**
@@ -56,6 +64,18 @@ tableGenerator.prototype = {
 	responseNode : "Computer",
 
 	/**
+	 * If this is set then the specified modal is launched when a row is clicked
+	 * @type {Object}
+	 */
+	onCickModal : null,
+
+	/**
+	 * This function is called when the opration is done
+	 * @type {function}
+	 */
+	doneCallback : null,
+
+	/**
 	 * The node to look for when requesting more rows
 	 * @type {String}
 	 */
@@ -73,7 +93,10 @@ tableGenerator.prototype = {
 	 * @return {function}
 	 */
 	readyCallback : function(){
-		this.generateTable()
+		this.generateTable();
+		if (this.doneCallback != null) {
+			this.doneCallback();
+		}
 	},
 
 	/**
@@ -103,10 +126,12 @@ tableGenerator.prototype = {
 	/**
 	 * This function generates the computers row
 	 * @param  {object} data The api response data
+	 * @param {integer} index The index in the response where to findthis node
 	 */
-	generateNode : function (data){
+	generateNode : function (data,index){
 		var objectElement = $('<tr></tr>');
 		if(data != null && data != undefined){
+			objectElement.attr("data-index",index);
 			var i = 0;
 			$.each(this.columns, $.proxy(function (index,element){ 
 				i++;
@@ -154,7 +179,7 @@ tableGenerator.prototype = {
 				this.response = objx.get(data,this.multipleResponseNode); 
 				data = this.response;
 				$.each(data, $.proxy(function (index,element){ 
-					this.generateNode(element);
+					this.generateNode(element,index);
 					if(index == data.length-1){
 						this.readyCallback();
 					}
@@ -257,6 +282,10 @@ tableGenerator.prototype = {
 	generateTable : function(){
 		this.generateColumns();
 		this.initializeDatatables(true);
+
+		if (this.onCickModal != null) {
+			this.createModal();
+		}
 	},
 
 	/**
@@ -304,6 +333,33 @@ tableGenerator.prototype = {
 			$(length_select).trigger("change");
 		    return false;
 		}, this));
+	},
+
+	/**
+	 * This fuction creates the on click modal
+	 */
+	createModal : function () {
+		var modal = $(this.onCickModal).clone();
+		modal.attr("id","modal-show-container");
+		$(this.onCickModal).after(modal);
+		$("#modal-show-container").modal({
+			keyboard: true,
+			show : false
+		});
+
+		$(this.container).find("tbody tr").live("click",$.proxy(function(event){
+			var html = $(this.onCickModal).html();
+			var object = $(event.target).parent("tr");
+			html = html.replace(/\{([a-zA-Z_\.]*)\}/g, $.proxy(function (match, contents, offset, s) {
+				if (objx.get(this.response[object.attr("data-index")],contents) != null) {
+					return objx.get(this.response[object.attr("data-index")],contents);
+				} else {
+					return "";
+				}
+			},this));
+			$("#modal-show-container").html(html);
+			$("#modal-show-container").modal("show");
+		},this));
 	},
 
 	/**

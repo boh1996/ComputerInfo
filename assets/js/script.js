@@ -80,7 +80,8 @@ $(window).on('pageshow', function (event) {
 		responseNode : "Computer",
 		multipleResponseNode : "Computers",
 		multipleRequestType : "computers",
-		root : root
+		root : root,
+		modal : $("#edit_computer"),
 	});
 	computerGenerator.getNodes(organization);
 
