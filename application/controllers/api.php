@@ -59,7 +59,7 @@ class Api extends CI_Controller {
 	    		exit;
 	    	}
 	    }
-	    show_404();
+	    //show_404();
 	}
 
 	/**
@@ -96,6 +96,7 @@ class Api extends CI_Controller {
 	 */
 	public function __construct(){
 		parent::__construct();
+		$this->benchmark->mark('code_start');
 		$this->load->library("api/api_request");
 		$this->load->library("api/api_response");
 		$this->load->helper("http");
@@ -129,6 +130,113 @@ class Api extends CI_Controller {
 		} else {
 			$this->api_response->Code = 400;
 		}
+	}
+
+	/**
+	 * This function get's the available options for a class
+	 * @since 1.3
+	 * @access private
+	 * @param string $option_type The class to get the options for
+	 */
+	private function _Options ( $option_type = null ) {
+		if (is_null($option_type)) {
+			$this->api_response->Code = 400;
+			return;
+		}
+		$this->api_response->Code = 200;
+		$option_type = strtolower($option_type);
+		switch ($option_type) {
+			case "device_type":
+				$this->api_response->Code = 200;
+				$category = null;
+				if (isset($_GET["category"])) {
+					$category = $_GET["category"];
+				}
+				self::_Find_Device_Types($category);
+				break;
+			
+			case "computer_model" :
+				$manufacturer = null;
+				if (isset($_GET["manufacturer"])) {
+					$manufacturer = $_GET["manufacturer"];
+				}
+				$device_type = null;
+				$category = null;
+				if (isset($_GET["type"])) {
+					$device_type = $_GET["type"];
+				}
+				self::_Find_Computer_Models($manufacturer,$device_type);
+				break;
+
+			case "screen_size" :
+				self::_Simple_Search("Screen_Size", null, false, true);
+				break;
+
+			case "location" :
+				if (isset($_GET["organization"]) && in_array($_GET["organization"], self::_Get_User_Organizations())) {
+					self::_Get_Locations($_GET["organization"]);
+				} else {
+					$this->api_response->Code = 400;
+				}
+				break;
+
+			default:
+				$this->api_response->Code = 400;
+				break;
+		}
+	}
+
+	/**
+	 * This function finds all the computer models
+	 * @since 1.0
+	 * @access private
+	 * @param string $manufacturer The manufacturer to search for, this is optional
+	 * @param string $device_type  An optional device type to search for
+	 */
+	private function _Find_Computer_Models ( $manufacturer = null, $device_type = null) {
+		$data = array();
+		if (!is_null($manufacturer)) {
+			$this->load->library("Manufacturer");
+			$Manufacturer = new Manufacturer();
+			$Category->Find(array("name" => $manufacturer));
+			$data = array(
+				"q" => $Manufacturer->id,
+				"fields" => "manufacturer"
+			);
+			$this->api_request->Request_Data($data);
+		}
+		if (!is_null($device_type)) {
+			$this->load->library("Device_Type");
+			$Type = new Device_Type();
+			if (is_string($device_type)) {
+				$Type->Find(array("name" => $device_type));
+			} else {
+				$Type->Load($device_type);
+			}
+			$data["fields"] = $data["fields"].",type";
+			$data["type"] = $Type->id;
+		}
+		if (count($data) > 0) {
+			$this->api_request->Request_Data($data);
+		}
+		self::_Simple_Search("Computer_Model", null, false, true);
+	}
+
+	/**
+	 * This function loads uo an array of all device types allocated with a specific category
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _Find_Device_Types ( $category = "Computer") {
+		if (is_null($category)) {
+			$category = "Computer";
+		}
+		$this->load->library("Device_Category");
+		$Category = new Device_Category();
+		$Category->Find(array("name" => $category));
+		$data = array("q" => $Category->id,"fields" => "category");
+		$this->api_request->Request_Data($data);
+		self::_Simple_Search("Device_Type", null, false, true);
 	}
 
 	/**
@@ -340,11 +448,12 @@ class Api extends CI_Controller {
 	 * This function builds the search query based on the request data
 	 * and the request object
 	 * @param object $Object The object that are being searched on
+	 * @param boolean $Secure If a secure convert should be used
 	 * @since 1.0
 	 * @access private
 	 * @return array
 	 */
-	private function _Search_Build_Query($Object = NULL){
+	private function _Search_Build_Query($Object = NULL, $Secure = true){
 		if(!is_null($Object)){
 			$Request_Data = $this->api_request->Request_Data();
 
@@ -352,14 +461,18 @@ class Api extends CI_Controller {
 			if(isset($Request_Data["fields"])){
 				$Fields = explode(",",$Request_Data["fields"]);
 			} else {
-				$Fields = array_keys($Object->Export());
+				$Fields = array_keys($Object->Export(null,false));
 			}
 
 			//Build the query
 			$InputQuery = array();
 			foreach ($Fields as $Field) {
 				$InputQuery[$Field] = $Request_Data["q"];
+				if (isset($Request_Data[$Field])) {
+					$InputQuery[$Field] = $Request_Data[$Field];
+				}
 			}
+		
 
 			$Organizations = self::_Get_User_Organizations();
 			if(is_null($Organizations)){
@@ -369,15 +482,19 @@ class Api extends CI_Controller {
 
 			//If the object has an organization row use it
 			$Organization_Id_Row = self::_Convert(array("organization" => "1"),$Object);
-			if(count($Organization_Id_Row) > 9){
+			if(count($Organization_Id_Row) > 0){
 				$Organization_Id_Row = key($Organization_Id_Row);
 			} else {
 				$Organization_Id_Row = NULL;
 			}
 
 			//Build the query array
-			$Secure = $Object->Export(null,false);
-			$Query = self::_Convert($InputQuery,$Object,$Secure,$Fields);
+			if ($Secure) {
+				$Secure = $Object->Export(null,false);
+				$Query = self::_Convert($InputQuery,$Object,$Secure,$Fields);
+			} else {
+				$Query = $Object->Convert($InputQuery);
+			}
 			if(count($Query) > 0){
 				//Assemble thw query
 				$this->db->or_like($Query,"after")->select("id")->group_by("id");
@@ -952,10 +1069,12 @@ class Api extends CI_Controller {
 	 * This function performs a standadirized search
 	 * @param string $Key     The name of the type we are using etc "Computer"
 	 * @param string $Library An optional library overwrite
+	 * @param boolan $Return If this flag is set to true, then the data us returned instead of send to the api_response
+	 * @param boolean $Linked If this flag is true, then the linked properties can be searched in too
 	 * @since 1.0
 	 * @access private
 	 */
-	private function _Simple_Search($Key = NULL,$Library = NULL){
+	private function _Simple_Search($Key = NULL,$Library = NULL, $Return = false, $Linked = false){
 		if(!is_null($Key)){
 			if(is_null($Library)){
 				$Library = $Key;
@@ -966,14 +1085,13 @@ class Api extends CI_Controller {
 			} else {
 				$ResponseKey = $Key;
 			}
+			$this->load->library($Library);
+			$Class = new $Library();	
 			$Request_Data = $this->api_request->Request_Data();
-			if(isset($Request_Data["q"]) && is_array($this->api_request->Request_Data()) && count($this->api_request->Request_Data()) > 0 && ($this->api_request->Request_Method() === "post" || "get")){		
-				$this->load->library($Library);
+			if(isset($Request_Data["q"]) && is_array($this->api_request->Request_Data()) && count($this->api_request->Request_Data()) > 0 && ($this->api_request->Request_Method() === "post" || "get")){				
 				$this->api_response->ResponseKey = $ResponseKey;
-				$Class = new $Library();			
-
 				//Get the response
-				$Raw = self::_Search_Build_Query($Class);
+				$Raw = self::_Search_Build_Query($Class,!$Linked);
 				if(is_null($Raw)){
 					$this->api_response->Code = 400;
 					return;
@@ -987,13 +1105,34 @@ class Api extends CI_Controller {
 						$Object->Load($Row->id);
 						$Response[] = $Object->Export();
 					}
-					$this->api_response->Response = $Response;
-					$this->api_response->Code = 200;
+					if (!$Return) {
+						$this->api_response->Response = $Response;
+						$this->api_response->Code = 200;
+					} else {
+						return $Response;
+					}
 				} else {
 					$this->api_response->Code = 404;
 				}
 			} else {
-				$this->api_response->Code = 400;
+				$this->api_response->ResponseKey = $ResponseKey;
+				$Raw = $this->db->select("id")->get($Class->Database_Table);
+				$Response = array();
+				if($Raw->num_rows() > 0){
+					foreach ($Raw->result() as $Row) {
+						$Object = new $Library();
+						$Object->Load($Row->id);
+						$Response[] = $Object->Export();
+					}
+					if (!$Return) {
+						$this->api_response->Response = $Response;
+						$this->api_response->Code = 200;
+					} else {
+						return $Response;
+					}
+				} else {
+					$this->api_response->Code = 404;
+				}
 			}
 		} else {
 			$this->api_response->Code = 500;

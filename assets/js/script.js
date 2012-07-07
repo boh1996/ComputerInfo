@@ -82,6 +82,28 @@ $(window).on('pageshow', function (event) {
 		multipleRequestType : "computers",
 		root : root,
 		modal : $("#edit_computer"),
+		handlers : {
+			model_type : {
+				url : root + "options/device_type",
+				property : "name",
+				response_key : "Device_Types"
+			},
+			model : {
+				url : root + "options/computer_model",
+				property : "name",
+				response_key : "Computer_Models"
+			},
+			screen_size : {
+				url : root + "options/screen_size",
+				property : "detection_string",
+				response_key : "Screen_Sizes"
+			},
+			location : {
+				url : root + "options/location?organization="+organization,
+				property : "name",
+				response_key : "Locations"
+			}
+		}
 	});
 	computerGenerator.getNodes(organization);
 

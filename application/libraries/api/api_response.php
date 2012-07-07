@@ -132,6 +132,14 @@ class Api_Response{
 	public $AllowOrigin = NULL;
 
 	/**
+	 * Local instance of CodeIgniter
+	 * @since 1.3
+	 * @access private
+	 * @var object
+	 */
+	private $_CI = null;
+
+	/**
 	 * The HTTP methods to allow
 	 * @var array
 	 * @since 1.0
@@ -144,7 +152,9 @@ class Api_Response{
 	 * @since 1.0
 	 * @access public
 	 */
-	public function Api_Reponse(){}
+	public function Api_Response(){
+		$this->_CI =& get_instance();
+	}
 
 	/**
 	 * This function sends a api response with all the headers and so
@@ -156,6 +166,7 @@ class Api_Response{
 			$this->Code = 204;
 		}
 		self::_Create_Response();
+		$this->End = microtime();
 		self::_Response_Format();
 		self::_Build_Headers();
 		self::_Send_Headers();	
@@ -226,8 +237,10 @@ class Api_Response{
 		if($this->Code == 200){
 			if(!is_null($this->ResponseKey)){
 				$Response[$this->ResponseKey] = $this->Response;
+				$Response["count"] = count($Response[$this->ResponseKey]);
 			} else {
 				$Response = $this->Response;
+				$Response["count"] = count($this->Response);
 			}
 			if(is_array($Response) || $this->Code == 200){
 				$Response["error_message"] = NULL;
@@ -240,6 +253,9 @@ class Api_Response{
 				$Response["error_reason"] = $this->ErrorReason;
 			}
 		}
+		$this->_CI->benchmark->mark('code_end');
+		$Response["script_excecution_time"] = $this->_CI->benchmark->elapsed_time('code_start', 'code_end');;
+		$Response["server_time"] = time();
 		$this->ResponseData = $Response;
 	}
 

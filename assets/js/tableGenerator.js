@@ -1,3 +1,5 @@
+var tableRowClick = new CustomEvent("tableRowClick");
+
 /**
  * The table generators constructor
  * @param  {object} settings The settings json object
@@ -18,6 +20,10 @@ function tableGenerator (settings) {
 
 	if (typeof settings.modal != "undefined") {
 		this.onCickModal = settings.modal;
+	}
+
+	if (typeof settings.handlers != "undefined") {
+		this.handlers = settings.handlers;
 	}
 }
 	
@@ -50,6 +56,12 @@ tableGenerator.prototype = {
 	 * @type {String}
 	 */
 	multipleRequestType : "computers",
+
+	/**
+	 * This array/object will store the handlers for the different data fill operations
+	 * @type {object}
+	 */
+	handlers : null,
 
 	/**
 	 * The computers container
@@ -358,8 +370,57 @@ tableGenerator.prototype = {
 				}
 			},this));
 			$("#modal-show-container").html(html);
+			this.runHandlers($(event.target));
 			$("#modal-show-container").modal("show");
+			$(this.container).trigger("tableRowClick");
 		},this));
+	},
+
+	/**
+	 * This function runs the data processing handlers
+	 * @param  {object} object The clicked object
+	 */
+	runHandlers : function ( object ) {
+		var element = object.find("select");
+		if (this.handlers != null) {
+			$.each(this.handlers,$.proxy(function(key, handler){
+				var url = handler.url;
+				if (objx.get(handler,"query_parameters") != null) {
+					if (url.indexOf("?") == -1) {
+						url += "?";
+					}
+					$.each(handler.query_parameters,function (index, current) {
+						if (current.indexOf("#") != -1) {
+							url += index + "=" + $(current).val() + "&";
+						} else {
+							url += index + "=" + current + "&";
+						}
+					});
+					url = url.slice(0,url.length-1);
+				}
+				$.ajax({
+					url : url,
+					success : $.proxy(function (data){
+						if (objx.get(handler,"response_key") != null) {
+							data = data[handler.response_key];
+							this.handlers[key].response = data;
+						}
+						//Beaware of this line
+						$("#modal-show-container").find('[data-handler="'+ key +'"]').each(function (i, currentElement) {
+							currentElement = $(currentElement).find("select");
+							$(currentElement).html("");
+							$.each(data,function (currentIndex, curElement){
+								if ($(currentElement).attr("data-selected") == objx.get(curElement,"id")) {
+									$(currentElement).append('<option selected value="' + objx.get(curElement,"id") + '">' + objx.get(curElement,handler.property) + '</option>');
+								} else {
+									$(currentElement).append('<option value="' + objx.get(curElement,"id") + '">' + objx.get(curElement,handler.property) + '</option>');
+								}
+							});
+						});
+					}, this)
+				});
+			},this));
+		}
 	},
 
 	/**
@@ -372,7 +433,7 @@ tableGenerator.prototype = {
 		this.dataTable.fnClearTable();
 		this.dataTable.fnDestroy();
 		$.each(this.response, $.proxy(function (index,element){ 
-			this.generateNode(element);
+			this.generateNode(element,index);
 			if(index == this.response.length-1){
 				this.initializeDatatables(false);
 			}	
