@@ -136,16 +136,15 @@
 	  		<table cellpadding="0" cellspacing="10" border="0" class="table table-striped">
 		  		<tr><td>Identifier</td><td><input type="text" class="input-large" value="{identifier}" name="model"></td></tr>
 		    	<tr data-handler="model"><td>Model</td><td>
-		    		<select name="model" data-selected="{model.id}">
-		    		</select>
+		    		<input name="model" type="text" data-provide="typeahead" class="typeahead">
 		    	</td></tr>
 		    	<tr data-handler="model_type"><td>Type</td><td>
-		    		<select name="type" data-selected="{model.type.id}">
-		    		</select>
+		    		<form class="jqtransform"><select name="type" data-selected="{model.type.id}">
+		    		</select></form>
 		    	</td></tr>
 		    	<tr data-handler="location"><td>Location</td><td>
-		    		<select name="location" data-selected="{location.id}">
-		    		</select>
+		    		<form class="jqtransform"><select name="location" data-selected="{location.id}">
+		    		</select></form>
 		    	</td></tr>
 		    	<tr><td>LAN Mac</td><td><input type="text" class="input-large" value="{lan_mac}" name="lan_mac"></td></tr>
 		    	<tr><td>Wifi Mac</td><td><input type="text" class="input-large" value="{wifi_mac}" name="wifi_mac"></td></tr>
@@ -154,8 +153,8 @@
 		    	<tr><td>Ram size</td><td><input type="text" class="input-large" value="{ram_size}" name="ram_size"></td></tr>
 		    	<tr><td>Serial</td><td><input type="text" class="input-large" value="{serial}" name="serial"></td></tr>
 		    	<tr data-handler="screen_size"><td>Screen size</td><td>
-		    		<select name="screen_size" data-selected="{screen_size.id}">
-		    		</select>
+		    		<form class="jqtransform"><select name="screen_size" data-selected="{screen_size.id}">
+		    		</select></form>
 		    	</td></tr>
 		    	<tr><td>Power usage</td><td><input type="text" class="input-large" value="{power_usage_per_hour}" name="power_usage_per_hour"></td></tr>
 	    	</table>

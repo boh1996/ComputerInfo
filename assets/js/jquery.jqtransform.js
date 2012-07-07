@@ -52,6 +52,7 @@
 	var jqTransformHideSelect = function(oTarget){
 		var ulVisible = $('.jqTransformSelectWrapper ul:visible');
 		ulVisible.each(function(){
+			$(this).parents(".jqTransformSelectWrapper").css("z-index","10");
 			var oSelect = $(this).parents(".jqTransformSelectWrapper:first").find("select").get(0);
 			//do not hide if click on the label object associated to the select
 			if( !(oTarget && oSelect.oLabel && oSelect.oLabel.get(0) == oTarget.get(0)) ){$(this).hide();}
@@ -289,10 +290,15 @@
 			/* Apply the click handler to the Open */
 			var oLinkOpen = $('a.jqTransformSelectOpen', $wrapper)
 				.click(function(){
+					//console.log($ul.css("display"));
 					//Check if box is already open to still allow toggle, but close all other selects
-					if( $ul.css('display') == 'none' ) {jqTransformHideSelect();} 
+					if( $ul.css('display') == 'none' ) {
+						$wrapper.css("z-index","999");
+						jqTransformHideSelect();
+					} else {
+						$wrapper.css("z-index","10");
+					}
 					if($select.attr('disabled')){return false;}
-
 					$ul.slideToggle('fast', function(){					
 						var offSet = ($('a.selected', $ul).offset().top - $ul.offset().top);
 						$ul.animate({scrollTop: offSet});

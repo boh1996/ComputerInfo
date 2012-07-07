@@ -165,7 +165,11 @@ class Api extends CI_Controller {
 				if (isset($_GET["type"])) {
 					$device_type = $_GET["type"];
 				}
-				self::_Find_Computer_Models($manufacturer,$device_type);
+				$name = null;
+				if (isset($_GET["name"])) {
+					$name = $_GET["name"];
+				}
+				self::_Find_Computer_Models($manufacturer,$device_type,$name);
 				break;
 
 			case "screen_size" :
@@ -193,7 +197,7 @@ class Api extends CI_Controller {
 	 * @param string $manufacturer The manufacturer to search for, this is optional
 	 * @param string $device_type  An optional device type to search for
 	 */
-	private function _Find_Computer_Models ( $manufacturer = null, $device_type = null) {
+	private function _Find_Computer_Models ( $manufacturer = null, $device_type = null, $name = null) {
 		$data = array();
 		if (!is_null($manufacturer)) {
 			$this->load->library("Manufacturer");
@@ -205,15 +209,33 @@ class Api extends CI_Controller {
 			);
 			$this->api_request->Request_Data($data);
 		}
+		if (!is_null($name)) {
+			if (!isset($data["q"])) {
+				$data["q"] = $name;
+			}
+			if (isset($data["fields"])) {
+				$data["fields"] = $data["fields"].",name";
+			} else {
+				$data["fields"] = "name";
+			}
+			$data["name"] = $name;
+		}
 		if (!is_null($device_type)) {
 			$this->load->library("Device_Type");
 			$Type = new Device_Type();
+			if (!isset($data["q"])) {
+				$data["q"] = $Type->id;
+			}
 			if (is_string($device_type)) {
 				$Type->Find(array("name" => $device_type));
 			} else {
 				$Type->Load($device_type);
 			}
-			$data["fields"] = $data["fields"].",type";
+			if (isset($data["fields"])) {
+				$data["fields"] = $data["fields"].",type";
+			} else {
+				$data["fields"] = "type";
+			}
 			$data["type"] = $Type->id;
 		}
 		if (count($data) > 0) {

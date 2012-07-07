@@ -377,48 +377,95 @@ tableGenerator.prototype = {
 	},
 
 	/**
+	 * This function builds the handler request ulr
+	 * @param  {object} handler The handler to build the url from
+	 * @return {string}
+	 */
+	buildHandlerUrl : function (handler) {
+		var url = handler.url;
+		if (objx.get(handler,"query_parameters") != null) {
+			if (url.indexOf("?") == -1) {
+				url += "?";
+			}
+			$.each(handler.query_parameters,function (index, current) {
+				if (current.indexOf("#") != -1) {
+					url += index + "=" + $(current).val() + "&";
+				} else {
+					url += index + "=" + current + "&";
+				}
+			});
+		}
+		return url;
+	},
+
+	/**
 	 * This function runs the data processing handlers
 	 * @param  {object} object The clicked object
 	 */
 	runHandlers : function ( object ) {
-		var element = object.find("select");
 		if (this.handlers != null) {
 			$.each(this.handlers,$.proxy(function(key, handler){
-				var url = handler.url;
-				if (objx.get(handler,"query_parameters") != null) {
-					if (url.indexOf("?") == -1) {
-						url += "?";
+				if (typeof handler.type == "undefined" || handler.type == "select") {
+					var url = this.buildHandlerUrl(handler);
+					if (url.indexOf("&") != -1) {
+						url = url.slice(0,url.length-1);
 					}
-					$.each(handler.query_parameters,function (index, current) {
-						if (current.indexOf("#") != -1) {
-							url += index + "=" + $(current).val() + "&";
-						} else {
-							url += index + "=" + current + "&";
-						}
-					});
-					url = url.slice(0,url.length-1);
-				}
-				$.ajax({
-					url : url,
-					success : $.proxy(function (data){
-						if (objx.get(handler,"response_key") != null) {
-							data = data[handler.response_key];
-							this.handlers[key].response = data;
-						}
-						//Beaware of this line
-						$("#modal-show-container").find('[data-handler="'+ key +'"]').each(function (i, currentElement) {
-							currentElement = $(currentElement).find("select");
-							$(currentElement).html("");
-							$.each(data,function (currentIndex, curElement){
-								if ($(currentElement).attr("data-selected") == objx.get(curElement,"id")) {
-									$(currentElement).append('<option selected value="' + objx.get(curElement,"id") + '">' + objx.get(curElement,handler.property) + '</option>');
-								} else {
-									$(currentElement).append('<option value="' + objx.get(curElement,"id") + '">' + objx.get(curElement,handler.property) + '</option>');
+					$.ajax({
+						url : url,
+						success : $.proxy(function (data){
+							if (objx.get(handler,"response_key") != null) {
+								data = data[handler.response_key];
+								this.handlers[key].response = data;
+							}
+							//Beaware of this line
+							$("#modal-show-container").find('[data-handler="'+ key +'"]').each(function (i, currentElement) {
+								currentElement = $(currentElement).find("select");
+								$(currentElement).html("");
+								$.each(data,function (currentIndex, curElement){
+									if ($(currentElement).attr("data-selected") == objx.get(curElement,"id")) {
+										$(currentElement).append('<option selected value="' + objx.get(curElement,"id") + '">' + objx.get(curElement,handler.property) + '</option>');
+									} else {
+										$(currentElement).append('<option value="' + objx.get(curElement,"id") + '">' + objx.get(curElement,handler.property) + '</option>');
+									}
+								});
+								if (currentElement.parent("form").length > 0) {
+									currentElement.parent("form").jqTransform();
 								}
 							});
+						}, this)
+					});
+				} else if (handler.type == "typeahead") {
+					var tableCreator = this;
+					$("#modal-show-container").find('[data-handler="'+ key +'"]').each(function (i, currentElement) {
+						currentElement = $(currentElement).find(".typeahead");
+						currentElement.typeahead({
+						    source: function (typeahead, query) {
+						    	var url = tableCreator.buildHandlerUrl(handler);
+						    	if (typeof handler.query_key != "undefined" && query != null && query != "") {
+						    		if (url.indexOf("?") != -1) {
+						    			if (url.indexOf("&") != -1) {
+											url += handler.query_key + "=" + query + "&";
+										} else {
+											url += handler.query_key + "=" + query + "&";
+										}
+									} else {
+										url += "?" + handler.query_key + "=" + query;
+									}
+								}
+								if (url.indexOf("&") != -1) {
+									url = url.slice(0,url.length-1);
+								}
+						        return $.get(url,function (data) {
+						        	if (objx.get(handler,"response_key") != null) {
+										data = data[handler.response_key];
+									}
+						        	return typeahead.process(data);
+						        });
+						    },
+						    property: handler.property,
 						});
-					}, this)
-				});
+					});		
+				}
 			},this));
 		}
 	},

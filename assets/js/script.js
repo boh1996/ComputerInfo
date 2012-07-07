@@ -91,6 +91,8 @@ $(window).on('pageshow', function (event) {
 			model : {
 				url : root + "options/computer_model",
 				property : "name",
+				query_key : "name",
+				type : "typeahead",
 				response_key : "Computer_Models"
 			},
 			screen_size : {
