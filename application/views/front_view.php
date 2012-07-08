@@ -165,6 +165,25 @@
 	  	</div>
 	</div>
 
+	<div class="modal hide" id="edit_printer">
+		<div class="modal-header">
+	    	<button type="button" class="close" data-dismiss="modal">&times;</button>
+	    	<h3>Edit {identifier}</h3>
+	 	</div>
+	  	<div class="modal-body">
+	  		<table cellpadding="0" cellspacing="10" border="0" class="table table-striped">
+		  		<tr data-handler="location"><td>Location</td><td>
+		    		<form class="jqtransform"><select name="location" data-selected="{location.id}">
+		    		</select></form>
+		    	</td></tr>
+	    	</table>
+	  	</div>
+	  	<div class="modal-footer">
+	    	<a href="#" class="btn" data-dismiss="modal">Close</a>
+	    	<a href="#" class="btn btn-primary">Save changes</a>
+	  	</div>
+	</div>
+
 	<!-- Include jquery,boostrap and script -->
 	<script type="text/javascript" src="<?php echo $jquery_url; ?>"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>bootstrap/js/bootstrap.js"></script>

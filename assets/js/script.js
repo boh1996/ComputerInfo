@@ -68,7 +68,9 @@ $(window).on('pageshow', function (event) {
 		responseNode : "Device",
 		multipleResponseNode : "Devices",
 		multipleRequestType : "devices",
-		root : root
+		root : root,
+		localStorageColumnsKey : "unit_columns",
+		localStorageLengthKey : "unit_length_value",
 	});
 	unitsGenerator.getNodes(organization);
 
@@ -79,9 +81,11 @@ $(window).on('pageshow', function (event) {
 		columns : settings.computerColumns,
 		responseNode : "Computer",
 		multipleResponseNode : "Computers",
+		localStorageColumnsKey : "computer_columns",
 		multipleRequestType : "computers",
 		root : root,
 		modal : $("#edit_computer"),
+		localStorageLengthKey : "computer_length_value",
 		handlers : {
 			model_type : {
 				url : root + "options/device_type",
@@ -113,29 +117,43 @@ $(window).on('pageshow', function (event) {
 	var locationGenerator = new tableGenerator({
 		requestType : "location",
 		container : $("#location"),
+		localStorageLengthKey : "location_length_value",
 		columns : settings.locationColumns,
 		responseNode : "Location",
 		multipleResponseNode : "Locations",
 		multipleRequestType : "locations",
+		localStorageColumnsKey : "location_columns",
 		root : root
 	});
 	locationGenerator.getNodes(organization);
 
 	//Printers
 	var printerGenerator = new tableGenerator({
+		modal : $("#edit_printer"),
 		requestType : "printer",
+		localStorageLengthKey : "printer_length_value",
 		container : $("#printer"),
 		columns : settings.printerColumns,
 		responseNode : "Printer",
 		multipleResponseNode : "Printers",
+		localStorageColumnsKey : "printer_columns",
 		multipleRequestType : "printers",
-		root : root
+		root : root,
+		handlers : {
+			location : {
+				url : root + "options/location?organization="+organization,
+				property : "name",
+				response_key : "Locations"
+			}
+		}
 	});
 	printerGenerator.getNodes(organization);
 
 	//Screeens
 	var screenGenerator = new tableGenerator({
 		requestType : "screen",
+		localStorageLengthKey : "screen_length_value",
+		localStorageColumnsKey : "screen_columns",
 		container : $("#screen"),
 		columns : settings.screenColumns,
 		responseNode : "Screen",

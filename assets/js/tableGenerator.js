@@ -7,7 +7,15 @@ var tableRowClick = new CustomEvent("tableRowClick");
 function tableGenerator (settings) {
 	this.requestType = settings.requestType;
 	this.container = settings.container;
-	this.columns = settings.columns;
+	this.localStorageColumnsKey = settings.localStorageColumnsKey || "columns";
+	this.modal_id_name = settings.modal_id_name || this.randomString(10);
+	this.localStorageLengthKey = settings.localStorageLengthKey || "length_value";
+	this.filter_value = localStorage.getItem(this.localStorageLengthKey ) || 10;
+	if ($.parseJSON(localStorage.getItem(this.localStorageColumnsKey)) && this.countProperties($.parseJSON(localStorage.getItem(this.localStorageColumnsKey))) == this.countProperties(settings.columns)) {
+		this.columns =  $.parseJSON(localStorage.getItem(this.localStorageColumnsKey));
+	} else{
+		this.columns = settings.columns;
+	}
 	this.responseNode = settings.responseNode;
 	//this.requestUrl = root + this.requestType +"/{id}";
 	this.multipleResponseNode = settings.multipleResponseNode;
@@ -38,6 +46,20 @@ tableGenerator.prototype = {
 	 * @type {string}
 	 */
 	requestUrl : null,
+
+	/**
+	 * The name of the key where to store the length select values
+	 * @type {string}
+	 */
+	localStorageLengthKey : null,
+
+	/**
+	 * The key where to store the columns
+	 * @type {string}
+	 */
+	localStorageColumnsKey : null,
+
+	modal_id_name : null,
 
 	/**
 	 * The object request type
@@ -164,6 +186,22 @@ tableGenerator.prototype = {
 	},
 
 	/**
+	 * This function is used to generate random id values
+	 * @param  {integer} string_length The length of the string
+	 * @return {string}
+	 */
+	randomString : function ( string_length ) {
+		var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
+		var string_length = string_length || 8;
+		var randomstring = '';
+		for (var i=0; i<string_length; i++) {
+			var rnum = Math.floor(Math.random() * chars.length);
+			randomstring += chars.substring(rnum,rnum+1);
+		}
+		return randomstring;
+	},
+
+	/**
 	 * This function counts object properties in a object
 	 * @param  {object|array} obj The object to count the number of properties ib
 	 * @return {integer}
@@ -271,6 +309,7 @@ tableGenerator.prototype = {
 						} else {
 							this.columns[checkbox.val()].active = false;
 						}
+						localStorage.setItem(this.localStorageColumnsKey,JSON.stringify(this.columns));
 						this.refreshTable();
 					}, this));
 				}
@@ -331,8 +370,10 @@ tableGenerator.prototype = {
 		});
 		this.generateFieldsDropdown("Fields",$(parent).find(".fields"));
 		var length_select = $(parent).find(".length_select");
+		$(length_select).val(this.filter_value);
 		$(length_select).change($.proxy(function (){ 
 			this.filter_value = $(length_select).val();
+			 localStorage.setItem(this.localStorageLengthKey,$(length_select).val());
 		}, this));
 		$(length_select).val(this.filter_value);
 		$(length_select).trigger("change");
@@ -352,9 +393,9 @@ tableGenerator.prototype = {
 	 */
 	createModal : function () {
 		var modal = $(this.onCickModal).clone();
-		modal.attr("id","modal-show-container");
+		modal.attr("id",this.modal_id_name);
 		$(this.onCickModal).after(modal);
-		$("#modal-show-container").modal({
+		$("#" + this.modal_id_name).modal({
 			keyboard: true,
 			show : false
 		});
@@ -369,9 +410,9 @@ tableGenerator.prototype = {
 					return "";
 				}
 			},this));
-			$("#modal-show-container").html(html);
+			$("#"+this.modal_id_name).html(html);
 			this.runHandlers($(event.target));
-			$("#modal-show-container").modal("show");
+			$("#"+this.modal_id_name).modal("show");
 			$(this.container).trigger("tableRowClick");
 		},this));
 	},
@@ -418,7 +459,7 @@ tableGenerator.prototype = {
 								this.handlers[key].response = data;
 							}
 							//Beaware of this line
-							$("#modal-show-container").find('[data-handler="'+ key +'"]').each(function (i, currentElement) {
+							$("#"+this.modal_id_name).find('[data-handler="'+ key +'"]').each(function (i, currentElement) {
 								currentElement = $(currentElement).find("select");
 								$(currentElement).html("");
 								$.each(data,function (currentIndex, curElement){
@@ -436,7 +477,7 @@ tableGenerator.prototype = {
 					});
 				} else if (handler.type == "typeahead") {
 					var tableCreator = this;
-					$("#modal-show-container").find('[data-handler="'+ key +'"]').each(function (i, currentElement) {
+					$("#"+this.modal_id_name).find('[data-handler="'+ key +'"]').each(function (i, currentElement) {
 						currentElement = $(currentElement).find(".typeahead");
 						currentElement.typeahead({
 						    source: function (typeahead, query) {
