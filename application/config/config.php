@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://127.0.0.1/ci/';
+$config['base_url']	= 'http://192.168.0.195/ci/';
 	
 /**
  * If this is set to true, then the login system is turned off

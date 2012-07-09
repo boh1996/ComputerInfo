@@ -1,5 +1,3 @@
-var tableRowClick = new CustomEvent("tableRowClick");
-
 /**
  * The table generators constructor
  * @param  {object} settings The settings json object
@@ -225,7 +223,7 @@ tableGenerator.prototype = {
 		requestUrl = requestUrl.replace("{id}",id);
 		$.ajax({
 			url : requestUrl,
-			success : $.proxy(function (data){
+			success : $.proxy(function (data, code, XMLHttpRequest){
 				this.response = objx.get(data,this.multipleResponseNode); 
 				data = this.response;
 				$.each(data, $.proxy(function (index,element){ 
@@ -359,7 +357,7 @@ tableGenerator.prototype = {
 	initializeDatatables : function (first){
 		var parent = $("#" + $(this.container).parent("div").attr("id"));
 		this.dataTable = $(this.container).dataTable( {
-			"sDom": "<'row-fluid'<'span2'l><'span1 hidden-phone'<'fields'>><'span9 searh-field-row'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
+			"sDom": "<'row-fluid'<'span2'l><'span2 hidden-phone'<'fields'>><'span8 searh-field-row'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
 			//"sDom": "<'row-fluid'<'span4'l<'fields'>><'span4 offset4'f>r>t<'row-fluid'<'span6'i><'span6'p>>", Use this when bootstrap 2.1.0 comes out
 			"sPaginationType": "bootstrap",
 			"oLanguage": {
@@ -402,6 +400,7 @@ tableGenerator.prototype = {
 		});
 
 		$(this.container).find("tbody tr").live("click",$.proxy(function(event){
+			alert("Clicked");
 			var html = $(this.onCickModal).html();
 			var object = $(event.target).parent("tr");
 			html = html.replace(/\{([a-zA-Z_\.]*)\}/g, $.proxy(function (match, contents, offset, s) {
@@ -414,7 +413,6 @@ tableGenerator.prototype = {
 			$("#"+this.modal_id_name).html(html);
 			this.runHandlers($(event.target));
 			$("#"+this.modal_id_name).modal("show");
-			$(this.container).trigger("tableRowClick");
 		},this));
 	},
 

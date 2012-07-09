@@ -19,10 +19,6 @@
 }
 
 .disabled_page{
-  /*margin-left: -9999px;
-  top:0px;
-  position: absolute;
-  overflow: hidden;*/
   position: absolute !important;
   top: -9999px !important;
   left: -9999px !important;
@@ -44,6 +40,10 @@
   .row-fluid:last-child {
     right: 0px;
   }
+
+  .fields-select{
+    display: none;
+}
 }
 
 @media (min-width: 980px) {

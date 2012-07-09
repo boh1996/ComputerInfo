@@ -129,7 +129,7 @@ class Api_Response{
 	 * @var string|array
 	 * @since 1.0
 	 */
-	public $AllowOrigin = NULL;
+	public $AllowOrigin = "*";
 
 	/**
 	 * Local instance of CodeIgniter
@@ -313,7 +313,7 @@ class Api_Response{
 			} else {
 				$Headers["Access-Control-Allow-Origin"] = $this->AllowOrigin;
 			}
-		}
+		} 
 		$Headers["Allow"] = implode(",", $this->Allow);
 		if(!is_null($this->ResponseString)){
 			$Headers["Content-Type"] = self::_Get_Mime();
