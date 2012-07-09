@@ -262,7 +262,7 @@ tableGenerator.prototype = {
 	 */
 	generateFieldsDropdown : function ( text, container ) {
 		var parent = $(this.container).parent("div");
-		var parentElement = $('<ul class="nav nav-pills"></ul>'), 
+		var parentElement = $('<ul class="nav fields-select nav-pills"></ul>'), 
 		dropdown = $('<li class="dropdown"></li>'),
 		linkElement = $('<a class="dropdown-toggle" data-toggle="dropdown" data-target="#">'+text+'<b class="caret"></b></a>'),
 		items = $('<ul class="dropdown-menu inputs-list"></ul>'),
@@ -359,7 +359,8 @@ tableGenerator.prototype = {
 	initializeDatatables : function (first){
 		var parent = $("#" + $(this.container).parent("div").attr("id"));
 		this.dataTable = $(this.container).dataTable( {
-			"sDom": "<'row-fluid'<'span4'l<'fields'>><'span8'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
+			"sDom": "<'row-fluid'<'span2'l><'span1 hidden-phone'<'fields'>><'span9 searh-field-row'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
+			//"sDom": "<'row-fluid'<'span4'l<'fields'>><'span4 offset4'f>r>t<'row-fluid'<'span6'i><'span6'p>>", Use this when bootstrap 2.1.0 comes out
 			"sPaginationType": "bootstrap",
 			"oLanguage": {
 				"sLengthMenu": this.length_menu

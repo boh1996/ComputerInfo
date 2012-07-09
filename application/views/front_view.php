@@ -25,7 +25,9 @@
 	      	</a>
 	 
 	      	<!-- Be sure to leave the brand out there if you want it shown -->
-	      	<a class="brand" href="#">ComputerInfo</a>
+	      	<a class="brand" href="#">
+	      		ComputerInfo
+	      	</a>
 
 		    <!-- Everything you want hidden at 940px or less, place within here -->
 		    <div class="nav-collapse">
@@ -59,7 +61,7 @@
 	</div>
 
 	<div id="page">
-		<div class="container" style="margin-top: 10px">	
+		<div class="page-container">	
 
 			<!-- Computers -->
 			<div id="computers" class="active_page">

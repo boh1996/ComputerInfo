@@ -9,7 +9,7 @@ div.dataTables_length select {
 
 div.dataTables_filter label {
 	float: right;
-	margin-top:15px;
+	/*margin-top:15px;*/
 }
 
 div.dataTables_info {
