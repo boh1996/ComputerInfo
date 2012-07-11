@@ -59,7 +59,7 @@ class Api extends CI_Controller {
 	    		exit;
 	    	}
 	    }
-	    //show_404();
+	    show_404();
 	}
 
 	/**
@@ -223,18 +223,18 @@ class Api extends CI_Controller {
 		if (!is_null($device_type)) {
 			$this->load->library("Device_Type");
 			$Type = new Device_Type();
+			if (strlen((int)$device_type) > 0) {
+				$Type->Load($device_type);
+			} else {
+				$Type->Find(array("name" => $device_type));
+			}
 			if (!isset($data["q"])) {
 				$data["q"] = $Type->id;
 			}
-			if (is_string($device_type)) {
-				$Type->Find(array("name" => $device_type));
-			} else {
-				$Type->Load($device_type);
-			}
-			if (isset($data["fields"])) {
-				$data["fields"] = $data["fields"].",type";
-			} else {
+			if (!isset($data["fields"])) {
 				$data["fields"] = "type";
+			} else {
+				$data["fields"] = $data["fields"].",type";
 			}
 			$data["type"] = $Type->id;
 		}
@@ -494,7 +494,7 @@ class Api extends CI_Controller {
 					$InputQuery[$Field] = $Request_Data[$Field];
 				}
 			}
-		
+			
 
 			$Organizations = self::_Get_User_Organizations();
 			if(is_null($Organizations)){
@@ -519,7 +519,7 @@ class Api extends CI_Controller {
 			}
 			if(count($Query) > 0){
 				//Assemble thw query
-				$this->db->or_like($Query,"after")->select("id")->group_by("id");
+				$this->db->like($Query,"after")->select("id")->group_by("id");
 
 				//If the organization row isset use it
 				if(!is_null($Organization_Id_Row)){
@@ -533,6 +533,80 @@ class Api extends CI_Controller {
 			} else {
 				$this->api_response->Code = 400;
 			}
+		}
+	}
+
+	/**
+	 * This function performs a standadirized search
+	 * @param string $Key     The name of the type we are using etc "Computer"
+	 * @param string $Library An optional library overwrite
+	 * @param boolan $Return If this flag is set to true, then the data us returned instead of send to the api_response
+	 * @param boolean $Linked If this flag is true, then the linked properties can be searched in too
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _Simple_Search($Key = NULL,$Library = NULL, $Return = false, $Linked = false){
+		if(!is_null($Key)){
+			if(is_null($Library)){
+				$Library = $Key;
+			}
+
+			if(substr($Key, -1) !== "s"){
+				$ResponseKey = $Key."s";
+			} else {
+				$ResponseKey = $Key;
+			}
+			$this->load->library($Library);
+			$Class = new $Library();	
+			$Request_Data = $this->api_request->Request_Data();
+			if(isset($Request_Data["q"]) && is_array($this->api_request->Request_Data()) && count($this->api_request->Request_Data()) > 0 && ($this->api_request->Request_Method() === "post" || "get")){				
+				$this->api_response->ResponseKey = $ResponseKey;
+				//Get the response
+				$Raw = self::_Search_Build_Query($Class,!$Linked);
+				if(is_null($Raw)){
+					$this->api_response->Code = 400;
+					return;
+				}
+
+				//Assemble the response
+				$Response = array();
+				if($Raw->num_rows() > 0){
+					foreach ($Raw->result() as $Row) {
+						$Object = new $Library();
+						$Object->Load($Row->id);
+						$Response[] = $Object->Export();
+					}
+					if (!$Return) {
+						$this->api_response->Response = $Response;
+						$this->api_response->Code = 200;
+					} else {
+						return $Response;
+					}
+				} else {
+					$this->api_response->Code = 404;
+				}
+			} else {
+				$this->api_response->ResponseKey = $ResponseKey;
+				$Raw = $this->db->select("id")->get($Class->Database_Table);
+				$Response = array();
+				if($Raw->num_rows() > 0){
+					foreach ($Raw->result() as $Row) {
+						$Object = new $Library();
+						$Object->Load($Row->id);
+						$Response[] = $Object->Export();
+					}
+					if (!$Return) {
+						$this->api_response->Response = $Response;
+						$this->api_response->Code = 200;
+					} else {
+						return $Response;
+					}
+				} else {
+					$this->api_response->Code = 404;
+				}
+			}
+		} else {
+			$this->api_response->Code = 500;
 		}
 	}
 
@@ -1084,80 +1158,6 @@ class Api extends CI_Controller {
 			}
 		} else {
 			$this->api_response->Code = 400;
-		}
-	}
-
-	/**
-	 * This function performs a standadirized search
-	 * @param string $Key     The name of the type we are using etc "Computer"
-	 * @param string $Library An optional library overwrite
-	 * @param boolan $Return If this flag is set to true, then the data us returned instead of send to the api_response
-	 * @param boolean $Linked If this flag is true, then the linked properties can be searched in too
-	 * @since 1.0
-	 * @access private
-	 */
-	private function _Simple_Search($Key = NULL,$Library = NULL, $Return = false, $Linked = false){
-		if(!is_null($Key)){
-			if(is_null($Library)){
-				$Library = $Key;
-			}
-
-			if(substr($Key, -1) !== "s"){
-				$ResponseKey = $Key."s";
-			} else {
-				$ResponseKey = $Key;
-			}
-			$this->load->library($Library);
-			$Class = new $Library();	
-			$Request_Data = $this->api_request->Request_Data();
-			if(isset($Request_Data["q"]) && is_array($this->api_request->Request_Data()) && count($this->api_request->Request_Data()) > 0 && ($this->api_request->Request_Method() === "post" || "get")){				
-				$this->api_response->ResponseKey = $ResponseKey;
-				//Get the response
-				$Raw = self::_Search_Build_Query($Class,!$Linked);
-				if(is_null($Raw)){
-					$this->api_response->Code = 400;
-					return;
-				}
-
-				//Assemble the response
-				$Response = array();
-				if($Raw->num_rows() > 0){
-					foreach ($Raw->result() as $Row) {
-						$Object = new $Library();
-						$Object->Load($Row->id);
-						$Response[] = $Object->Export();
-					}
-					if (!$Return) {
-						$this->api_response->Response = $Response;
-						$this->api_response->Code = 200;
-					} else {
-						return $Response;
-					}
-				} else {
-					$this->api_response->Code = 404;
-				}
-			} else {
-				$this->api_response->ResponseKey = $ResponseKey;
-				$Raw = $this->db->select("id")->get($Class->Database_Table);
-				$Response = array();
-				if($Raw->num_rows() > 0){
-					foreach ($Raw->result() as $Row) {
-						$Object = new $Library();
-						$Object->Load($Row->id);
-						$Response[] = $Object->Export();
-					}
-					if (!$Return) {
-						$this->api_response->Response = $Response;
-						$this->api_response->Code = 200;
-					} else {
-						return $Response;
-					}
-				} else {
-					$this->api_response->Code = 404;
-				}
-			}
-		} else {
-			$this->api_response->Code = 500;
 		}
 	}
 

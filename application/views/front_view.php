@@ -136,26 +136,28 @@
 	 	</div>
 	  	<div class="modal-body">
 	  		<table cellpadding="0" cellspacing="10" border="0" class="table table-striped">
+	  			<input type="hidden" name="id" value="{id}">
 		  		<tr><td>Identifier</td><td><input type="text" class="input-large" value="{identifier}" name="model"></td></tr>
 		    	<tr data-handler="model"><td>Model</td><td>
-		    		<input name="model" type="text" data-provide="typeahead" class="typeahead">
+		    		<input name="model" type="text" data-provide="typeahead" data-name="model.name" class="typeahead" value="{model.name}">
 		    	</td></tr>
 		    	<tr data-handler="model_type"><td>Type</td><td>
-		    		<form class="jqtransform"><select name="type" data-selected="{model.type.id}">
+		    		<form class="jqtransform"><select name="type" class="type_select" data-selected="{model.type.id}">
 		    		</select></form>
+		    		<!-- data-name="model.type" -->
 		    	</td></tr>
 		    	<tr data-handler="location"><td>Location</td><td>
-		    		<form class="jqtransform"><select name="location" data-selected="{location.id}">
+		    		<form class="jqtransform"><select name="location" data-name="location" data-selected="{location.id}">
 		    		</select></form>
 		    	</td></tr>
-		    	<tr><td>LAN Mac</td><td><input type="text" class="input-large" value="{lan_mac}" name="lan_mac"></td></tr>
-		    	<tr><td>Wifi Mac</td><td><input type="text" class="input-large" value="{wifi_mac}" name="wifi_mac"></td></tr>
-		    	<tr><td>IP</td><td><input type="text" class="input-large" value="{ip}" name="ip"></td></tr>
-		    	<tr><td>Disk space</td><td><input type="text" class="input-large" value="{disk_space}" name="disk_space"></td></tr>
-		    	<tr><td>Ram size</td><td><input type="text" class="input-large" value="{ram_size}" name="ram_size"></td></tr>
-		    	<tr><td>Serial</td><td><input type="text" class="input-large" value="{serial}" name="serial"></td></tr>
+		    	<tr><td>LAN Mac</td><td><input type="text" class="input-large" data-name="lan_mac" value="{lan_mac}" name="lan_mac"></td></tr>
+		    	<tr><td>Wifi Mac</td><td><input type="text" class="input-large" value="{wifi_mac}" data-name="wifi_mac" name="wifi_mac"></td></tr>
+		    	<tr><td>IP</td><td><input type="text" class="input-large" value="{ip}" name="ip" data-name="ip"></td></tr>
+		    	<tr><td>Disk space</td><td><input type="text" class="input-large" value="{disk_space}" data-name="disk_space" name="disk_space"></td></tr>
+		    	<tr><td>Ram size</td><td><input type="text" class="input-large" value="{ram_size}" data-name="ram_size" name="ram_size"></td></tr>
+		    	<tr><td>Serial</td><td><input type="text" class="input-large" value="{serial}" data-name="serial" name="serial"></td></tr>
 		    	<tr data-handler="screen_size"><td>Screen size</td><td>
-		    		<form class="jqtransform"><select name="screen_size" data-selected="{screen_size.id}">
+		    		<form class="jqtransform"><select name="screen_size" data-name="screen_size" data-selected="{screen_size.id}">
 		    		</select></form>
 		    	</td></tr>
 		    	<tr><td>Power usage</td><td><input type="text" class="input-large" value="{power_usage_per_hour}" name="power_usage_per_hour"></td></tr>
@@ -163,7 +165,7 @@
 	  	</div>
 	  	<div class="modal-footer">
 	    	<a href="#" class="btn" data-dismiss="modal">Close</a>
-	    	<a href="#" class="btn btn-primary">Save changes</a>
+	    	<a href="#" class="btn btn-primary" data-dismiss="modal">Save changes</a>
 	  	</div>
 	</div>
 

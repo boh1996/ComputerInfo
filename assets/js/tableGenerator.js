@@ -224,14 +224,18 @@ tableGenerator.prototype = {
 		$.ajax({
 			url : requestUrl,
 			success : $.proxy(function (data, code, XMLHttpRequest){
-				this.response = objx.get(data,this.multipleResponseNode); 
-				data = this.response;
-				$.each(data, $.proxy(function (index,element){ 
-					this.generateNode(element,index);
-					if(index == data.length-1){
-						this.readyCallback();
-					}
-				}, this));
+				if (data != null) {
+					this.response = objx.get(data,this.multipleResponseNode); 
+					data = this.response;
+						$.each(data, $.proxy(function (index,element){ 
+							this.generateNode(element,index);
+							if(data != null && index == data.length-1){
+								this.readyCallback();
+							} else if (data == null) {
+								this.readyCallback();
+							}
+						}, this));
+				}
 			}, this)
 		});
 	},
@@ -400,7 +404,6 @@ tableGenerator.prototype = {
 		});
 
 		$(this.container).find("tbody tr").live("click",$.proxy(function(event){
-			alert("Clicked");
 			var html = $(this.onCickModal).html();
 			var object = $(event.target).parent("tr");
 			html = html.replace(/\{([a-zA-Z_\.]*)\}/g, $.proxy(function (match, contents, offset, s) {
@@ -413,6 +416,31 @@ tableGenerator.prototype = {
 			$("#"+this.modal_id_name).html(html);
 			this.runHandlers($(event.target));
 			$("#"+this.modal_id_name).modal("show");
+		},this));
+		$("#" + this.modal_id_name).find(".modal-footer").find(".btn-primary").live("click",$.proxy(function(){
+			var object = {};
+			$("#"+this.modal_id_name).find("[data-name]").each(function (index, element) {
+				objx.set(object,$(element).attr("data-name"),$(element).val());
+			});
+			var location = this.save_request_type || this.requestType || null;
+
+			if (location != null) {
+				var type = "POST";
+				if ($("#"+this.modal_id_name).find('[name=id]') != null) {
+					type = "PUT";
+					var requestUrl = this.root + location + "/" + $("#"+this.modal_id_name).find('[name=id]').val();
+				} else {
+					var requestUrl = this.root + location;
+				}
+				$.ajax({
+					url : requestUrl,
+					data : object,
+					type : type,
+					success : function (data) {
+						console.log(data);
+					}
+				});
+			}
 		},this));
 	},
 
@@ -433,6 +461,18 @@ tableGenerator.prototype = {
 				} else {
 					url += index + "=" + current + "&";
 				}
+			});
+		}
+		if (objx.get(handler,"fill_values") != null) {
+			if (url.indexOf("?") == -1) {
+				url += "?";
+			}
+			var modal_name = "#"+this.modal_id_name;
+			$.each(handler.fill_values,function (index, current) {
+				current = $(modal_name).find(current);
+				if ($(current).length > 0 && $(current).val() != null && $(current).val() != undefined) {
+					url += index + "=" + $(current).val() + "&";
+ 				}
 			});
 		}
 		return url;

@@ -317,6 +317,24 @@ objx.get = function(o, p) {
 
 };
 
+/**
+ * This function sets the value of an object using dot selector
+ * @param  {object} source The object to set too
+ * @param  {string} path   The string selector path
+ * @param  {integer|string} value  The value to set
+ * @return {[type]}
+ */
+objx.set = function(source, path, value) {
+    var parts = path.split('.'), len = parts.length, target = source;
+
+    for (var i = 0, part; i < len - 1; i++) {
+        part = parts[i];
+        target = target[part] == undefined ? (target[part] = {}) : target[part];
+    }
+    target[parts[len - 1]] = value;
+    //return target;
+}
+
 
 /*
  *  objx.requires

@@ -96,6 +96,9 @@ $(window).on('pageshow', function (event) {
 				url : root + "options/computer_model",
 				property : "name",
 				query_key : "name",
+				fill_values : {
+					"type" : ".type_select"
+				},
 				type : "typeahead",
 				response_key : "Computer_Models"
 			},
