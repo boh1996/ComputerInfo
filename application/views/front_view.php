@@ -129,6 +129,7 @@
 		</div>
 	</div>
 
+	<!-- Computer Modal -->
 	<div class="modal hide" id="edit_computer">
 		<div class="modal-header">
 	    	<button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -137,14 +138,13 @@
 	  	<div class="modal-body">
 	  		<table cellpadding="0" cellspacing="10" border="0" class="table table-striped">
 	  			<input type="hidden" name="id" value="{id}">
-		  		<tr><td>Identifier</td><td><input type="text" class="input-large" value="{identifier}" name="model"></td></tr>
+		  		<tr><td>Identifier</td><td><input type="text" data-name="identifier" class="input-large" value="{identifier}" name="model"></td></tr>
 		    	<tr data-handler="model"><td>Model</td><td>
 		    		<input name="model" type="text" data-provide="typeahead" data-name="model.name" class="typeahead" value="{model.name}">
 		    	</td></tr>
 		    	<tr data-handler="model_type"><td>Type</td><td>
 		    		<form class="jqtransform"><select name="type" class="type_select" data-selected="{model.type.id}">
 		    		</select></form>
-		    		<!-- data-name="model.type" -->
 		    	</td></tr>
 		    	<tr data-handler="location"><td>Location</td><td>
 		    		<form class="jqtransform"><select name="location" data-name="location" data-selected="{location.id}">
@@ -169,6 +169,7 @@
 	  	</div>
 	</div>
 
+	<!-- Printer Modal -->
 	<div class="modal hide" id="edit_printer">
 		<div class="modal-header">
 	    	<button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -176,9 +177,104 @@
 	 	</div>
 	  	<div class="modal-body">
 	  		<table cellpadding="0" cellspacing="10" border="0" class="table table-striped">
+	  			<input type="hidden" name="id" value="{id}">
 		  		<tr data-handler="location"><td>Location</td><td>
-		    		<form class="jqtransform"><select name="location" data-selected="{location.id}">
+		    		<form class="jqtransform"><select name="location" data-name="location" data-selected="{location.id}">
 		    		</select></form>
+		    	</td></tr>
+		    	<tr data-handler="model"><td>Model</td><td>
+		    		<input name="model" type="text" data-provide="typeahead" data-name="model.name" class="typeahead" value="{model.name}">
+		    	</td></tr>
+		    	<tr><td>Identifier</td><td><input type="text" class="input-large" value="{identifier}" data-name="identifier"></td></tr>
+		    	<tr><td>Name</td><td><input type="text" class="input-large" value="{name}" data-name="name"></td></tr>
+		    	<tr><td>Ip</td><td><input type="text" class="input-large" value="{ip}" data-name="ip"></td></tr>
+		    	<tr><td>MAC</td><td><input type="text" class="input-large" value="{mac}" data-name="mac"></td></tr>
+	    	</table>
+	  	</div>
+	  	<div class="modal-footer">
+	    	<a href="#" class="btn" data-dismiss="modal">Close</a>
+	    	<a href="#" class="btn btn-primary">Save changes</a>
+	  	</div>
+	</div>
+
+	<!-- Unit Modal -->
+	<div class="modal hide" id="edit_unit">
+		<div class="modal-header">
+	    	<button type="button" class="close" data-dismiss="modal">&times;</button>
+	    	<h3>Edit {identifier}</h3>
+	 	</div>
+	  	<div class="modal-body">
+	  		<table cellpadding="0" cellspacing="10" border="0" class="table table-striped">
+	  			<input type="hidden" name="id" value="{id}">
+		  		<tr data-handler="location"><td>Location</td><td>
+		    		<form class="jqtransform"><select name="location" data-name="location" data-selected="{location.id}">
+		    		</select></form>
+		    	</td></tr>
+		    	<tr data-handler="model"><td>Model</td><td>
+		    		<input name="model" type="text" data-provide="typeahead" data-name="model.name" class="typeahead" value="{model.name}">
+		    	</td></tr>
+		    	<tr data-handler="model_type"><td>Type</td><td>
+		    		<form class="jqtransform"><select name="type" class="type_select" data-selected="{model.type.id}">
+		    		</select></form>
+		    	</td></tr>
+		    	<tr><td>Description</td><td><textarea data-name="description"></textarea>{description}</td></tr>
+		    	<tr><td>Identifier</td><td><input type="text" class="input-large" value="{identifier}" data-name="identifier"></td></tr>
+		    	<tr><td>Serial</td><td><input type="text" class="input-large" value="{serial}" data-name="serial"></td></tr>
+		    	<tr><td>Year of purchase</td><td><input type="text" class="input-large" value="{year_of_purchase}" data-name="year_of_purchase"></td></tr>
+		    	<tr><td>Serial</td><td><input type="text" class="input-large" value="{serial}" data-name="serial"></td></tr>
+	    	</table>
+	  	</div>
+	  	<div class="modal-footer">
+	    	<a href="#" class="btn" data-dismiss="modal">Close</a>
+	    	<a href="#" class="btn btn-primary">Save changes</a>
+	  	</div>
+	</div>
+
+	<!-- Location modal -->
+	<div class="modal hide" id="edit_location">
+		<div class="modal-header">
+	    	<button type="button" class="close" data-dismiss="modal">&times;</button>
+	    	<h3>Edit {identifier}</h3>
+	 	</div>
+	  	<div class="modal-body">
+	  		<table cellpadding="0" cellspacing="10" border="0" class="table table-striped">
+	  			<input type="hidden" name="id" value="{id}">
+		  		<tr data-handler="location"><td>Location</td><td>
+		    		<form class="jqtransform"><select name="location" data-name="location" data-selected="{location.id}">
+		    		</select></form>
+		    	</td></tr>
+		    	<tr data-handler="model"><td>Model</td><td>
+		    		<input name="model" type="text" data-provide="typeahead" data-name="model.name" class="typeahead" value="{model.name}">
+		    	</td></tr>
+		    	<tr><td>Identifier</td><td><input type="text" class="input-large" value="{identifier}" data-name="identifier"></td></tr>
+	    	</table>
+	  	</div>
+	  	<div class="modal-footer">
+	    	<a href="#" class="btn" data-dismiss="modal">Close</a>
+	    	<a href="#" class="btn btn-primary">Save changes</a>
+	  	</div>
+	</div>
+
+	<!-- Screen modal -->
+	<div class="modal hide" id="edit_screen">
+		<div class="modal-header">
+	    	<button type="button" class="close" data-dismiss="modal">&times;</button>
+	    	<h3>Edit {identifier}</h3>
+	 	</div>
+	  	<div class="modal-body">
+	  		<table cellpadding="0" cellspacing="10" border="0" class="table table-striped">
+	  			<input type="hidden" name="id" value="{id}">
+		    	<tr><td>Identifier</td><td><input type="text" class="input-large" value="{identifier}" data-name="identifier"></td></tr>
+		    	<tr data-handler="location"><td>Location</td><td>
+		    		<form class="jqtransform"><select name="location" data-name="location" data-selected="{location.id}">
+		    		</select></form>
+		    	</td></tr>
+				<tr data-handler="model"><td>Model</td><td>
+		    		<input name="model" type="text" data-provide="typeahead" data-name="model.name" class="typeahead" value="{model.name}">
+		    	</td></tr>
+		    	<tr data-handler="computer"><td>Connected to</td><td>
+		    		<!--<form class="jqtransform"><select name="location" data-name="location" data-selected="{location.id}">
+		    		</select></form>-->
 		    	</td></tr>
 	    	</table>
 	  	</div>

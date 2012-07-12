@@ -69,8 +69,6 @@ class Device_Model extends Std_Library{
 			"manufacturer" => "Manufacturer",
 			"type" => "Device_Type"
 		);
-		//$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_INTERNAL_ROW_NAME_CONVERT = array("device_type_id" => "type","manufacturer_id" => "manufacturer");
-		//$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_ROW_NAME_CONVERT,"ROW_NAME_CONVERT");
 	}
 }

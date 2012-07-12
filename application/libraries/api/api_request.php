@@ -199,28 +199,35 @@ class Api_Request{
 	public function Perform_Request(){
 		switch ($this->_Request_Method)
 		{
-			case 'get' || 'head':
-				$this->_Request_Vars = $_GET;
-				break;
-			case 'post':
-				if(isset($GLOBALS["HTTP_RAW_POST_DATA"])){
-					$this->_Request_Vars = $GLOBALS["HTTP_RAW_POST_DATA"];
-				} else if(isset($_POST)){
-					$this->_Request_Vars = $_POST;
+			case 'get':
+				if(isset($_GET)){
+					$this->_Request_Vars = $_GET;
 				}
 				break;
+
+			case "head" :
+				if(isset($_GET)){
+					$this->_Request_Vars = $_GET;
+				}
+				break;
+
+			case 'post':
+				$this->_Request_Vars = file_get_contents("php://input");
+				break;
 			case 'put':
-				parse_str(file_get_contents('php://input'), $this->_Request_Vars);
+				$this->_Request_Vars = file_get_contents("php://input");
 				break;
 			case 'delete':
-				parse_str(file_get_contents('php://input'), $this->_Request_Vars);
+				$this->_Request_Vars = file_get_contents("php://input");
 				break;
 			case 'options':
+				//Perform the options request for dropdowns etc
 				break;
 			case 'patch':
-				parse_str(file_get_contents('php://input', $this->_Request_Vars));
+				$this->_Request_Vars = file_get_contents("php://input");
 				break;
 			default:
+
 				header("Content-type:application/json");
 		       	header('Allow: ' . json_encode(array("POST","GET","PUT","DELETE","HEAD","PATCH","OPTIONS")), true, 200);
 		        break;
@@ -229,7 +236,7 @@ class Api_Request{
 			if($this->_Request_Format == "xml"){
 				self::Request_Data(object_to_array(simplexml_load_string($this->_Request_Vars)));
 			} else {
-				if(is_string(self::Request_Data())){
+				if(is_string($this->_Request_Vars)){
 					self::Request_Data(json_decode($this->_Request_Vars,true));
 				} else {
 					self::Request_Data($this->_Request_Vars);

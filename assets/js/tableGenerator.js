@@ -31,6 +31,10 @@ function tableGenerator (settings) {
 	if (typeof settings.handlers != "undefined") {
 		this.handlers = settings.handlers;
 	}
+
+	if (typeof settings.organization != "undefined") {
+		this.organization = settings.organization;
+	}
 }
 	
 /**
@@ -136,6 +140,12 @@ tableGenerator.prototype = {
 	 * @type {object}
 	 */
 	response : null,
+
+	/**
+	 * The current organization id
+	 * @type {integer}
+	 */
+	organization : null,
 
 	/**
 	 * The current filter value
@@ -432,9 +442,10 @@ tableGenerator.prototype = {
 				} else {
 					var requestUrl = this.root + location;
 				}
+				console.log(JSON.stringify(requestUrl));
 				$.ajax({
 					url : requestUrl,
-					data : object,
+					data : JSON.stringify(object),
 					type : type,
 					success : function (data) {
 						console.log(data);

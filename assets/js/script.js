@@ -58,12 +58,13 @@ function findPageString (str) {
 });*/
 
 $(window).on('pageshow', function (event) {
-	var organization = 1;
+	var organization = "1";
 
 	//Units
 	var unitsGenerator = new tableGenerator({
 		requestType : "device",
 		container : $("#unit"),
+		modal : $("#edit_unit"),
 		columns : settings.unitColumns,
 		responseNode : "Device",
 		multipleResponseNode : "Devices",
@@ -71,6 +72,31 @@ $(window).on('pageshow', function (event) {
 		root : root,
 		localStorageColumnsKey : "unit_columns",
 		localStorageLengthKey : "unit_length_value",
+		handlers : {
+			location : {
+				url : root + "options/location?organization="+organization,
+				property : "name",
+				response_key : "Locations"
+			},
+			model_type : {
+				url : root + "options/device_type",
+				property : "name",
+				query_parameters : {
+					"category" : "Other"
+				},
+				response_key : "Device_Types"
+			},
+			model : {
+				url : root + "options/device_model",
+				property : "name",
+				query_key : "name",
+				fill_values : {
+					"type" : ".type_select"
+				},
+				type : "typeahead",
+				response_key : "Device_Models"
+			},
+		}
 	});
 	unitsGenerator.getNodes(organization);
 
@@ -119,6 +145,7 @@ $(window).on('pageshow', function (event) {
 	//Locations
 	var locationGenerator = new tableGenerator({
 		requestType : "location",
+		modal : $("#edit_location"),
 		container : $("#location"),
 		localStorageLengthKey : "location_length_value",
 		columns : settings.locationColumns,
@@ -126,7 +153,27 @@ $(window).on('pageshow', function (event) {
 		multipleResponseNode : "Locations",
 		multipleRequestType : "locations",
 		localStorageColumnsKey : "location_columns",
-		root : root
+		root : root,
+		handlers : {
+			floor : {
+				fill_values : {
+					"building" : ".building_select"
+				},
+				url : root + "options/floor",
+				query_parameters : {
+					"organization" : organization
+				},
+				property : "name",
+				query_key : "name",
+				type : "typeahead",
+				response_key : "Floors"
+			},
+			building : {
+				url : root + "options/building?organization="+organization,
+				property : "name",
+				response_key : "Buildings"
+			}
+		}
 	});
 	locationGenerator.getNodes(organization);
 
@@ -147,6 +194,13 @@ $(window).on('pageshow', function (event) {
 				url : root + "options/location?organization="+organization,
 				property : "name",
 				response_key : "Locations"
+			},
+			model : {
+				url : root + "options/printer_model",
+				property : "name",
+				query_key : "name",
+				type : "typeahead",
+				response_key : "Printer_Models"
 			}
 		}
 	});
@@ -155,6 +209,7 @@ $(window).on('pageshow', function (event) {
 	//Screeens
 	var screenGenerator = new tableGenerator({
 		requestType : "screen",
+		modal : $("#edit_screen"),
 		localStorageLengthKey : "screen_length_value",
 		localStorageColumnsKey : "screen_columns",
 		container : $("#screen"),
@@ -162,7 +217,21 @@ $(window).on('pageshow', function (event) {
 		responseNode : "Screen",
 		multipleResponseNode : "Screens",
 		multipleRequestType : "screens",
-		root : root
+		root : root,
+		handlers : {
+			location : {
+				url : root + "options/location?organization="+organization,
+				property : "name",
+				response_key : "Locations"
+			},
+			/*model : {
+				url : root + "options/printer_model",
+				property : "name",
+				query_key : "name",
+				type : "typeahead",
+				response_key : "Printer_Models"
+			}*/
+		}
 	});
 	screenGenerator.getNodes(organization);
 	$(".dataTables_filter").find("input").addClass("input-large");

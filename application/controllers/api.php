@@ -176,9 +176,62 @@ class Api extends CI_Controller {
 				self::_Simple_Search("Screen_Size", null, false, true);
 				break;
 
+			case "printer_model" :
+				$manufacturer = null;
+				if (isset($_GET["manufacturer"])) {
+					$manufacturer = $_GET["manufacturer"];
+				}
+				$name = null;
+				if (isset($_GET["name"])) {
+					$name = $_GET["name"];
+				}
+				self::_Find_Printer_Models($manufacturer,$name);
+				break;
+
+			case "device_model" : 
+				$manufacturer = null;
+				if (isset($_GET["manufacturer"])) {
+					$manufacturer = $_GET["manufacturer"];
+				}
+				$device_type = null;
+				$category = null;
+				if (isset($_GET["type"])) {
+					$device_type = $_GET["type"];
+				}
+				$name = null;
+				if (isset($_GET["name"])) {
+					$name = $_GET["name"];
+				}
+				self::_Find_Device_Models($manufacturer,$device_type,$name);
+				break;
+
 			case "location" :
 				if (isset($_GET["organization"]) && in_array($_GET["organization"], self::_Get_User_Organizations())) {
 					self::_Get_Locations($_GET["organization"]);
+				} else {
+					$this->api_response->Code = 400;
+				}
+				break;
+
+			case "floor" :
+				if (isset($_GET["organization"]) && !empty($_GET["organization"])) {
+					$name = null;
+					$building = null;
+					if (!empty($_GET["building"])) {
+						$building = $_GET["building"];
+					}
+					if (!empty($_GET["name"])) {
+						$name = $_GET["name"];
+					}
+					self::_Get_Floors($_GET["organization"],$name,$building);
+				} else {
+					$this->api_response->Code = 400;
+				}
+				break;
+
+			case "building":
+				if (isset($_GET["organization"]) && !empty($_GET["organization"])) {
+					self::_Get_Buildings($_GET["organization"]);
 				} else {
 					$this->api_response->Code = 400;
 				}
@@ -188,6 +241,96 @@ class Api extends CI_Controller {
 				$this->api_response->Code = 400;
 				break;
 		}
+	}
+
+	/**
+	 * This function finds all the device models
+	 * @since 1.0
+	 * @access private
+	 * @param string $manufacturer The manufacturer to search for, this is optional
+	 * @param string $device_type  An optional device type to search for
+	 */
+	private function _Find_Device_Models ( $manufacturer = null, $device_type = null, $name = null ) {
+		$data = array();
+		if (!is_null($manufacturer)) {
+			$this->load->library("Manufacturer");
+			$Manufacturer = new Manufacturer();
+			$Category->Find(array("name" => $manufacturer));
+			$data = array(
+				"q" => $Manufacturer->id,
+				"fields" => "manufacturer"
+			);
+			$this->api_request->Request_Data($data);
+		}
+		if (!is_null($name)) {
+			if (!isset($data["q"])) {
+				$data["q"] = $name;
+			}
+			if (isset($data["fields"])) {
+				$data["fields"] = $data["fields"].",name";
+			} else {
+				$data["fields"] = "name";
+			}
+			$data["name"] = $name;
+		}
+		if (!is_null($device_type)) {
+			$this->load->library("Device_Type");
+			$Type = new Device_Type();
+			if (strlen((int)$device_type) > 0) {
+				$Type->Load($device_type);
+			} else {
+				$Type->Find(array("name" => $device_type));
+			}
+			if (!isset($data["q"])) {
+				$data["q"] = $Type->id;
+			}
+			if (!isset($data["fields"])) {
+				$data["fields"] = "type";
+			} else {
+				$data["fields"] = $data["fields"].",type";
+			}
+			$data["type"] = $Type->id;
+		}
+		if (count($data) > 0) {
+			$this->api_request->Request_Data($data);
+		}
+		self::_Simple_Search("Device_Model", null, false, true);
+	}
+
+	/**
+	 * This function is used to get all the options for the printer models select
+	 * @since 1.0
+	 * @access private
+	 * @param string $manufacturer The name of the manufacturer
+	 * @param string $name         The name of the printer model
+	 */
+	private function _Find_Printer_Models ( $manufacturer = null, $name = null) {
+		$data = array();
+		if (!is_null($manufacturer)) {
+			$this->load->library("Manufacturer");
+			$Manufacturer = new Manufacturer();
+			$Category->Find(array("name" => $manufacturer));
+			$data = array(
+				"q" => $Manufacturer->id,
+				"fields" => "manufacturer"
+			);
+			$this->api_request->Request_Data($data);
+		}
+		if (!is_null($name)) {
+			if (!isset($data["q"])) {
+				$data["q"] = $name;
+			}
+			if (isset($data["fields"])) {
+				$data["fields"] = $data["fields"].",name";
+			} else {
+				$data["fields"] = "name";
+			}
+			$data["name"] = $name;
+		}
+		if (count($data) > 0) {
+			$this->api_request->Request_Data($data);
+		}
+		self::_Simple_Search("Printer_Model", null, false, true);
 	}
 
 	/**
@@ -302,6 +445,87 @@ class Api extends CI_Controller {
 	}
 
 	/**
+	 * This function finds the floors specified by thw query
+	 * @since 1.0
+	 * @access private
+	 * @param integer $organization   The organization to search for
+	 * @param string $name           An optional floor name
+	 * @param integer $building_seach An optional building name or id
+	 */
+	private function _Get_Floors ( $organization = null, $name = null, $building_seach = null ) {
+		if (self::_Get_User_Organizations() != null && in_array($organization, self::_Get_User_Organizations())) {
+			$Building = null;
+			$this->load->library("building");
+			if (is_null($building_seach)) {
+				$data = array(
+					"organization" => $organization
+				);
+				$this->api_request->Request_Data($data);
+				$building_objects = self::_Simple_Search("Building",null,true);
+				$buildings = array();
+				if (!is_null($buildings) && is_array($buildings)) {
+					foreach ($building_objects as $key => $value) {
+						$buildings[] = $value["id"];
+					}
+				} else {
+					$this->api_response->Code = 401;
+					return;
+				}
+			} else if (strlen((int)$building_seach) > 0) {
+				$Building = new Building();
+				if (!$Building->Load($building_seach)){
+					$this->api_response->Code = 401;
+					return;
+				}
+			} else {
+				$Building = new Building();
+				if(!$Building->Find(array("name" => $building_seach,"organization" => $organization))){
+					$this->api_response->Code = 401;
+					return;
+				}
+			}
+			if (!is_null($Building)) {
+				$buildings = $Building->id; 
+			}
+			$data = array(
+				"building" => $buildings
+			);
+			if (!is_null($name)){
+				$data["name"] = $name;
+			}
+			if (!is_null($name)) {
+				$data["name"] = $name;
+			}
+			$this->api_request->Request_Data($data);
+			self::_Simple_Search("Floor");
+		} else {
+			$this->api_response->Code = 401;
+		}
+	}
+
+	/**
+	 * This function searches for buildings by organization or name
+	 * @param integer $organization The organization id
+	 * @since 1.0
+	 * @access private
+	 * @param string $name         An optional name of the building
+	 */
+	private function _Get_Buildings ( $organization = null, $name = null ) {
+		if (self::_Get_User_Organizations() != null && in_array($organization, self::_Get_User_Organizations())) {
+			$data = array(
+				"organization" => $organization
+			);
+			if (!is_null($name)){
+				$data["name"] = $name;
+			}
+			$this->api_request->Request_Data($data);
+			self::_Simple_Search("Building");
+		} else {
+			$this->api_response->Code = 401;
+		}
+	}
+
+	/**
 	 * This function is used to get all the printers of an organization
 	 * @since 1.0
 	 * @access private
@@ -396,7 +620,7 @@ class Api extends CI_Controller {
 			}
 			$Computer->last_updated = time();
 			if($Computer->Save()){
-				$this->api_response->Response = array();
+				$this->api_response->Response = $Computer->Export(null,null,array("organization","groups"));
 				$this->api_response->Code = 200;
 			} else {
 				$this->api_response->Code = 409;
@@ -488,10 +712,19 @@ class Api extends CI_Controller {
 
 			//Build the query
 			$InputQuery = array();
+			$where_in = array();
 			foreach ($Fields as $Field) {
-				$InputQuery[$Field] = $Request_Data["q"];
+				if (isset($Request_Data["q"])) {
+					$InputQuery[$Field] = $Request_Data["q"];
+				}
 				if (isset($Request_Data[$Field])) {
-					$InputQuery[$Field] = $Request_Data[$Field];
+					if (is_array($Request_Data[$Field])) {
+						$where_in[$Field] = $Request_Data[$Field];
+					} else if (is_string($Request_Data[$Field]) && strpos($Request_Data[$Field], ",") === false) {
+						$InputQuery[$Field] = $Request_Data[$Field];
+					} else {
+						$where_in[$Field] = explode(",", $Request_Data[$Field]);
+					}
 				}
 			}
 			
@@ -517,7 +750,18 @@ class Api extends CI_Controller {
 			} else {
 				$Query = $Object->Convert($InputQuery);
 			}
-			if(count($Query) > 0){
+			if (!is_null($where_in)) {
+				if ($Secure) {
+					$Secure = $Object->Export(null,false);
+					$where_in = self::_Convert($where_in,$Object,$Secure,$Fields);
+				} else {
+					$where_in = $Object->Convert($where_in);
+				}
+				foreach ($where_in as $key => $value) {
+					$this->db->where_in($key, $value);
+				}
+			}
+			if(count($Query) > 0 || count($where_in) > 0){
 				//Assemble thw query
 				$this->db->like($Query,"after")->select("id")->group_by("id");
 
@@ -559,7 +803,7 @@ class Api extends CI_Controller {
 			$this->load->library($Library);
 			$Class = new $Library();	
 			$Request_Data = $this->api_request->Request_Data();
-			if(isset($Request_Data["q"]) && is_array($this->api_request->Request_Data()) && count($this->api_request->Request_Data()) > 0 && ($this->api_request->Request_Method() === "post" || "get")){				
+			if((isset($Request_Data["q"]) || $this->api_request->Request_Data()) && is_array($this->api_request->Request_Data()) && count($this->api_request->Request_Data()) > 0 && ($this->api_request->Request_Method() === "post" || "get")){				
 				$this->api_response->ResponseKey = $ResponseKey;
 				//Get the response
 				$Raw = self::_Search_Build_Query($Class,!$Linked);

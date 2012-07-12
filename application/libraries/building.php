@@ -60,6 +60,6 @@ class Building extends Std_Library{
 		);
 		$this->_INTERNAL_LOAD_FROM_CLASS = array(
 			"organization" => "Organization"
-		//$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_ROW_NAME_CONVERT,"ROW_NAME_CONVERT");
+		);
 	}
 }
