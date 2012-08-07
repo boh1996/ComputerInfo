@@ -237,10 +237,37 @@ class Api extends CI_Controller {
 				}
 				break;
 
+			case "manufacturer" :
+				$manufacturer = null;
+				if (!empty($_GET["name"])) {
+					$manufacturer = $_GET["name"];
+				}
+				self::_Find_Manufacturers($manufacturer);
+				break;
+
 			default:
 				$this->api_response->Code = 400;
 				break;
 		}
+	}
+
+	/**
+	 * This function finds either all manufacturers or the one(s)
+	 * that fits the specified name
+	 * @param string $name The name or the beginning of it to search for
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _Find_Manufacturers ( $name = null ) {
+		$data = array("q" => "","fields" => "name");
+		if (!is_null($name)) {
+			$data["q"] = $name;
+			$data["fields"] = "name";
+		}
+		if (count($data) > 0) {
+			$this->api_request->Request_Data($data);
+		}
+		self::_Simple_Search("Manufacturer", null, false, true);
 	}
 
 	/**
@@ -703,7 +730,7 @@ class Api extends CI_Controller {
 		if(!is_null($Object)){
 			$Request_Data = $this->api_request->Request_Data();
 
-			//Loop through the fields that the requester reqeusts or use all fields
+			//Loop through the fields that the requester requests or use all fields
 			if(isset($Request_Data["fields"])){
 				$Fields = explode(",",$Request_Data["fields"]);
 			} else {
@@ -720,9 +747,11 @@ class Api extends CI_Controller {
 				if (isset($Request_Data[$Field])) {
 					if (is_array($Request_Data[$Field])) {
 						$where_in[$Field] = $Request_Data[$Field];
+						unset($InputQuery[$Field]);
 					} else if (is_string($Request_Data[$Field]) && strpos($Request_Data[$Field], ",") === false) {
 						$InputQuery[$Field] = $Request_Data[$Field];
 					} else {
+						unset($InputQuery[$Field]);
 						$where_in[$Field] = explode(",", $Request_Data[$Field]);
 					}
 				}

@@ -18,7 +18,7 @@ function tableGenerator (settings) {
 	//this.requestUrl = root + this.requestType +"/{id}";
 	this.multipleResponseNode = settings.multipleResponseNode;
 	this.multipleRequestType = settings.multipleRequestType;
-	this.root = settings.root;
+	this.root = "http://" + settings.root;
 
 	if (typeof settings.callback != "undefined") {
 		this.doneCallback = settings.callback;
@@ -123,6 +123,12 @@ tableGenerator.prototype = {
 	 * @type {Object}
 	 */
 	columns : null,
+
+	/**
+	 * A container for different functions to store data
+	 * @type {Object}
+	 */
+	storedVariables : {},
 
 	/**
 	 * The funciton to be called when a operaiton is done
@@ -237,6 +243,7 @@ tableGenerator.prototype = {
 				if (data != null) {
 					this.response = objx.get(data,this.multipleResponseNode); 
 					data = this.response;
+					if (data != null && data != undefined) {
 						$.each(data, $.proxy(function (index,element){ 
 							this.generateNode(element,index);
 							if(data != null && index == data.length-1){
@@ -245,6 +252,7 @@ tableGenerator.prototype = {
 								this.readyCallback();
 							}
 						}, this));
+					}
 				}
 			}, this)
 		});
@@ -402,16 +410,95 @@ tableGenerator.prototype = {
 	},
 
 	/**
-	 * This fuction creates the on click modal
+	 * This function creates and handles all the events for a modal
+	 * @param  {Object} modalTemplate The modal template jQuery object
+	 * @param  {Object} settings      A later used settings object
+	 * @param  {string} id            An optional id name of the modal
+	 * @return {string}
 	 */
-	createModal : function () {
-		var modal = $(this.onCickModal).clone();
-		modal.attr("id",this.modal_id_name);
-		$(this.onCickModal).after(modal);
-		$("#" + this.modal_id_name).modal({
+	createModalFromObject : function (modalTemplate, settings, id) {
+		modalTemplate = $(modalTemplate);
+		var modal = $(modalTemplate).clone();
+		if (id == undefined) {
+			if (objx.get(this.storedVariables,"modals." + modalTemplate.attr("id")) == null || objx.get(this.storedVariables,"modals." + modalTemplate.attr("id") + ".id") == null) {
+				var id = this.randomString(6);
+				objx.set(this.storedVariables,"modals." + modalTemplate.attr("id") + ".id",id);
+			} else {
+				var id = objx.get(this.storedVariables,"modals." + modalTemplate.attr("id") + ".id");
+			}
+		} else {
+			objx.set(this.storedVariables,"modals." + modalTemplate.attr("id") + ".id",id);
+		}
+		modal.attr("id",id);
+		modalTemplate.after(modal);
+		var modal = $("#" + id);
+		modal.modal({
 			keyboard: true,
 			show : false
 		});
+
+		modal.find(".modal-footer").find(".btn-primary").live("click",$.proxy(function(){
+			var requestType = modal.request_type || this.save_request_type || this.requestType || null;
+			this.saveModal(modal, requestType);
+		},this));
+
+		modal.find('[data-add-model]').live("click",$.proxy(function(){
+			var currentElement = $(event.target);
+			var inputElement = currentElement.prev("input,form select,select");
+			if (currentElement.attr("data-add-model") != "") {
+				if (objx.get(this.storedVariables.modals,currentElement.attr("data-add-model")  + ".id") == null)  {
+					var id = this.createModalFromObject($("#" + currentElement.attr("data-add-model")), null);
+					if (id != null && id != undefined) {
+						objx.set(this.storedVariables.modals,currentElement.attr("data-add-model")  + ".id",id);
+					}
+				} else {
+					$("#" + objx.get(this.storedVariables.modals,currentElement.attr("data-add-model") + ".id")).modal("show");
+				}
+				this.runHandler(currentElement,$("#" + objx.get(this.storedVariables.modals,currentElement.attr("data-add-model") + ".id")));
+			}
+		},this));
+
+		return id;
+	},
+
+	/**
+	 * This function save's a modal's data
+	 * @param  {Object} modal       The modal to save the data for
+	 * @param  {string} requestType The save API endpoint for that modal
+	 */
+	saveModal : function (modal, requestType) {
+		var object = {};
+		modal = $(modal);
+		modal.find("[data-name]").each(function (index, element) {
+			objx.set(object,$(element).attr("data-name"),$(element).val());
+		});
+		var location = requestType || this.save_request_type || this.requestType || null;
+
+		if (location != null) {
+			var type = "POST";
+			if (modal.find('[name=id]') != null) {
+				type = "PUT";
+				var requestUrl = this.root + location + "/" + modal.find('[name=id]').val();
+			} else {
+				var requestUrl = this.root + location;
+			}
+			modal.modal("hide");
+			/*$.ajax({
+				url : requestUrl,
+				data : JSON.stringify(object),
+				type : type,
+				success : function (data) {
+					console.log(data);
+				}
+			});*/
+		}
+	},
+
+	/**
+	 * This fuction creates the on click modal
+	 */
+	createModal : function () {
+		this.createModalFromObject($(this.onCickModal),null,this.modal_id_name);
 
 		$(this.container).find("tbody tr").live("click",$.proxy(function(event){
 			var html = $(this.onCickModal).html();
@@ -424,34 +511,10 @@ tableGenerator.prototype = {
 				}
 			},this));
 			$("#"+this.modal_id_name).html(html);
-			this.runHandlers($(event.target));
-			$("#"+this.modal_id_name).modal("show");
-		},this));
-		$("#" + this.modal_id_name).find(".modal-footer").find(".btn-primary").live("click",$.proxy(function(){
-			var object = {};
-			$("#"+this.modal_id_name).find("[data-name]").each(function (index, element) {
-				objx.set(object,$(element).attr("data-name"),$(element).val());
-			});
-			var location = this.save_request_type || this.requestType || null;
-
-			if (location != null) {
-				var type = "POST";
-				if ($("#"+this.modal_id_name).find('[name=id]') != null) {
-					type = "PUT";
-					var requestUrl = this.root + location + "/" + $("#"+this.modal_id_name).find('[name=id]').val();
-				} else {
-					var requestUrl = this.root + location;
-				}
-				console.log(JSON.stringify(requestUrl));
-				$.ajax({
-					url : requestUrl,
-					data : JSON.stringify(object),
-					type : type,
-					success : function (data) {
-						console.log(data);
-					}
-				});
+			if (event != undefined && event.target != undefined && event != null && event.target != null) {
+				this.runHandler($(event.target), $("#"+this.modal_id_name));
 			}
+			$("#"+this.modal_id_name).modal("show");
 		},this));
 	},
 
@@ -461,7 +524,7 @@ tableGenerator.prototype = {
 	 * @return {string}
 	 */
 	buildHandlerUrl : function (handler) {
-		var url = handler.url;
+		var url = "http://" + handler.url;
 		if (objx.get(handler,"query_parameters") != null) {
 			if (url.indexOf("?") == -1) {
 				url += "?";
@@ -490,75 +553,104 @@ tableGenerator.prototype = {
 	},
 
 	/**
-	 * This function runs the data processing handlers
-	 * @param  {object} object The clicked object
+	 * This function requests the handler data for a specific object/modal
+	 * @param  {Object} object  The object that has been clicked
+	 * @param  {Object} handler The handler data to use
+	 * @param  {Object} modal   The modal to search insight
+	 * @param  {string} key     The name of the handler in this.handlers
 	 */
-	runHandlers : function ( object ) {
-		if (this.handlers != null) {
-			$.each(this.handlers,$.proxy(function(key, handler){
-				if (typeof handler.type == "undefined" || handler.type == "select") {
-					var url = this.buildHandlerUrl(handler);
-					if (url.indexOf("&") != -1) {
-						url = url.slice(0,url.length-1);
-					}
-					$.ajax({
-						url : url,
-						success : $.proxy(function (data){
-							if (objx.get(handler,"response_key") != null) {
-								data = data[handler.response_key];
-								this.handlers[key].response = data;
-							}
-							//Beaware of this line
-							$("#"+this.modal_id_name).find('[data-handler="'+ key +'"]').each(function (i, currentElement) {
-								currentElement = $(currentElement).find("select");
-								$(currentElement).html("");
-								$.each(data,function (currentIndex, curElement){
-									if ($(currentElement).attr("data-selected") == objx.get(curElement,"id")) {
-										$(currentElement).append('<option selected value="' + objx.get(curElement,"id") + '">' + objx.get(curElement,handler.property) + '</option>');
-									} else {
-										$(currentElement).append('<option value="' + objx.get(curElement,"id") + '">' + objx.get(curElement,handler.property) + '</option>');
-									}
-								});
-								if (currentElement.parent("form").length > 0) {
-									currentElement.parent("form").jqTransform();
+	runObjectHandlers : function ( object, handler, modal, key ) {
+		if (handler != null) {
+			if (typeof handler.type == "undefined" || handler.type == "select") {
+				var url = this.buildHandlerUrl(handler);
+				if (url.indexOf("&") != -1) {
+					url = url.slice(0,url.length-1);
+				}
+				$.ajax({
+					url : url,
+					success : $.proxy(function (data){
+						if (objx.get(handler,"response_key") != null) {
+							data = data[handler.response_key];
+							handler.response = data;
+							this.handlers[key].response = data;
+						}
+						//Beaware of this line
+						$(modal).find('[data-handler="'+ key +'"]').each(function (i, currentElement) {
+							currentElement = $(currentElement).find("select");
+							$(currentElement).html("");
+							$.each(data,function (currentIndex, curElement){
+								if ($(currentElement).attr("data-selected") == objx.get(curElement,"id")) {
+									$(currentElement).append('<option selected value="' + objx.get(curElement,"id") + '">' + objx.get(curElement,handler.property) + '</option>');
+								} else {
+									$(currentElement).append('<option value="' + objx.get(curElement,"id") + '">' + objx.get(curElement,handler.property) + '</option>');
 								}
 							});
-						}, this)
-					});
-				} else if (handler.type == "typeahead") {
-					var tableCreator = this;
-					$("#"+this.modal_id_name).find('[data-handler="'+ key +'"]').each(function (i, currentElement) {
-						currentElement = $(currentElement).find(".typeahead");
-						currentElement.typeahead({
-						    source: function (typeahead, query) {
-						    	var url = tableCreator.buildHandlerUrl(handler);
-						    	if (typeof handler.query_key != "undefined" && query != null && query != "") {
-						    		if (url.indexOf("?") != -1) {
-						    			if (url.indexOf("&") != -1) {
-											url += handler.query_key + "=" + query + "&";
-										} else {
-											url += handler.query_key + "=" + query + "&";
-										}
+							if (currentElement.parent("form").length > 0) {
+								currentElement.parent("form").jqTransform();
+							}
+						});
+					}, this)
+				});
+			} else if (handler.type == "typeahead") {
+				var tableCreator = this;
+				modal.find('[data-handler="'+ key +'"]').each(function (i, currentElement) {
+					currentElement = $(currentElement).find(".typeahead");
+					currentElement.typeahead({
+					    source: function (typeahead, query) {
+					    	var url = tableCreator.buildHandlerUrl(handler);
+					    	if (typeof handler.query_key != "undefined" && query != null && query != "") {
+					    		if (url.indexOf("?") != -1) {
+					    			if (url.indexOf("&") != -1) {
+										url += handler.query_key + "=" + query + "&";
 									} else {
-										url += "?" + handler.query_key + "=" + query;
+										url += handler.query_key + "=" + query + "&";
 									}
+								} else {
+									url += "?" + handler.query_key + "=" + query;
 								}
-								if (url.indexOf("&") != -1) {
-									url = url.slice(0,url.length-1);
-								}
+							}
+							if (url != null && url.indexOf("&") != -1) {
+								url = url.slice(0,url.length-1);
+							}
+							if (url != null && url != undefined) {
 						        return $.get(url,function (data) {
 						        	if (objx.get(handler,"response_key") != null) {
 										data = data[handler.response_key];
+										return typeahead.process(data);
 									}
-						        	return typeahead.process(data);
 						        });
-						    },
-						    property: handler.property,
-						});
-					});		
-				}
+					    	}
+					    },
+					    property: handler.property,
+					});
+				});		
+			}
+		}
+	},
+
+	/**
+	 * This function runs the data processing handlers on all modals
+	 * @param  {object} object The clicked object
+	 */
+	runHandlers : function ( object ) {
+		if (this.modals != undefined && this.handlers != undefined) {
+			$.each(this.modals,$.proxy(function(name, modal){
+				$.each(this.handlers,$.proxy(function(key, handler){
+					this.runObjectHandlers( object, handler, modal.id, key );
+				},this));
 			},this));
 		}
+	},
+
+	/**
+	 * This function runs the handler on a single modal box
+	 * @param  {object} object The object the triggered the handler event
+	 * @param  {object} modal  The modal box to run the handlers for
+	 */
+	runHandler : function ( object, modal ) {
+		$.each(this.handlers,$.proxy(function(key, handler){
+			this.runObjectHandlers( object, handler, $(modal), key );
+		},this));
 	},
 
 	/**

@@ -325,6 +325,9 @@ objx.get = function(o, p) {
  * @return {[type]}
  */
 objx.set = function(source, path, value) {
+	if (source == undefined) {
+		source = {};
+	}
     var parts = path.split('.'), len = parts.length, target = source;
 
     for (var i = 0, part; i < len - 1; i++) {
@@ -332,7 +335,6 @@ objx.set = function(source, path, value) {
         target = target[part] == undefined ? (target[part] = {}) : target[part];
     }
     target[parts[len - 1]] = value;
-    //return target;
 }
 
 

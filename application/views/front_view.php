@@ -1,13 +1,13 @@
 <html>
 	<head>
 		<title>ComputerInfo - Home</title>
-		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>bootstrap/css/bootstrap.min.css">
-		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>bootstrap/css/bootstrap-responsive.min.css">
-		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/dataTables.bootstrap.css">
-		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/jqtransform.css">
-		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/chosen.css">
-		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/style.css">
-		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/form.css">
+		<link rel="stylesheet" type="text/css" href="//<?php echo $asset_url; ?>bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="//<?php echo $asset_url; ?>bootstrap/css/bootstrap-responsive.min.css">
+		<link rel="stylesheet" type="text/css" href="//<?php echo $asset_url; ?>css/dataTables.bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="//<?php echo $asset_url; ?>css/jqtransform.css">
+		<link rel="stylesheet" type="text/css" href="//<?php echo $asset_url; ?>css/chosen.css">
+		<link rel="stylesheet" type="text/css" href="//<?php echo $asset_url; ?>css/style.css">
+		<link rel="stylesheet" type="text/css" href="//<?php echo $asset_url; ?>css/form.css">
 		<script type="text/javascript">var root = "<?php echo $base_url; ?>";</script>
 		<script type="text/javascript">var method = "<?php echo $method; ?>";</script>
 	</head>
@@ -129,173 +129,20 @@
 		</div>
 	</div>
 
-	<!-- Computer Modal -->
-	<div class="modal hide" id="edit_computer">
-		<div class="modal-header">
-	    	<button type="button" class="close" data-dismiss="modal">&times;</button>
-	    	<h3>Edit {identifier}</h3>
-	 	</div>
-	  	<div class="modal-body">
-	  		<table cellpadding="0" cellspacing="10" border="0" class="table table-striped">
-	  			<input type="hidden" name="id" value="{id}">
-		  		<tr><td>Identifier</td><td><input type="text" data-name="identifier" class="input-large" value="{identifier}" name="model"></td></tr>
-		    	<tr data-handler="model"><td>Model</td><td>
-		    		<input name="model" type="text" data-provide="typeahead" data-name="model.name" class="typeahead" value="{model.name}">
-		    	</td></tr>
-		    	<tr data-handler="model_type"><td>Type</td><td>
-		    		<form class="jqtransform"><select name="type" class="type_select" data-selected="{model.type.id}">
-		    		</select></form>
-		    	</td></tr>
-		    	<tr data-handler="location"><td>Location</td><td>
-		    		<form class="jqtransform"><select name="location" data-name="location" data-selected="{location.id}">
-		    		</select></form>
-		    	</td></tr>
-		    	<tr><td>LAN Mac</td><td><input type="text" class="input-large" data-name="lan_mac" value="{lan_mac}" name="lan_mac"></td></tr>
-		    	<tr><td>Wifi Mac</td><td><input type="text" class="input-large" value="{wifi_mac}" data-name="wifi_mac" name="wifi_mac"></td></tr>
-		    	<tr><td>IP</td><td><input type="text" class="input-large" value="{ip}" name="ip" data-name="ip"></td></tr>
-		    	<tr><td>Disk space</td><td><input type="text" class="input-large" value="{disk_space}" data-name="disk_space" name="disk_space"></td></tr>
-		    	<tr><td>Ram size</td><td><input type="text" class="input-large" value="{ram_size}" data-name="ram_size" name="ram_size"></td></tr>
-		    	<tr><td>Serial</td><td><input type="text" class="input-large" value="{serial}" data-name="serial" name="serial"></td></tr>
-		    	<tr data-handler="screen_size"><td>Screen size</td><td>
-		    		<form class="jqtransform"><select name="screen_size" data-name="screen_size" data-selected="{screen_size.id}">
-		    		</select></form>
-		    	</td></tr>
-		    	<tr><td>Power usage</td><td><input type="text" class="input-large" value="{power_usage_per_hour}" name="power_usage_per_hour"></td></tr>
-	    	</table>
-	  	</div>
-	  	<div class="modal-footer">
-	    	<a href="#" class="btn" data-dismiss="modal">Close</a>
-	    	<a href="#" class="btn btn-primary" data-dismiss="modal">Save changes</a>
-	  	</div>
-	</div>
-
-	<!-- Printer Modal -->
-	<div class="modal hide" id="edit_printer">
-		<div class="modal-header">
-	    	<button type="button" class="close" data-dismiss="modal">&times;</button>
-	    	<h3>Edit {identifier}</h3>
-	 	</div>
-	  	<div class="modal-body">
-	  		<table cellpadding="0" cellspacing="10" border="0" class="table table-striped">
-	  			<input type="hidden" name="id" value="{id}">
-		  		<tr data-handler="location"><td>Location</td><td>
-		    		<form class="jqtransform"><select name="location" data-name="location" data-selected="{location.id}">
-		    		</select></form>
-		    	</td></tr>
-		    	<tr data-handler="model"><td>Model</td><td>
-		    		<input name="model" type="text" data-provide="typeahead" data-name="model.name" class="typeahead" value="{model.name}">
-		    	</td></tr>
-		    	<tr><td>Identifier</td><td><input type="text" class="input-large" value="{identifier}" data-name="identifier"></td></tr>
-		    	<tr><td>Name</td><td><input type="text" class="input-large" value="{name}" data-name="name"></td></tr>
-		    	<tr><td>Ip</td><td><input type="text" class="input-large" value="{ip}" data-name="ip"></td></tr>
-		    	<tr><td>MAC</td><td><input type="text" class="input-large" value="{mac}" data-name="mac"></td></tr>
-	    	</table>
-	  	</div>
-	  	<div class="modal-footer">
-	    	<a href="#" class="btn" data-dismiss="modal">Close</a>
-	    	<a href="#" class="btn btn-primary">Save changes</a>
-	  	</div>
-	</div>
-
-	<!-- Unit Modal -->
-	<div class="modal hide" id="edit_unit">
-		<div class="modal-header">
-	    	<button type="button" class="close" data-dismiss="modal">&times;</button>
-	    	<h3>Edit {identifier}</h3>
-	 	</div>
-	  	<div class="modal-body">
-	  		<table cellpadding="0" cellspacing="10" border="0" class="table table-striped">
-	  			<input type="hidden" name="id" value="{id}">
-		  		<tr data-handler="location"><td>Location</td><td>
-		    		<form class="jqtransform"><select name="location" data-name="location" data-selected="{location.id}">
-		    		</select></form>
-		    	</td></tr>
-		    	<tr data-handler="model"><td>Model</td><td>
-		    		<input name="model" type="text" data-provide="typeahead" data-name="model.name" class="typeahead" value="{model.name}">
-		    	</td></tr>
-		    	<tr data-handler="model_type"><td>Type</td><td>
-		    		<form class="jqtransform"><select name="type" class="type_select" data-selected="{model.type.id}">
-		    		</select></form>
-		    	</td></tr>
-		    	<tr><td>Description</td><td><textarea data-name="description"></textarea>{description}</td></tr>
-		    	<tr><td>Identifier</td><td><input type="text" class="input-large" value="{identifier}" data-name="identifier"></td></tr>
-		    	<tr><td>Serial</td><td><input type="text" class="input-large" value="{serial}" data-name="serial"></td></tr>
-		    	<tr><td>Year of purchase</td><td><input type="text" class="input-large" value="{year_of_purchase}" data-name="year_of_purchase"></td></tr>
-		    	<tr><td>Serial</td><td><input type="text" class="input-large" value="{serial}" data-name="serial"></td></tr>
-	    	</table>
-	  	</div>
-	  	<div class="modal-footer">
-	    	<a href="#" class="btn" data-dismiss="modal">Close</a>
-	    	<a href="#" class="btn btn-primary">Save changes</a>
-	  	</div>
-	</div>
-
-	<!-- Location modal -->
-	<div class="modal hide" id="edit_location">
-		<div class="modal-header">
-	    	<button type="button" class="close" data-dismiss="modal">&times;</button>
-	    	<h3>Edit {identifier}</h3>
-	 	</div>
-	  	<div class="modal-body">
-	  		<table cellpadding="0" cellspacing="10" border="0" class="table table-striped">
-	  			<input type="hidden" name="id" value="{id}">
-		  		<tr data-handler="location"><td>Location</td><td>
-		    		<form class="jqtransform"><select name="location" data-name="location" data-selected="{location.id}">
-		    		</select></form>
-		    	</td></tr>
-		    	<tr data-handler="model"><td>Model</td><td>
-		    		<input name="model" type="text" data-provide="typeahead" data-name="model.name" class="typeahead" value="{model.name}">
-		    	</td></tr>
-		    	<tr><td>Identifier</td><td><input type="text" class="input-large" value="{identifier}" data-name="identifier"></td></tr>
-	    	</table>
-	  	</div>
-	  	<div class="modal-footer">
-	    	<a href="#" class="btn" data-dismiss="modal">Close</a>
-	    	<a href="#" class="btn btn-primary">Save changes</a>
-	  	</div>
-	</div>
-
-	<!-- Screen modal -->
-	<div class="modal hide" id="edit_screen">
-		<div class="modal-header">
-	    	<button type="button" class="close" data-dismiss="modal">&times;</button>
-	    	<h3>Edit {identifier}</h3>
-	 	</div>
-	  	<div class="modal-body">
-	  		<table cellpadding="0" cellspacing="10" border="0" class="table table-striped">
-	  			<input type="hidden" name="id" value="{id}">
-		    	<tr><td>Identifier</td><td><input type="text" class="input-large" value="{identifier}" data-name="identifier"></td></tr>
-		    	<tr data-handler="location"><td>Location</td><td>
-		    		<form class="jqtransform"><select name="location" data-name="location" data-selected="{location.id}">
-		    		</select></form>
-		    	</td></tr>
-				<tr data-handler="model"><td>Model</td><td>
-		    		<input name="model" type="text" data-provide="typeahead" data-name="model.name" class="typeahead" value="{model.name}">
-		    	</td></tr>
-		    	<tr data-handler="computer"><td>Connected to</td><td>
-		    		<!--<form class="jqtransform"><select name="location" data-name="location" data-selected="{location.id}">
-		    		</select></form>-->
-		    	</td></tr>
-	    	</table>
-	  	</div>
-	  	<div class="modal-footer">
-	    	<a href="#" class="btn" data-dismiss="modal">Close</a>
-	    	<a href="#" class="btn btn-primary">Save changes</a>
-	  	</div>
-	</div>
+	<?php $this->load->view("models_view"); ?>
 
 	<!-- Include jquery,boostrap and script -->
 	<script type="text/javascript" src="<?php echo $jquery_url; ?>"></script>
-	<script type="text/javascript" src="<?php echo $asset_url; ?>bootstrap/js/bootstrap.js"></script>
-	<script type="text/javascript" src="<?php echo $asset_url; ?>js/jquery.history.js"></script>
-	<script type="text/javascript" src="<?php echo $asset_url; ?>js/jquery.dataTables.min.js"></script>
-	<script type="text/javascript" src="<?php echo $asset_url; ?>js/custom-form-elements.js"></script>
-	<script type="text/javascript" src="<?php echo $asset_url; ?>js/dataTables.bootstrap.js"></script>
-	<script type="text/javascript" src="<?php echo $asset_url; ?>js/jquery.jqtransform.js"></script>
-	<script type="text/javascript" src="<?php echo $asset_url; ?>js/chosen.jquery.min.js"></script>
-	<script type="text/javascript" src="<?php echo $asset_url; ?>js/settings.js"></script>
-	<script type="text/javascript" src="<?php echo $asset_url; ?>js/objx.js"></script>
-	<script type="text/javascript" src="<?php echo $asset_url; ?>js/tableGenerator.js"></script>
-	<script type="text/javascript" src="<?php echo $asset_url; ?>js/script.js"></script>
+	<script type="text/javascript" src="//<?php echo $asset_url; ?>bootstrap/js/bootstrap.js"></script>
+	<script type="text/javascript" src="//<?php echo $asset_url; ?>js/jquery.history.js"></script>
+	<script type="text/javascript" src="//<?php echo $asset_url; ?>js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="//<?php echo $asset_url; ?>js/custom-form-elements.js"></script>
+	<script type="text/javascript" src="//<?php echo $asset_url; ?>js/dataTables.bootstrap.js"></script>
+	<script type="text/javascript" src="//<?php echo $asset_url; ?>js/jquery.jqtransform.js"></script>
+	<script type="text/javascript" src="//<?php echo $asset_url; ?>js/chosen.jquery.min.js"></script>
+	<script type="text/javascript" src="//<?php echo $asset_url; ?>js/settings.js"></script>
+	<script type="text/javascript" src="//<?php echo $asset_url; ?>js/objx.js"></script>
+	<script type="text/javascript" src="//<?php echo $asset_url; ?>js/tableGenerator.js"></script>
+	<script type="text/javascript" src="//<?php echo $asset_url; ?>js/script.js"></script>
 	</body>
 </html>

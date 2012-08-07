@@ -1,4 +1,82 @@
-var settings = {
+function settings (organization) {
+	this.organization = organization;
+	this.handlers = {
+		screen_size : {
+			url : root + "options/screen_size",
+			property : "detection_string",
+			response_key : "Screen_Sizes"
+		},
+		floor : {
+			fill_values : {
+				"building" : ".building_select"
+			},
+			url : root + "options/floor",
+			query_parameters : {
+				"organization" : this.organization
+			},
+			property : "name",
+			query_key : "name",
+			type : "typeahead",
+			response_key : "Floors"
+		},
+		location : {
+			url : root + "options/location?organization=" + this.organization,
+			property : "name",
+			response_key : "Locations"
+		},
+		manufacturer : {	
+			url : root + "options/manufacturer",
+			query_key : "name",
+			property : "name",
+			type : "typeahead",
+			response_key : "Manufacturers"
+		},
+		device_type : {
+			url : root + "options/device_type",
+			property : "name",
+			response_key : "Device_Types"
+		},
+		computer_model : {
+			url : root + "options/computer_model",
+			property : "name",
+			query_key : "name",
+			fill_values : {
+				"type" : ".type_select"
+			},
+			type : "typeahead",
+			response_key : "Computer_Models"
+		},
+		device_model : {
+			url : root + "options/device_model",
+			property : "name",
+			query_key : "name",
+			fill_values : {
+				"type" : ".type_select"
+			},
+			type : "typeahead",
+			response_key : "Device_Models"
+		},
+		printer_model : {
+			url : root + "options/printer_model",
+			property : "name",
+			query_key : "name",
+			type : "typeahead",
+			response_key : "Printer_Models"
+		},
+		building : {
+			url : root + "options/building?organization="+this.organization,
+			property : "name",
+			response_key : "Buildings"
+		}
+	}
+}
+settings.prototype = {
+
+	/**
+	 * The current organization
+	 * @type {Number}
+	 */
+	organization : null,
 
 	/**
 	 * The available columns for the computers
@@ -83,5 +161,11 @@ var settings = {
 		"model.manufacturer" : {"string" : "Manufacturer", "active" : false},
 		"scren_size.detection_string" : {"string" : "Screen Size", "active" : false},
 		"screen_size.aspect_ratio" : {"string" : "Aspect ratio", "active" : false},
-	}
+	},
+
+	/**
+	 * Some optional handlers to use
+	 * @type {Object}
+	 */
+	handlers : {}
 }

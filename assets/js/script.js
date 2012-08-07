@@ -33,6 +33,10 @@ $(window).ready(function(){
 function showPage () {
    var state = History.getState();
    page = state.cleanUrl.replace(root,"");
+   page = page.replace("http://","");
+   page = page.replace("https://","");
+   page = page.replace("//","");
+   page = page.replace("www.","");
    if ($("#"+page).length > 0) {
    		$(".active_page").addClass("disabled_page").removeClass("active_page");
    		$("#"+page).removeClass("disabled_page").addClass("active_page");
@@ -59,13 +63,14 @@ function findPageString (str) {
 
 $(window).on('pageshow', function (event) {
 	var organization = "1";
+	var applicationSettings = new settings(organization);
 
 	//Units
 	var unitsGenerator = new tableGenerator({
 		requestType : "device",
 		container : $("#unit"),
 		modal : $("#edit_unit"),
-		columns : settings.unitColumns,
+		columns : applicationSettings.unitColumns,
 		responseNode : "Device",
 		multipleResponseNode : "Devices",
 		multipleRequestType : "devices",
@@ -73,29 +78,9 @@ $(window).on('pageshow', function (event) {
 		localStorageColumnsKey : "unit_columns",
 		localStorageLengthKey : "unit_length_value",
 		handlers : {
-			location : {
-				url : root + "options/location?organization="+organization,
-				property : "name",
-				response_key : "Locations"
-			},
-			model_type : {
-				url : root + "options/device_type",
-				property : "name",
-				query_parameters : {
-					"category" : "Other"
-				},
-				response_key : "Device_Types"
-			},
-			model : {
-				url : root + "options/device_model",
-				property : "name",
-				query_key : "name",
-				fill_values : {
-					"type" : ".type_select"
-				},
-				type : "typeahead",
-				response_key : "Device_Models"
-			},
+			location : applicationSettings.handlers.location,
+			model_type : applicationSettings.handlers.device_type,
+			model : applicationSettings.handlers.device_model
 		}
 	});
 	unitsGenerator.getNodes(organization);
@@ -104,7 +89,7 @@ $(window).on('pageshow', function (event) {
 	var computerGenerator = new tableGenerator({
 		requestType : "computer",
 		container : $("#computer"),
-		columns : settings.computerColumns,
+		columns : applicationSettings.computerColumns,
 		responseNode : "Computer",
 		multipleResponseNode : "Computers",
 		localStorageColumnsKey : "computer_columns",
@@ -113,31 +98,11 @@ $(window).on('pageshow', function (event) {
 		modal : $("#edit_computer"),
 		localStorageLengthKey : "computer_length_value",
 		handlers : {
-			model_type : {
-				url : root + "options/device_type",
-				property : "name",
-				response_key : "Device_Types"
-			},
-			model : {
-				url : root + "options/computer_model",
-				property : "name",
-				query_key : "name",
-				fill_values : {
-					"type" : ".type_select"
-				},
-				type : "typeahead",
-				response_key : "Computer_Models"
-			},
-			screen_size : {
-				url : root + "options/screen_size",
-				property : "detection_string",
-				response_key : "Screen_Sizes"
-			},
-			location : {
-				url : root + "options/location?organization="+organization,
-				property : "name",
-				response_key : "Locations"
-			}
+			model_type : applicationSettings.handlers.device_type,
+			model : applicationSettings.handlers.computer_model,
+			screen_size : applicationSettings.handlers.screen_size,
+			location : applicationSettings.handlers.location,
+			manufacturer : applicationSettings.handlers.manufacturer
 		}
 	});
 	computerGenerator.getNodes(organization);
@@ -148,31 +113,15 @@ $(window).on('pageshow', function (event) {
 		modal : $("#edit_location"),
 		container : $("#location"),
 		localStorageLengthKey : "location_length_value",
-		columns : settings.locationColumns,
+		columns : applicationSettings.locationColumns,
 		responseNode : "Location",
 		multipleResponseNode : "Locations",
 		multipleRequestType : "locations",
 		localStorageColumnsKey : "location_columns",
 		root : root,
 		handlers : {
-			floor : {
-				fill_values : {
-					"building" : ".building_select"
-				},
-				url : root + "options/floor",
-				query_parameters : {
-					"organization" : organization
-				},
-				property : "name",
-				query_key : "name",
-				type : "typeahead",
-				response_key : "Floors"
-			},
-			building : {
-				url : root + "options/building?organization="+organization,
-				property : "name",
-				response_key : "Buildings"
-			}
+			floor : applicationSettings.handlers.floor,
+			building : applicationSettings.handlers.building
 		}
 	});
 	locationGenerator.getNodes(organization);
@@ -183,25 +132,15 @@ $(window).on('pageshow', function (event) {
 		requestType : "printer",
 		localStorageLengthKey : "printer_length_value",
 		container : $("#printer"),
-		columns : settings.printerColumns,
+		columns : applicationSettings.printerColumns,
 		responseNode : "Printer",
 		multipleResponseNode : "Printers",
 		localStorageColumnsKey : "printer_columns",
 		multipleRequestType : "printers",
 		root : root,
 		handlers : {
-			location : {
-				url : root + "options/location?organization="+organization,
-				property : "name",
-				response_key : "Locations"
-			},
-			model : {
-				url : root + "options/printer_model",
-				property : "name",
-				query_key : "name",
-				type : "typeahead",
-				response_key : "Printer_Models"
-			}
+			location : applicationSettings.handlers.location,
+			model : applicationSettings.handlers.printer_model
 		}
 	});
 	printerGenerator.getNodes(organization);
@@ -213,24 +152,13 @@ $(window).on('pageshow', function (event) {
 		localStorageLengthKey : "screen_length_value",
 		localStorageColumnsKey : "screen_columns",
 		container : $("#screen"),
-		columns : settings.screenColumns,
+		columns : applicationSettings.screenColumns,
 		responseNode : "Screen",
 		multipleResponseNode : "Screens",
 		multipleRequestType : "screens",
 		root : root,
 		handlers : {
-			location : {
-				url : root + "options/location?organization="+organization,
-				property : "name",
-				response_key : "Locations"
-			},
-			/*model : {
-				url : root + "options/printer_model",
-				property : "name",
-				query_key : "name",
-				type : "typeahead",
-				response_key : "Printer_Models"
-			}*/
+			location : applicationSettings.handlers.location,
 		}
 	});
 	screenGenerator.getNodes(organization);
