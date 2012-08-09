@@ -802,18 +802,22 @@ class Api extends CI_Controller {
 			$InputQuery = array();
 			$where_in = array();
 			foreach ($Fields as $Field) {
-				if (isset($Request_Data["q"])) {
-					$InputQuery[$Field] = $Request_Data["q"];
-				}
-				if (isset($Request_Data[$Field])) {
-					if (is_array($Request_Data[$Field])) {
-						$where_in[$Field] = $Request_Data[$Field];
-						unset($InputQuery[$Field]);
-					} else if (is_string($Request_Data[$Field]) && strpos($Request_Data[$Field], ",") === false) {
-						$InputQuery[$Field] = $Request_Data[$Field];
-					} else {
-						unset($InputQuery[$Field]);
-						$where_in[$Field] = explode(",", $Request_Data[$Field]);
+				if (!empty($Request_Data)) {
+					if (isset($Request_Data["q"])) {
+						$InputQuery[$Field] = $Request_Data["q"];
+					}
+					if (isset($Request_Data[$Field])) {
+						if (is_array($Request_Data[$Field])) {
+							$where_in[$Field] = $Request_Data[$Field];
+							unset($InputQuery[$Field]);
+						} else if (is_string($Request_Data[$Field]) && strpos($Request_Data[$Field], ",") === false) {
+							$InputQuery[$Field] = $Request_Data[$Field];
+						} else {
+							if (isset($Request_Data[$Field])) {
+								unset($InputQuery[$Field]);
+								$where_in[$Field] = explode(",", $Request_Data[$Field]);
+							}
+						}
 					}
 				}
 			}
@@ -865,7 +869,24 @@ class Api extends CI_Controller {
 
 				return $Raw;
 			} else {
-				$this->api_response->Code = 400;
+				if (is_null($Organization_Id_Row)) {
+					$Raw = $this->db->get($Object->Database_Table);
+					if (is_null($Raw)) {
+						$this->api_response->Code = 400;
+					} else {
+						return $Raw;
+					}
+				} else if (!is_null($Organization_Id_Row)) {
+					$this->db->where_in($Organization_Id_Row,$Organizations);
+					$Raw = $this->db->get($Object->Database_Table);
+					if (is_null($Raw)) {
+						$this->api_response->Code = 400;
+					} else {
+						return $Raw;
+					}
+				} else {
+					$this->api_response->Code = 400;
+				}
 			}
 		}
 	}
