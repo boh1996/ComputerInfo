@@ -43,11 +43,20 @@
 
   .fields-select{
     display: none;
-}
+  }
+  #error_container{
+    position: static;
+    margin-top: 0px;
+  }
 }
 
 @media (min-width: 980px) {
   .page-container{
     margin-top:60px;
   }
+   #error_container{
+    position: static;
+    margin-top: 50px;
+  }
 }
+

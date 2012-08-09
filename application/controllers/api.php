@@ -1022,8 +1022,7 @@ class Api extends CI_Controller {
 					return;
 				}
 			} else {
-				$this->api_response->Code = 400;
-				return;
+				$Computer->organization = $this->_User->organizations[0]->id;
 			}
 			//Ensure that all the parameters are right
 			$Computer->created_time = time();
@@ -1061,8 +1060,7 @@ class Api extends CI_Controller {
 					return;
 				}
 			} else {
-				$this->api_response->Code = 400;
-				return;
+				$Printer->organization = $this->_User->organizations[0]->id;
 			}
 			$Printer->created_time = time();
 			$Printer->last_updated = time();
@@ -1146,8 +1144,7 @@ class Api extends CI_Controller {
 					return;
 				}
 			} else {
-				$this->api_response->Code = 400;
-				return;
+				$Device->organization = $this->_User->organizations[0]->id;
 			}
 			$Device->created_time = time();
 			$Device->last_updated = time();
@@ -1227,6 +1224,34 @@ class Api extends CI_Controller {
 				$this->api_response->Response = $ComputerModel->Export();
 			} else {
 				$this->api_response->Code = 404;
+			}
+		} else {
+			$this->api_response->Code = 400;
+		}
+	}
+
+		/**
+	 * This function is used to create Computer Models using the API
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _Computer_Model_Create () {
+		if(!is_null($this->api_request->Request_Data())){
+			$Request_Data = $this->api_request->Request_Data();
+			$this->api_response->ResponseKey = "Computer_Model";
+			if(isset($Request_Data["id"])){
+				unset($Request_Data["id"]);
+			}
+			$this->load->library("Computer_Model");
+			$Computer_Model = new Computer_Model();
+			$Computer_Model->Set_Current_User($this->_User->id);
+			$Computer_Model->Import($Request_Data);
+			$Computer_Model->created_time = time();
+			$Computer_Model->last_updated = time();
+			if($Computer_Model->Save()){
+				self::_Computer_Model($Computer_Model->id);
+			} else {
+				$this->api_response->Code = 409;
 			}
 		} else {
 			$this->api_response->Code = 400;

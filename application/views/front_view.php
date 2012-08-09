@@ -60,6 +60,8 @@
 	  </div>
 	</div>
 
+	<!--<div id="error_container"></div>-->
+
 	<div id="page">
 		<div class="page-container">	
 

@@ -28,6 +28,14 @@ class Computer extends Std_Library{
 	public $organization = NULL;
 
 	/**
+	 * A datestring holding the date of purchase of the computer
+	 * @var string
+	 * @since 1.0
+	 * @access public
+	 */
+	public $date_of_purchase = NULL;
+
+	/**
 	 * The primary LAN mac of the computer
 	 * @var string
 	 * @since 1.0

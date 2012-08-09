@@ -117,7 +117,6 @@ settings.prototype = {
 	unitColumns : {
 		"identifier" : {"string" : "Identifier", "active" : true},
 		"description" : {"string" : "Description", "active" : true},
-
 		"model.name" : {"string" : "Model", "active" : true},
 		"model.manufacturer.name" : {"string" : "Manufacturer", "active" : false},
 		"model.type.name" : {"string" : "Type", "active" : false},

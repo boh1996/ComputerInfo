@@ -269,7 +269,7 @@
 				var oLi = $('<li><a href="#" index="'+ i +'">'+ $(this).html() +'</a></li>');
 				$ul.append(oLi);
 			});
-			
+
 			/* Add click handler to the a */
 			$ul.find('a').click(function(){
 					$('a.selected', $wrapper).removeClass('selected');

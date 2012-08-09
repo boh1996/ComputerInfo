@@ -254,7 +254,10 @@ tableGenerator.prototype = {
 						}, this));
 					}
 				}
-			}, this)
+			}, this),
+			error : $.proxy(function (){
+				this.showError("No ressource could be found or an error occured!",$("#error_container"));
+			}, this),
 		});
 	},
 
@@ -418,33 +421,48 @@ tableGenerator.prototype = {
 	 */
 	createModalFromObject : function (modalTemplate, settings, id) {
 		modalTemplate = $(modalTemplate);
-		var modal = $(modalTemplate).clone();
 		if (id == undefined) {
-			if (objx.get(this.storedVariables,"modals." + modalTemplate.attr("id")) == null || objx.get(this.storedVariables,"modals." + modalTemplate.attr("id") + ".id") == null) {
+			if (objx.get(this.storedVariables,"modals." + modalTemplate.attr("id")) == null || objx.get(this.storedVariables,"modals." + modalTemplate.attr("id") + ".id") == undefined) {
 				var id = this.randomString(6);
-				objx.set(this.storedVariables,"modals." + modalTemplate.attr("id") + ".id",id);
 			} else {
 				var id = objx.get(this.storedVariables,"modals." + modalTemplate.attr("id") + ".id");
 			}
 		} else {
 			objx.set(this.storedVariables,"modals." + modalTemplate.attr("id") + ".id",id);
 		}
-		modal.attr("id",id);
-		modalTemplate.after(modal);
-		var modal = $("#" + id);
-		modal.modal({
-			keyboard: true,
-			show : false
-		});
 
-		modal.find(".modal-footer").find(".btn-primary").live("click",$.proxy(function(){
-			var requestType = modal.request_type || this.save_request_type || this.requestType || null;
+		if ($("#" + id).length < 0 || $("#" + id).length == 0) {
+			var modal = $(modalTemplate).clone();
+			objx.set(this.storedVariables,"modals." + modalTemplate.attr("id") + ".id",id);
+			objx.set(this.storedVariables,"modals." + modalTemplate.attr("id") + ".type","normal");
+
+			//Set th different attributes and show the modal
+			modal.attr("id",id);
+			modal.attr("data-template",modalTemplate.attr("id"));
+			modalTemplate.after(modal);
+			modal.modal({
+				keyboard: true,
+				show : false
+			});
+		} else {
+			var modal = $("#" + id);
+		}
+		this.clearModal(modal);
+
+		//Request type
+		if (modalTemplate.attr("data-save-endpoint")) {
+			objx.set(this.storedVariables,"modals." + modalTemplate.attr("id") + ".request_type",modalTemplate.attr("data-save-endpoint"));
+		}
+
+		//Create the corresponding events
+		$("#" + id).find(".modal-footer").find(".btn-primary").live("click",$.proxy(function(){
+			var requestType = objx.get(this.storedVariables,"modals." + modalTemplate.attr("id") + ".request_type") || this.save_request_type || this.requestType || null;
 			this.saveModal(modal, requestType);
 		},this));
 
 		modal.find('[data-add-model]').live("click",$.proxy(function(){
 			var currentElement = $(event.target);
-			var inputElement = currentElement.prev("input,form select,select");
+			var inputElement = currentElement.prev("input,select")[0];
 			if (currentElement.attr("data-add-model") != "") {
 				if (objx.get(this.storedVariables.modals,currentElement.attr("data-add-model")  + ".id") == null)  {
 					var id = this.createModalFromObject($("#" + currentElement.attr("data-add-model")), null);
@@ -454,11 +472,36 @@ tableGenerator.prototype = {
 				} else {
 					$("#" + objx.get(this.storedVariables.modals,currentElement.attr("data-add-model") + ".id")).modal("show");
 				}
+				this.clearModal($("#" + objx.get(this.storedVariables.modals,currentElement.attr("data-add-model") + ".id")));
 				this.runHandler(currentElement,$("#" + objx.get(this.storedVariables.modals,currentElement.attr("data-add-model") + ".id")));
+
+				//Store the corresponding values for the add modal
+				objx.set(this.storedVariables.modals,currentElement.attr("data-add-model")  + ".type","add");
+				objx.set(this.storedVariables.modals,currentElement.attr("data-add-model")  + ".parent_modal",modal.attr("id"));
+				objx.set(this.storedVariables.modals,currentElement.attr("data-add-model")  + ".input_element",inputElement);
+				objx.set(this.storedVariables.modals,currentElement.attr("data-add-model")  + ".property",currentElement.attr("data-property"));
+				objx.set(this.storedVariables.modals,currentElement.attr("data-add-model")  + ".response_key",currentElement.attr("data-response-key"));
 			}
 		},this));
 
+		modal.modal("show");
+
 		return id;
+	},
+
+	/**
+	 * This function clears all the modal inputs
+	 * @param  {Object} modal The modal object
+	 */
+	clearModal : function ( modal ) {
+		var modal = $(modal);
+		modal.find("input").each(function (index, element) {
+			$(element).val("");
+		});
+		modal.find("select").each(function (index, element) {
+			$(element).find("option:eq(0)").attr("selected","selected");
+			$(element).trigger("change");
+		});
 	},
 
 	/**
@@ -476,31 +519,81 @@ tableGenerator.prototype = {
 
 		if (location != null) {
 			var type = "POST";
-			if (modal.find('[name=id]') != null) {
+			if (modal.find('[name=id]').length > 0 && modal.find('[name=id]') != null && modal.find('[name=id]').val() != "") {
 				type = "PUT";
 				var requestUrl = this.root + location + "/" + modal.find('[name=id]').val();
 			} else {
 				var requestUrl = this.root + location;
 			}
-			modal.modal("hide");
-			/*$.ajax({
-				url : requestUrl,
+			
+			$.ajax({
+				url : location,
 				data : JSON.stringify(object),
 				type : type,
-				success : function (data) {
-					console.log(data);
+				success : $.proxy(function (data){ 
+					modal.modal("hide");
+					if (objx.get(this.storedVariables.modals,modal.attr("data-template") + ".type") == "add") {
+						this.proccessAdd( modal, data);
+					} else {
+						//proccessSave( modal, data, );
+					}
+				}, this),
+				error : function () {
+					this.showError("Sorry an error encountered! Try again!",modal.find(".modal-body"));
 				}
-			});*/
+			});
 		}
+	},
+
+	/**
+	 * This function processes the recieved data from the add modal,
+	 * and updates the data
+	 * @param  {Object} modal The modal that just have been saved
+	 * @param  {Object} data  The data sent by the server
+	 */
+	proccessAdd : function ( modal, data) {
+		var modalData = objx.get(this.storedVariables.modals,modal.attr("data-template"));
+		if ($(modalData.input_element).is("input")) {
+			$(modalData.input_element).val(objx.get(data,modalData.response_key + "." + modalData.property));
+		} else {
+			var option = new Option(objx.get(data,modalData.property), objx.get(data,"id"));
+			$(option).html(objx.get(data,modalData.property));
+			$(modalData.input_element).append(option);
+			$(modalData.input_element).val(objx.get(data,"id"));
+		}
+	},
+
+	proccessSave : function ( modal, data, element, id) {
+
+	},
+
+	/**
+	 * This function shows an error
+	 * @param  {string} text The error message to show
+	 * @param {object} container An optional container for the message
+	 */
+	showError : function (text,container) {
+		container = container || $("body");
+		container = $(container);
+		if ($(container).find(".request_error").length <= 0) {
+			$(container).prepend('<div class="request_error alert fade in"></div>');
+		}
+		$(container).find(".request_error").css("display","block");
+		$(container).find(".request_error").html("");
+		$(container).find(".request_error").append('<button type="button" class="close" data-dismiss="alert">&times;</button><strong>' + text + '</strong>');
+		$(container).find(".request_error").alert();
+
+		$(container).find('.request_error').bind('closed', function () {
+		 	$(".request_error").css("display","none");
+		})
 	},
 
 	/**
 	 * This fuction creates the on click modal
 	 */
 	createModal : function () {
-		this.createModalFromObject($(this.onCickModal),null,this.modal_id_name);
-
 		$(this.container).find("tbody tr").live("click",$.proxy(function(event){
+			this.createModalFromObject($(this.onCickModal),null,this.modal_id_name);
 			var html = $(this.onCickModal).html();
 			var object = $(event.target).parent("tr");
 			html = html.replace(/\{([a-zA-Z_\.]*)\}/g, $.proxy(function (match, contents, offset, s) {
@@ -586,6 +679,7 @@ tableGenerator.prototype = {
 								}
 							});
 							if (currentElement.parent("form").length > 0) {
+								currentElement.parent("form").find("div ul").css("height","70px");
 								currentElement.parent("form").jqTransform();
 							}
 						});

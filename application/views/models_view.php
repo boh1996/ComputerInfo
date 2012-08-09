@@ -9,7 +9,7 @@
   			<input type="hidden" name="id" value="{id}">
 	  		<tr><td>Identifier</td><td><input type="text" data-name="identifier" class="input-large" value="{identifier}" name="model"></td></tr>
 	    	<tr data-handler="model"><td>Model</td><td>
-	    		<input name="model" placeholder="Model" type="text" data-provide="typeahead" data-name="model.name" class="typeahead" value="{model.name}"><i data-add-model="add_computer_model" class="icon-plus spacing1"></i>
+	    		<input name="model" placeholder="Model" type="text" data-provide="typeahead" data-name="model.name" class="typeahead" value="{model.name}"><i data-property="name" data-response-key="Computer_Model" data-add-model="add_computer_model" class="icon-plus spacing1"></i>
 	    	</td></tr>
 	    	<tr data-handler="model_type"><td>Type</td><td>
 	    		<form class="jqtransform"><select name="type" class="type_select" data-selected="{model.type.id}">
@@ -149,7 +149,7 @@
 </div>
 
 <!-- Add computer model -->
-<div class="modal hide" id="add_computer_model">
+<div class="modal hide" id="add_computer_model" data-save-endpoint="computer/model">
 	<div class="modal-header">
     	<button type="button" class="close" data-dismiss="modal">&times;</button>
     	<h3>Add Computer Model</h3>
@@ -160,7 +160,7 @@
 	    		<input name="manufacturer" type="text" data-provide="typeahead" class="typeahead" data-name="manufacturer.name" placeholder="Select manufacturer">
 	    	</td></tr>
 	    	<tr data-handler="model_type"><td>Type</td><td>
-	    		<form class="jqtransform"><select name="type" class="type_select" data-name="model.type" data-selected="{model.type.id}">
+	    		<form class="jqtransform"><select name="type" class="type_select" data-name="type" data-selected="{type.id}">
 	    		</select></form>
 	    	</td></tr>
 	    	<tr><td>Name</td><td><input placeholder="Model name" type="text" class="input-large" data-name="name"></td></tr>
