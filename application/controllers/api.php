@@ -613,6 +613,67 @@ class Api extends CI_Controller {
 	}
 
 	/**
+	 * This function checks if two users share minimum one organization
+	 * @param object $user The user to check the current user agains
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _Share_Organization ( $user) {
+		$share = false;
+		$user_organizations = self::_Get_User_Organizations($user);
+		if (self::_Get_User_Organizations() != null && $user_organizations != null) {
+			foreach (self::_Get_User_Organizations() as $key => $org) {
+				if (in_array($org, $user_organizations) || array_key_exists($org, $user_organizations)) {
+					$share = true;
+				}
+			}
+		}
+		return $share;
+	}
+
+	/**
+	 * This endpoint provides information on a specific user
+	 * or if the [:id:] is set to "me" then the current user is shown
+	 * @param string|integer $id The user id or "me"
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _User ( $id = null ) {
+		if (self::_Get_User_Organizations() !== null) {
+			$this->load->library("User");
+			$this->api_response->ResponseKey = "User";
+			$User = new User();
+			if (!is_null($id)) {	
+				$fields = array(
+					"id",
+					"organizations",
+					"email",
+					"name"
+				);
+				if ( $id == "me") {
+					$User = $this->_User;
+					$fields[] = "google";
+				} else {
+					if (!$User->Load($id)) {
+						$this->api_response->Code = 500;
+						return;
+					}
+					if (self::_Share_Organization($User) === false) {
+						$this->api_response->Code = 403;
+						return;
+					}
+				}
+				$this->api_response->Response = $User->Export($fields,false);
+				$this->api_response->Code = 200;
+			} else {
+				$this->api_response->Code = 400;
+			}
+		} else {
+			$this->api_response->Code = 401;
+		}
+	}
+
+	/**
 	 * This function performs the PATCH and PUT request
 	 * @param integer  $Id        The id of the computer to update
 	 * @param boolean $Overwrite If the request is PATCH, "false" or PUT, "true"
@@ -886,13 +947,17 @@ class Api extends CI_Controller {
 	/**
 	 * This function creates a array containing all the users organizations
 	 * @since 1.0
+	 * @param object $user An optional user to get the organizations from
 	 * @access private
 	 * @return array
 	 */
-	private function _Get_User_Organizations(){
-		$Organizations = array();
-		if(!is_null($this->_User->organizations) && is_array($this->_User->organizations)){
-			foreach ($this->_User->organizations as $Organization) {
+	private function _Get_User_Organizations( $user = null){
+		$Organizations = array();	
+		if (is_null($user)) {
+			$user = $this->_User;
+		}
+		if(!is_null($user->organizations) && is_array($user->organizations)){
+			foreach ($user->organizations as $Organization) {
 				if(is_object($Organizations)){
 					if(property_exists($Organization, "id")){
 						$Organizations[] = (int)$Organization->id;
@@ -907,8 +972,8 @@ class Api extends CI_Controller {
 					}
 				}
 			}
-		} else if(!is_null($this->_User->organizations) && is_integer($this->_User->organizations)){
-			$Organizations[] = (int)$this->_User->organizations;
+		} else if(!is_null($user->organizations) && is_integer($user->organizations)){
+			$Organizations[] = (int)$user->organizations;
 		} else {
 			$this->api_response->Code = 401;
 			return;
