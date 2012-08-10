@@ -165,7 +165,11 @@ class Api_Request{
 		$this->_CI =& get_instance();
 		$this->_CI->load->helper("array_xml");
 		if(!isset($_GET["format"])){
-			$this->_Format = (strpos($_SERVER['HTTP_ACCEPT'], 'xml')) ? 'xml' : 'json';
+			if (isset($_SERVER['HTTP_ACCEPT'])) {
+				$this->_Format = (strpos($_SERVER['HTTP_ACCEPT'], 'xml')) ? 'xml' : 'json';
+			} else {
+				$this->_Format = "json"; // Default???
+			}
 		} else {
 			$Formats = array("xml","json");
 			if(in_array($_GET["format"], $Formats)){
