@@ -1,8 +1,8 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');  
-class Manufacturer extends Std_Library{
+class Graphic_Card extends Std_Library{
 
 	/**
-	 * The database id of the manufaturer
+	 * The database id of the graphic card
 	 * @var integer
 	 * @since 1.0
 	 * @access public
@@ -10,36 +10,44 @@ class Manufacturer extends Std_Library{
 	public $id = NULL;
 
 	/**
-	 * The name of the manufacturer
-	 * @var string
+	 * The Graphic Card Model object
+	 * @var object
 	 * @since 1.0
 	 * @access public
 	 */
-	public $name = NULL;
+	public $model = NULL;
 
 	/**
-	 * The webiste of the manufacturer
+	 * The current driver version of the Computers Graphics Driver
+	 * @var string
 	 * @since 1.0
 	 * @access public
-	 * @var string
 	 */
-	public $website = NULL;
+	public $driver_version = NULL;
 
 	/**
-	 * The hardware detection string
+	 * The release date of the current Graphics Driver
+	 * @var string
 	 * @since 1.0
 	 * @access public
-	 * @var string
 	 */
-	public $detection_string = NULL;
+	public $driver_date = NULL;
 
 	/**
-	 * The abbrevation of the manufacturer HP as an example
-	 * @var string
+	 * The screen size object
+	 * @var object
 	 * @since 1.0
 	 * @access public
 	 */
-	public $abbrevation = NULL;
+	public $screen_size = NULL;
+
+	/**
+	 * The size of the Graphic card memory
+	 * @var integer
+	 * @since 1.0
+	 * @access public
+	 */
+	public $ram_size = NULL;
 
 	### Class Settings ###
 
@@ -58,7 +66,7 @@ class Manufacturer extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Database_Table = "manufacturers";
+	public $Database_Table = "graphic_cards";
 
 	/**
 	 * This is the constructor, it configurates the Std Library
@@ -68,8 +76,15 @@ class Manufacturer extends Std_Library{
 	public function __construct(){
 		parent::__construct();
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
-		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("name","detection_string");
+		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = array("screen_size");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
-		$this->_INTERNAL_LOAD_FROM_CLASS = array("model" => "Computer_Model");
+		$this->_INTERNAL_LOAD_FROM_CLASS = array(
+			"screen_size" => "Screen_Size",
+			"model" => "Graphic_Card_Model"
+		);
+		$this->_INTERNAL_ROW_NAME_CONVERT = array(
+			"screen_size_id" => "screen_size",
+			"graphics_card_model_id" => "model"
+		);
 	}
 }

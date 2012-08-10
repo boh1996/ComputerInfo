@@ -59,13 +59,11 @@ class Print_Location extends Std_Library{
 			"computer_group" => "Computer_Group",
 			"printer_group" => "Printer_Group"
 		);
-		//$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_INTERNAL_ROW_NAME_CONVERT = array(
 			"computer_group_id" => "computer_group",
 			"printer_group_id" => "printer_group"
 		);
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("printer_group","computer_group");
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS_ABORT_ON_NULL = true;
-		//$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_ROW_NAME_CONVERT,"ROW_NAME_CONVERT");
 	}
 }

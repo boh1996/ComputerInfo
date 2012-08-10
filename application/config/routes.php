@@ -71,6 +71,7 @@ if ((!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_RE
 	$route["get/printers/(:num)"] = "api/get/printers/$1";
 	$route["get/screens/(:num)"] = "api/get/screens/$1";
 	$route["get/locations/(:num)"] = "api/get/locations/$1";
+	$route["client/computer"] = "api/computer_client";
 } 
 /**
  * User Routes

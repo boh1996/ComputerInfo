@@ -120,7 +120,7 @@ class Api extends CI_Controller {
 			if($Computer->Load($Id)){
 				if(self::_Has_Access("organizations",$this->_User,$Computer->organization)){
 					$this->api_response->Code = 200;
-					$this->api_response->Response = $Computer->Export();
+					$this->api_response->Response = $Computer->Export(null,false);
 				} else {
 					$this->api_response->Code = 401;
 				}
@@ -929,7 +929,7 @@ class Api extends CI_Controller {
 					foreach ($Raw->result() as $Row) {
 						$Object = new $Library();
 						$Object->Load($Row->id);
-						$Response[] = $Object->Export();
+						$Response[] = $Object->Export(null,false);
 					}
 					if (!$Return) {
 						$this->api_response->Response = $Response;
@@ -948,7 +948,7 @@ class Api extends CI_Controller {
 					foreach ($Raw->result() as $Row) {
 						$Object = new $Library();
 						$Object->Load($Row->id);
-						$Response[] = $Object->Export();
+						$Response[] = $Object->Export(null,false);
 					}
 					if (!$Return) {
 						$this->api_response->Response = $Response;
@@ -1118,6 +1118,44 @@ class Api extends CI_Controller {
 				$this->api_response->Response = array("id" => $Computer->id);
 			} else {
 				$this->api_response->Code = 409;
+			}
+		} else {
+			$this->api_response->Code = 400;
+		}
+	}
+
+	private function _Computer_Client_Create () {
+		if (is_array($this->api_request->Request_Data())) {
+			if ( self::_Get_User_Organizations() != null ) {
+				$Request_Data = $this->api_request->Request_Data();
+				$this->api_response->ResponseKey = "Computer";
+				if(isset($Request_Data["id"])){
+					unset($Request_Data["id"]);
+				}
+				$this->load->library("Computer");
+				$Computer = new Computer();
+				$Computer->Set_Current_User($this->_User->id);
+
+				//$Computer->Import($Request_Data);
+				/*if(!is_null($Computer->organization)){
+					if(!self::_Has_Access("organizations",$this->_User,$Computer->organization)){
+						$this->api_response->Code = 401;
+						return;
+					}
+				} else {
+					$Computer->organization = $this->_User->organizations[0]->id;
+				}*/
+				//Ensure that all the parameters are right
+				$Computer->created_time = time();
+				$Computer->last_updated = time();
+				/*if($Computer->Save()){
+					$this->api_response->Code = 200;
+					$this->api_response->Response = array("id" => $Computer->id);
+				} else {
+					$this->api_response->Code = 409;
+				}*/
+			} else {
+				$this->api_response->Code = 401;
 			}
 		} else {
 			$this->api_response->Code = 400;
