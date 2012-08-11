@@ -118,14 +118,6 @@ class Computer extends Std_Library{
 	public $screen_size = NULL;
 
 	/**
-	 * The id of the cpu build into this computer
-	 * @var integer
-	 * @access public
-	 * @since 1.0
-	 */
-	public $cpu = NULL;
-
-	/**
 	 * The UNIX timestap of the time
 	 * the row was created,
 	 * @var integer
@@ -210,6 +202,14 @@ class Computer extends Std_Library{
 	 */
 	public $graphic_cards = NULL;
 
+	/**
+	 * An array containing the processeor available for a specific PC
+	 * @var array
+	 * @since 1.0
+	 * @access public
+	 */
+	public $processors = NULL;
+
 	### Class Settings ###
 
 	/**
@@ -225,65 +225,72 @@ class Computer extends Std_Library{
 	 * @since 1.0
 	 * @access private
 	 */
-	public function __construct(){
-		parent::__construct();
-		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
-		$this->_INTERNAL_FORCE_ARRAY = array("lan_macs","printers","connected_devices","graphic_cards");
-		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("identifier","organization");
-		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = array(
-			"location","
-			printers",
+	public function __construct( $input = null ){
+		$this->_INTERNAL_EXPORT_INGNORE = 				array("CI","Database_Table","_CI");
+		$this->_INTERNAL_FORCE_ARRAY = 					array(
+			"lan_macs",
+			"printers",
+			"connected_devices",
+			"graphic_cards",
+			"processors"
+		);
+		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = 	array("identifier","organization");
+		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = 		array(
+			"location",
+			"printers",
 			"model",
-			"cpu",
 			"organization",
 			"connected_devices",
-			"graphic_cards"
+			"graphic_cards",
+			"processors"
 		);
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array(
 			"id",
 			"printers",
 			"connected_devices",
 			"groups",
-			"graphic_cards"
+			"graphic_cards",
+			"processors"
 		);
-		$this->_INTERNAL_LAST_UPDATED_PROPERTY = "last_updated";
-		$this->_INTERNAL_CREATED_TIME_PROPERTY = "created_time";
+		$this->_INTERNAL_LAST_UPDATED_PROPERTY 		= "last_updated";
+		$this->_INTERNAL_CREATED_TIME_PROPERTY 		= "created_time";
 		$this->_INTERNAL_LAST_UPDATED_USER_PROPERTY = "last_updated_user";
-		$this->_INTERNAL_CREATED_USER_PROPERTY = "creator_user";
+		$this->_INTERNAL_CREATED_USER_PROPERTY 		= "creator_user";
 		$this->_INTERNAL_EXPORT_FORMATING = array(
 			"created_time" => array("date","d/m-Y - H:i:s"),
 			"last_updated" => array("date","d/m-Y - H:i:s")
 		);
 		$this->_INTERNAL_LOAD_FROM_CLASS = array(
-			"model" => "Computer_Model",
-			"organization" => "Organization",
-			"cpu" => "Cpu",
-			"printers" => "Printer",
+			"model" 			=> "Computer_Model",
+			"organization" 		=> "Organization",
+			"printers"			=> "Printer",
 			"connected_devices" => "Device",
-			"location" => "Location",
-			"screen_size" => "Screen_Size",
-			"operating_system" => "Operating_System_Version",
-			"groups" => "Computer_Group",
+			"location" 			=> "Location",
+			"screen_size" 		=> "Screen_Size",
+			"operating_system" 	=> "Operating_System_Version",
+			"groups" 			=> "Computer_Group",
 			"last_updated_user" => "User",
-			"graphic_cards" => "Graphic_Card",
-			"creator_user" => "User"
+			"graphic_cards" 	=> "Graphic_Card",
+			"processors" 		=> "Processor_Model",
+			"creator_user" 		=> "User"
 		);
-		$this->_INTERNAL_SIMPLE_LOAD = array("printers" => true);
+		$this->_INTERNAL_SIMPLE_LOAD = 		array("printers" => true);
 		$this->_INTERNAL_ROW_NAME_CONVERT = array(
-			"organization_id" => "organization",
-			"cpu_id" => "cpu",
-			"model_id" => "model",
-			"location_id" => "location",
-			"screen_size_id" => "screen_size",
-			"operating_system_verison_id" => "operating_system",
-			"creator_user_id" => "creator_user",
-			"last_updated_user_id" => "last_updated_user"
+			"organization_id" 				=> "organization",
+			"model_id" 						=> "model",
+			"location_id" 					=> "location",
+			"screen_size_id" 				=> "screen_size",
+			"operating_system_verison_id" 	=> "operating_system",
+			"creator_user_id" 				=> "creator_user",
+			"last_updated_user_id" 			=> "last_updated_user"
 		);
 		$this->_INTERNAL_LINK_PROPERTIES = array(
-			"printers" => array("connected_to_printers",array("device_id" => "id"),"printer_id"),
-			"connected_devices" => array("connected_devices",array("connected_id" => "id"),"device_id"),
-			"groups" => array("computer_group_members",array("computer_id" => "id"),"group_id"),
-			"graphic_cards" => array("computer_graphic_settings",array("computer_id" => "id"),"graphic_card_id")
+			"printers" 			=> array("connected_to_printers",		array("device_id" 			=> "id"),"printer_id"),
+			"connected_devices" => array("connected_devices",			array("connected_id" 		=> "id"),"device_id"),
+			"groups" 			=> array("computer_group_members",		array("computer_id" 		=> "id"),"group_id"),
+			"graphic_cards"		=> array("computer_graphic_settings",	array("computer_id" 		=> "id"),"graphic_card_id"),
+			"processors" 		=> array("computer_processors",			array("computer_id" 		=> "id"),"processor_model_id")
  		);
+ 		parent::__construct($input);
 	}
 }
