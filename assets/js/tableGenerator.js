@@ -517,7 +517,7 @@ tableGenerator.prototype = {
 		});
 		var location = requestType || this.save_request_type || this.requestType || null;
 
-		if (location != null) {
+		if (location != null && this.countProperties(object) !== 0 && object != undefined && object.length > 0) {
 			var type = "POST";
 			if (modal.find('[name=id]').length > 0 && modal.find('[name=id]') != null && modal.find('[name=id]').val() != "") {
 				type = "PUT";

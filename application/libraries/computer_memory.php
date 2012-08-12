@@ -54,7 +54,11 @@ class Computer_Memory extends Std_Library{
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id","slots");
 		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = array("slots");
+		$this->_INTERNAL_IMPORT_OVERWRITE_REUSE = array("slots");
 		$this->_INTERNAL_FORCE_ARRAY = array("slots");
+		$this->_INTERNAL_IMPORT_OVERWRITE = array(
+			"slots"
+		);
 		$this->_INTERNAL_LINK_PROPERTIES = array(
 			"slots" 		=> array("computer_memory_slots",			array("computer_memory_id" 		=> "id"))
 		);
