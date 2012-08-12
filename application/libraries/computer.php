@@ -210,6 +210,14 @@ class Computer extends Std_Library{
 	 */
 	public $processors = NULL;
 
+	/**
+	 * The computer memory object storing the memory slots and the amout  of RAM
+	 * @since 1.0
+	 * @access public
+	 * @var object
+	 */
+	public $memory = NULL;
+
 	### Class Settings ###
 
 	/**
@@ -242,7 +250,8 @@ class Computer extends Std_Library{
 			"organization",
 			"connected_devices",
 			"graphic_cards",
-			"processors"
+			"processors",
+			"memory"
 		);
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array(
 			"id",
@@ -250,7 +259,8 @@ class Computer extends Std_Library{
 			"connected_devices",
 			"groups",
 			"graphic_cards",
-			"processors"
+			"processors",
+			"memory"
 		);
 		$this->_INTERNAL_LAST_UPDATED_PROPERTY 		= "last_updated";
 		$this->_INTERNAL_CREATED_TIME_PROPERTY 		= "created_time";
@@ -272,7 +282,8 @@ class Computer extends Std_Library{
 			"last_updated_user" => "User",
 			"graphic_cards" 	=> "Graphic_Card",
 			"processors" 		=> "Processor_Model",
-			"creator_user" 		=> "User"
+			"creator_user" 		=> "User",
+			"memory" 			=> "Computer_Memory"
 		);
 		$this->_INTERNAL_SIMPLE_LOAD = 		array("printers" => true);
 		$this->_INTERNAL_ROW_NAME_CONVERT = array(
@@ -289,7 +300,8 @@ class Computer extends Std_Library{
 			"connected_devices" => array("connected_devices",			array("connected_id" 		=> "id"),"device_id"),
 			"groups" 			=> array("computer_group_members",		array("computer_id" 		=> "id"),"group_id"),
 			"graphic_cards"		=> array("computer_graphic_settings",	array("computer_id" 		=> "id"),"graphic_card_id"),
-			"processors" 		=> array("computer_processors",			array("computer_id" 		=> "id"),"processor_model_id")
+			"processors" 		=> array("computer_processors",			array("computer_id" 		=> "id"),"processor_model_id"),
+			"memory" 			=> array("computer_memory",				array("computer_id" 		=> "id"))
  		);
  		parent::__construct($input);
 	}

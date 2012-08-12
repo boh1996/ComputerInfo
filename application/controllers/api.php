@@ -120,6 +120,7 @@ class Api extends CI_Controller {
 			if($Computer->Load($Id)){
 				if(self::_Has_Access("organizations",$this->_User,$Computer->organization)){
 					$this->api_response->Code = 200;
+					//echo $Computer->memory->slots[0]->empty;
 					$this->api_response->Response = $Computer->Export(null,false);
 				} else {
 					$this->api_response->Code = 401;
