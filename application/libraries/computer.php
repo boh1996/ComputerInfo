@@ -76,15 +76,6 @@ class Computer extends Std_Library{
 	public $groups = NULL;
 
 	/**
-	 * The amount of available RAM 
-	 * space at the computer
-	 * @var string
-	 * @since 1.0
-	 * @access public
-	 */
-	public $ram_size = NULL;
-
-	/**
 	 * The database identifier
 	 * of the model this computer belogns too
 	 * @var string
@@ -242,6 +233,9 @@ class Computer extends Std_Library{
 			"graphic_cards",
 			"processors"
 		);
+
+		$this->_INTERNAL_OVERWRITE_ON_DUBLICATE = true; //This can changed
+
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = 	array("identifier","organization");
 		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = 		array(
 			"location",
@@ -302,9 +296,9 @@ class Computer extends Std_Library{
 			"printers" 			=> array("connected_to_printers",		array("device_id" 			=> "id"),"printer_id"),
 			"connected_devices" => array("connected_devices",			array("connected_id" 		=> "id"),"device_id"),
 			"groups" 			=> array("computer_group_members",		array("computer_id" 		=> "id"),"group_id"),
-			"graphic_cards"		=> array("computer_graphic_settings",	array("computer_id" 		=> "id"),"graphic_card_id"),
+			"graphic_cards"		=> array("graphic_cards",				array("computer_id" 		=> "id")),
 			"processors" 		=> array("computer_processors",			array("computer_id" 		=> "id"),"processor_model_id"),
-			"memory" 			=> array("computer_memory",				array("computer_id" 		=> "id"))
+			"memory" 			=> array("computer_memory",				array("computer_id" 		=> "id"),null,array("computer_id"))
  		);
  		parent::__construct($input);
 	}

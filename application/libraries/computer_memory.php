@@ -52,15 +52,18 @@ class Computer_Memory extends Std_Library{
 	public function __construct(){
 		parent::__construct();
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
+		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = 	array("computer_id");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id","slots");
 		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = array("slots");
 		$this->_INTERNAL_IMPORT_OVERWRITE_REUSE = array("slots");
 		$this->_INTERNAL_FORCE_ARRAY = array("slots");
+		$this->_INTERNAL_OVERWRITE_ON_DUBLICATE = true;
 		$this->_INTERNAL_IMPORT_OVERWRITE = array(
 			"slots"
 		);
+		$this->_INTERNAL_LINK_SAVE_DUPLICATE_FUNCTION = array("slots" => "OVERWRITE");
 		$this->_INTERNAL_LINK_PROPERTIES = array(
-			"slots" 		=> array("computer_memory_slots",			array("computer_memory_id" 		=> "id"))
+			"slots" 		=> array("computer_memory_slots",			array("computer_memory_id" 		=> "id"), null, array("computer_memory_id"))
 		);
 		$this->_INTERNAL_LOAD_FROM_CLASS = array(
 			"slots" => "Memory_Slot"
