@@ -12,7 +12,7 @@ class Data extends CI_Controller {
 		$this->load->library("Computer");
 		$Computer = new Computer();
 		$Computer->Load(95);
-		$Computer->Import(array("memory" => array("total_physical_memory" => 400,"slots" => array(array("empty" => "true","capacity" => 2000)))));
+		/*$Computer->Import(array("memory" => array("total_physical_memory" => 400,"slots" => array(array("empty" => "true","capacity" => 2000)))));
 		$Computer->Save();
 		//$Computer->Save();*/
 		/*$this->load->library("User");

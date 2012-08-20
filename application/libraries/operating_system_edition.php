@@ -1,8 +1,8 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');  
-class Operating_System_Version extends Std_Library{
+class Operating_System_Edition extends Std_Library{
 
 	/**
-	 * The database id of the operating system
+	 * The database id of the operating system installation
 	 * @since 1.0
 	 * @access public
 	 * @var integer
@@ -10,31 +10,24 @@ class Operating_System_Version extends Std_Library{
 	public $id = NULL;
 
 	/**
-	 * The name of the operating system Windows XP etc
+	 * The manufactuer object of that OS edition
 	 * @since 1.0
 	 * @access public
-	 * @var strign
+	 * @var object
+	 */
+	public $manufacturer = NULL;
+
+	/**
+	 * The name of the OS edition
+	 * @var string
+	 * @since 1.0
+	 * @access public
 	 */
 	public $name = NULL;
 
 	/**
-	 * The input detection string of the os
-	 * @var string
-	 * @since 1.0
-	 * @access public
-	 */
-	public $version_number = NULL;
-
-	/**
-	 * The version of the operating system
-	 * @since 1.0
-	 * @access public
-	 * @var string
-	 */
-	public $operating_system = NULL;
-
-	/**
-	 * The readable detection string send by the reading program
+	 * The consatant that can be used by the API/Read in program to 
+	 * send the correct to the server
 	 * @since 1.0
 	 * @access public
 	 * @var stirng
@@ -58,7 +51,7 @@ class Operating_System_Version extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Database_Table = "operating_system_versions";
+	public $Database_Table = "operation_system_editions";
 
 	/**
 	 * The constructor, it configurates the Std Library
@@ -69,13 +62,12 @@ class Operating_System_Version extends Std_Library{
 		parent::__construct();
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("detection_string");
-		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = array("operating_system");
-		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS_ABORT_ON_NULL = true;
+		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = array("core","edition");
 		$this->_INTERNAL_ROW_NAME_CONVERT = array(
-			"operating_system_id" => "operating_system"
+			"manufacturer_id" => "manufacturer"
 		);
 		$this->_INTERNAL_LOAD_FROM_CLASS = array(
-			"operating_system" => "Operating_System"
+			"manufacturer" => "Manufacturer"
 		);
 	}
 }

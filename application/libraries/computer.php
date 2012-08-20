@@ -235,7 +235,6 @@ class Computer extends Std_Library{
 		);
 
 		$this->_INTERNAL_OVERWRITE_ON_DUBLICATE = true; //This can changed
-
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = 	array("identifier","organization");
 		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = 		array(
 			"location",
@@ -281,6 +280,7 @@ class Computer extends Std_Library{
 			"processors" 		=> "Processor_Model",
 			"creator_user" 		=> "User",
 			"memory" 			=> "Computer_Memory"
+			//"operating_system" 	=> "Operating_System_Installation",
 		);
 		$this->_INTERNAL_SIMPLE_LOAD = 		array("printers" => true);
 		$this->_INTERNAL_ROW_NAME_CONVERT = array(
@@ -298,7 +298,8 @@ class Computer extends Std_Library{
 			"groups" 			=> array("computer_group_members",		array("computer_id" 		=> "id"),"group_id"),
 			"graphic_cards"		=> array("graphic_cards",				array("computer_id" 		=> "id")),
 			"processors" 		=> array("computer_processors",			array("computer_id" 		=> "id"),"processor_model_id"),
-			"memory" 			=> array("computer_memory",				array("computer_id" 		=> "id"),null,array("computer_id"))
+			"memory" 			=> array("computer_memory",				array("computer_id" 		=> "id"),null,array("computer_id")),
+			//"operating_system" 			=> array("operation_system_installations",				array("computer_id" 		=> "id"),null,array("computer_id"))
  		);
  		parent::__construct($input);
 	}
