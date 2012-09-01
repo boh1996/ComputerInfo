@@ -103,8 +103,23 @@ class Login extends CI_Controller {
 	public function Enter () {
 		if (self::_check_user_login($User)) {
 			$_SESSION["user_id"] = $User->id;
+			self::_redirect($this->config->item("front_page"));
 		} else {
 			self::_redirect($this->config->item("login_page"));
+		}
+	}
+
+	/**
+	 * This function is called if it's a device that is using the login form
+	 * @since 1.0
+	 * @access public
+	 */
+	public function Device () {
+		if (self::_check_user_login($User)) {
+			$_SESSION["user_id"] = $User->id;
+			echo json_encode(array("User" = $User->Export(),"status" => "OK"));
+		} else {
+			echo json_encode(array("User" = null,"status" => "FAIL"));
 		}
 	}
 }

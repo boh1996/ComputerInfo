@@ -82,7 +82,9 @@ else {
 	} else {
 		if (!empty($_POST["username"])) {
 			$route["login/check"] = "login/enter";
+			$route["login/device"] = "login/device";
 		} else {
+			$route["login/device"] = "ui";
 			$route["login/enter"] = "ui";
 			$route["login/check"] = "login";
 			$route["login/(:any)"] = "login/$1";
