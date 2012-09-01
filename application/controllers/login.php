@@ -67,11 +67,13 @@ class Login extends CI_Controller {
 	}
 
 	/**
-	 * This view/function is called when the form is submitted
+	 * This function checks if the entered password and username is corrected and matches
+	 * @param  object &$user_object This will contain the current user, if succes
 	 * @since 1.0
-	 * @access public
+	 * @access private
+	 * @return boolean
 	 */
-	public function Enter () {
+	private function _check_user_login ( &$user_object ) {
 		$this->load->library("User");
 		$this->load->library("auth/login_security");
 		if (!isset($_SESSION["user_id"]) && $this->input->post('username') != false && $this->input->post('password') != false) {
@@ -80,13 +82,27 @@ class Login extends CI_Controller {
 			$password = $this->login_security->check_security($this->input->post('password'));
 			if ($User->Find(array("username" => $username)) && !is_null($User->username)) {
 				if ($this->login_security->check($password, $User->password, $User->login_token,$User->hashing_iterations)) {
-					$_SESSION["user_id"] = $User->id;
+					$user_object = $User;
+					return true;
 				} else {
-					self::_redirect($this->config->item("login_page"));
+					return false;
 				}
 			} else {
-				self::_redirect($this->config->item("login_page"));
+				return false;
 			}
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * This view/function is called when the form is submitted
+	 * @since 1.0
+	 * @access public
+	 */
+	public function Enter () {
+		if (self::_check_user_login($User)) {
+			$_SESSION["user_id"] = $User->id;
 		} else {
 			self::_redirect($this->config->item("login_page"));
 		}
