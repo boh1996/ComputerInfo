@@ -59,6 +59,21 @@ class User extends Std_Library{
 	 */
 	public $password = NULL;
 
+	/**
+	 * The number of times to iterate when hashing the users password
+	 * @since 1.0
+	 * @access public
+	 * @var integer
+	 */
+	public $hashing_iterations = NULL;
+
+	/**
+	 * The user salt
+	 * @since 1.0
+	 * @access public
+	 * @var string
+	 */
+	public $login_token = NULL;
 
 	### Class Settings ###
 
@@ -86,14 +101,27 @@ class User extends Std_Library{
 	 */
 	public function __construct(){
 		parent::__construct();
-		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI","username","password");
+		$this->_INTERNAL_EXPORT_INGNORE = array(
+			"CI",
+			"Database_Table",
+			"_CI",
+			"username",
+			"password",
+			"login_token",
+			"hashing_iterations"
+		);
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
 		$this->_INTERNAL_LOAD_FROM_CLASS = array(
 			"organizations" => "Organization"
 		);
 		$this->_INTERNAL_IMPORT_IGNORE = array(
 			"username",
-			"password"
+			"password",
+			"CI",
+			"Database_Table",
+			"_CI",
+			"login_token",
+			"hashing_iterations"
 		);
 		$this->_INTERNAL_FORCE_ARRAY = array("organizations");
 		$this->_INTERNAL_SECURE_EXPORT_IGNORE = array("username","password","google");

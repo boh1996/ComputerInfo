@@ -80,9 +80,14 @@ else {
 	if(isset($_GET["normal"]) && $_GET["normal"] == "true"){
 		//Normal Routes
 	} else {
-		//$notMatch = array("login");
-		$route["login/(:any)"] = "login/$1";
-		$route["login"] = "login";
+		if (!empty($_POST["username"])) {
+			$route["login/check"] = "login/enter";
+		} else {
+			$route["login/enter"] = "ui";
+			$route["login/check"] = "login";
+			$route["login/(:any)"] = "login/$1";
+			$route["login"] = "login";
+		}
 		$route["(:any)"] = "ui/$1";
 	}
 	

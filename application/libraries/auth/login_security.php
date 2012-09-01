@@ -1,17 +1,40 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');  
-class Login_Security extends Std_Library{
+class Login_Security{
 
-	public function __construct () {}
+	/**
+	 * A local instance of CodeIgniter
+	 * @since 1.0
+	 * @access private
+	 * @var object
+	 */
+	private $_CI = NULL;
 
+	public function __construct () {
+		$this->_CI =& get_instance();
+	}
+
+	/**
+	 * This function hashes the input password, checks the length and if the password contains numbers
+	 * and then it checks if it matches the database password
+	 * @since 1.0
+	 * @access public
+	 * @param  string  $password           The password entered by the User
+	 * @param  string  $user_password      The password taken from the database
+	 * @param  string  $user_salt          The salt assosiacted with the user
+	 * @param  integer $hashing_iterations The number of time to hash the password before check
+	 * @return boolean
+	 */
 	public function check ( $password, $user_password, $user_salt, $hashing_iterations = 10 ) {
-		$password = self::_check_security($password);
-		if (self::_correct_length($password, $this->config->item("password_length")) && self::_has_number($password)) {
+		$password = self::check_security($password);
+		if (1== 1 || !empty($password) && self::_correct_length($password, $this->_CI->config->item("password_length")) && self::_has_number($password)) {
 			$salts = array(
 				$user_salt,
-				$this->config->item("app_hashing_salt"),
+				$this->_CI->config->item("app_hashing_salt"),
 				"fdd3606ec5da81bf410b57828df77caba7fb870edc3307369adf179f838f20fc"
 			);
 			$salt = self::_create_salt( $salts );
+			$password = self::_hash($password, $salt, $hashing_iterations);
+			return ($password == $user_password);
 		} else {
 			return false;
 		}
@@ -30,7 +53,7 @@ class Login_Security extends Std_Library{
 			foreach ($salts as $salt) {
 				$string .= $salt;
 			}
-			return $string:
+			return $string;
 		} else {
 			if (!is_null($salts)) {
 				return $salts;
@@ -40,8 +63,34 @@ class Login_Security extends Std_Library{
 		}
 	}
 
-	private function _hash ( $password, $salts, $hashing_iterations ) {
+	/**
+	 * This function creates a random salt
+	 * @since 1.0
+	 * @access public
+	 * @param  integer $length The length of the desired salt
+	 * @return string
+	 */
+	public function createSalt ( $length = 64) {
+		$this->_CI->load->helper("rand");
+		$rand = rand_sha1($length);
+		return $rand;
+	}
 
+	/**
+	 * This function hashes the password {x} times, with a user salts and a APP HMAC
+	 * @param  strign  $password          The password to hash
+	 * @param  string  $salt              The salt
+	 * @param  integer $hashing_iterations The number of times to iterate
+	 * @return string
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _hash ( $password, $salt, $hashing_iterations = 10 ) {
+		$pasword_hashed = $password;
+		for ($i = 0; $i < $hashing_iterations; $i++) { 
+			$pasword_hashed = hash_hmac("sha512", $pasword_hashed . $salt, $this->_CI->config->item("login_secret"));
+		}
+		return $pasword_hashed;
 	}
 
 	/**
@@ -71,10 +120,10 @@ class Login_Security extends Std_Library{
 	 * This function removes all un-autherized entities from the password
 	 * @param  string $password The password to secure
 	 * @since 1.0
-	 * @access private
+	 * @access public
 	 * @return string
 	 */
-	private function _check_security ( $password) {
+	public function check_security ( $password) {
 		$password = mysql_real_escape_string($password);
 		$password = addslashes($password);
 		$password = strip_tags($password);

@@ -64,6 +64,11 @@ $config["app_hashing_salt"] = "7b1ff613e73cf8391e0530cc488a59fcbc182e67069ff9508
 $config["password_length"] = 7;
 
 /**
+ * The login secret key
+ */
+$config["login_secret"] = "Ft2Cx1125Mh9hMdwKBEqv15q6b00gNNS";
+
+/**
  * The url to jquery
  */
 $config["jquery_url"] = "https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js";
