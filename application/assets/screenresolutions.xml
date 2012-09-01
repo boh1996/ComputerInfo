@@ -1,0 +1,581 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+- phpMyAdmin XML Dump
+- version 3.4.5
+- http://www.phpmyadmin.net
+-
+- Vært: localhost
+- Genereringstid: 09. 06 2012 kl. 19:12:13
+- Serverversion: 5.5.16
+- PHP-version: 5.3.8
+-->
+
+<pma_xml_export version="1.0" xmlns:pma="http://www.phpmyadmin.net/some_doc_url/">
+    <!--
+    - Structure schemas
+    -->
+    <pma:structure_schemas>
+        <pma:database name="data" collation="latin1_swedish_ci" charset="latin1">
+            <pma:table name="screenresolutions">
+                CREATE TABLE `screenresolutions` (
+                  `Id` int(15) NOT NULL AUTO_INCREMENT,
+                  `Name` varchar(45) DEFAULT NULL,
+                  `AspectRatio` varchar(45) DEFAULT NULL,
+                  `Title` varchar(45) DEFAULT NULL,
+                  `Type` varchar(45) DEFAULT NULL,
+                  `PPI` varchar(45) DEFAULT NULL,
+                  `Width` varchar(150) DEFAULT NULL,
+                  `Height` varchar(150) DEFAULT NULL,
+                  PRIMARY KEY (`Id`)
+                ) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=latin1;
+            </pma:table>
+        </pma:database>
+    </pma:structure_schemas>
+
+    <!--
+    - Database: 'data'
+    -->
+    <database name="data">
+        <!-- Tabel screenresolutions -->
+        <table name="screenresolutions">
+            <column name="Id">1</column>
+            <column name="Name">QQVGA</column>
+            <column name="AspectRatio">4:3</column>
+            <column name="Title">Quarter Quarter Video Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">160</column>
+            <column name="Height">120</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">2</column>
+            <column name="Name">HQVGA</column>
+            <column name="AspectRatio">4:3</column>
+            <column name="Title">Half Quarter Video Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">240</column>
+            <column name="Height">160</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">3</column>
+            <column name="Name">HQVGA</column>
+            <column name="AspectRatio">4:3</column>
+            <column name="Title">Half Quarter Video Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">160</column>
+            <column name="Height">120</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">4</column>
+            <column name="Name">QVGA</column>
+            <column name="AspectRatio">4:3</column>
+            <column name="Title">Quarter Video Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">320</column>
+            <column name="Height">240</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">5</column>
+            <column name="Name">WQVGA</column>
+            <column name="AspectRatio">9:5</column>
+            <column name="Title">Wide Quarter Video Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">432</column>
+            <column name="Height">240</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">6</column>
+            <column name="Name">WQVGA</column>
+            <column name="AspectRatio">8:5</column>
+            <column name="Title">Wide Quarter Video Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">384</column>
+            <column name="Height">240</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">7</column>
+            <column name="Name">WQVGA</column>
+            <column name="AspectRatio">5:3</column>
+            <column name="Title">Wide Quarter Video Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">400</column>
+            <column name="Height">240</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">8</column>
+            <column name="Name">HVGA</column>
+            <column name="AspectRatio">3:2</column>
+            <column name="Title">Half Video Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">480</column>
+            <column name="Height">320</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">9</column>
+            <column name="Name">HVGA</column>
+            <column name="AspectRatio">4:3</column>
+            <column name="Title">Half Video Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">480</column>
+            <column name="Height">360</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">10</column>
+            <column name="Name">HVGA</column>
+            <column name="AspectRatio">16:9</column>
+            <column name="Title">Half Video Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">480</column>
+            <column name="Height">272</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">11</column>
+            <column name="Name">HVGA</column>
+            <column name="AspectRatio">8:3</column>
+            <column name="Title">Half Video Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">640</column>
+            <column name="Height">240</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">12</column>
+            <column name="Name">VGA</column>
+            <column name="AspectRatio">4:3</column>
+            <column name="Title">Video Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">640</column>
+            <column name="Height">480</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">13</column>
+            <column name="Name">WVGA</column>
+            <column name="AspectRatio">5:3</column>
+            <column name="Title">Wide Video Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">800</column>
+            <column name="Height">480</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">14</column>
+            <column name="Name">WVGA</column>
+            <column name="AspectRatio">16:9</column>
+            <column name="Title">Wide Video Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">854</column>
+            <column name="Height">480</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">15</column>
+            <column name="Name">WVGA</column>
+            <column name="AspectRatio">16:9</column>
+            <column name="Title">Wide Video Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">848</column>
+            <column name="Height">480</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">16</column>
+            <column name="Name">FWVGA</column>
+            <column name="AspectRatio">16:9</column>
+            <column name="Title">Full Wide Video Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">854</column>
+            <column name="Height">480</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">17</column>
+            <column name="Name">SVGA</column>
+            <column name="AspectRatio">4:3</column>
+            <column name="Title">Super Video Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">800</column>
+            <column name="Height">600</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">18</column>
+            <column name="Name">WSVGA</column>
+            <column name="AspectRatio">5:3</column>
+            <column name="Title">Wide Super Video Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">1024</column>
+            <column name="Height">576</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">19</column>
+            <column name="Name">WSVGA</column>
+            <column name="AspectRatio">16:9</column>
+            <column name="Title">Wide Super Video Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">1024</column>
+            <column name="Height">600</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">20</column>
+            <column name="Name">XGA</column>
+            <column name="AspectRatio">4:3</column>
+            <column name="Title">Extended Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">800</column>
+            <column name="Height">600</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">21</column>
+            <column name="Name">XGA</column>
+            <column name="AspectRatio">4:3</column>
+            <column name="Title">Extended Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">1024</column>
+            <column name="Height">768</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">22</column>
+            <column name="Name">XGA-2</column>
+            <column name="AspectRatio">4:3</column>
+            <column name="Title">Extended Graphics Array 2</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">640</column>
+            <column name="Height">480</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">23</column>
+            <column name="Name">WXGA</column>
+            <column name="AspectRatio">16:9</column>
+            <column name="Title">Wide eXtended Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">1280</column>
+            <column name="Height">720</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">24</column>
+            <column name="Name">WXGA</column>
+            <column name="AspectRatio">5:3</column>
+            <column name="Title">Wide eXtended Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">1280</column>
+            <column name="Height">768</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">25</column>
+            <column name="Name">WXGA</column>
+            <column name="AspectRatio">8:5</column>
+            <column name="Title">Wide eXtended Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">1280</column>
+            <column name="Height">800</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">26</column>
+            <column name="Name">WXGA</column>
+            <column name="AspectRatio">85:48</column>
+            <column name="Title">Wide eXtended Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">1360</column>
+            <column name="Height">768</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">27</column>
+            <column name="Name">WXGA</column>
+            <column name="AspectRatio">683:384</column>
+            <column name="Title">Wide eXtended Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">1366</column>
+            <column name="Height">768</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">28</column>
+            <column name="Name">XGA+</column>
+            <column name="AspectRatio">4:3</column>
+            <column name="Title">eXtended Graphics Array Plus</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">1152</column>
+            <column name="Height">864</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">29</column>
+            <column name="Name">XGA+</column>
+            <column name="AspectRatio">5:4</column>
+            <column name="Title">eXtended Graphics Array Plus</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">1152</column>
+            <column name="Height">900</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">30</column>
+            <column name="Name">WXGA+</column>
+            <column name="AspectRatio">16:10</column>
+            <column name="Title">Wide eXtended Graphics Array Plus</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">1440</column>
+            <column name="Height">900</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">31</column>
+            <column name="Name">SXGA</column>
+            <column name="AspectRatio">5:4</column>
+            <column name="Title">Super eXtended Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">1280</column>
+            <column name="Height">1024</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">32</column>
+            <column name="Name">SXGA+</column>
+            <column name="AspectRatio">4:#</column>
+            <column name="Title">Super eXtended Graphics Array Plus</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">1400</column>
+            <column name="Height">1050</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">33</column>
+            <column name="Name">WSXGA+ </column>
+            <column name="AspectRatio">16:10</column>
+            <column name="Title">Widescreen Super eXtended Graphics Array Plus</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">1680</column>
+            <column name="Height">1050</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">34</column>
+            <column name="Name">UXGA</column>
+            <column name="AspectRatio">4:3</column>
+            <column name="Title">Ultra eXtended Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">1600</column>
+            <column name="Height">1200</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">35</column>
+            <column name="Name">WUXGA</column>
+            <column name="AspectRatio">16:10</column>
+            <column name="Title">Widescreen Ultra eXtended Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">1920</column>
+            <column name="Height">1200</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">36</column>
+            <column name="Name">UWXGA</column>
+            <column name="AspectRatio">33:16</column>
+            <column name="Title">Ultra Widescreen eXtended Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">1600</column>
+            <column name="Height">768</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">37</column>
+            <column name="Name">QXGA</column>
+            <column name="AspectRatio">4:3</column>
+            <column name="Title">Quad eXtended Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">2048</column>
+            <column name="Height">1536</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">38</column>
+            <column name="Name">QWXGA</column>
+            <column name="AspectRatio">16:9</column>
+            <column name="Title">Quad Wide eXtended Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">2048</column>
+            <column name="Height">1152</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">39</column>
+            <column name="Name">WQXGA</column>
+            <column name="AspectRatio">16:10</column>
+            <column name="Title">Wide Quad eXtended Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">2560</column>
+            <column name="Height">1600</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">40</column>
+            <column name="Name">QSXGA</column>
+            <column name="AspectRatio">5:4</column>
+            <column name="Title">Quad Super eXtended Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">2560</column>
+            <column name="Height">2048</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">41</column>
+            <column name="Name">WQSXGA</column>
+            <column name="AspectRatio">16:10</column>
+            <column name="Title">Wide Quad Super eXtended Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">3200</column>
+            <column name="Height">2048</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">42</column>
+            <column name="Name">QUXGA</column>
+            <column name="AspectRatio">4:3</column>
+            <column name="Title">Quad Ultra Extended Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">3200</column>
+            <column name="Height">2400</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">43</column>
+            <column name="Name">WQUXGA</column>
+            <column name="AspectRatio">16:9</column>
+            <column name="Title">Wide Quad Ultra eXtended Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">3840</column>
+            <column name="Height">2400</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">44</column>
+            <column name="Name">HXGA</column>
+            <column name="AspectRatio">4:3</column>
+            <column name="Title">Hex Extended Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">4096</column>
+            <column name="Height">3072</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">45</column>
+            <column name="Name">WHXGA</column>
+            <column name="AspectRatio">16:10</column>
+            <column name="Title">Wide Hex Extended Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">5120</column>
+            <column name="Height">3200</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">46</column>
+            <column name="Name">HSXGA</column>
+            <column name="AspectRatio">5:4</column>
+            <column name="Title">Hex Super Extended Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">5120</column>
+            <column name="Height">4096</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">47</column>
+            <column name="Name">WHSXGA</column>
+            <column name="AspectRatio">1.56:1</column>
+            <column name="Title">Wide Hex Super Extended Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">6400</column>
+            <column name="Height">4096</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">48</column>
+            <column name="Name">HUXGA</column>
+            <column name="AspectRatio">4:3</column>
+            <column name="Title">Hex Ultra Extended Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">6400</column>
+            <column name="Height">4800</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">49</column>
+            <column name="Name">WHUXGA</column>
+            <column name="AspectRatio">16:10</column>
+            <column name="Title">Wide Hex Ultra Extended Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">7680</column>
+            <column name="Height">4800</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">50</column>
+            <column name="Name">WHUXGA</column>
+            <column name="AspectRatio">16:9</column>
+            <column name="Title">Wide Hex Ultra Extended Graphics Array</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">7680</column>
+            <column name="Height">4320</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">51</column>
+            <column name="Name">nHD</column>
+            <column name="AspectRatio">16:9</column>
+            <column name="Title">ninth HD</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">640</column>
+            <column name="Height">360</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">52</column>
+            <column name="Name">qHD</column>
+            <column name="AspectRatio">16:9</column>
+            <column name="Title">quarter HD</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">960</column>
+            <column name="Height">540</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">53</column>
+            <column name="Name">WQHD</column>
+            <column name="AspectRatio">16:9</column>
+            <column name="Title">Wide Quad High Definition</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">2560</column>
+            <column name="Height">1440</column>
+        </table>
+        <table name="screenresolutions">
+            <column name="Id">54</column>
+            <column name="Name">QFHD</column>
+            <column name="AspectRatio">16:9</column>
+            <column name="Title">Quad Full High Definition</column>
+            <column name="Type"></column>
+            <column name="PPI"></column>
+            <column name="Width">3840</column>
+            <column name="Height">2160</column>
+        </table>
+    </database>
+</pma_xml_export>
