@@ -84,6 +84,7 @@ else {
 			$route["login/check"] = "login/enter";
 			$route["login/device"] = "login/device";
 		} else {
+			$route["logout"] = "login/logout";
 			$route["login/device"] = "ui";
 			$route["login/enter"] = "ui";
 			$route["login/check"] = "login";
