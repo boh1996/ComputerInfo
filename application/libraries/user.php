@@ -43,6 +43,23 @@ class User extends Std_Library{
 	 */
 	public $name = NULL;
 
+	/**
+	 * The users username
+	 * @var string
+	 * @since 1.0
+	 * @access public
+	 */
+	public $username = NULL;
+
+	/**
+	 * The users password
+	 * @since 1.0
+	 * @access public
+	 * @var string
+	 */
+	public $password = NULL;
+
+
 	### Class Settings ###
 
 	/**
@@ -69,10 +86,14 @@ class User extends Std_Library{
 	 */
 	public function __construct(){
 		parent::__construct();
-		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
+		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI","username","password");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
 		$this->_INTERNAL_LOAD_FROM_CLASS = array(
 			"organizations" => "Organization"
+		);
+		$this->_INTERNAL_IMPORT_IGNORE = array(
+			"username",
+			"password"
 		);
 		$this->_INTERNAL_FORCE_ARRAY = array("organizations");
 		$this->_INTERNAL_SECURE_EXPORT_IGNORE = array("username","password","google");

@@ -5,7 +5,7 @@
 		<link rel="stylesheet" type="text/css" href="//<?php echo $asset_url; ?>bootstrap/css/bootstrap-responsive.min.css">
 		<link rel="stylesheet" type="text/css" href="//<?php echo $asset_url; ?>css/dataTables.bootstrap.css">
 		<link rel="stylesheet" type="text/css" href="//<?php echo $asset_url; ?>css/jqtransform.css">
-		<link rel="stylesheet" type="text/css" href="//<?php echo $asset_url; ?>css/chosen.css">
+		<!--<link rel="stylesheet" type="text/css" href="//<?php echo $asset_url; ?>css/chosen.css">-->
 		<link rel="stylesheet" type="text/css" href="//<?php echo $asset_url; ?>css/style.css">
 		<link rel="stylesheet" type="text/css" href="//<?php echo $asset_url; ?>css/form.css">
 		<script type="text/javascript">var root = "<?php echo $base_url; ?>";</script>
@@ -62,72 +62,73 @@
 	</div>
 
 	<!--<div id="error_container"></div>-->
+	<div class="wrapper">
+		<div id="page">
+			<div class="page-container">	
 
-	<div id="page">
-		<div class="page-container">	
+				<!-- Computers -->
+				<div id="computers" class="active_page">
+					<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="computer">
 
-			<!-- Computers -->
-			<div id="computers" class="active_page">
-				<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="computer">
+						<thead>
+						</thead>
+						<tbody>
+			
+						</tbody>
+					</table>
+				</div>	
 
-					<thead>
-					</thead>
-					<tbody>
-		
-					</tbody>
-				</table>
-			</div>	
+				<div id="printers" class="disabled_page">
+					<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="printer">
 
-			<div id="printers" class="disabled_page">
-				<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="printer">
+						<thead>
+						</thead>
+						<tbody>
+			
+						</tbody>
+					</table>
+				</div>	
 
-					<thead>
-					</thead>
-					<tbody>
-		
-					</tbody>
-				</table>
-			</div>	
+				<div id="screens" class="disabled_page">
+					<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="screen">
 
-			<div id="screens" class="disabled_page">
-				<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="screen">
+						<thead>
+						</thead>
+						<tbody>
+			
+						</tbody>
+					</table>
+				</div>
 
-					<thead>
-					</thead>
-					<tbody>
-		
-					</tbody>
-				</table>
-			</div>
+				<div id="units" class="disabled_page">
+					<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="unit">
 
-			<div id="units" class="disabled_page">
-				<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="unit">
+						<thead>
+						</thead>
+						<tbody>
+			
+						</tbody>
+					</table>
+				</div>
 
-					<thead>
-					</thead>
-					<tbody>
-		
-					</tbody>
-				</table>
-			</div>
+				<div id="users" class="disabled_page">
 
-			<div id="users" class="disabled_page">
+				</div>
 
-			</div>
+				<div id="organizations" class="disabled_page">
 
-			<div id="organizations" class="disabled_page">
+				</div>
 
-			</div>
+				<div id="locations" class="disabled_page">
+					<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="location">
 
-			<div id="locations" class="disabled_page">
-				<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="location">
-
-					<thead>
-					</thead>
-					<tbody>
-		
-					</tbody>
-				</table>
+						<thead>
+						</thead>
+						<tbody>
+			
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>

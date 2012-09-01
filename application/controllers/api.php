@@ -681,7 +681,7 @@ class Api extends CI_Controller {
 	 * @since 1.0
 	 * @access private
 	 */
-	private function _Computer_Update($Id = NULL,$Overwrite = false){
+	private function _Computer_Update($Id = NULL,$Overwrite = true){
 		if($this->api_request->Request_Data() != NULL and $this->api_request->Request_Data() != "" and count($this->api_request->Request_Data()) > 0){
 			$Request_Data = $this->api_request->Request_Data();
 			if(isset($Request_Data["id"])){
@@ -697,8 +697,10 @@ class Api extends CI_Controller {
 				$this->api_request->Code = 404;
 				return;
 			}
-			$Computer->Import($Request_Data,$Overwrite,true);
-			if(!is_null($Computer->organization)){
+			$Computer->Import($Request_Data,$Overwrite);
+			$this->api_response->Response = $Computer->Export(null,null,array("organization","groups"));
+			$this->api_response->Code = 200;
+			/*if(!is_null($Computer->organization)){
 				if(!self::_Has_Access("organizations",$this->_User,$Computer->organization)){
 					$this->api_response->Code = 401;
 					return;
@@ -713,7 +715,7 @@ class Api extends CI_Controller {
 				$this->api_response->Code = 200;
 			} else {
 				$this->api_response->Code = 409;
-			}
+			}*/
 		} else {
 			$this->api_response->Code = 400;
 		}
@@ -1116,7 +1118,7 @@ class Api extends CI_Controller {
 			$Computer->last_updated = time();
 			if($Computer->Save()){
 				$this->api_response->Code = 200;
-				$this->api_response->Response = array("id" => $Computer->id);
+				$this->api_response->Response = $Computer->Export();
 			} else {
 				$this->api_response->Code = 409;
 			}
