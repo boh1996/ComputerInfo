@@ -2,10 +2,14 @@
 class Login extends CI_Controller {
 
 	public function index(){
-		$Data = array(
-			"base_url" => base_url()
+		$data = array(
+			"method" => "login",
+			"base_url" => base_url(),
+			"asset_url" => base_url().$this->config->item("asset_url"),
+			"jquery_url" => $this->config->item("jquery_url"),
+			"jqueryui_version" => $this->config->item("jqueryui_version")
 		);
-		$this->load->view("login_view",$Data);
+		$this->load->view("login_view",$data);
 	}
 
 	/**
@@ -14,7 +18,15 @@ class Login extends CI_Controller {
 	 * @access public
 	 */
 	public function Username () {
-		$this->load->view("login_form_view");
+		$data = array(
+			"method" => "username",
+			"base_url" => base_url(),
+			"asset_url" => base_url().$this->config->item("asset_url"),
+			"jquery_url" => $this->config->item("jquery_url"),
+			"jqueryui_version" => $this->config->item("jqueryui_version"),
+			"back" => (strpos(site_url("login"),'http') !== false) ? site_url("login") : 'http://'.site_url("login")
+		);
+		$this->load->view("login_form_view",$data);
 	}
 
 	/**
@@ -101,7 +113,7 @@ class Login extends CI_Controller {
 	 * @access public
 	 */
 	public function Enter () {
-		if (self::_check_user_login($User)) {
+		if (self::_check_user_login($User) && !is_null($User->id)) {
 			$_SESSION["user_id"] = $User->id;
 			self::_redirect($this->config->item("front_page"));
 		} else {
@@ -117,10 +129,21 @@ class Login extends CI_Controller {
 	public function Device () {
 		if (self::_check_user_login($User)) {
 			$_SESSION["user_id"] = $User->id;
-			echo json_encode(array("User" = $User->Export(),"status" => "OK"));
+			echo json_encode(array("User" => $User->Export(),"status" => "OK"));
 		} else {
-			echo json_encode(array("User" = null,"status" => "FAIL"));
+			echo json_encode(array("User" => null,"status" => "FAIL"));
 		}
+	}
+
+	/**
+	 * This function logs the user out
+	 * @since 1.0
+	 * @access public
+	 */
+	public function Logout () {
+		session_destroy();
+		self::_redirect($this->config->item("login_page"));
+		die();	
 	}
 }
 ?>

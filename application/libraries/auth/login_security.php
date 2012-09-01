@@ -26,7 +26,7 @@ class Login_Security{
 	 */
 	public function check ( $password, $user_password, $user_salt, $hashing_iterations = 10 ) {
 		$password = self::check_security($password);
-		if (1== 1 || !empty($password) && self::_correct_length($password, $this->_CI->config->item("password_length")) && self::_has_number($password)) {
+		if (!empty($password) && self::_correct_length($password, $this->_CI->config->item("password_length")) && self::_has_number($password)) {
 			$salts = array(
 				$user_salt,
 				$this->_CI->config->item("app_hashing_salt"),
@@ -38,6 +38,27 @@ class Login_Security{
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * This function creates the user salt and hashes the password
+	 * @since 1.0
+	 * @access public
+	 * @param  string  $password           The entered password
+	 * @param  integer $hashing_iterations The number of hash iterations
+	 * @param  integer $salt_length        The length of the users salt
+	 * @param  string  &$user_salt         The returned user salt
+	 * @return string
+	 */
+	public function createUser ( $password, $hashing_iterations = 10, $salt_length = 64, &$user_salt) {
+		$user_salt = self::createSalt($salt_length);
+		$salts = array(
+			$user_salt,
+			$this->_CI->config->item("app_hashing_salt"),
+			"fdd3606ec5da81bf410b57828df77caba7fb870edc3307369adf179f838f20fc"
+		);
+		$salt = self::_create_salt( $salts );
+		return self::_hash($password, $salt, $hashing_iterations);
 	}
 
 	/**
