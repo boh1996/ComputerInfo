@@ -4,6 +4,38 @@
 		"selected_items":
 		[
 			[
+				"has",
+				"hashing_iterations"
+			],
+			[
+				"sa",
+				"salts"
+			],
+			[
+				"user",
+				"user_password"
+			],
+			[
+				"ha",
+				"hashing_iterations"
+			],
+			[
+				"sal",
+				"salt"
+			],
+			[
+				"pas",
+				"password"
+			],
+			[
+				"_h",
+				"_has_number"
+			],
+			[
+				"in",
+				"input	Tag"
+			],
+			[
 				"lam",
 				"lan_mac"
 			],
@@ -482,73 +514,17 @@
 			[
 				"_Re",
 				"_Remove_Empty_Export"
-			],
-			[
-				"need",
-				"needle"
-			],
-			[
-				"key",
-				"keywords"
-			],
-			[
-				"_Merg",
-				"_Merge_Class_Properties_And_Data"
-			],
-			[
-				"_Mer",
-				"_Merge_Class_Properties_And_Data"
-			],
-			[
-				"_Convert",
-				"_Convert_From_Object"
-			],
-			[
-				"_Impl",
-				"_Implode_Array"
-			],
-			[
-				"ke",
-				"key"
-			],
-			[
-				"_Check",
-				"_Check_Property_Against_Keywords"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "assets/bootstrap/less/extra/extra.less",
+			"file": "application/controllers/login.php",
 			"settings":
 			{
-				"buffer_size": 887,
+				"buffer_size": 4420,
 				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "assets/bootstrap/less/core/bootstrap.less",
-			"settings":
-			{
-				"buffer_size": 1868,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "assets/bootstrap/less/extra/jasny/bootstrap.less",
-			"settings":
-			{
-				"buffer_size": 838,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "assets/bootstrap/css/bootstrap.min.css",
-			"settings":
-			{
-				"buffer_size": 141923,
-				"line_ending": "Unix"
 			}
 		}
 	],
@@ -584,10 +560,26 @@
 	},
 	"file_history":
 	[
+		"/R/ComputerInfo/application/config/routes.php",
+		"/R/ComputerInfo/application/controllers/login.php",
+		"/R/ComputerInfo/application/views/login_topbar_view.php",
+		"/R/ComputerInfo/application/config/config.php",
+		"/R/ComputerInfo/application/views/login_form_view.php",
+		"/R/ComputerInfo/application/views/front_view.php",
+		"/R/ComputerInfo/application/views/login_view.php",
+		"/R/ComputerInfo/application/controllers/ui.php",
+		"/R/ComputerInfo/application/libraries/auth/login_security.php",
+		"/R/ComputerInfo/application/libraries/user.php",
+		"/R/ComputerInfo/application/libraries/api/api_response.php",
+		"/R/ComputerInfo/application/config/database.php",
+		"/R/ComputerInfo/application/config/autoload.php",
+		"/R/ComputerInfo/assets/bootstrap/less/extra/extra.less",
+		"/R/ComputerInfo/assets/bootstrap/css/bootstrap.min.css",
+		"/R/ComputerInfo/assets/bootstrap/less/core/bootstrap.less",
+		"/R/ComputerInfo/assets/bootstrap/less/extra/jasny/bootstrap.less",
 		"/R/ComputerInfo/assets/bootstrap/less/extra/mechanism/buttons2.less",
 		"/R/ComputerInfo/assets/bootstrap/less/extra/mechanism.less",
 		"/R/ComputerInfo/assets/bootstrap/less/extra/dropdowns.less",
-		"/R/ComputerInfo/application/views/front_view.php",
 		"/R/ComputerInfo/assets/bootstrap/less/extra/wysiwyg/bootstrap-wysihtml5.less",
 		"/R/ComputerInfo/assets/bootstrap/less/extra/wysiwyg/bootstrap-wysiwyg.less",
 		"/R/ComputerInfo/assets/bootstrap/less/extra/wysiwyg/wysiwyg.less",
@@ -598,7 +590,6 @@
 		"/R/ComputerInfo/assets/bootstrap/js/extra/bootstrap-toggle.js",
 		"/R/ComputerInfo/assets/bootstrap/js/extra/jquery.bootstrap-growl.js",
 		"/R/ComputerInfo/assets/bootstrap/js/extra/sticky.js",
-		"/R/ComputerInfo/assets/bootstrap/less/core/bootstrap.less",
 		"/C/Users/Bo/Desktop/MechanisM-bootstrap-addons-a1c78a9/MechanisM-bootstrap-addons-a1c78a9/css/docs.css",
 		"/C/Users/Bo/Desktop/MechanisM-bootstrap-addons-a1c78a9/MechanisM-bootstrap-addons-a1c78a9/css/sticky.css",
 		"/C/Users/Bo/Desktop/MechanisM-bootstrap-addons-a1c78a9/MechanisM-bootstrap-addons-a1c78a9/css/icons.css",
@@ -612,7 +603,6 @@
 		"/R/ComputerInfo/assets/bootstrap/less/extra/font-awesome-ie7.less",
 		"/R/ComputerInfo/assets/bootstrap/less/extra/font-awesome.less",
 		"/R/ComputerInfo/assets/bootstrap/less/core/responsive.less",
-		"/R/ComputerInfo/assets/bootstrap/less/extra/jasny/bootstrap.less",
 		"/R/ComputerInfo/assets/bootstrap/js/extra/bootstrap-inputmask.js",
 		"/R/ComputerInfo/assets/bootstrap/js/extra/bootstrap-rowlink.js",
 		"/R/ComputerInfo/assets/bootstrap/js/extra/bootstrap-fileupload.js",
@@ -622,7 +612,6 @@
 		"/R/ComputerInfo/assets/bootstrap/less/extra/jasny/responsive.less",
 		"/C/Users/Bo/Desktop/jasny-bootstrap-v2.0.4-j1a-2-g4c8ad11/jasny-bootstrap-4c8ad11/less/jasny/responsive.less",
 		"/R/ComputerInfo/application/controllers/data.php",
-		"/R/ComputerInfo/application/config/config.php",
 		"/C/Users/Bo/Desktop/Coding/PHamlP/Phamlp.php",
 		"//BoNethard/BoDrev/Bo/Web Projects/Builder/assets/SASS/SassParser.php",
 		"/C/Users/Bo/Desktop/Coding/PHamlP_3.2/haml/HamlParser.php",
@@ -646,14 +635,12 @@
 		"/R/ComputerInfo/application/libraries/operating_system_version.php",
 		"/R/ComputerInfo/application/models/std_model.php",
 		"/R/ComputerInfo/application/libraries/computer_memory.php",
-		"/R/ComputerInfo/application/libraries/user.php",
 		"/R/ComputerInfo/application/libraries/organization.php",
 		"/R/ComputerInfo/application/helpers/array_data_helper.php",
 		"/R/ComputerInfo/application/libraries/memory_slot.php",
 		"/C/Users/Bo/Documents/old_save_linked_properties.php",
 		"/C/xampp/htdocs/import/import.php",
 		"/R/ComputerInfo/application/libraries/operating_system.php",
-		"/R/ComputerInfo/application/libraries/api/api_response.php",
 		"/R/ComputerInfo/assets/js/settings.js",
 		"/R/ComputerInfo/application/controllers/import.php",
 		"/R/ComputerInfo/application/libraries/processor_model.php",
@@ -666,7 +653,6 @@
 		"/R/ComputerInfo/application/libraries/screen_size.php",
 		"/R/ComputerInfo/application/libraries/manufacturer.php",
 		"/R/ComputerInfo/application/libraries/print_location.php",
-		"/R/ComputerInfo/application/config/routes.php",
 		"/R/ComputerInfo/application/config/api.php",
 		"/R/ComputerInfo/application/config/smileys.php",
 		"/R/ComputerInfo/assets/bootstrap/js/bootstrap-datepicker.js",
@@ -678,7 +664,6 @@
 		"/R/ComputerInfo/assets/js/objx.js",
 		"/R/ComputerInfo/assets/bootstrap/less/extra/spacing.less",
 		"/R/ComputerInfo/assets/bootstrap/less/core/mixins.less",
-		"/R/ComputerInfo/application/config/autoload.php",
 		"/R/ComputerInfo/application/libraries/building.php",
 		"/R/ComputerInfo/application/views/test_view.php",
 		"/R/ComputerInfo/application/libraries/device_model.php",
@@ -702,16 +687,7 @@
 		"/R/ComputerInfo/assets/js/modalGenerator.js",
 		"/C/Users/Bo/Documents/old_export.php",
 		"/R/ComputerInfo/application/libraries/screen.php",
-		"/C/Program Files (x86)/EA GAMES/Battlefield 2/demo.cmd",
-		"/C/Program Files (x86)/EA GAMES/Battlefield 2/mods/pr_edit/Demos/bombtest1-def.bf2cam",
-		"/C/Program Files (x86)/EA GAMES/Battlefield 2/mods/pr_edit/demo.cmd",
-		"/R/ComputerInfo/readme.md",
-		"/R/ComputerInfo/application/libraries/operating_system_core.php",
-		"/R/ComputerInfo/application/libraries/operating_system_family.php",
-		"/R/ComputerInfo/application/libraries/printer.php",
-		"/R/ComputerInfo/application/libraries/printer_group.php",
-		"/R/ComputerInfo/application/libraries/printer_model.php",
-		"/R/ComputerInfo/application/libraries/screen_model.php"
+		"/C/Program Files (x86)/EA GAMES/Battlefield 2/demo.cmd"
 	],
 	"find":
 	{
@@ -729,6 +705,16 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"self::_redirect($this->config->item(\"login_page\"));",
+			"Login_Security",
+			"redirect",
+			"check",
+			"'login/check'",
+			"private",
+			"user_id",
+			"username",
+			"Username",
+			"username",
 			"css",
 			"less",
 			"../",
@@ -846,17 +832,7 @@
 			"_INTERNAL_IMPORT_IGNORE",
 			"function Import(",
 			"_Export_Formating",
-			"_Check_Property_Names",
-			"Linked",
-			"print_r",
-			"_Create_Link",
-			"function _Link_Properties",
-			"_Link_Properties",
-			"_Linked_Pro",
-			"_Load_Linked",
-			"_Create_Link",
-			"Search",
-			"search"
+			"_Check_Property_Names"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -944,121 +920,34 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "assets/bootstrap/less/extra/extra.less",
+					"file": "application/controllers/login.php",
 					"settings":
 					{
-						"buffer_size": 887,
+						"buffer_size": 4420,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								887,
-								887
+								4415,
+								4415
 							]
 						],
 						"settings":
 						{
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/LESS/LESS.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "assets/bootstrap/less/core/bootstrap.less",
-					"settings":
-					{
-						"buffer_size": 1868,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1686,
-								1686
-							]
-						],
-						"settings":
-						{
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/LESS/LESS.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 504.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "assets/bootstrap/less/extra/jasny/bootstrap.less",
-					"settings":
-					{
-						"buffer_size": 838,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								630,
-								630
-							]
-						],
-						"settings":
-						{
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/LESS/LESS.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "assets/bootstrap/css/bootstrap.min.css",
-					"settings":
-					{
-						"buffer_size": 141923,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								355,
-								355
-							]
-						],
-						"settings":
-						{
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/CSS/CSS.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1638.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
