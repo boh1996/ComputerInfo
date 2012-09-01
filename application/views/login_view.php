@@ -3,6 +3,7 @@
 	</head>
 
 	<body>
-		<a href="<?php echo $base_url; ?>login/google">Google</a>
+		<a href="login/username">Username & Password</a><br>
+		<a href="login/google">Google</a>
 	</body>
 </html>

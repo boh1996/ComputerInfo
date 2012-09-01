@@ -8,6 +8,10 @@ class Login extends CI_Controller {
 		$this->load->view("login_view",$Data);
 	}
 
+	public function Username () {
+		$this->load->view("login_form_view");
+	}
+
 	/**
 	 * This function lets the user login with Google
 	 * @param string $page The current operation "auth" or "callback"
@@ -42,6 +46,14 @@ class Login extends CI_Controller {
 			}
 		} else {
 			redirect($this->config->item("front_page"));
+		}
+	}
+
+	public function Enter () {
+		if (!isset($_SESSION["user_id"])) {
+
+		} else {
+			redirect($this->config->item("login_page"));
 		}
 	}
 }
