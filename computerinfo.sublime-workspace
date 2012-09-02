@@ -520,10 +520,18 @@
 	"buffers":
 	[
 		{
-			"file": "application/controllers/login.php",
+			"file": "application/controllers/api.php",
 			"settings":
 			{
-				"buffer_size": 4420,
+				"buffer_size": 47666,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "application/config/routes.php",
+			"settings":
+			{
+				"buffer_size": 3761,
 				"line_ending": "Windows"
 			}
 		}
@@ -560,11 +568,16 @@
 	},
 	"file_history":
 	[
-		"/R/ComputerInfo/application/config/routes.php",
+		"/R/ComputerInfo/application/config/api.php",
+		"/R/ComputerInfo/application/libraries/token.php",
 		"/R/ComputerInfo/application/controllers/login.php",
+		"/R/ComputerInfo/assets/js/settings.js",
+		"/R/ComputerInfo/application/views/login_form_view.php",
+		"/R/ComputerInfo/application/libraries/std_library.php",
+		"/C/Users/Bo/Desktop/ApiGen-2.7.0-standalone/apigen/apigen.php",
+		"/R/ComputerInfo/application/config/routes.php",
 		"/R/ComputerInfo/application/views/login_topbar_view.php",
 		"/R/ComputerInfo/application/config/config.php",
-		"/R/ComputerInfo/application/views/login_form_view.php",
 		"/R/ComputerInfo/application/views/front_view.php",
 		"/R/ComputerInfo/application/views/login_view.php",
 		"/R/ComputerInfo/application/controllers/ui.php",
@@ -596,7 +609,6 @@
 		"/C/Users/Bo/Desktop/MechanisM-bootstrap-addons-a1c78a9/MechanisM-bootstrap-addons-a1c78a9/css/buttons2.css",
 		"/R/ComputerInfo/application/controllers/api.php",
 		"/R/ComputerInfo/application/libraries/computer.php",
-		"/R/ComputerInfo/application/libraries/std_library.php",
 		"/R/ComputerInfo/assets/js/script.js",
 		"/R/ComputerInfo/application/views/models_view.php",
 		"/R/ComputerInfo/assets/js/tableGenerator.js",
@@ -641,7 +653,6 @@
 		"/C/Users/Bo/Documents/old_save_linked_properties.php",
 		"/C/xampp/htdocs/import/import.php",
 		"/R/ComputerInfo/application/libraries/operating_system.php",
-		"/R/ComputerInfo/assets/js/settings.js",
 		"/R/ComputerInfo/application/controllers/import.php",
 		"/R/ComputerInfo/application/libraries/processor_model.php",
 		"/R/ComputerInfo/application/libraries/processor_family.php",
@@ -653,7 +664,6 @@
 		"/R/ComputerInfo/application/libraries/screen_size.php",
 		"/R/ComputerInfo/application/libraries/manufacturer.php",
 		"/R/ComputerInfo/application/libraries/print_location.php",
-		"/R/ComputerInfo/application/config/api.php",
 		"/R/ComputerInfo/application/config/smileys.php",
 		"/R/ComputerInfo/assets/bootstrap/js/bootstrap-datepicker.js",
 		"/R/ComputerInfo/assets/bootstrap/css/datepicker.css",
@@ -668,7 +678,6 @@
 		"/R/ComputerInfo/application/views/test_view.php",
 		"/R/ComputerInfo/application/libraries/device_model.php",
 		"/R/ComputerInfo/application/libraries/api/api_request.php",
-		"/R/ComputerInfo/application/libraries/token.php",
 		"/R/ComputerInfo/database.sql",
 		"/R/ComputerInfo/assets/bootstrap/less/core/responsive-767px-max.less",
 		"/R/ComputerInfo/assets/css/dataTables.bootstrap.css",
@@ -686,8 +695,7 @@
 		"/C/Users/Bo/Desktop/test.html",
 		"/R/ComputerInfo/assets/js/modalGenerator.js",
 		"/C/Users/Bo/Documents/old_export.php",
-		"/R/ComputerInfo/application/libraries/screen.php",
-		"/C/Program Files (x86)/EA GAMES/Battlefield 2/demo.cmd"
+		"/R/ComputerInfo/application/libraries/screen.php"
 	],
 	"find":
 	{
@@ -705,6 +713,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"self",
 			"self::_redirect($this->config->item(\"login_page\"));",
 			"Login_Security",
 			"redirect",
@@ -831,8 +840,7 @@
 			"function Import",
 			"_INTERNAL_IMPORT_IGNORE",
 			"function Import(",
-			"_Export_Formating",
-			"_Check_Property_Names"
+			"_Export_Formating"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -925,18 +933,18 @@
 			[
 				{
 					"buffer": 0,
-					"file": "application/controllers/login.php",
+					"file": "application/controllers/api.php",
 					"settings":
 					{
-						"buffer_size": 4420,
+						"buffer_size": 47666,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4415,
-								4415
+								20679,
+								20679
 							]
 						],
 						"settings":
@@ -947,7 +955,36 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1638.0,
+						"translation.y": 9786.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "application/config/routes.php",
+					"settings":
+					{
+						"buffer_size": 3761,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3083,
+								3083
+							]
+						],
+						"settings":
+						{
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 462.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

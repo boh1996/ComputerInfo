@@ -92,7 +92,7 @@ settings.prototype = {
 		"wifimac" : {"string" : "Wifi Mac", "active" : false},
 		"ip" : {"string" : "Ip", "active" : false},
 		"disk_space" : {"string" : "Disk", "active" : false},
-		"ram_size" : {"string" : "Ram", "active" : false},
+		"memory.total_physical_memory" : {"string" : "Memory", "active" : false},
 		"model.manufacturer.abbrevation" : {"string" : "Manufacturer", "active" : false},
 		"serial" : {"string" : "Serial", "active" : false},
 		//"screen_size.aspect_ratio" : {"string" : "Screen Aspect Ratio", "active" : false},

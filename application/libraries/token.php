@@ -43,6 +43,13 @@ class Token extends Std_Library{
 	 */
 	public $offline = NULL;
 
+	/**
+	 * The time in seconds this token is available,
+	 * 0 means for ever
+	 * @var integer
+	 */
+	public $time_to_live = 0;
+
 	### Class Settings ###
 
 	/**
@@ -70,15 +77,21 @@ class Token extends Std_Library{
 	public function __construct(){
 		parent::__construct();
 		$this->_CI =& get_instance();
-		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
-		//$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
-		$this->_INTERNAL_LOAD_FROM_CLASS = array("user" => "User");
-		$this->_INTERNAL_SIMPLE_LOAD = array("user" => true);
+		$this->_INTERNAL_EXPORT_INGNORE = 	array(
+			"CI",
+			"Database_Table",
+			"_CI"
+		);
+		$this->_INTERNAL_LOAD_FROM_CLASS = 	array(
+			"user" => "User"
+		);
+		$this->_INTERNAL_SIMPLE_LOAD = 		array(
+			"user" => true
+		);
 		$this->_INTERNAL_ROW_NAME_CONVERT = array(
 			"user_id" => "user",
 			"created_time" => "created"
 		);
-		//$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_ROW_NAME_CONVERT,"ROW_NAME_CONVERT");
 	}
 
 	/**
@@ -96,8 +109,14 @@ class Token extends Std_Library{
 		if(is_null($this->offline)){
 			$this->offline = 0;
 		}
+		$this->_CI->load->config("api");
 		$this->_CI->load->helper("string");
-		$this->token = Rand_Str(16);
+		if ($this->offline == 0) {
+			$this->time_to_live = $this->_CI->config->item("token_time_to_live");
+		} else {
+			$this->time_to_live = 0;
+		}	
+		$this->token = Rand_Str($this->_CI->config->item("token_length"));
 		$this->created = time();
 		if($Save && isset($this->user->id) && isset($this->user->name)){
 			self::Save();

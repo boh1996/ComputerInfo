@@ -1,6 +1,11 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class Login extends CI_Controller {
 
+	/**
+	 * This function is called as standard when the login page is requested
+	 * @since 1.0
+	 * @access public
+	 */
 	public function index(){
 		$data = array(
 			"method" => "login",
@@ -115,6 +120,12 @@ class Login extends CI_Controller {
 	public function Enter () {
 		if (self::_check_user_login($User) && !is_null($User->id)) {
 			$_SESSION["user_id"] = $User->id;
+			$this->load->library("token");
+			$this->load->config("api");
+			$Token = new Token();
+			$Token->Create($User->id);
+			$this->load->helper("cookie");
+			set_cookie("token",$Token->token,$Token->time_to_live);
 			self::_redirect($this->config->item("front_page"));
 		} else {
 			self::_redirect($this->config->item("login_page"));
@@ -128,8 +139,13 @@ class Login extends CI_Controller {
 	 */
 	public function Device () {
 		if (self::_check_user_login($User)) {
+			$this->load->library("token");
+			$this->load->config("api");
+			$Token = new Token();
+			$Token->offline = 1;
+			$Token->Create($User->id);
 			$_SESSION["user_id"] = $User->id;
-			echo json_encode(array("User" => $User->Export(),"status" => "OK"));
+			echo json_encode(array("User" => $User->Export(),"status" => "OK","token" => $Token->Export(null, false, array("user","created"))));
 		} else {
 			echo json_encode(array("User" => null,"status" => "FAIL"));
 		}

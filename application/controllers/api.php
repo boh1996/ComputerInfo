@@ -722,6 +722,30 @@ class Api extends CI_Controller {
 	}
 
 	/**
+	 * This function handles the Token info endpoint
+	 * @since 1.0
+	 * @access private
+	 * @param string $token The token to get the info for
+	 */
+	private function _Token ( $token = null ) {
+		if (!is_null($token)) {
+			$this->load->library("token");
+			$Token = new Token();
+			if ($Token->Find(array("token" => $token))){
+				$this->api_response->Code = 200;
+				if ($Token->offline == 0) {
+					$Token->time_left = round(($Token->created + $Token->time_to_live) - time());
+				}
+				$this->api_response->Response = $Token->Export(null, false, array("user","created"));
+			} else {
+				$this->api_response->Code = 404;
+			}
+		} else {
+			$this->api_response->Code = 400;
+		}
+	}
+
+	/**
 	 * This function deletes a computer, found by it's database id
 	 * @param integer $Id The id of the computer to delete
 	 * @since 1.0
