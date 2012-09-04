@@ -122,4 +122,37 @@ class Token extends Std_Library{
 			self::Save();
 		}
 	}
+
+	/**
+	 * This function returns the time the token has left
+	 * @since 1.0
+	 * @return integer
+	 * @access public
+	 */
+	public function TimeLeft () {
+		if (isset($this->created) && isset($this->time_to_live)) {
+			return round(($this->created + $this->time_to_live) - time());
+		} else {
+			return 0;
+		}
+	}
+
+	/**
+	 * This function calculates if the token is still valud
+	 * @since 1.0
+	 * @access public
+	 * @return boolean
+	 */
+	public function IsValid () {
+		if ($this->offline == 1) {
+			return TRUE;
+		}
+		if (isset($this->created) && isset($this->time_to_live)) {
+			$time_left = self::TimeLeft();
+			return ($time_left > 0);
+		} else {
+			return FALSE;
+		}
+		return FALSE;
+	}
 }

@@ -56,7 +56,7 @@ class Api extends CI_Controller {
 	    		return call_user_func_array(array($this, $method), $params);
 	    	} else {
 	    		$this->api_response->Code = 403;
-	    		exit;
+	    		return FALSE;
 	    	}
 	    }
 	    show_404();
@@ -69,8 +69,21 @@ class Api extends CI_Controller {
 	 */
 	private function _Authenticate(){
 		$this->load->library("User");
+		$this->load->library("Token");
 	    $this->_User = new User();
-	  	if($this->_User->Load(1)){
+	    $Token = new Token();
+	    if (isset($_GET["token"]) && !empty($_GET["token"])) {
+	    	$token_string = htmlentities(mysql_real_escape_string($_GET["token"]));
+	    } else {
+	    	return FALSE;
+	    }
+	    if (!$Token->Load(array("token" => $token_string))){
+	    	return FALSE;
+		}
+		if (!$Token->IsValid()) {
+			return FALSE;
+		}
+	  	if($this->_User->Load($Token->user->id)){
 	  		return TRUE;
 	  	} else {
 	  		return FALSE;

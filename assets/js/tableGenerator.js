@@ -35,6 +35,9 @@ function tableGenerator (settings) {
 	if (typeof settings.organization != "undefined") {
 		this.organization = settings.organization;
 	}
+	if (typeof this.getCookie("token") != undefined) {
+		this.token = this.getCookie("token");
+	}
 }
 	
 /**
@@ -48,6 +51,12 @@ tableGenerator.prototype = {
 	 * @type {string}
 	 */
 	requestUrl : null,
+
+	/**
+	 * This property can store the toke used with the API
+	 * @type {string}
+	 */
+	token : null,
 
 	/**
 	 * The name of the key where to store the length select values
@@ -200,6 +209,36 @@ tableGenerator.prototype = {
 	},
 
 	/**
+	 * This function reads a cookie by name
+	 * @param  {string} c_name The name of the cookie to read
+	 * @return {string}
+	 */
+	getCookie : function (c_name) {
+		var i,x,y,ARRcookies=document.cookie.split(";");
+		for (i=0;i<ARRcookies.length;i++) {
+		  	x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
+		  	y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
+		  	x=x.replace(/^\s+|\s+$/g,"");
+		  	if (x==c_name) {
+		    	return unescape(y);
+		  	}
+		}
+	},
+
+	/**
+	 * This function sets a cookie by name
+	 * @param {string} c_name The name of the cookie to set
+	 * @param {string} value  The value to set
+	 * @param {integer} exdays The expirering day
+	 */
+	setCookie : function (c_name,value,exdays) {
+		var exdate=new Date();
+		exdate.setDate(exdate.getDate() + exdays);
+		var c_value=escape(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
+		document.cookie=c_name + "=" + c_value;
+	},
+
+	/**
 	 * This function is used to generate random id values
 	 * @param  {integer} string_length The length of the string
 	 * @return {string}
@@ -231,14 +270,33 @@ tableGenerator.prototype = {
 	},
 
 	/**
+	 * This function adds the token parameter to the url
+	 * @since 1.1
+	 * @param  {string} url The current url to append the token too
+	 * @return {string}
+	 */
+	createAutherizedUrl : function (url) {
+		if (this.token != null) {
+			if (url.indexOf("?") == -1) {
+				url += "?";
+			} else {
+				url += "&";
+			}
+			url += "token=" + this.token;
+		}
+		return url;
+	},
+
+	/**
 	 * This function gets all the computers for a specific organization
 	 * @param  {integer} id The organization id
 	 */
 	getNodes : function(id){
 		var requestUrl = this.root + "get/" + this.multipleRequestType + "/{id}";
 		requestUrl = requestUrl.replace("{id}",id);
+		requestUrl = this.createAutherizedUrl(requestUrl);
 		$.ajax({
-			url : requestUrl,
+			url : this.createAutherizedUrl(requestUrl),
 			success : $.proxy(function (data, code, XMLHttpRequest){
 				if (data != null) {
 					this.response = objx.get(data,this.multipleResponseNode); 
@@ -269,7 +327,7 @@ tableGenerator.prototype = {
 	getNode : function(id,callback){
 		var requestUrl = this.root + this.requestType + "/{id}";
 		$.ajax({
-			url : requestUrl.replace("{id}",id),
+			url : this.createAutherizedUrl(requestUrl.replace("{id}",id)),
 			success : $.proxy(function (data){ 
 				data = objx.get(data,this.responseNode);
 				this.generateNode(data);
@@ -484,6 +542,8 @@ tableGenerator.prototype = {
 			}
 		},this));
 
+		$
+
 		modal.modal("show");
 
 		return id;
@@ -505,29 +565,33 @@ tableGenerator.prototype = {
 	},
 
 	/**
-	 * This function save's a modal's data
-	 * @param  {Object} modal       The modal to save the data for
-	 * @param  {string} requestType The save API endpoint for that modal
+	 * This function creates and handles all the events for a modal
+	 * @param  {Object} modalTemplate The modal template jQuery object
+	 * @param  {Object} settings      A later used settings object
+	 * @param  {string} id            An optional id name of the modal
+	 * @return {string}
 	 */
-	saveModal : function (modal, requestType) {
+	saveModal : function (odalTemplate, settings, id) {
 		var object = {};
-		modal = $(modal);
+		modal = $(modal[0]);
 		modal.find("[data-name]").each(function (index, element) {
 			objx.set(object,$(element).attr("data-name"),$(element).val());
 		});
 		var location = requestType || this.save_request_type || this.requestType || null;
 
-		if (location != null && this.countProperties(object) !== 0 && object != undefined && object.length > 0) {
+		var idInput = $(modal.find("table").find('[name="id"]'));
+
+		if (location != null && this.countProperties(object) !== 0 && object != undefined) {
 			var type = "POST";
-			if (modal.find('[name=id]').length > 0 && modal.find('[name=id]') != null && modal.find('[name=id]').val() != "") {
+			if (idInput.length > 0 && idInput != null && idInput.val() != "") {
 				type = "PUT";
-				var requestUrl = this.root + location + "/" + modal.find('[name=id]').val();
+				var requestUrl = this.root + location + "/" + idInput.val();
 			} else {
 				var requestUrl = this.root + location;
 			}
-			
+
 			$.ajax({
-				url : location,
+				url : this.createAutherizedUrl(requestUrl),
 				data : JSON.stringify(object),
 				type : type,
 				success : $.proxy(function (data){ 
@@ -538,9 +602,9 @@ tableGenerator.prototype = {
 						//proccessSave( modal, data, );
 					}
 				}, this),
-				error : function () {
+				error : $.proxy(function(){
 					this.showError("Sorry an error encountered! Try again!",modal.find(".modal-body"));
-				}
+				},this)
 			});
 		}
 	},
@@ -593,7 +657,7 @@ tableGenerator.prototype = {
 	 */
 	createModal : function () {
 		$(this.container).find("tbody tr").live("click",$.proxy(function(event){
-			this.createModalFromObject($(this.onCickModal),null,this.modal_id_name);
+			var id = this.createModalFromObject($(this.onCickModal),null,this.modal_id_name);
 			var html = $(this.onCickModal).html();
 			var object = $(event.target).parent("tr");
 			html = html.replace(/\{([a-zA-Z_\.]*)\}/g, $.proxy(function (match, contents, offset, s) {
@@ -603,11 +667,11 @@ tableGenerator.prototype = {
 					return "";
 				}
 			},this));
-			$("#"+this.modal_id_name).html(html);
-			if (event != undefined && event.target != undefined && event != null && event.target != null) {
-				this.runHandler($(event.target), $("#"+this.modal_id_name));
+			$("#"+id).html(html);
+			if (event != undefined) {
+				this.runHandler($(event.target), $("#"+id));
 			}
-			$("#"+this.modal_id_name).modal("show");
+			$("#"+id).modal("show");
 		},this));
 	},
 
@@ -660,7 +724,7 @@ tableGenerator.prototype = {
 					url = url.slice(0,url.length-1);
 				}
 				$.ajax({
-					url : url,
+					url : this.createAutherizedUrl(url),
 					success : $.proxy(function (data){
 						if (objx.get(handler,"response_key") != null) {
 							data = data[handler.response_key];
@@ -707,7 +771,7 @@ tableGenerator.prototype = {
 								url = url.slice(0,url.length-1);
 							}
 							if (url != null && url != undefined) {
-						        return $.get(url,function (data) {
+						        return $.get(tableCreator.createAutherizedUrl(url),function (data) {
 						        	if (objx.get(handler,"response_key") != null) {
 										data = data[handler.response_key];
 										return typeahead.process(data);
