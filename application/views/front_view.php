@@ -1,13 +1,12 @@
 <html>
 	<head>
 		<title>ComputerInfo - Home</title>
-		<link rel="stylesheet" type="text/css" href="//<?php echo $asset_url; ?>bootstrap/css/bootstrap.min.css">
-		<link rel="stylesheet" type="text/css" href="//<?php echo $asset_url; ?>bootstrap/css/bootstrap-responsive.min.css">
-		<link rel="stylesheet" type="text/css" href="//<?php echo $asset_url; ?>css/dataTables.bootstrap.css">
-		<link rel="stylesheet" type="text/css" href="//<?php echo $asset_url; ?>css/jqtransform.css">
-		<!--<link rel="stylesheet" type="text/css" href="//<?php echo $asset_url; ?>css/chosen.css">-->
-		<link rel="stylesheet" type="text/css" href="//<?php echo $asset_url; ?>css/style.css">
-		<link rel="stylesheet" type="text/css" href="//<?php echo $asset_url; ?>css/form.css">
+		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>bootstrap/css/bootstrap-responsive.min.css">
+		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/dataTables.bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/jqtransform.css">
+		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/style.css">
+		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/form.css">
 		<script type="text/javascript">var root = "<?php echo $base_url; ?>";</script>
 		<script type="text/javascript">var method = "<?php echo $method; ?>";</script>
 	</head>
@@ -137,16 +136,16 @@
 
 	<!-- Include jquery,boostrap and script -->
 	<script type="text/javascript" src="<?php echo $jquery_url; ?>"></script>
-	<script type="text/javascript" src="//<?php echo $asset_url; ?>bootstrap/js/bootstrap.js"></script>
-	<script type="text/javascript" src="//<?php echo $asset_url; ?>js/jquery.history.js"></script>
-	<script type="text/javascript" src="//<?php echo $asset_url; ?>js/jquery.dataTables.min.js"></script>
-	<script type="text/javascript" src="//<?php echo $asset_url; ?>js/custom-form-elements.js"></script>
-	<script type="text/javascript" src="//<?php echo $asset_url; ?>js/dataTables.bootstrap.js"></script>
-	<script type="text/javascript" src="//<?php echo $asset_url; ?>js/jquery.jqtransform.js"></script>
-	<script type="text/javascript" src="//<?php echo $asset_url; ?>js/chosen.jquery.min.js"></script>
-	<script type="text/javascript" src="//<?php echo $asset_url; ?>js/settings.js"></script>
-	<script type="text/javascript" src="//<?php echo $asset_url; ?>js/objx.js"></script>
-	<script type="text/javascript" src="//<?php echo $asset_url; ?>js/tableGenerator.js"></script>
-	<script type="text/javascript" src="//<?php echo $asset_url; ?>js/script.js"></script>
+	<script type="text/javascript" src="<?php echo $asset_url; ?>bootstrap/js/bootstrap.js"></script>
+	<script type="text/javascript" src="<?php echo $asset_url; ?>js/jquery.history.js"></script>
+	<script type="text/javascript" src="<?php echo $asset_url; ?>js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="<?php echo $asset_url; ?>js/custom-form-elements.js"></script>
+	<script type="text/javascript" src="<?php echo $asset_url; ?>js/dataTables.bootstrap.js"></script>
+	<script type="text/javascript" src="<?php echo $asset_url; ?>js/jquery.jqtransform.js"></script>
+	<script type="text/javascript" src="<?php echo $asset_url; ?>js/chosen.jquery.min.js"></script>
+	<script type="text/javascript" src="<?php echo $asset_url; ?>js/settings.js"></script>
+	<script type="text/javascript" src="<?php echo $asset_url; ?>js/objx.js"></script>
+	<script type="text/javascript" src="<?php echo $asset_url; ?>js/tableGenerator.js"></script>
+	<script type="text/javascript" src="<?php echo $asset_url; ?>js/script.js"></script>
 	</body>
 </html>

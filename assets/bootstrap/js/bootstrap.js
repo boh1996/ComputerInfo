@@ -3046,7 +3046,7 @@
     })
   })
 
-}(window.jQuery)
+}(window.jQuery);
 
 /**
  * bootstrap-toggle.js v1.0

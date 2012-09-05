@@ -69,24 +69,28 @@ class Api extends CI_Controller {
 	 */
 	private function _Authenticate(){
 		$this->load->library("User");
-		$this->load->library("Token");
 	    $this->_User = new User();
-	    $Token = new Token();
-	    if (isset($_GET["token"]) && !empty($_GET["token"])) {
-	    	$token_string = htmlentities(mysql_real_escape_string($_GET["token"]));
+	    if ($this->config->item("dev_mode") == true && $this->config->item("login_off") == true) {
+	    	return $this->_User->Load(1);
 	    } else {
-	    	return FALSE;
-	    }
-	    if (!$Token->Load(array("token" => $token_string))){
-	    	return FALSE;
-		}
-		if (!$Token->IsValid()) {
-			return FALSE;
-		}
-	  	if($this->_User->Load($Token->user->id)){
-	  		return TRUE;
-	  	} else {
-	  		return FALSE;
+		    $this->load->library("Token");
+		    $Token = new Token();
+		    if (isset($_GET["token"]) && !empty($_GET["token"])) {
+		    	$token_string = htmlentities(mysql_real_escape_string($_GET["token"]));
+		    } else {
+		    	return FALSE;
+		    }
+		    if (!$Token->Load(array("token" => $token_string))){
+		    	return FALSE;
+			}
+			if (!$Token->IsValid()) {
+				return FALSE;
+			}
+		  	if($this->_User->Load($Token->user->id)){
+		  		return TRUE;
+		  	} else {
+		  		return FALSE;
+		  	}
 	  	}
 	}
 

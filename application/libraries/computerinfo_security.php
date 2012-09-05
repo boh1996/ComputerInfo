@@ -16,11 +16,34 @@ class Computerinfo_Security{
 	 */
 	public function __construct(){
 		$this->_CI =& get_instance();
-		if($this->_CI->config->item("dev_mode") !== true){
+		if(($this->_CI->config->item("login_off") !== true && $this->_CI->config->item("dev_mode") == true) || ( $this->_CI->config->item("login_off") != true)){
 			session_start();
 			$this->_CI->load->config("api");
 			self::_Is_Logged_In();
 		}
+	}
+
+	private function _RequiresSecurity () {
+		$pass = $this->_CI->config->item("non_security");
+		$segments = $this->_CI->uri->rsegment_array();
+		foreach ($pass as $page => $in_array) {
+			$use_in_array = true;
+			if (is_bool($in_array)) {
+				$use_in_array = $in_array;
+			} else {	
+				$page = $in_array;
+			}
+			if ($use_in_array) {
+				if (in_array($page, $segments)) {
+					return TRUE;
+				}
+			} else {
+				if (isset($segments[0]) && strtolower($segments[0]) == strtolower($page)) {
+					return TRUE;
+				}
+			}
+		}
+		return FALSE;
 	}
 
 	/**
@@ -29,23 +52,18 @@ class Computerinfo_Security{
 	 * @access private
 	 */
 	private function _Is_Logged_In(){
-		$Result = FALSE;
-		$Pass = $this->_CI->config->item("non_security");
-		foreach ($Pass as $Keyword) {
-			if(strpos($this->_CI->uri->ruri_string(), $Keyword) !== false){
-				$Result = TRUE;
-			}
-
-			if(strpos($this->_CI->uri->uri_string(), $Keyword) !== false){
-				$Result = TRUE;
-			}	
-		}
+		//var_dump(self::_RequiresSecurity());
+		//die();
+		/*$Result = FALSE;
+		
 		if(!$Result && !isset($_SESSION["user_id"])){
 			redirect($this->_CI->config->item("login_page"));
+			die();
 		} else if(isset($_SESSION["user_id"]) && !self::User_Exists($_SESSION["user_id"])){
 			unset($_SESSION["user_id"]);
 			redirect($this->_CI->config->item("login_page"));
-		}
+			die();
+		}*/
 	}
 
 	/**
@@ -62,6 +80,16 @@ class Computerinfo_Security{
 		} else {
 			return FALSE;
 		}
+	}
+
+	/**
+	 * This function checks if http should be enabled
+	 * @since 1.0
+	 * @access public
+	 */
+	public function CheckHTTPS ($url) {
+		$url = str_replace("http://", "", $url);
+		return ($this->_CI->config->item("https") == true) ? "https://" . $url:  "http://" . $url;
 	}
 }
 ?>

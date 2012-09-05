@@ -14,12 +14,22 @@
 | path to your installation.
 |
 */
-$config['base_url']	= '127.0.0.1/ci/';
+$config['base_url']	= 'http://127.0.0.1/ci/';
 	
 /**
  * If this is set to true, then the login system is turned off
  */
 $config["dev_mode"] = true;
+	
+/**
+ * If this parameter is true and dev_mode is true, then security is off
+ */
+$config["login_off"] = false;
+
+/**
+ * If https should be used
+ */
+$config["https"] = false;
 
 /*
 |--------------------------------------------------------------------------
