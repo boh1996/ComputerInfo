@@ -536,26 +536,10 @@
 			}
 		},
 		{
-			"file": "application/controllers/login.php",
-			"settings":
-			{
-				"buffer_size": 4911,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "application/views/login_form_view.php",
-			"settings":
-			{
-				"buffer_size": 1925,
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "assets/js/tableGenerator.js",
 			"settings":
 			{
-				"buffer_size": 28014,
+				"buffer_size": 28267,
 				"line_ending": "Windows"
 			}
 		}
@@ -592,16 +576,17 @@
 	},
 	"file_history":
 	[
-		"/R/ComputerInfo/application/libraries/auth/google.php",
-		"/R/ComputerInfo/application/libraries/computerinfo_security.php",
-		"/R/ComputerInfo/application/controllers/ui.php",
 		"/R/ComputerInfo/application/controllers/login.php",
+		"/R/ComputerInfo/application/views/login_form_view.php",
+		"/R/ComputerInfo/application/libraries/api/api_response.php",
+		"/R/ComputerInfo/application/libraries/computerinfo_security.php",
+		"/R/ComputerInfo/assets/js/tableGenerator.js",
+		"/R/ComputerInfo/application/libraries/auth/google.php",
+		"/R/ComputerInfo/application/controllers/ui.php",
 		"/R/ComputerInfo/assets/js/script.js",
 		"/R/ComputerInfo/assets/js/userInfo.js",
 		"/R/ComputerInfo/application/helpers/array_data_helper.php",
-		"/R/ComputerInfo/assets/js/tableGenerator.js",
 		"/R/ComputerInfo/application/views/front_view.php",
-		"/R/ComputerInfo/application/views/login_form_view.php",
 		"/R/ComputerInfo/application/views/login_view.php",
 		"/R/ComputerInfo/assets/bootstrap/js/bootstrap.js",
 		"/R/ComputerInfo/application/libraries/token.php",
@@ -627,7 +612,6 @@
 		"/R/ComputerInfo/application/config/config.php",
 		"/R/ComputerInfo/application/libraries/auth/login_security.php",
 		"/R/ComputerInfo/application/libraries/user.php",
-		"/R/ComputerInfo/application/libraries/api/api_response.php",
 		"/R/ComputerInfo/application/config/database.php",
 		"/R/ComputerInfo/application/config/autoload.php",
 		"/R/ComputerInfo/assets/bootstrap/less/extra/extra.less",
@@ -737,6 +721,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"http://",
 			".click",
 			".live(\"click",
 			"\"tr",
@@ -863,8 +848,7 @@
 			"// Save",
 			"this",
 			"Property",
-			"function _Is_Linked_Property(",
-			"_Is_Linked_Property()"
+			"function _Is_Linked_Property("
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -952,7 +936,7 @@
 	"groups":
 	[
 		{
-			"selected": 4,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -996,8 +980,8 @@
 						"selection":
 						[
 							[
-								773,
-								773
+								2219,
+								2219
 							]
 						],
 						"settings":
@@ -1007,83 +991,25 @@
 							"syntax": "Packages/PHP/PHP.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 5952.0,
+						"translation.y": 855.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "application/controllers/login.php",
-					"settings":
-					{
-						"buffer_size": 4911,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2105,
-								2105
-							]
-						],
-						"settings":
-						{
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 521.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "application/views/login_form_view.php",
-					"settings":
-					{
-						"buffer_size": 1925,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
 					"file": "assets/js/tableGenerator.js",
 					"settings":
 					{
-						"buffer_size": 28014,
+						"buffer_size": 28267,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								27755,
-								27755
+								1092,
+								1092
 							]
 						],
 						"settings":
@@ -1094,7 +1020,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 12517.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
