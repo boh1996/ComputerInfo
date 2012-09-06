@@ -157,6 +157,7 @@ class Login extends CI_Controller {
 	 */
 	public function Logout () {
 		$this->load->helper("cookie");
+		unset($_SESSION["user_id"]);
 		set_cookie("token","",time() - 9999);
 		session_destroy();
 		self::_redirect($this->config->item("login_page"));

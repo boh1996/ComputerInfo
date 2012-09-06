@@ -15,10 +15,9 @@ function tableGenerator (settings) {
 		this.columns = settings.columns;
 	}
 	this.responseNode = settings.responseNode;
-	//this.requestUrl = root + this.requestType +"/{id}";
 	this.multipleResponseNode = settings.multipleResponseNode;
 	this.multipleRequestType = settings.multipleRequestType;
-	this.root = (settings.root.indexOf("http") == -1)? "http://" + settings.root : settings.root;
+	this.root = (settings.root.indexOf("http") == -1)? window.location.protocol + "://" + settings.root : settings.root;
 
 	if (typeof settings.callback != "undefined") {
 		this.doneCallback = settings.callback;
@@ -279,12 +278,14 @@ tableGenerator.prototype = {
 	createAutherizedUrl : function (url,token) {
 		token = token || this.token;
 		if (token != null) {
-			if (url.indexOf("?") == -1) {
-				url += "?";
-			} else {
-				url += "&";
+			if (url.indexOf("token=" + token) == -1) {
+				if (url.indexOf("?") == -1) {
+					url += "?";
+				} else {
+					url += "&";
+				}
+				url += "token=" + token;
 			}
-			url += "token=" + token;
 		}
 		return url;
 	},
@@ -602,6 +603,10 @@ tableGenerator.prototype = {
 		});
 		var location = requestType || this.save_request_type || this.requestType || null;
 
+		if (location.indexOf("http") == -1) {
+			location = window.location.protocol + "://" + location; //Add HTTPS options
+		}
+
 		var idInput = $(modal.find("table").find('[name="id"]'));
 
 		if (location != null && this.countProperties(object) !== 0 && object != undefined) {
@@ -706,7 +711,10 @@ tableGenerator.prototype = {
 	 * @return {string}
 	 */
 	buildHandlerUrl : function (handler) {
-		var url = "http://" + handler.url;
+		var url = handler.url;
+		if (url.indexOf("http") == -1) {
+			url = window.location.protocol + "://" + url; //Add option for https here
+		}
 		if (objx.get(handler,"query_parameters") != null) {
 			if (url.indexOf("?") == -1) {
 				url += "?";

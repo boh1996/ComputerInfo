@@ -85,12 +85,12 @@ $config["login_secret"] = "Ft2Cx1125Mh9hMdwKBEqv15q6b00gNNS";
 /**
  * The url to jquery
  */
-$config["jquery_url"] = "https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js";
+$config["jquery_url"] = "https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js";
 
 /**
  * The url where to request jquery ui
  */
-$config["jqueryui_version"] = "1.8.19";
+$config["jqueryui_version"] = "1.8.23";
 
 /*
 |--------------------------------------------------------------------------

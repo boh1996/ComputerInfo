@@ -64,7 +64,7 @@ class Computerinfo_Security{
 		}
 
 		$Result = self::_RequiresSecurity();
-		
+
 		if($Result && !isset($_SESSION["user_id"])){
 			redirect($this->_CI->config->item("login_page"));
 			die();

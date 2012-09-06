@@ -114,7 +114,7 @@ class Api_Response{
 	 * @since 1.0
 	 * @access public
 	 */
-	public $CacheControl = 1;
+	public $CacheControl = "no-store, no-cache, must-revalidate";
 
 	/**
 	 * The response location, the host of the api
@@ -274,6 +274,7 @@ class Api_Response{
 				}
 			}
 		}
+		header('Pragma: no-cache');
 	}
 
 	/**
