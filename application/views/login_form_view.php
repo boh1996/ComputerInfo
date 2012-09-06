@@ -1,13 +1,5 @@
 <html>
 	<head>
-	</head>
-
-	<body>
-	</body>
-</html>
-
-<html>
-	<head>
 		<title>ComputerInfo - Login</title>
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>bootstrap/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>bootstrap/css/bootstrap-responsive.min.css">
@@ -42,5 +34,10 @@
 		<script type="text/javascript" src="<?php echo $jquery_url; ?>"></script>
 		<script type="text/javascript" src="<?php echo $asset_url; ?>bootstrap/js/bootstrap.js"></script>
 		<script type="text/javascript" src="<?php echo $asset_url; ?>js/jquery.history.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$("#username").focus();
+			});
+		</script>
 	</body>
 </html>

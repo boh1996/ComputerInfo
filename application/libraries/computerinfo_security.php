@@ -100,5 +100,22 @@ class Computerinfo_Security{
 		$url = str_replace("http://", "", $url);
 		return ($this->_CI->config->item("https") == true) ? "https://" . $url:  "http://" . $url;
 	}
+
+	/**
+	 * This function can merge Víew data and Standard view data
+	 * @since 1.0
+	 * @access public
+	 * @param array $params The view data
+	 * @return array
+	 */
+	public function ControllerInfo ($params) {
+		$settings = array(
+			"base_url" => $this->CheckHTTPS(base_url()),
+			"asset_url" => $this->CheckHTTPS(base_url().$this->_CI->config->item("asset_url")),
+			"jquery_url" => $this->_CI->config->item("jquery_url"),
+			"jqueryui_version" => $this->_CI->config->item("jqueryui_version")
+		);
+		return array_unique(array_merge($params, $settings));
+	}
 }
 ?>

@@ -476,6 +476,7 @@ class Google{
 		$result = curl_exec($ch);
 
 		$data = json_decode($result);
+		print_r($data);
 	
 		curl_close($ch);
 		if(!isset($data->error)){
@@ -538,7 +539,7 @@ class Google{
 	 * @access public
 	 */
 	public function account_data(){
-		if(self::_check_parameters(array("access_token","authe"))){
+		if(self::_check_parameters(array("access_token","auth"))){
 			$url = $this->_account_url;
 
 			$ch = curl_init();

@@ -9,13 +9,9 @@ class Login extends CI_Controller {
 	public function index(){
 		if (!isset($_SESSION["user_id"])) {
 			$data = array(
-				"method" => "login",
-				"base_url" => base_url(),
-				"asset_url" => $this->computerinfo_security->CheckHTTPS(base_url().$this->config->item("asset_url")),
-				"jquery_url" => $this->config->item("jquery_url"),
-				"jqueryui_version" => $this->config->item("jqueryui_version"),
+				"method" => "login"
 			);
-			$this->load->view("login_view",$data);
+			$this->load->view("login_view",$this->computerinfo_security->ControllerInfo($data));
 		} else {
 			redirect($this->config->item("front_page"));
 		}
@@ -30,13 +26,9 @@ class Login extends CI_Controller {
 		if (!isset($_SESSION["user_id"])) {
 			$data = array(
 				"method" => "username",
-				"base_url" => base_url(),
-				"asset_url" => $this->computerinfo_security->CheckHTTPS(base_url().$this->config->item("asset_url")),
-				"jquery_url" => $this->config->item("jquery_url"),
-				"jqueryui_version" => $this->config->item("jqueryui_version"),
 				"back" => (strpos(site_url("login"),'http') !== false) ? site_url("login") : 'http://'.site_url("login")
 			);
-			$this->load->view("login_form_view",$data);
+			$this->load->view("login_form_view",$this->computerinfo_security->ControllerInfo($data));
 		} else {
 			redirect($this->config->item("front_page"));
 		}
@@ -62,7 +54,7 @@ class Login extends CI_Controller {
 			} else if($page == "callback"){
 				$Google->callback();
 				$Account = $Google->account_data();
-				if($Account !== false){
+				if($Account !== false && $Account != NULL){
 					$this->login_model->Google($Account->id,$Account->name,$Account->email,$UserId);
 					if(!is_null($UserId)){
 						$_SESSION["user_id"] = $UserId;

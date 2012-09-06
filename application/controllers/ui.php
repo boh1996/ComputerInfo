@@ -10,11 +10,7 @@ class UI extends CI_Controller {
 		$data = array(
 			"method" => $method,
 			"params" => json_encode($params),
-			"base_url" => base_url(),
-			"asset_url" => $this->computerinfo_security->CheckHTTPS(base_url().$this->config->item("asset_url")),
-			"jquery_url" => $this->config->item("jquery_url"),
-			"jqueryui_version" => $this->config->item("jqueryui_version")
 		);
-		$this->load->view("front_view",$data);
+		$this->load->view("front_view",$this->computerinfo_security->ControllerInfo($data));
 	}
 }

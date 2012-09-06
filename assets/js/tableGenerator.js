@@ -316,6 +316,7 @@ tableGenerator.prototype = {
 				}
 			}, this),
 			error : $.proxy(function (){
+				this.generateTable();
 				this.showError("No ressource could be found or an error occured!",$("#error_container"));
 			}, this),
 		});
@@ -353,9 +354,6 @@ tableGenerator.prototype = {
 				info = data;
 			}, this)
 		});
-		while (info == null) {
-			setInterval(10);
-		}
 		return info;
 	},
 
@@ -428,7 +426,9 @@ tableGenerator.prototype = {
 	ensureLayout : function (){
 		$("tbody td:odd").addClass("odd");
 		$("tbody td:even").addClass("even");
-		$('.dataTables_empty').remove();
+		if (this.response != undefined) {
+			$(this.container).find("table").find('.dataTables_empty').remove();
+		}
 	},
 
 	/**
@@ -463,8 +463,8 @@ tableGenerator.prototype = {
 	initializeDatatables : function (first){
 		var parent = $("#" + $(this.container).parent("div").attr("id"));
 		this.dataTable = $(this.container).dataTable( {
-			"sDom": "<'row-fluid'<'span2'l><'span2 hidden-phone'<'fields'>><'span8 searh-field-row'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
-			//"sDom": "<'row-fluid'<'span4'l<'fields'>><'span4 offset4'f>r>t<'row-fluid'<'span6'i><'span6'p>>", Use this when bootstrap 2.1.0 comes out
+			//"sDom": "<'row-fluid'<'span2'l><'span2 hidden-phone'<'fields'>><'span8 searh-field-row'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
+			"sDom": "<'row-fluid'<'span4'l<'fields'>><'span4 offset4'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
 			"sPaginationType": "bootstrap",
 			"oLanguage": {
 				"sLengthMenu": this.length_menu
@@ -680,21 +680,23 @@ tableGenerator.prototype = {
 	 */
 	createModal : function () {
 		$(this.container).find("tbody tr").live("click",$.proxy(function(event){
-			var id = this.createModalFromObject($(this.onCickModal),null,this.modal_id_name);
-			var html = $(this.onCickModal).html();
 			var object = $(event.target).parent("tr");
-			html = html.replace(/\{([a-zA-Z_\.]*)\}/g, $.proxy(function (match, contents, offset, s) {
-				if (objx.get(this.response[object.attr("data-index")],contents) != null) {
-					return objx.get(this.response[object.attr("data-index")],contents);
-				} else {
-					return "";
+			if (object.find("td").hasClass("dataTables_empty") != true && object.find("td").hasClass("dataTables_empty") != "true") {
+				var id = this.createModalFromObject($(this.onCickModal),null,this.modal_id_name);
+				var html = $(this.onCickModal).html();
+				html = html.replace(/\{([a-zA-Z_\.]*)\}/g, $.proxy(function (match, contents, offset, s) {
+					if (this.response != undefined && objx.get(this.response[object.attr("data-index")],contents) != null) {
+						return objx.get(this.response[object.attr("data-index")],contents);
+					} else {
+						return "";
+					}
+				},this));
+				$("#"+id).html(html);
+				if (event != undefined) {
+					this.runHandler($(event.target), $("#"+id));
 				}
-			},this));
-			$("#"+id).html(html);
-			if (event != undefined) {
-				this.runHandler($(event.target), $("#"+id));
+				$("#"+id).modal("show");
 			}
-			$("#"+id).modal("show");
 		},this));
 	},
 
@@ -838,16 +840,32 @@ tableGenerator.prototype = {
 	 * This function is used to redraw the table
 	 */
 	refreshTable : function () {
-		this.container.find("thead").html("");
-		this.generateColumns();
-		this.container.find("tbody").html("");
-		this.dataTable.fnClearTable();
-		this.dataTable.fnDestroy();
-		$.each(this.response, $.proxy(function (index,element){ 
-			this.generateNode(element,index);
-			if(index == this.response.length-1){
-				this.initializeDatatables(false);
-			}	
-		}, this));
+		if (this.response != null && this.countProperties(this.response) > 0) {
+			this.container.find("thead").html("");
+			this.generateColumns();
+			this.container.find("tbody").html("");
+			this.dataTable.fnClearTable();
+			this.dataTable.fnDestroy();
+			$.each(this.response, $.proxy(function (index,element){ 
+				this.generateNode(element,index);
+				if(index == this.response.length-1){
+					this.initializeDatatables(false);
+				}	
+			}, this));
+		} else {
+			this.container.find("thead").html("");
+			this.generateColumns();
+			this.noValuesFill();
+
+		}
+	},
+
+	/**
+	 * This function ensures that the no values line expands all the columns
+	 */
+	noValuesFill : function () {
+		if ($(this.container).find("table").find('.dataTables_empty').length > 0) {
+			$(this.container).find("table").find('.dataTables_empty').attr("colspan",$(this.container).find("table").find("thead tr th").size());
+		}
 	}
 }
