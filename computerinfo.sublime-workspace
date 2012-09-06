@@ -4,6 +4,26 @@
 		"selected_items":
 		[
 			[
+				"datatab",
+				"dataTables_empty"
+			],
+			[
+				"resp",
+				"response"
+			],
+			[
+				"re",
+				"result"
+			],
+			[
+				"se",
+				"settings"
+			],
+			[
+				"table",
+				"tableGenerator"
+			],
+			[
 				"str_re",
 				"str_replace"
 			],
@@ -166,10 +186,6 @@
 			[
 				"dub",
 				"dublicate_rows"
-			],
-			[
-				"se",
-				"self"
 			],
 			[
 				"ob",
@@ -468,10 +484,6 @@
 				"_Get_User_Organizations"
 			],
 			[
-				"resp",
-				"response_key"
-			],
-			[
 				"cure",
 				"currentElement"
 			],
@@ -502,18 +514,6 @@
 			[
 				"op",
 				"option	Tag"
-			],
-			[
-				"done",
-				"doneCallback"
-			],
-			[
-				"_Li",
-				"_List_Of_Linked_And_Property_Linked_Properties"
-			],
-			[
-				"_E",
-				"_Export_Objects_From_Data"
 			]
 		]
 	},
@@ -531,31 +531,31 @@
 			"file": "application/config/config.php",
 			"settings":
 			{
-				"buffer_size": 13984,
+				"buffer_size": 14154,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "application/libraries/computerinfo_security.php",
+			"file": "application/controllers/login.php",
 			"settings":
 			{
-				"buffer_size": 2360,
+				"buffer_size": 4911,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "application/controllers/ui.php",
+			"file": "application/views/login_form_view.php",
 			"settings":
 			{
-				"buffer_size": 658,
+				"buffer_size": 1925,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "application/views/front_view.php",
+			"file": "assets/js/tableGenerator.js",
 			"settings":
 			{
-				"buffer_size": 5219,
+				"buffer_size": 28014,
 				"line_ending": "Windows"
 			}
 		}
@@ -592,15 +592,23 @@
 	},
 	"file_history":
 	[
+		"/R/ComputerInfo/application/libraries/auth/google.php",
+		"/R/ComputerInfo/application/libraries/computerinfo_security.php",
+		"/R/ComputerInfo/application/controllers/ui.php",
 		"/R/ComputerInfo/application/controllers/login.php",
+		"/R/ComputerInfo/assets/js/script.js",
+		"/R/ComputerInfo/assets/js/userInfo.js",
+		"/R/ComputerInfo/application/helpers/array_data_helper.php",
 		"/R/ComputerInfo/assets/js/tableGenerator.js",
+		"/R/ComputerInfo/application/views/front_view.php",
+		"/R/ComputerInfo/application/views/login_form_view.php",
+		"/R/ComputerInfo/application/views/login_view.php",
 		"/R/ComputerInfo/assets/bootstrap/js/bootstrap.js",
 		"/R/ComputerInfo/application/libraries/token.php",
 		"/R/ComputerInfo/application/controllers/data.php",
 		"/R/ComputerInfo/application/libraries/std_library.php",
 		"/C/Users/Bo/Desktop/ComputerInfo/assets/js/tableGenerator.js",
 		"/C/Users/Bo/Desktop/ComputerInfo/assets/js/script.js",
-		"/R/ComputerInfo/assets/js/script.js",
 		"/R/ComputerInfo/assets/bootstrap/less/core/bootstrap.less",
 		"/R/ComputerInfo/assets/bootstrap/less/core/layouts.less",
 		"/C/Users/Bo/Desktop/ComputerInfo/application/views/front_view.php",
@@ -614,13 +622,9 @@
 		"/R/Illution Site/Developer/Classes.php",
 		"/R/Illution Site/Developer/Age.php",
 		"/R/ComputerInfo/application/config/api.php",
-		"/R/ComputerInfo/application/views/login_form_view.php",
 		"/C/Users/Bo/Desktop/ApiGen-2.7.0-standalone/apigen/apigen.php",
 		"/R/ComputerInfo/application/views/login_topbar_view.php",
 		"/R/ComputerInfo/application/config/config.php",
-		"/R/ComputerInfo/application/views/front_view.php",
-		"/R/ComputerInfo/application/views/login_view.php",
-		"/R/ComputerInfo/application/controllers/ui.php",
 		"/R/ComputerInfo/application/libraries/auth/login_security.php",
 		"/R/ComputerInfo/application/libraries/user.php",
 		"/R/ComputerInfo/application/libraries/api/api_response.php",
@@ -682,7 +686,6 @@
 		"/R/ComputerInfo/application/libraries/operating_system_version.php",
 		"/R/ComputerInfo/application/libraries/computer_memory.php",
 		"/R/ComputerInfo/application/libraries/organization.php",
-		"/R/ComputerInfo/application/helpers/array_data_helper.php",
 		"/R/ComputerInfo/application/libraries/memory_slot.php",
 		"/C/Users/Bo/Documents/old_save_linked_properties.php",
 		"/C/xampp/htdocs/import/import.php",
@@ -716,14 +719,11 @@
 		"/R/ComputerInfo/assets/bootstrap/less/core/responsive-767px-max.less",
 		"/R/ComputerInfo/assets/css/dataTables.bootstrap.css",
 		"/R/ComputerInfo/assets/bootstrap/less/core/grid.less",
-		"/R/ComputerInfo/assets/bootstrap/less/core/navbar.less",
-		"/R/ComputerInfo/assets/bootstrap/less/core/modals.less",
-		"/R/ComputerInfo/assets/bootstrap/less/core/variables.css",
-		"/C/xampp/htdocs/array.php"
+		"/R/ComputerInfo/assets/bootstrap/less/core/navbar.less"
 	],
 	"find":
 	{
-		"height": 43.0
+		"height": 44.0
 	},
 	"find_in_files":
 	{
@@ -737,6 +737,14 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			".click",
+			".live(\"click",
+			"\"tr",
+			"ensure",
+			"ensureLayout",
+			"#no",
+			"this.token",
+			"http//",
 			"asset_url",
 			"Pass",
 			">\";",
@@ -856,15 +864,7 @@
 			"this",
 			"Property",
 			"function _Is_Linked_Property(",
-			"_Is_Linked_Property()",
-			"Save_ChildCl",
-			"_Save_Childrens_Before",
-			"this",
-			"Object",
-			"Property",
-			"_Save_ChildClasses_Properties",
-			"Save_Link_Data",
-			"_Save_ChildClasses_Properties"
+			"_Is_Linked_Property()"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -952,7 +952,7 @@
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 4,
 			"sheets":
 			[
 				{
@@ -967,8 +967,8 @@
 						"selection":
 						[
 							[
-								2190,
-								2190
+								2200,
+								2283
 							]
 						],
 						"settings":
@@ -989,15 +989,15 @@
 					"file": "application/config/config.php",
 					"settings":
 					{
-						"buffer_size": 13984,
+						"buffer_size": 14154,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								798,
-								798
+								773,
+								773
 							]
 						],
 						"settings":
@@ -1007,25 +1007,25 @@
 							"syntax": "Packages/PHP/PHP.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 5952.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "application/libraries/computerinfo_security.php",
+					"file": "application/controllers/login.php",
 					"settings":
 					{
-						"buffer_size": 2360,
+						"buffer_size": 4911,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2282,
-								2282
+								2105,
+								2105
 							]
 						],
 						"settings":
@@ -1036,25 +1036,25 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 945.0,
+						"translation.y": 521.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 3,
-					"file": "application/controllers/ui.php",
+					"file": "application/views/login_form_view.php",
 					"settings":
 					{
-						"buffer_size": 658,
+						"buffer_size": 1925,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								276,
-								276
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1072,29 +1072,29 @@
 				},
 				{
 					"buffer": 4,
-					"file": "application/views/front_view.php",
+					"file": "assets/js/tableGenerator.js",
 					"settings":
 					{
-						"buffer_size": 5219,
+						"buffer_size": 28014,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4199,
-								4199
+								27755,
+								27755
 							]
 						],
 						"settings":
 						{
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1800.0,
+						"translation.y": 12517.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
