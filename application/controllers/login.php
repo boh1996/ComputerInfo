@@ -7,14 +7,18 @@ class Login extends CI_Controller {
 	 * @access public
 	 */
 	public function index(){
-		$data = array(
-			"method" => "login",
-			"base_url" => base_url(),
-			"asset_url" => $this->computerinfo_security->CheckHTTPS(base_url().$this->config->item("asset_url")),
-			"jquery_url" => $this->config->item("jquery_url"),
-			"jqueryui_version" => $this->config->item("jqueryui_version"),
-		);
-		$this->load->view("login_view",$data);
+		if (!isset($_SESSION["user_id"])) {
+			$data = array(
+				"method" => "login",
+				"base_url" => base_url(),
+				"asset_url" => $this->computerinfo_security->CheckHTTPS(base_url().$this->config->item("asset_url")),
+				"jquery_url" => $this->config->item("jquery_url"),
+				"jqueryui_version" => $this->config->item("jqueryui_version"),
+			);
+			$this->load->view("login_view",$data);
+		} else {
+			redirect($this->config->item("front_page"));
+		}
 	}
 
 	/**
@@ -23,15 +27,19 @@ class Login extends CI_Controller {
 	 * @access public
 	 */
 	public function Username () {
-		$data = array(
-			"method" => "username",
-			"base_url" => base_url(),
-			"asset_url" => $this->computerinfo_security->CheckHTTPS(base_url().$this->config->item("asset_url")),
-			"jquery_url" => $this->config->item("jquery_url"),
-			"jqueryui_version" => $this->config->item("jqueryui_version"),
-			"back" => (strpos(site_url("login"),'http') !== false) ? site_url("login") : 'http://'.site_url("login")
-		);
-		$this->load->view("login_form_view",$data);
+		if (!isset($_SESSION["user_id"])) {
+			$data = array(
+				"method" => "username",
+				"base_url" => base_url(),
+				"asset_url" => $this->computerinfo_security->CheckHTTPS(base_url().$this->config->item("asset_url")),
+				"jquery_url" => $this->config->item("jquery_url"),
+				"jqueryui_version" => $this->config->item("jqueryui_version"),
+				"back" => (strpos(site_url("login"),'http') !== false) ? site_url("login") : 'http://'.site_url("login")
+			);
+			$this->load->view("login_form_view",$data);
+		} else {
+			redirect($this->config->item("front_page"));
+		}
 	}
 
 	/**
@@ -80,7 +88,6 @@ class Login extends CI_Controller {
 	 */
 	private function _redirect ( $url ) {
 		redirect((strpos(site_url($url),'http') !== false) ? site_url($url) : 'http://'.site_url($url));
-		die();
 	}
 
 	/**
@@ -157,10 +164,10 @@ class Login extends CI_Controller {
 	 * @access public
 	 */
 	public function Logout () {
-		setcookie("token","",time() - 3600);
+		$this->load->helper("cookie");
+		set_cookie("token","",time() - 9999);
 		session_destroy();
 		self::_redirect($this->config->item("login_page"));
-		die();	
 	}
 }
 ?>

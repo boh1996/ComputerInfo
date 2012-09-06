@@ -59,6 +59,10 @@ class Computerinfo_Security{
 	 * @access private
 	 */
 	private function _Is_Logged_In(){
+		if ($this->_CI->config->item("dev_mode") == true && $this->_CI->config->item("login_off") == true) {
+			return;
+		}
+
 		$Result = self::_RequiresSecurity();
 		
 		if($Result && !isset($_SESSION["user_id"])){
