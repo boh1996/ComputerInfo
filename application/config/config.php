@@ -50,6 +50,10 @@ $config["front_page"] = "ui";
 	
 /**
  * This contains the controllers that doesn't need security
+ * Use  the value in the array to tell if the in_array feature should be used,
+ * default is FALSE
+ * @example
+ * $config['non_security'] = array("login" => true,"api");
  */
 $config['non_security'] = array("login","api");
 

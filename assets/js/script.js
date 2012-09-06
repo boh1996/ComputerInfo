@@ -57,110 +57,117 @@ function findPageString (str) {
 	return returnValue;
 }
 
-/*$(window).on('hashchange', function (event) {
-	showPage();
-});*/
 
 $(window).on('pageshow', function (event) {
 	var organization = "1";
 	var applicationSettings = new settings(organization);
-
-	//Units
-	var unitsGenerator = new tableGenerator({
-		requestType : "device",
-		container : $("#unit"),
-		modal : $("#edit_unit"),
-		columns : applicationSettings.unitColumns,
-		responseNode : "Device",
-		multipleResponseNode : "Devices",
-		multipleRequestType : "devices",
-		root : root,
-		localStorageColumnsKey : "unit_columns",
-		localStorageLengthKey : "unit_length_value",
-		handlers : {
-			location : applicationSettings.handlers.location,
-			model_type : applicationSettings.handlers.device_type,
-			model : applicationSettings.handlers.device_model
+	if (userInfo.getCookie("token") == undefined || userInfo.getCookie("token") == null) {
+		window.location = root + "login";
+		return;
+	}
+	userInfo.getInfo(root + "user/me",userInfo.getCookie("token"), function (data,status){ 
+		if (status == "fail") {
+			console.log("FAIL");
+			return;
 		}
-	});
-	unitsGenerator.getNodes(organization);
 
-	//Computers
-	var computerGenerator = new tableGenerator({
-		requestType : "computer",
-		container : $("#computer"),
-		columns : applicationSettings.computerColumns,
-		responseNode : "Computer",
-		multipleResponseNode : "Computers",
-		localStorageColumnsKey : "computer_columns",
-		multipleRequestType : "computers",
-		root : root,
-		modal : $("#edit_computer"),
-		localStorageLengthKey : "computer_length_value",
-		handlers : {
-			model_type : applicationSettings.handlers.device_type,
-			model : applicationSettings.handlers.computer_model,
-			screen_size : applicationSettings.handlers.screen_size,
-			location : applicationSettings.handlers.location,
-			manufacturer : applicationSettings.handlers.manufacturer
-		}
-	});
-	computerGenerator.getNodes(organization);
+		//Units
+		var unitsGenerator = new tableGenerator({
+			requestType : "device",
+			container : $("#unit"),
+			modal : $("#edit_unit"),
+			columns : applicationSettings.unitColumns,
+			responseNode : "Device",
+			multipleResponseNode : "Devices",
+			multipleRequestType : "devices",
+			root : root,
+			localStorageColumnsKey : "unit_columns",
+			localStorageLengthKey : "unit_length_value",
+			handlers : {
+				location : applicationSettings.handlers.location,
+				model_type : applicationSettings.handlers.device_type,
+				model : applicationSettings.handlers.device_model
+			}
+		});
+		unitsGenerator.getNodes(organization);
 
-	//Locations
-	var locationGenerator = new tableGenerator({
-		requestType : "location",
-		modal : $("#edit_location"),
-		container : $("#location"),
-		localStorageLengthKey : "location_length_value",
-		columns : applicationSettings.locationColumns,
-		responseNode : "Location",
-		multipleResponseNode : "Locations",
-		multipleRequestType : "locations",
-		localStorageColumnsKey : "location_columns",
-		root : root,
-		handlers : {
-			floor : applicationSettings.handlers.floor,
-			building : applicationSettings.handlers.building
-		}
-	});
-	locationGenerator.getNodes(organization);
+		//Computers
+		var computerGenerator = new tableGenerator({
+			requestType : "computer",
+			container : $("#computer"),
+			columns : applicationSettings.computerColumns,
+			responseNode : "Computer",
+			multipleResponseNode : "Computers",
+			localStorageColumnsKey : "computer_columns",
+			multipleRequestType : "computers",
+			root : root,
+			modal : $("#edit_computer"),
+			localStorageLengthKey : "computer_length_value",
+			handlers : {
+				model_type : applicationSettings.handlers.device_type,
+				model : applicationSettings.handlers.computer_model,
+				screen_size : applicationSettings.handlers.screen_size,
+				location : applicationSettings.handlers.location,
+				manufacturer : applicationSettings.handlers.manufacturer
+			}
+		});
+		computerGenerator.getNodes(organization);
 
-	//Printers
-	var printerGenerator = new tableGenerator({
-		modal : $("#edit_printer"),
-		requestType : "printer",
-		localStorageLengthKey : "printer_length_value",
-		container : $("#printer"),
-		columns : applicationSettings.printerColumns,
-		responseNode : "Printer",
-		multipleResponseNode : "Printers",
-		localStorageColumnsKey : "printer_columns",
-		multipleRequestType : "printers",
-		root : root,
-		handlers : {
-			location : applicationSettings.handlers.location,
-			model : applicationSettings.handlers.printer_model
-		}
-	});
-	printerGenerator.getNodes(organization);
+		//Locations
+		var locationGenerator = new tableGenerator({
+			requestType : "location",
+			modal : $("#edit_location"),
+			container : $("#location"),
+			localStorageLengthKey : "location_length_value",
+			columns : applicationSettings.locationColumns,
+			responseNode : "Location",
+			multipleResponseNode : "Locations",
+			multipleRequestType : "locations",
+			localStorageColumnsKey : "location_columns",
+			root : root,
+			handlers : {
+				floor : applicationSettings.handlers.floor,
+				building : applicationSettings.handlers.building
+			}
+		});
+		locationGenerator.getNodes(organization);
 
-	//Screeens
-	var screenGenerator = new tableGenerator({
-		requestType : "screen",
-		modal : $("#edit_screen"),
-		localStorageLengthKey : "screen_length_value",
-		localStorageColumnsKey : "screen_columns",
-		container : $("#screen"),
-		columns : applicationSettings.screenColumns,
-		responseNode : "Screen",
-		multipleResponseNode : "Screens",
-		multipleRequestType : "screens",
-		root : root,
-		handlers : {
-			location : applicationSettings.handlers.location,
-		}
+		//Printers
+		var printerGenerator = new tableGenerator({
+			modal : $("#edit_printer"),
+			requestType : "printer",
+			localStorageLengthKey : "printer_length_value",
+			container : $("#printer"),
+			columns : applicationSettings.printerColumns,
+			responseNode : "Printer",
+			multipleResponseNode : "Printers",
+			localStorageColumnsKey : "printer_columns",
+			multipleRequestType : "printers",
+			root : root,
+			handlers : {
+				location : applicationSettings.handlers.location,
+				model : applicationSettings.handlers.printer_model
+			}
+		});
+		printerGenerator.getNodes(organization);
+
+		//Screeens
+		var screenGenerator = new tableGenerator({
+			requestType : "screen",
+			modal : $("#edit_screen"),
+			localStorageLengthKey : "screen_length_value",
+			localStorageColumnsKey : "screen_columns",
+			container : $("#screen"),
+			columns : applicationSettings.screenColumns,
+			responseNode : "Screen",
+			multipleResponseNode : "Screens",
+			multipleRequestType : "screens",
+			root : root,
+			handlers : {
+				location : applicationSettings.handlers.location,
+			}
+		});
+		screenGenerator.getNodes(organization);
+		$(".dataTables_filter").find("input").addClass("input-large");
 	});
-	screenGenerator.getNodes(organization);
-	$(".dataTables_filter").find("input").addClass("input-large");
 });

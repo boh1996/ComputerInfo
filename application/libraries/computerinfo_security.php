@@ -23,11 +23,18 @@ class Computerinfo_Security{
 		}
 	}
 
+	/**
+	 * This function returns if the current page requires security
+	 * @since 1.1
+	 * @access private
+	 * @return booelan
+	 */
 	private function _RequiresSecurity () {
+		$this->_CI->load->helper("array_data");
 		$pass = $this->_CI->config->item("non_security");
 		$segments = $this->_CI->uri->rsegment_array();
 		foreach ($pass as $page => $in_array) {
-			$use_in_array = true;
+			$use_in_array = FALSE;
 			if (is_bool($in_array)) {
 				$use_in_array = $in_array;
 			} else {	
@@ -35,15 +42,15 @@ class Computerinfo_Security{
 			}
 			if ($use_in_array) {
 				if (in_array($page, $segments)) {
-					return TRUE;
+					return FALSE;
 				}
 			} else {
-				if (isset($segments[0]) && strtolower($segments[0]) == strtolower($page)) {
-					return TRUE;
+				if (isset($segments) && @array_position($segments,0) != null && @array_position($segments,0) != false &&  strtolower(current(@array_position($segments,0))) == strtolower($page)) {
+					return FALSE;
 				}
 			}
 		}
-		return FALSE;
+		return TRUE;
 	}
 
 	/**
@@ -52,18 +59,16 @@ class Computerinfo_Security{
 	 * @access private
 	 */
 	private function _Is_Logged_In(){
-		//var_dump(self::_RequiresSecurity());
-		//die();
-		/*$Result = FALSE;
+		$Result = self::_RequiresSecurity();
 		
-		if(!$Result && !isset($_SESSION["user_id"])){
+		if($Result && !isset($_SESSION["user_id"])){
 			redirect($this->_CI->config->item("login_page"));
 			die();
 		} else if(isset($_SESSION["user_id"]) && !self::User_Exists($_SESSION["user_id"])){
 			unset($_SESSION["user_id"]);
 			redirect($this->_CI->config->item("login_page"));
 			die();
-		}*/
+		}
 	}
 
 	/**
@@ -75,7 +80,7 @@ class Computerinfo_Security{
 	 */
 	public function User_Exists($Id = NULL){
 		if(!is_null($Id)){
-			$Query = $this->_CI->db->select("id")->where(array("id" => $Id))->get($this->config->item("api_users_table"));
+			$Query = $this->_CI->db->select("id")->where(array("id" => $Id))->get($this->_CI->config->item("api_users_table"));
 			return ($Query->num_rows() > 0);
 		} else {
 			return FALSE;

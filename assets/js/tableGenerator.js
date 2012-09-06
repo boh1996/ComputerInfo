@@ -18,7 +18,7 @@ function tableGenerator (settings) {
 	//this.requestUrl = root + this.requestType +"/{id}";
 	this.multipleResponseNode = settings.multipleResponseNode;
 	this.multipleRequestType = settings.multipleRequestType;
-	this.root = "http://" + settings.root;
+	this.root = (settings.root.indexOf("http") == -1)? "http://" + settings.root : settings.root;
 
 	if (typeof settings.callback != "undefined") {
 		this.doneCallback = settings.callback;
@@ -273,16 +273,18 @@ tableGenerator.prototype = {
 	 * This function adds the token parameter to the url
 	 * @since 1.1
 	 * @param  {string} url The current url to append the token too
+	 * @param {string} token The user token0
 	 * @return {string}
 	 */
-	createAutherizedUrl : function (url) {
-		if (this.token != null) {
+	createAutherizedUrl : function (url,token) {
+		token = token || this.token;
+		if (token != null) {
 			if (url.indexOf("?") == -1) {
 				url += "?";
 			} else {
 				url += "&";
 			}
-			url += "token=" + this.token;
+			url += "token=" + token;
 		}
 		return url;
 	},
@@ -334,6 +336,27 @@ tableGenerator.prototype = {
 				this.readyCallback();
 			}, this)
 		});
+	},
+
+	/**
+	 * This function gets info from a url
+	 * @param  {string} url   The url to get data from
+	 * @param  {string} token An optional user token
+	 * @return {object}
+	 */
+	getInfo : function ( url, token) {
+		token = token || this.token || null;
+		info = null;
+		$.ajax({
+			url : this.createAutherizedUrl(url,token),
+			success : $.proxy(function (data){ 
+				info = data;
+			}, this)
+		});
+		while (info == null) {
+			setInterval(10);
+		}
+		return info;
 	},
 
 	/**

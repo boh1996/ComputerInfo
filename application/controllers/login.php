@@ -10,9 +10,9 @@ class Login extends CI_Controller {
 		$data = array(
 			"method" => "login",
 			"base_url" => base_url(),
-			"asset_url" => base_url().$this->config->item("asset_url"),
+			"asset_url" => $this->computerinfo_security->CheckHTTPS(base_url().$this->config->item("asset_url")),
 			"jquery_url" => $this->config->item("jquery_url"),
-			"jqueryui_version" => $this->config->item("jqueryui_version")
+			"jqueryui_version" => $this->config->item("jqueryui_version"),
 		);
 		$this->load->view("login_view",$data);
 	}
@@ -26,7 +26,7 @@ class Login extends CI_Controller {
 		$data = array(
 			"method" => "username",
 			"base_url" => base_url(),
-			"asset_url" => base_url().$this->config->item("asset_url"),
+			"asset_url" => $this->computerinfo_security->CheckHTTPS(base_url().$this->config->item("asset_url")),
 			"jquery_url" => $this->config->item("jquery_url"),
 			"jqueryui_version" => $this->config->item("jqueryui_version"),
 			"back" => (strpos(site_url("login"),'http') !== false) ? site_url("login") : 'http://'.site_url("login")
@@ -157,6 +157,7 @@ class Login extends CI_Controller {
 	 * @access public
 	 */
 	public function Logout () {
+		setcookie("token","",time() - 3600);
 		session_destroy();
 		self::_redirect($this->config->item("login_page"));
 		die();	
