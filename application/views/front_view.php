@@ -160,13 +160,14 @@
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/jquery.dataTables.min.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/custom-form-elements.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/dataTables.bootstrap.js"></script>
-	<script type="text/javascript" src="<?php echo $asset_url; ?>js/FixedHeader.min.js"></script>
+	<script type="text/javascript" src="<?php echo $asset_url; ?>js/FixedHeader.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/jquery.jqtransform.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/chosen.jquery.min.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/settings.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/objx.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/userInfo.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/tableGenerator.js"></script>
+	<script type="text/javascript" src="<?php echo $asset_url; ?>js/application.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/script.js"></script>
 	</body>
 </html>

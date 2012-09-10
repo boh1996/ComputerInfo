@@ -145,6 +145,12 @@ tableGenerator.prototype = {
 	fixedHeader : null,
 
 	/**
+	 * The datatable fixedheader html element
+	 * @type {object}
+	 */
+	fixedHeaderElement : null,
+
+	/**
 	 * The funciton to be called when a operaiton is done
 	 * @return {function}
 	 */
@@ -153,6 +159,7 @@ tableGenerator.prototype = {
 		if (this.doneCallback != null) {
 			this.doneCallback();
 		}
+		this.hide();
 	},
 
 	/**
@@ -294,6 +301,27 @@ tableGenerator.prototype = {
 			}
 		}
 		return url;
+	},
+
+	/**
+	 * This function can be called when the table is hidded
+	 */
+	hide : function () {
+		$(this.fixedHeaderElement).hide();
+	},
+
+	/**
+	 * This function can be called when the table is shown
+	 */
+	show : function () {
+		if (this.fixedHeader == null) {
+			this.fixedHeader = new FixedHeader( this.dataTable, {
+				 "offsetTop": 40
+			} );
+			this.fixedHeaderElement = this.fixedHeader.fnGetSettings().aoCache[0].nWrapper;
+		}
+		$(this.fixedHeaderElement).show();
+		this.fixedHeader.fnFix();
 	},
 
 	/**
@@ -480,14 +508,9 @@ tableGenerator.prototype = {
             "bAutoWidth": false,
              "sWrapper": "dataTables_wrapper form-inline"
 		});
-		if (this.fixedHeader == null) {
-			this.fixedHeader = new FixedHeader( this.dataTable, {
-				 "offsetTop": 40
-			} );
-		} else {
+		if (this.fixedHeader != null) {
 			this.fixedHeader.fnUpdate();
 		}
-		$(window).trigger("scroll");
 		$(window).trigger("resize");
 		this.generateFieldsDropdown("Fields",$(parent).find(".fields"));
 		var length_select = $(parent).find(".length_select");
@@ -505,6 +528,7 @@ tableGenerator.prototype = {
 			this.filter_value = value;
 		    $(length_select).val(value);
 			$(length_select).trigger("change");
+			$(window).trigger("resize");
 		    return false;
 		}, this));
 	},
