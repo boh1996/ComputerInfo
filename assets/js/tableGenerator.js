@@ -488,6 +488,7 @@ tableGenerator.prototype = {
 			this.fixedHeader.fnUpdate();
 		}
 		$(window).trigger("scroll");
+		$(window).trigger("resize");
 		this.generateFieldsDropdown("Fields",$(parent).find(".fields"));
 		var length_select = $(parent).find(".length_select");
 		$(length_select).val(this.filter_value);
@@ -879,6 +880,8 @@ tableGenerator.prototype = {
 			this.noValuesFill();
 		}
 		this.fixedHeader.fnPosition();
+		$(window).trigger("scroll");
+		$(window).trigger("resize");
 	},
 
 	/**

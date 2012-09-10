@@ -74,7 +74,7 @@ $(window).on('pageshow', function (event) {
 	}
 	userInfo.getInfo(root + "user/me",userInfo.getCookie("token"), function (data,status){ 
 		if (status == "fail") {
-			console.log("FAIL");
+			window.location = root + "login";
 			return;
 		}
 
