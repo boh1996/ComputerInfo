@@ -871,8 +871,8 @@ tableGenerator.prototype = {
 	 * This function ensures that the no values line expands all the columns
 	 */
 	noValuesFill : function () {
-		if ($(this.container).find("table").find('.dataTables_empty').length > 0) {
-			$(this.container).find("table").find('.dataTables_empty').attr("colspan",$(this.container).find("table").find("thead tr th").size());
+		if ($(this.container).find("tbody tr:first").find('.dataTables_empty').length > 0) {
+			$(this.container).find("tbody tr:first").find('.dataTables_empty').attr("colspan",$(this.container).find("thead tr th").size());
 		}
 	}
 }
