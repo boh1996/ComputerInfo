@@ -59,6 +59,13 @@ function findPageString (str) {
 
 
 $(window).on('pageshow', function (event) {
+	$(".logout").live("click",function(){
+		window.location = root + "logout";
+	});
+
+	/**
+	 * App setting
+	 */
 	var organization = "1";
 	var applicationSettings = new settings(organization);
 	if (userInfo.getCookie("token") == undefined || userInfo.getCookie("token") == null) {

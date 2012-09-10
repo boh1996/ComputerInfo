@@ -54,6 +54,11 @@
 				  		<a data-target="users" data-title="ComputerInfo - Brugere" href="#">Users</a>
 				  	</li>
 				</ul>
+				<ul class="nav pull-right">
+				  	<li>
+				  		<a data-target="logout" class="logout" href="<?php echo $base_url; ?>logout">Logout</a>
+				  	</li>
+				</ul>
 	      	</div>
 	 
 	    </div>
@@ -132,6 +137,20 @@
 		</div>
 	</div>
 
+	<div id="footer">
+		<div class="navbar navbar-fixed-bottom">
+		  <div class="navbar-inner">
+		    <div class="container">
+		 
+		      	<!-- Be sure to leave the brand out there if you want it shown -->
+		      	<a class="brand">
+		      		Copyright Illution &copy; 2012
+		      	</a>
+		    </div>
+		  </div>
+		</div>
+	</div>
+
 	<?php $this->load->view("models_view"); ?>
 
 	<!-- Include jquery,boostrap and script -->
@@ -141,6 +160,7 @@
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/jquery.dataTables.min.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/custom-form-elements.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/dataTables.bootstrap.js"></script>
+	<script type="text/javascript" src="<?php echo $asset_url; ?>js/FixedHeader.min.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/jquery.jqtransform.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/chosen.jquery.min.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/settings.js"></script>

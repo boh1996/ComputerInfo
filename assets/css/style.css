@@ -28,6 +28,13 @@
   margin-bottom: 10px;
 }
 
+#footer {
+  margin-top: 60px;
+}
+
+.FixedHeader_Header{
+  background-color: #FFF;
+}
 
 @media (max-width: 767px) {
   [class*="span"], .row-fluid [class*="span"]{

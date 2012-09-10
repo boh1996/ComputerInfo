@@ -139,6 +139,12 @@ tableGenerator.prototype = {
 	storedVariables : {},
 
 	/**
+	 * The datatables fixed header
+	 * @type {object}
+	 */
+	fixedHeader : null,
+
+	/**
 	 * The funciton to be called when a operaiton is done
 	 * @return {function}
 	 */
@@ -474,6 +480,13 @@ tableGenerator.prototype = {
             "bAutoWidth": false,
              "sWrapper": "dataTables_wrapper form-inline"
 		});
+		if (this.fixedHeader == null) {
+			this.fixedHeader = new FixedHeader( this.dataTable, {
+				 "offsetTop": 40
+			} );
+		} else {
+			this.fixedHeader.fnUpdate();
+		}
 		this.generateFieldsDropdown("Fields",$(parent).find(".fields"));
 		var length_select = $(parent).find(".length_select");
 		$(length_select).val(this.filter_value);
