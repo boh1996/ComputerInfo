@@ -1414,8 +1414,6 @@ class Api extends CI_Controller {
 			$Computer_Model = new Computer_Model();
 			$Computer_Model->Set_Current_User($this->_User->id);
 			$Computer_Model->Import($Request_Data);
-			$Computer_Model->created_time = time();
-			$Computer_Model->last_updated = time();
 			if($Computer_Model->Save()){
 				self::_Computer_Model($Computer_Model->id);
 			} else {

@@ -274,7 +274,7 @@ class Api_Response{
 				}
 			}
 		}
-		header('Pragma: no-cache');
+		//header('Pragma: no-cache');
 	}
 
 	/**

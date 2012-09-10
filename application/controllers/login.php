@@ -7,7 +7,8 @@ class Login extends CI_Controller {
 	 * @access public
 	 */
 	public function index(){
-		if (!isset($_SESSION["user_id"])) {
+		if (!self::_Is_Set()) {
+			self::Logout(false);
 			$data = array(
 				"method" => "login"
 			);
@@ -18,12 +19,24 @@ class Login extends CI_Controller {
 	}
 
 	/**
+	 * Is everything set properly
+	 * @since 1.0
+	 * @access private
+	 * @return boolean
+	 */
+	private function _Is_Set () {
+		$this->load->helper("cookie");
+		return (isset($_SESSION["user_id"]) && get_cookie("token") != null && get_cookie("token") != false && get_cookie("token") != "");
+	}
+
+	/**
 	 * This function redirects the user, to the login with username view
 	 * @since 1.0
 	 * @access public
 	 */
 	public function Username () {
-		if (!isset($_SESSION["user_id"])) {
+		if (!self::_Is_Set()) {
+			self::Logout(false);
 			$data = array(
 				"method" => "username",
 				"back" => (strpos(site_url("login"),'http') !== false) ? site_url("login") : 'http://'.site_url("login")
@@ -41,7 +54,8 @@ class Login extends CI_Controller {
 	 * @access public
 	 */
 	public function Google($page = "auth"){
-		if(!isset($_SESSION["user_id"])){
+		if(!self::_Is_Set()){
+			self::Logout(false);
 			$this->load->library("auth/google");
 			$this->load->model("login_model");
 			$Google = new Google();
@@ -57,6 +71,11 @@ class Login extends CI_Controller {
 				if($Account !== false && $Account != NULL){
 					$this->login_model->Google($Account->id,$Account->name,$Account->email,$UserId);
 					if(!is_null($UserId)){
+						$this->load->library("token");
+						$Token = new Token();
+						$Token->Create($User->id);
+						$this->load->helper("cookie");
+						set_cookie("token",$Token->token,$Token->time_to_live);
 						$_SESSION["user_id"] = $UserId;
 						self::_redirect($this->config->item("front_page"));
 					} else {
@@ -155,12 +174,16 @@ class Login extends CI_Controller {
 	 * @since 1.0
 	 * @access public
 	 */
-	public function Logout () {
+	public function Logout ( $redirect = true) {
 		$this->load->helper("cookie");
 		unset($_SESSION["user_id"]);
 		set_cookie("token","",time() - 9999);
 		session_destroy();
-		self::_redirect($this->config->item("login_page"));
+		delete_cookie("PHPSESSID");
+		delete_cookie("token");
+		if ($redirect) {
+			self::_redirect($this->config->item("login_page"));
+		}
 	}
 }
 ?>

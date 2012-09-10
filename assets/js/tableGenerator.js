@@ -589,23 +589,17 @@ tableGenerator.prototype = {
 	},
 
 	/**
-	 * This function creates and handles all the events for a modal
-	 * @param  {Object} modalTemplate The modal template jQuery object
-	 * @param  {Object} settings      A later used settings object
-	 * @param  {string} id            An optional id name of the modal
-	 * @return {string}
+	 * This function save's a modal's data
+	 * @param  {Object} modal       The modal to save the data for
+	 * @param  {string} requestType The save API endpoint for that modal
 	 */
-	saveModal : function (odalTemplate, settings, id) {
+	saveModal : function (modal, requestType) {
 		var object = {};
 		modal = $(modal[0]);
 		modal.find("[data-name]").each(function (index, element) {
 			objx.set(object,$(element).attr("data-name"),$(element).val());
 		});
 		var location = requestType || this.save_request_type || this.requestType || null;
-
-		if (location.indexOf("http") == -1) {
-			location = window.location.protocol + "://" + location; //Add HTTPS options
-		}
 
 		var idInput = $(modal.find("table").find('[name="id"]'));
 
@@ -616,6 +610,10 @@ tableGenerator.prototype = {
 				var requestUrl = this.root + location + "/" + idInput.val();
 			} else {
 				var requestUrl = this.root + location;
+			}
+
+			if (requestUrl.indexOf("http") == -1) {
+				requestUrl = window.location.protocol + "://" + requestUrl; //Add HTTPS options
 			}
 
 			$.ajax({
@@ -631,6 +629,7 @@ tableGenerator.prototype = {
 					}
 				}, this),
 				error : $.proxy(function(){
+					console.log("Error while saving");
 					this.showError("Sorry an error encountered! Try again!",modal.find(".modal-body"));
 				},this)
 			});

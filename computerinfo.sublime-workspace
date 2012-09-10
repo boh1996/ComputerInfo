@@ -4,6 +4,22 @@
 		"selected_items":
 		[
 			[
+				"detec",
+				"detection_string"
+			],
+			[
+				"Log",
+				"Logout"
+			],
+			[
+				"delete",
+				"delete_cookie"
+			],
+			[
+				"session_de",
+				"session_destroy"
+			],
+			[
 				"datatab",
 				"dataTables_empty"
 			],
@@ -498,48 +514,56 @@
 			[
 				"opt",
 				"option_type"
-			],
-			[
-				"retur",
-				"returned"
-			],
-			[
-				"Res",
-				"Response"
-			],
-			[
-				"Device",
-				"Device_Category"
-			],
-			[
-				"op",
-				"option	Tag"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "application/controllers/api.php",
-			"settings":
-			{
-				"buffer_size": 48232,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "application/config/config.php",
-			"settings":
-			{
-				"buffer_size": 14154,
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "assets/js/tableGenerator.js",
 			"settings":
 			{
-				"buffer_size": 28267,
+				"buffer_size": 28196,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "application/controllers/api.php",
+			"settings":
+			{
+				"buffer_size": 48146,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "application/libraries/api/api_response.php",
+			"settings":
+			{
+				"buffer_size": 7358,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "application/libraries/std_library.php",
+			"settings":
+			{
+				"buffer_size": 103930,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "assets/js/script.js",
+			"settings":
+			{
+				"buffer_size": 5297,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "application/libraries/computer_model.php",
+			"settings":
+			{
+				"buffer_size": 2033,
 				"line_ending": "Windows"
 			}
 		}
@@ -577,13 +601,15 @@
 	"file_history":
 	[
 		"/R/ComputerInfo/application/controllers/login.php",
+		"/R/ComputerInfo/application/controllers/api.php",
+		"/R/ComputerInfo/application/config/config.php",
+		"/R/ComputerInfo/assets/js/script.js",
 		"/R/ComputerInfo/application/views/login_form_view.php",
 		"/R/ComputerInfo/application/libraries/api/api_response.php",
 		"/R/ComputerInfo/application/libraries/computerinfo_security.php",
 		"/R/ComputerInfo/assets/js/tableGenerator.js",
 		"/R/ComputerInfo/application/libraries/auth/google.php",
 		"/R/ComputerInfo/application/controllers/ui.php",
-		"/R/ComputerInfo/assets/js/script.js",
 		"/R/ComputerInfo/assets/js/userInfo.js",
 		"/R/ComputerInfo/application/helpers/array_data_helper.php",
 		"/R/ComputerInfo/application/views/front_view.php",
@@ -609,7 +635,6 @@
 		"/R/ComputerInfo/application/config/api.php",
 		"/C/Users/Bo/Desktop/ApiGen-2.7.0-standalone/apigen/apigen.php",
 		"/R/ComputerInfo/application/views/login_topbar_view.php",
-		"/R/ComputerInfo/application/config/config.php",
 		"/R/ComputerInfo/application/libraries/auth/login_security.php",
 		"/R/ComputerInfo/application/libraries/user.php",
 		"/R/ComputerInfo/application/config/database.php",
@@ -633,7 +658,6 @@
 		"/C/Users/Bo/Desktop/MechanisM-bootstrap-addons-a1c78a9/MechanisM-bootstrap-addons-a1c78a9/css/sticky.css",
 		"/C/Users/Bo/Desktop/MechanisM-bootstrap-addons-a1c78a9/MechanisM-bootstrap-addons-a1c78a9/css/icons.css",
 		"/C/Users/Bo/Desktop/MechanisM-bootstrap-addons-a1c78a9/MechanisM-bootstrap-addons-a1c78a9/css/buttons2.css",
-		"/R/ComputerInfo/application/controllers/api.php",
 		"/R/ComputerInfo/application/libraries/computer.php",
 		"/R/ComputerInfo/application/views/models_view.php",
 		"/R/ComputerInfo/assets/bootstrap/less/extra/font-awesome-ie7.less",
@@ -707,7 +731,7 @@
 	],
 	"find":
 	{
-		"height": 44.0
+		"height": 34.0
 	},
 	"find_in_files":
 	{
@@ -721,6 +745,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"FAIL",
+			"saveModal",
+			"modalTemplate",
 			"http://",
 			".click",
 			".live(\"click",
@@ -845,10 +872,7 @@
 			"_Convert_To_Boolean",
 			"object->Save()",
 			"_Save_Object",
-			"// Save",
-			"this",
-			"Property",
-			"function _Is_Linked_Property("
+			"// Save"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -936,80 +960,23 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 5,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "application/controllers/api.php",
-					"settings":
-					{
-						"buffer_size": 48232,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2200,
-								2283
-							]
-						],
-						"settings":
-						{
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 684.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "application/config/config.php",
-					"settings":
-					{
-						"buffer_size": 14154,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2219,
-								2219
-							]
-						],
-						"settings":
-						{
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 855.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
 					"file": "assets/js/tableGenerator.js",
 					"settings":
 					{
-						"buffer_size": 28267,
+						"buffer_size": 28196,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1092,
-								1092
+								20856,
+								20858
 							]
 						],
 						"settings":
@@ -1020,7 +987,152 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 9691.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "application/controllers/api.php",
+					"settings":
+					{
+						"buffer_size": 48146,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								41205,
+								41205
+							]
+						],
+						"settings":
+						{
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 20860.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "application/libraries/api/api_response.php",
+					"settings":
+					{
+						"buffer_size": 7358,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6437,
+								6437
+							]
+						],
+						"settings":
+						{
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 4320.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "application/libraries/std_library.php",
+					"settings":
+					{
+						"buffer_size": 103930,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 11495.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "assets/js/script.js",
+					"settings":
+					{
+						"buffer_size": 5297,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2069,
+								2046
+							]
+						],
+						"settings":
+						{
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 765.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "application/libraries/computer_model.php",
+					"settings":
+					{
+						"buffer_size": 2033,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1706,
+								1706
+							]
+						],
+						"settings":
+						{
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 630.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
