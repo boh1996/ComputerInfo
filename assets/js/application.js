@@ -45,26 +45,7 @@ var application = {
 				return;
 			}
 
-			//Locations
-			application.locationGenerator = new tableGenerator({
-				requestType : "location",
-				modal : $("#edit_location"),
-				container : $("#location"),
-				localStorageLengthKey : "location_length_value",
-				columns :application.settings.locationColumns,
-				responseNode : "Location",
-				multipleResponseNode : "Locations",
-				multipleRequestType : "locations",
-				localStorageColumnsKey : "location_columns",
-				root : root,
-				handlers : {
-					floor :application.settings.handlers.floor,
-					building :application.settings.handlers.building
-				},
-				callback : application.readyCallback
-			});
-			application.locationGenerator.getNodes(organization);
-
+			
 			//Computers
 			application.computerGenerator = new tableGenerator({
 				requestType : "computer",
@@ -87,6 +68,26 @@ var application = {
 				callback : application.readyCallback
 			});
 			application.computerGenerator.getNodes(organization);
+
+			//Locations
+			application.locationGenerator = new tableGenerator({
+				requestType : "location",
+				modal : $("#edit_location"),
+				container : $("#location"),
+				localStorageLengthKey : "location_length_value",
+				columns :application.settings.locationColumns,
+				responseNode : "Location",
+				multipleResponseNode : "Locations",
+				multipleRequestType : "locations",
+				localStorageColumnsKey : "location_columns",
+				root : root,
+				handlers : {
+					floor :application.settings.handlers.floor,
+					building :application.settings.handlers.building
+				},
+				callback : application.readyCallback
+			});
+			application.locationGenerator.getNodes(organization);
 
 			//Units
 			application.unitsGenerator = new tableGenerator({
