@@ -520,34 +520,10 @@
 	"buffers":
 	[
 		{
-			"file": "assets/js/tableGenerator.js",
-			"settings":
-			{
-				"buffer_size": 29122,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "application/views/front_view.php",
-			"settings":
-			{
-				"buffer_size": 5979,
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "assets/js/script.js",
 			"settings":
 			{
-				"buffer_size": 3179,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "assets/css/style.css",
-			"settings":
-			{
-				"buffer_size": 1006,
+				"buffer_size": 3244,
 				"line_ending": "Windows"
 			}
 		},
@@ -555,15 +531,15 @@
 			"file": "assets/js/application.js",
 			"settings":
 			{
-				"buffer_size": 4980,
+				"buffer_size": 4964,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "/C/Users/Bo/Desktop/Datatables/FixedHeader-2.0.6/FixedHeader-2.0.6/js/FixedHeader.js",
+			"file": "assets/bootstrap/js/bootstrap.js",
 			"settings":
 			{
-				"buffer_size": 28266,
+				"buffer_size": 187107,
 				"line_ending": "Unix"
 			}
 		}
@@ -600,12 +576,47 @@
 	},
 	"file_history":
 	[
-		"/R/ComputerInfo/assets/js/FixedHeader.min.js",
+		"/C/Users/Bo/Desktop/bootstrap/js/bootstrap.js",
+		"/C/Users/Bo/Desktop/twitter-bootstrap-v2.1.1-0-gc52368d/twitter-bootstrap-c52368d/.issue-guidelines.js",
+		"/R/ComputerInfo/assets/css/style.css",
+		"/R/ComputerInfo/application/views/front_view.php",
+		"/R/IllutionBootstrap/bootstrap/less/core/bootstrap.less",
+		"/R/IllutionBootstrap/bootstrap/less/extra/bootstrap-editable.less",
+		"/R/bootbox/bootbox.min.js",
+		"/R/bootstrap-editable/src/css/datepicker.css",
+		"/R/IllutionBootstrap/bootstrap/less/extra/datepicker.less",
+		"/R/IllutionBootstrap/bootstrap/js/extra/bootstrap-editable.js",
+		"/R/IllutionBootstrap/bootstrap/js/bootstrap.js",
+		"/R/IllutionBootstrap/bootstrap/js/extra/bootstrap-datepicker.js",
+		"/R/bootstrap-editable/src/js/bootstrap-datepicker.js",
+		"/R/IllutionBootstrap/bootstrap/js/extra/bootstrap-timepicker.js",
+		"/R/ComputerInfo/assets/bootstrap/less/core/modals.less",
+		"/R/ComputerInfo/assets/css/loading.css",
+		"/R/ComputerInfo/assets/js/FixedHeader.js",
+		"/R/ComputerInfo/assets/js/tableGenerator.js",
+		"/R/IllutionBootstrap/bootstrap/css/bootstrap.min.css",
+		"/R/IllutionBootstrap/bootstrap/less/extra/colorpicker.less",
+		"/R/IllutionBootstrap/bootstrap/less/extra/font-awesome.less",
+		"/R/IllutionBootstrap/bootstrap/less/extra/jasny/iconic.less",
+		"/R/IllutionBootstrap/bootstrap/less/extra/font-awesome.css",
+		"/R/ComputerInfo/assets/js/script.js",
+		"/R/IllutionBootstrap/bootstrap/less/extra/dropdowns.less",
+		"/R/IllutionBootstrap/bootstrap/less/extra/spacing.less",
+		"/R/IllutionBootstrap/bootstrap/less/extra/extra.less",
+		"/R/IllutionBootstrap/bootstrap/less/extra/wysiwyg/prettify.less",
+		"/R/IllutionBootstrap/bootstrap/less/extra/wysiwyg/bootstrap-wysihtml5.less",
+		"/R/IllutionBootstrap/bootstrap/less/extra/wysiwyg/wysiwyg-color.less",
+		"/R/illutionbootstrap/bootstrap/less/extra/font-awesome.less",
+		"/R/illutionbootstrap/bootstrap/less/extra/colorpicker.less",
+		"/C/Users/Bo/Desktop/$RM8CCPE/less/extra/font-awesome.less",
+		"/C/Users/Bo/Desktop/$RM8CCPE/less/extra/font-awesome-ie7.less",
+		"/R/IllutionBootstrap/bootstrap/less/extra/font-awesome-ie7.less",
+		"/R/IllutionBootstrap/bootstrap/js/extra/bootstrap-colorpicker.js",
 		"/C/Users/Bo/Desktop/Datatables/FixedHeader-2.0.6/FixedHeader-2.0.6/js/FixedHeader.js",
 		"/R/ComputerInfo/assets/js/application.js",
+		"/R/ComputerInfo/assets/js/FixedHeader.min.js",
 		"/R/ComputerInfo/application/views/login_topbar_view.php",
 		"/R/ComputerInfo/application/libraries/computer_model.php",
-		"/R/ComputerInfo/assets/js/script.js",
 		"/R/ComputerInfo/application/libraries/std_library.php",
 		"/R/ComputerInfo/application/libraries/api/api_response.php",
 		"/R/ComputerInfo/application/controllers/api.php",
@@ -613,12 +624,10 @@
 		"/R/ComputerInfo/application/config/config.php",
 		"/R/ComputerInfo/application/views/login_form_view.php",
 		"/R/ComputerInfo/application/libraries/computerinfo_security.php",
-		"/R/ComputerInfo/assets/js/tableGenerator.js",
 		"/R/ComputerInfo/application/libraries/auth/google.php",
 		"/R/ComputerInfo/application/controllers/ui.php",
 		"/R/ComputerInfo/assets/js/userInfo.js",
 		"/R/ComputerInfo/application/helpers/array_data_helper.php",
-		"/R/ComputerInfo/application/views/front_view.php",
 		"/R/ComputerInfo/application/views/login_view.php",
 		"/R/ComputerInfo/assets/bootstrap/js/bootstrap.js",
 		"/R/ComputerInfo/application/libraries/token.php",
@@ -692,42 +701,9 @@
 		"/R/ComputerInfo/assets/bootstrap/less/core/variables_old.less",
 		"/C/Users/Bo/AppData/Roaming/Sublime Text 2/Packages/sublime-jslint/sublime-jslint.sublime-settings",
 		"/C/Users/Bo/Desktop/normalize.css",
-		"/R/ComputerInfo/assets/css/style.css",
 		"/R/ComputerInfo/application/libraries/operating_system_installation.php",
 		"/R/ComputerInfo/application/libraries/operating_system_edition.php",
-		"/R/ComputerInfo/application/libraries/operating_system_version.php",
-		"/R/ComputerInfo/application/libraries/computer_memory.php",
-		"/R/ComputerInfo/application/libraries/organization.php",
-		"/R/ComputerInfo/application/libraries/memory_slot.php",
-		"/C/Users/Bo/Documents/old_save_linked_properties.php",
-		"/C/xampp/htdocs/import/import.php",
-		"/R/ComputerInfo/application/libraries/operating_system.php",
-		"/R/ComputerInfo/application/controllers/import.php",
-		"/R/ComputerInfo/application/libraries/processor_model.php",
-		"/R/ComputerInfo/application/libraries/processor_family.php",
-		"/R/ComputerInfo/application/libraries/processor_architecture.php",
-		"/R/ComputerInfo/application/libraries/cpu.php",
-		"/R/ComputerInfo/application/libraries/graphic_card_model.php",
-		"/R/ComputerInfo/application/libraries/graphic_card.php",
-		"/R/ComputerInfo/application/libraries/screen_size.php",
-		"/R/ComputerInfo/application/libraries/manufacturer.php",
-		"/R/ComputerInfo/application/libraries/print_location.php",
-		"/R/ComputerInfo/application/config/smileys.php",
-		"/R/ComputerInfo/assets/bootstrap/js/bootstrap-datepicker.js",
-		"/R/ComputerInfo/assets/bootstrap/css/datepicker.css",
-		"/R/ComputerInfo/assets/bootstrap/less/extra/datepicker.less",
-		"/R/ComputerInfo/assets/js/jquery.jqtransform.js",
-		"/C/Users/Bo/AppData/Local/Temp/4e62feb6-1fba-4123-a5bf-3588411d4e32/var/www/html/ClickThisPrototype/js/sockjs-0.3.min.js",
-		"/C/Users/Bo/AppData/Roaming/Sublime Text 2/Packages/User/SFTP.errors.log",
-		"/R/ComputerInfo/assets/js/objx.js",
-		"/R/ComputerInfo/assets/bootstrap/less/extra/spacing.less",
-		"/R/ComputerInfo/assets/bootstrap/less/core/mixins.less",
-		"/R/ComputerInfo/application/libraries/building.php",
-		"/R/ComputerInfo/application/views/test_view.php",
-		"/R/ComputerInfo/application/libraries/device_model.php",
-		"/R/ComputerInfo/application/libraries/api/api_request.php",
-		"/R/ComputerInfo/database.sql",
-		"/R/ComputerInfo/assets/bootstrap/less/core/responsive-767px-max.less"
+		"/R/ComputerInfo/application/libraries/operating_system_version.php"
 	],
 	"find":
 	{
@@ -735,9 +711,10 @@
 	},
 	"find_in_files":
 	{
-		"height": 0.0,
+		"height": 90.0,
 		"where_history":
 		[
+			"R:\\IllutionBootstrap\\bootstrap\\less"
 		]
 	},
 	"find_state":
@@ -745,6 +722,23 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"datep",
+			"border-radius",
+			"fontawe",
+			"@{fontAwesomePath}",
+			"{@imgdir}",
+			"url(",
+			"img/",
+			"img",
+			"fontawesome",
+			"fontawesome-webfont.eot",
+			".icon-print:before",
+			"fnUpdate",
+			"_fnUpdatePositions",
+			"_fnMeasure",
+			"width",
+			"readyCallback",
+			"doneCallback",
 			"readyCallback",
 			"settingsObject",
 			"this",
@@ -855,29 +849,12 @@
 			"function Database",
 			"function Database(",
 			"functio nDatabase(",
-			"Database()",
-			"_Save_Linked_Pro",
-			"_Merge_Class_Properties_And_Data",
-			"this",
-			"_Merge_Class",
-			"_Save_linked_",
-			"_INTENRAL_LINK_SAVE_IGNORE",
-			"_Save_Linked_Pro",
-			"_INTERNAL_LINK_SAVE_IGNORE",
-			"_Save_Linked_Pr",
-			"this",
-			"_Save_Linked_Properties",
-			"_Save_Linked_Object",
-			"_Save_Linked_Properties",
-			"function Save()",
-			"Save()",
-			"_Is_Linked_Property",
-			"_Get"
+			"Database()"
 		],
 		"highlight": true,
 		"in_selection": false,
 		"preserve_case": false,
-		"regex": true,
+		"regex": false,
 		"replace_history":
 		[
 			"application.readyCallback",
@@ -963,81 +940,80 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 2,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "assets/js/tableGenerator.js",
+					"file": "assets/js/script.js",
 					"settings":
 					{
-						"buffer_size": 29122,
+						"buffer_size": 3244,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								7705,
-								7705
+								1096,
+								1096
 							]
 						],
 						"settings":
 						{
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 4386.0,
+						"translation.y": 945.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "application/views/front_view.php",
+					"file": "assets/js/application.js",
 					"settings":
 					{
-						"buffer_size": 5979,
+						"buffer_size": 4964,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5223,
-								5223
+								2032,
+								2032
 							]
 						],
 						"settings":
 						{
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 2250.0,
+						"translation.y": 495.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "assets/js/script.js",
+					"file": "assets/bootstrap/js/bootstrap.js",
 					"settings":
 					{
-						"buffer_size": 3179,
+						"buffer_size": 187107,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1519,
-								1519
+								56276,
+								56276
 							]
 						],
 						"settings":
@@ -1045,98 +1021,11 @@
 							"remote_loading": false,
 							"synced": false,
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 465.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "assets/css/style.css",
-					"settings":
-					{
-						"buffer_size": 1006,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								540,
-								540
-							]
-						],
-						"settings":
-						{
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/CSS/CSS.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "assets/js/application.js",
-					"settings":
-					{
-						"buffer_size": 4980,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1161,
-								1161
-							]
-						],
-						"settings":
-						{
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1350.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "/C/Users/Bo/Desktop/Datatables/FixedHeader-2.0.6/FixedHeader-2.0.6/js/FixedHeader.js",
-					"settings":
-					{
-						"buffer_size": 28266,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2825,
-								2825
-							]
-						],
-						"settings":
-						{
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 855.0,
+						"translation.y": 30007.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
