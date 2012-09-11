@@ -18,6 +18,17 @@
    	overflow: hidden;
 }
 
+#loading {
+  display: none;
+  position: absolute; 
+  top: 50%; 
+  left: 50%; 
+  margin-top: -32px; 
+  margin-left: -32px;
+  width: 64px;
+  height: 64px;
+}
+
 .disabled_page{
   position: absolute !important;
   top: -9999px !important;

@@ -7,6 +7,7 @@
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/jqtransform.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/style.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/form.css">
+		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/loading.css">
 		<script type="text/javascript">var root = "<?php echo $base_url; ?>";</script>
 		<script type="text/javascript">var method = "<?php echo $method; ?>";</script>
 	</head>
@@ -152,6 +153,19 @@
 	</div>
 
 	<?php $this->load->view("models_view"); ?>
+
+	<div id="loading">
+		<div id="floatingCirclesG">
+			<div class="f_circleG" id="frotateG_01"></div>
+			<div class="f_circleG" id="frotateG_02"></div>
+			<div class="f_circleG" id="frotateG_03"></div>
+			<div class="f_circleG" id="frotateG_04"></div>
+			<div class="f_circleG" id="frotateG_05"></div>
+			<div class="f_circleG" id="frotateG_06"></div>
+			<div class="f_circleG" id="frotateG_07"></div>
+			<div class="f_circleG" id="frotateG_08"></div>
+		</div>
+	</div>
 
 	<!-- Include jquery,boostrap and script -->
 	<script type="text/javascript" src="<?php echo $jquery_url; ?>"></script>

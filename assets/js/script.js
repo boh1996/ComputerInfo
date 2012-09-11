@@ -44,14 +44,18 @@ $(window).ready(function(){
 	$(".logout").live("click",function(){
 		window.location = root + "logout";
 	});
+	$("body").append('<div class="modal-backdrop in" id="loading-background"></div>');
+	$("#loading").show();
 	initialize();
 	History.Adapter.bind(window,'statechange',function(){
 		showPage();
     });
 
 	application.initialize(1,function () {
+		$("#loading-background").remove();
+		$("#loading").hide();
 	    showPage();
-	});	
+	});
 });
 
 function getPage () {
@@ -78,27 +82,29 @@ function initialize () {
 
 function showPage () {
 	page = getPage();
-   if ($("#"+page).length > 0) {
+   	if ($("#"+page).length > 0) {
    		$(".active_page").addClass("disabled_page").removeClass("active_page");
    		$("#"+page).removeClass("disabled_page").addClass("active_page");
    		if ($('a[data-target="'+findPageString(page)+'"]').length > 0 && !$('a[data-target="'+findPageString(page)+'"]').parent("li").hasClass("active")) {
    			$(".active").removeClass("active");
    			$('a[data-target="'+findPageString(page)+'"]').parent("li").addClass("active");
    		}
-
-   		currentPage = $(".active_page");
-   		var newPage = $("#"+page);
-   		if (objx.get(generators,currentPage.attr("id")) != null) {
-   			var id = objx.get(generators,currentPage.attr("id"));
-   			objx.get(application,id).hide();
-   		}
-   		if (objx.get(generators,newPage.attr("id")) != null) {
-   			var id = objx.get(generators,newPage.attr("id"));
-   			if (objx.get(application,id) != null) {
-   				objx.get(application,id).show();
-   			}
-   		}
-   }
+   	}
+	currentPage = $(".active_page");
+	var newPage = $("#"+page);
+	if (newPage.length == 0) {
+		newPage = currentPage;
+	}
+	if (objx.get(generators,currentPage.attr("id")) != null) {
+		var id = objx.get(generators,currentPage.attr("id"));
+		objx.get(application,id).hide();
+	}
+	if (objx.get(generators,newPage.attr("id")) != null) {
+		var id = objx.get(generators,newPage.attr("id"));
+		if (objx.get(application,id) != null) {
+			objx.get(application,id).show();
+		}
+	}
 }
 
 function findPageString (str) {
