@@ -167,6 +167,8 @@
 		</div>
 	</div>
 
+	<div class="modal-backdrop in" id="loading-background"></div>
+
 	<!-- Include jquery,boostrap and script -->
 	<script type="text/javascript" src="<?php echo $jquery_url; ?>"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>bootstrap/js/bootstrap.js"></script>

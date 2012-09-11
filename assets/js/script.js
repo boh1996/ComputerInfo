@@ -44,8 +44,6 @@ $(window).ready(function(){
 	$(".logout").live("click",function(){
 		window.location = root + "logout";
 	});
-	$("body").append('<div class="modal-backdrop in" id="loading-background"></div>');
-	$("#loading").show();
 	initialize();
 	History.Adapter.bind(window,'statechange',function(){
 		showPage();
