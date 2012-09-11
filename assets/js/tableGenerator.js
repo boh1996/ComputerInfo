@@ -321,7 +321,9 @@ tableGenerator.prototype = {
 			this.fixedHeaderElement = this.fixedHeader.fnGetSettings().aoCache[0].nWrapper;
 		} else {
 			$(this.fixedHeaderElement).show();
+			this.fixedHeader.fnUpdate();
 		}
+		this.fixedHeader.fnFix();
 		this.fixedHeader.fnPosition();
 	},
 
