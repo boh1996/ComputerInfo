@@ -77,9 +77,16 @@ function initialize () {
 }
 
 function showPage () {
- 	page = getPage();
+	page = getPage();
    if ($("#"+page).length > 0) {
-   		var currentPage = $(".active_page");
+   		$(".active_page").addClass("disabled_page").removeClass("active_page");
+   		$("#"+page).removeClass("disabled_page").addClass("active_page");
+   		if ($('a[data-target="'+findPageString(page)+'"]').length > 0 && !$('a[data-target="'+findPageString(page)+'"]').parent("li").hasClass("active")) {
+   			$(".active").removeClass("active");
+   			$('a[data-target="'+findPageString(page)+'"]').parent("li").addClass("active");
+   		}
+
+   		currentPage = $(".active_page");
    		var newPage = $("#"+page);
    		if (objx.get(generators,currentPage.attr("id")) != null) {
    			var id = objx.get(generators,currentPage.attr("id"));
@@ -90,12 +97,6 @@ function showPage () {
    			if (objx.get(application,id) != null) {
    				objx.get(application,id).show();
    			}
-   		}
-   		$(".active_page").addClass("disabled_page").removeClass("active_page");
-   		$("#"+page).removeClass("disabled_page").addClass("active_page");
-   		if ($('a[data-target="'+findPageString(page)+'"]').length > 0 && !$('a[data-target="'+findPageString(page)+'"]').parent("li").hasClass("active")) {
-   			$(".active").removeClass("active");
-   			$('a[data-target="'+findPageString(page)+'"]').parent("li").addClass("active");
    		}
    }
 }

@@ -361,6 +361,8 @@ FixedHeader.prototype = {
 			iParentScrollLeft = this._fnSumScroll( s.nTable.parentNode, 'scrollLeft' );
 		
 		m.iTableWidth = jqTable.outerWidth();
+		console.log(jqTable.css("width"));
+		console.log(jqTable.outerWidth());
 		m.iTableHeight = jqTable.outerHeight();
 		m.iTableLeft = oOffset.left + s.nTable.parentNode.scrollLeft;
 		m.iTableTop = oOffset.top + iParentScrollTop;

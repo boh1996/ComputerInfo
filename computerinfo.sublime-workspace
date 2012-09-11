@@ -4,6 +4,34 @@
 		"selected_items":
 		[
 			[
+				"fixed",
+				"fixedHeader"
+			],
+			[
+				"comp",
+				"computerGenerator"
+			],
+			[
+				"screen",
+				"screenGenerator"
+			],
+			[
+				"locati",
+				"locationGenerator"
+			],
+			[
+				"unit",
+				"unitsGenerator"
+			],
+			[
+				"printer",
+				"printerGenerator"
+			],
+			[
+				"back",
+				"background-color"
+			],
+			[
 				"detec",
 				"detection_string"
 			],
@@ -372,10 +400,6 @@
 				"inputElement"
 			],
 			[
-				"printer",
-				"printer_model"
-			],
-			[
 				"eve",
 				"event"
 			],
@@ -490,30 +514,6 @@
 			[
 				"type",
 				"typeahead"
-			],
-			[
-				"inde",
-				"indexOf"
-			],
-			[
-				"_GEt",
-				"_Get_User_Organizations"
-			],
-			[
-				"cure",
-				"currentElement"
-			],
-			[
-				"_INTERNAL_DATA",
-				"_INTERNAL_DATABASE_MODEL"
-			],
-			[
-				"_Co",
-				"_Convert_Properties_To_Database_Row"
-			],
-			[
-				"opt",
-				"option_type"
 			]
 		]
 	},
@@ -523,31 +523,15 @@
 			"file": "assets/js/tableGenerator.js",
 			"settings":
 			{
-				"buffer_size": 28196,
+				"buffer_size": 29122,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "application/controllers/api.php",
+			"file": "application/views/front_view.php",
 			"settings":
 			{
-				"buffer_size": 48146,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "application/libraries/api/api_response.php",
-			"settings":
-			{
-				"buffer_size": 7358,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "application/libraries/std_library.php",
-			"settings":
-			{
-				"buffer_size": 103930,
+				"buffer_size": 5979,
 				"line_ending": "Windows"
 			}
 		},
@@ -555,16 +539,32 @@
 			"file": "assets/js/script.js",
 			"settings":
 			{
-				"buffer_size": 5297,
+				"buffer_size": 3179,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "application/libraries/computer_model.php",
+			"file": "assets/css/style.css",
 			"settings":
 			{
-				"buffer_size": 2033,
+				"buffer_size": 1006,
 				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "assets/js/application.js",
+			"settings":
+			{
+				"buffer_size": 4980,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/Bo/Desktop/Datatables/FixedHeader-2.0.6/FixedHeader-2.0.6/js/FixedHeader.js",
+			"settings":
+			{
+				"buffer_size": 28266,
+				"line_ending": "Unix"
 			}
 		}
 	],
@@ -600,12 +600,18 @@
 	},
 	"file_history":
 	[
-		"/R/ComputerInfo/application/controllers/login.php",
-		"/R/ComputerInfo/application/controllers/api.php",
-		"/R/ComputerInfo/application/config/config.php",
+		"/R/ComputerInfo/assets/js/FixedHeader.min.js",
+		"/C/Users/Bo/Desktop/Datatables/FixedHeader-2.0.6/FixedHeader-2.0.6/js/FixedHeader.js",
+		"/R/ComputerInfo/assets/js/application.js",
+		"/R/ComputerInfo/application/views/login_topbar_view.php",
+		"/R/ComputerInfo/application/libraries/computer_model.php",
 		"/R/ComputerInfo/assets/js/script.js",
-		"/R/ComputerInfo/application/views/login_form_view.php",
+		"/R/ComputerInfo/application/libraries/std_library.php",
 		"/R/ComputerInfo/application/libraries/api/api_response.php",
+		"/R/ComputerInfo/application/controllers/api.php",
+		"/R/ComputerInfo/application/controllers/login.php",
+		"/R/ComputerInfo/application/config/config.php",
+		"/R/ComputerInfo/application/views/login_form_view.php",
 		"/R/ComputerInfo/application/libraries/computerinfo_security.php",
 		"/R/ComputerInfo/assets/js/tableGenerator.js",
 		"/R/ComputerInfo/application/libraries/auth/google.php",
@@ -617,7 +623,6 @@
 		"/R/ComputerInfo/assets/bootstrap/js/bootstrap.js",
 		"/R/ComputerInfo/application/libraries/token.php",
 		"/R/ComputerInfo/application/controllers/data.php",
-		"/R/ComputerInfo/application/libraries/std_library.php",
 		"/C/Users/Bo/Desktop/ComputerInfo/assets/js/tableGenerator.js",
 		"/C/Users/Bo/Desktop/ComputerInfo/assets/js/script.js",
 		"/R/ComputerInfo/assets/bootstrap/less/core/bootstrap.less",
@@ -634,7 +639,6 @@
 		"/R/Illution Site/Developer/Age.php",
 		"/R/ComputerInfo/application/config/api.php",
 		"/C/Users/Bo/Desktop/ApiGen-2.7.0-standalone/apigen/apigen.php",
-		"/R/ComputerInfo/application/views/login_topbar_view.php",
 		"/R/ComputerInfo/application/libraries/auth/login_security.php",
 		"/R/ComputerInfo/application/libraries/user.php",
 		"/R/ComputerInfo/application/config/database.php",
@@ -702,7 +706,6 @@
 		"/R/ComputerInfo/application/libraries/processor_model.php",
 		"/R/ComputerInfo/application/libraries/processor_family.php",
 		"/R/ComputerInfo/application/libraries/processor_architecture.php",
-		"/R/ComputerInfo/application/libraries/computer_model.php",
 		"/R/ComputerInfo/application/libraries/cpu.php",
 		"/R/ComputerInfo/application/libraries/graphic_card_model.php",
 		"/R/ComputerInfo/application/libraries/graphic_card.php",
@@ -724,10 +727,7 @@
 		"/R/ComputerInfo/application/libraries/device_model.php",
 		"/R/ComputerInfo/application/libraries/api/api_request.php",
 		"/R/ComputerInfo/database.sql",
-		"/R/ComputerInfo/assets/bootstrap/less/core/responsive-767px-max.less",
-		"/R/ComputerInfo/assets/css/dataTables.bootstrap.css",
-		"/R/ComputerInfo/assets/bootstrap/less/core/grid.less",
-		"/R/ComputerInfo/assets/bootstrap/less/core/navbar.less"
+		"/R/ComputerInfo/assets/bootstrap/less/core/responsive-767px-max.less"
 	],
 	"find":
 	{
@@ -745,6 +745,16 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"readyCallback",
+			"settingsObject",
+			"this",
+			"this.organization",
+			" this.settings",
+			"applicationSettings",
+			"organization",
+			"currentPage",
+			"sbi_search",
+			"resize",
 			"FAIL",
 			"saveModal",
 			"modalTemplate",
@@ -862,17 +872,7 @@
 			"function Save()",
 			"Save()",
 			"_Is_Linked_Property",
-			"_Get",
-			"Load_Link",
-			"Link(",
-			"Link()",
-			"_Link",
-			"_Convert_To_Boolean",
-			"_CONVERT_TO_BOOLEAN",
-			"_Convert_To_Boolean",
-			"object->Save()",
-			"_Save_Object",
-			"// Save"
+			"_Get"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -880,6 +880,9 @@
 		"regex": true,
 		"replace_history":
 		[
+			"application.readyCallback",
+			"application.settings",
+			"application",
 			"\"bootstrap/js/bootstrap",
 			"\",\\n\"",
 			"_Exists",
@@ -960,7 +963,7 @@
 	"groups":
 	[
 		{
-			"selected": 5,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -968,15 +971,15 @@
 					"file": "assets/js/tableGenerator.js",
 					"settings":
 					{
-						"buffer_size": 28196,
+						"buffer_size": 29122,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								20856,
-								20858
+								7705,
+								7705
 							]
 						],
 						"settings":
@@ -987,25 +990,25 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 9691.0,
+						"translation.y": 4386.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "application/controllers/api.php",
+					"file": "application/views/front_view.php",
 					"settings":
 					{
-						"buffer_size": 48146,
+						"buffer_size": 5979,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								41205,
-								41205
+								5223,
+								5223
 							]
 						],
 						"settings":
@@ -1016,83 +1019,25 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 20860.0,
+						"translation.y": 2250.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "application/libraries/api/api_response.php",
-					"settings":
-					{
-						"buffer_size": 7358,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								6437,
-								6437
-							]
-						],
-						"settings":
-						{
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 4320.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "application/libraries/std_library.php",
-					"settings":
-					{
-						"buffer_size": 103930,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 11495.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
 					"file": "assets/js/script.js",
 					"settings":
 					{
-						"buffer_size": 5297,
+						"buffer_size": 3179,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2069,
-								2046
+								1519,
+								1519
 							]
 						],
 						"settings":
@@ -1103,36 +1048,95 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 765.0,
+						"translation.y": 465.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 5,
-					"file": "application/libraries/computer_model.php",
+					"buffer": 3,
+					"file": "assets/css/style.css",
 					"settings":
 					{
-						"buffer_size": 2033,
+						"buffer_size": 1006,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1706,
-								1706
+								540,
+								540
 							]
 						],
 						"settings":
 						{
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"syntax": "Packages/CSS/CSS.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "assets/js/application.js",
+					"settings":
+					{
+						"buffer_size": 4980,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1161,
+								1161
+							]
+						],
+						"settings":
+						{
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 630.0,
+						"translation.y": 1350.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "/C/Users/Bo/Desktop/Datatables/FixedHeader-2.0.6/FixedHeader-2.0.6/js/FixedHeader.js",
+					"settings":
+					{
+						"buffer_size": 28266,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2825,
+								2825
+							]
+						],
+						"settings":
+						{
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 855.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

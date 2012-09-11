@@ -319,9 +319,10 @@ tableGenerator.prototype = {
 				 "offsetTop": 40
 			} );
 			this.fixedHeaderElement = this.fixedHeader.fnGetSettings().aoCache[0].nWrapper;
+		} else {
+			$(this.fixedHeaderElement).show();
 		}
-		$(this.fixedHeaderElement).show();
-		this.fixedHeader.fnFix();
+		this.fixedHeader.fnPosition();
 	},
 
 	/**
@@ -351,7 +352,7 @@ tableGenerator.prototype = {
 				}
 			}, this),
 			error : $.proxy(function (){
-				this.generateTable();
+				this.readyCallback();
 				this.showError("No ressource could be found or an error occured!",$("#error_container"));
 			}, this),
 		});
@@ -508,9 +509,9 @@ tableGenerator.prototype = {
             "bAutoWidth": false,
              "sWrapper": "dataTables_wrapper form-inline"
 		});
-		if (this.fixedHeader != null) {
+		/*if (this.fixedHeader != null) {
 			this.fixedHeader.fnUpdate();
-		}
+		}*/
 		$(window).trigger("resize");
 		this.generateFieldsDropdown("Fields",$(parent).find(".fields"));
 		var length_select = $(parent).find(".length_select");

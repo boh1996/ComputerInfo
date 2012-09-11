@@ -61,7 +61,7 @@ var application = {
 					floor :application.settings.handlers.floor,
 					building :application.settings.handlers.building
 				},
-				doneCallback : application.readyCallback
+				callback : application.readyCallback
 			});
 			application.locationGenerator.getNodes(organization);
 
@@ -84,7 +84,7 @@ var application = {
 					location :application.settings.handlers.location,
 					manufacturer :application.settings.handlers.manufacturer
 				},
-				doneCallback : application.readyCallback
+				callback : application.readyCallback
 			});
 			application.computerGenerator.getNodes(organization);
 
@@ -105,7 +105,7 @@ var application = {
 					model_type :application.settings.handlers.device_type,
 					model :application.settings.handlers.device_model
 				},
-				doneCallback : application.readyCallback
+				callback : application.readyCallback
 			});
 			application.unitsGenerator.getNodes(organization);
 
@@ -125,7 +125,7 @@ var application = {
 					location :application.settings.handlers.location,
 					model :application.settings.handlers.printer_model
 				},
-				doneCallback : application.readyCallback
+				callback : application.readyCallback
 			});
 			application.printerGenerator.getNodes(organization);
 
@@ -144,7 +144,7 @@ var application = {
 				handlers : {
 					location :application.settings.handlers.location,
 				},
-				doneCallback : application.readyCallback
+				callback : application.readyCallback
 			});
 			application.screenGenerator.getNodes(organization);
 			$(".dataTables_filter").find("input").addClass("input-large");

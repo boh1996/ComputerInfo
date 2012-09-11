@@ -28,6 +28,9 @@
   margin-bottom: 10px;
 }
 
+.dataTables_wrapper { width: 100% }
+table.display { width: 100% }
+
 #footer {
   margin-top: 60px;
 }
