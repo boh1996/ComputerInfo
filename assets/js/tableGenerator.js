@@ -828,7 +828,7 @@ tableGenerator.prototype = {
 				modal.find('[data-handler="'+ key +'"]').each(function (i, currentElement) {
 					currentElement = $(currentElement).find(".typeahead");
 					currentElement.typeahead({
-					    source: function (typeahead, query) {
+					    source: function (typeahead,query) {
 					    	var url = tableCreator.buildHandlerUrl(handler);
 					    	if (typeof handler.query_key != "undefined" && query != null && query != "") {
 					    		if (url.indexOf("?") != -1) {
@@ -844,6 +844,7 @@ tableGenerator.prototype = {
 							if (url != null && url.indexOf("&") != -1) {
 								url = url.slice(0,url.length-1);
 							}
+							url = tableCreator.createAutherizedUrl(url);
 							if (url != null && url != undefined) {
 						        return $.get(tableCreator.createAutherizedUrl(url),function (data) {
 						        	if (objx.get(handler,"response_key") != null) {
