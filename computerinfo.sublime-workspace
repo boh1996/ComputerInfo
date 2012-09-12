@@ -536,11 +536,11 @@
 			}
 		},
 		{
-			"file": "assets/bootstrap/js/bootstrap.js",
+			"file": "/R/IllutionBootstrap/bootstrap/grunt.js",
 			"settings":
 			{
-				"buffer_size": 187107,
-				"line_ending": "Unix"
+				"buffer_size": 788,
+				"line_ending": "Windows"
 			}
 		}
 	],
@@ -576,6 +576,18 @@
 	},
 	"file_history":
 	[
+		"/R/ComputerInfo/assets/bootstrap/js/bootstrap.js",
+		"/R/IllutionBootstrap/bootstrap/js/bootstrap.js",
+		"/R/IllutionBootstrap/bootstrap/js/bootstrap.min.js",
+		"/R/IllutionBootstrap/bootstrap/js/bootstrap2.js",
+		"/R/IllutionBootstrap/bootstrap/js/extra/bootstrap-wysihtml5.js",
+		"/R/IllutionBootstrap/bootstrap/js/extra/wysiwyg/wysihtml5.js",
+		"/R/ComputerInfo/assets/grunt.js",
+		"/C/Users/Bo/Desktop/example/grunt.js",
+		"/C/Users/Bo/Desktop/example/build/build.min.js",
+		"/C/Users/Bo/Desktop/example/build/build.js",
+		"/C/Users/Bo/Desktop/Coding/builder/builder/JSBuilder.py",
+		"/C/Users/Bo/Desktop/Coding/builder/builder/build.py",
 		"/C/Users/Bo/Desktop/bootstrap/js/bootstrap.js",
 		"/C/Users/Bo/Desktop/twitter-bootstrap-v2.1.1-0-gc52368d/twitter-bootstrap-c52368d/.issue-guidelines.js",
 		"/R/ComputerInfo/assets/css/style.css",
@@ -586,7 +598,6 @@
 		"/R/bootstrap-editable/src/css/datepicker.css",
 		"/R/IllutionBootstrap/bootstrap/less/extra/datepicker.less",
 		"/R/IllutionBootstrap/bootstrap/js/extra/bootstrap-editable.js",
-		"/R/IllutionBootstrap/bootstrap/js/bootstrap.js",
 		"/R/IllutionBootstrap/bootstrap/js/extra/bootstrap-datepicker.js",
 		"/R/bootstrap-editable/src/js/bootstrap-datepicker.js",
 		"/R/IllutionBootstrap/bootstrap/js/extra/bootstrap-timepicker.js",
@@ -629,7 +640,6 @@
 		"/R/ComputerInfo/assets/js/userInfo.js",
 		"/R/ComputerInfo/application/helpers/array_data_helper.php",
 		"/R/ComputerInfo/application/views/login_view.php",
-		"/R/ComputerInfo/assets/bootstrap/js/bootstrap.js",
 		"/R/ComputerInfo/application/libraries/token.php",
 		"/R/ComputerInfo/application/controllers/data.php",
 		"/C/Users/Bo/Desktop/ComputerInfo/assets/js/tableGenerator.js",
@@ -693,17 +703,7 @@
 		"/C/Users/Bo/Desktop/leafo-lessphp-v0.3.8-1-g1241c5a/leafo-lessphp-1241c5a/plessc",
 		"/C/Users/Bo/Desktop/leafo-lessphp-v0.3.8-1-g1241c5a/leafo-lessphp-1241c5a/composer.json",
 		"/R/ComputerInfo/assets/bootstrap/less/extra/ekstra.less",
-		"/R/ComputerInfo/assets/bootstrap/css/bootstrap-extra.css",
-		"/R/ComputerInfo/assets/build.py",
-		"/C/Users/Bo/Desktop/builder/builder/build.py",
-		"/C/Users/Bo/Desktop/builder/builder/JSBuilder.py",
-		"/R/ComputerInfo/assets/bootstrap/less/core/variables.less",
-		"/R/ComputerInfo/assets/bootstrap/less/core/variables_old.less",
-		"/C/Users/Bo/AppData/Roaming/Sublime Text 2/Packages/sublime-jslint/sublime-jslint.sublime-settings",
-		"/C/Users/Bo/Desktop/normalize.css",
-		"/R/ComputerInfo/application/libraries/operating_system_installation.php",
-		"/R/ComputerInfo/application/libraries/operating_system_edition.php",
-		"/R/ComputerInfo/application/libraries/operating_system_version.php"
+		"/R/ComputerInfo/assets/bootstrap/css/bootstrap-extra.css"
 	],
 	"find":
 	{
@@ -711,7 +711,7 @@
 	},
 	"find_in_files":
 	{
-		"height": 90.0,
+		"height": 0.0,
 		"where_history":
 		[
 			"R:\\IllutionBootstrap\\bootstrap\\less"
@@ -722,6 +722,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"@license wysihtml5 v0.3.0",
 			"datep",
 			"border-radius",
 			"fontawe",
@@ -848,8 +849,7 @@
 			"fDatabase",
 			"function Database",
 			"function Database(",
-			"functio nDatabase(",
-			"Database()"
+			"functio nDatabase("
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -955,8 +955,8 @@
 						"selection":
 						[
 							[
-								1096,
-								1096
+								0,
+								0
 							]
 						],
 						"settings":
@@ -983,8 +983,8 @@
 						"selection":
 						[
 							[
-								2032,
-								2032
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1002,18 +1002,18 @@
 				},
 				{
 					"buffer": 2,
-					"file": "assets/bootstrap/js/bootstrap.js",
+					"file": "/R/IllutionBootstrap/bootstrap/grunt.js",
 					"settings":
 					{
-						"buffer_size": 187107,
+						"buffer_size": 788,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								56276,
-								56276
+								736,
+								736
 							]
 						],
 						"settings":
@@ -1025,7 +1025,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 30007.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
