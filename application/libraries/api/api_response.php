@@ -318,7 +318,8 @@ class Api_Response{
 		$Headers["Allow"] = implode(",", $this->Allow);
 		if(!is_null($this->ResponseString)){
 			$Headers["Content-Type"] = self::_Get_Mime();
-			$Headers["Content-MD5"] = md5($this->ResponseString);
+			$Headers["X-Robots-Tag"] = "noindex";
+			$Headers["Content-MD5"] = base64_encode(md5($this->ResponseString));
 			$Headers["Content-SHA-512"] = hash("sha512",$this->ResponseString);
 			$Headers["Content-Length"] = strlen($this->ResponseString);
 		}

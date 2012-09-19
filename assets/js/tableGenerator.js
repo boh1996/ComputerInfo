@@ -501,7 +501,6 @@ tableGenerator.prototype = {
 	initializeDatatables : function (first){
 		var parent = $("#" + $(this.container).parent("div").attr("id"));
 		this.dataTable = $(this.container).dataTable( {
-			//"sDom": "<'row-fluid'<'span2'l><'span2 hidden-phone'<'fields'>><'span8 searh-field-row'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
 			"sDom": "<'row-fluid'<'span4'l<'fields'>><'span4 offset4'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
 			"sPaginationType": "bootstrap",
 			"oLanguage": {
@@ -511,10 +510,8 @@ tableGenerator.prototype = {
             "bAutoWidth": false,
              "sWrapper": "dataTables_wrapper form-inline"
 		});
-		/*if (this.fixedHeader != null) {
-			this.fixedHeader.fnUpdate();
-		}*/
 		$(window).trigger("resize");
+		$(this.container).next(".row-fluid").find(".span6:last").append('<a class="btn btn-large-custom pull-right spacing-right"><i class="icon-plus" id="' + $(this.container).attr("id") + "-add-new" +'"></i></a>');
 		this.generateFieldsDropdown("Fields",$(parent).find(".fields"));
 		var length_select = $(parent).find(".length_select");
 		$(length_select).val(this.filter_value);
@@ -534,6 +531,14 @@ tableGenerator.prototype = {
 			$(window).trigger("resize");
 		    return false;
 		}, this));
+
+		this.handleAdd();
+	},
+
+	handleAdd : function () {
+		$("#" + $(this.container).attr("id") + "-add-new").live("click",$.proxy(function(){
+			console.log("Add");
+		},this));
 	},
 
 	/**
@@ -579,7 +584,7 @@ tableGenerator.prototype = {
 		}
 
 		//Create the corresponding events
-		$("#" + id).find(".modal-footer").find(".btn-primary").live("click",$.proxy(function(){
+		$("#" + id).find(".modal-footer").find(".btn-primary").live("click",$.proxy(function(event){
 			var requestType = objx.get(this.storedVariables,"modals." + modalTemplate.attr("id") + ".request_type") || this.save_request_type || this.requestType || null;
 			this.saveModal(modal, requestType);
 		},this));
@@ -607,8 +612,6 @@ tableGenerator.prototype = {
 				objx.set(this.storedVariables.modals,currentElement.attr("data-add-model")  + ".response_key",currentElement.attr("data-response-key"));
 			}
 		},this));
-
-		$
 
 		modal.modal("show");
 
@@ -667,7 +670,7 @@ tableGenerator.prototype = {
 					if (objx.get(this.storedVariables.modals,modal.attr("data-template") + ".type") == "add") {
 						this.proccessAdd( modal, data);
 					} else {
-						//proccessSave( modal, data, );
+						proccessSave( modal, data);
 					}
 				}, this),
 				error : $.proxy(function(){
@@ -741,6 +744,7 @@ tableGenerator.prototype = {
 				if (event != undefined) {
 					this.runHandler($(event.target), $("#"+id));
 				}
+				objx.set(this.modals,"."+id + ".launch_element",$(event).target);
 				$("#"+id).modal("show");
 			}
 		},this));

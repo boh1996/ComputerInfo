@@ -27,17 +27,35 @@ class Login_Security{
 	public function check ( $password, $user_password, $user_salt, $hashing_iterations = 10 ) {
 		$password = self::check_security($password);
 		if (!empty($password) && self::_correct_length($password, $this->_CI->config->item("password_length")) && self::_has_number($password)) {
-			$salts = array(
-				$user_salt,
-				$this->_CI->config->item("app_hashing_salt"),
-				"fdd3606ec5da81bf410b57828df77caba7fb870edc3307369adf179f838f20fc"
-			);
+			$salts = self::_get_salts();
 			$salt = self::_create_salt( $salts );
 			$password = self::_hash($password, $salt, $hashing_iterations);
 			return ($password == $user_password);
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * This function returns the array of the salts
+	 * @access private
+	 * @since 1.0
+	 * @return array
+	 */
+	private function _get_salts () {
+		$salts = array(
+			$user_salt
+		);
+		if (getenv("app_hashing_salt") !== false && getenv("app_hashing_salt") != null) {
+			$salts[] = getenv("app_hashing_salt");
+		} else if (getenv("COMPUTERINFO_SALT") !== false && getenv("COMPUTERINFO_SALT") != null) {
+			$salts[] = getenv("COMPUTERINFO_SALT");
+		}
+		if ($this->_CI->config->item("app_hashing_salt") != null){
+			$salts[] = $this->_CI->config->item("app_hashing_salt");
+		}
+		$salts[] = "fdd3606ec5da81bf410b57828df77caba7fb870edc3307369adf179f838f20fc";
+		return $salts;
 	}
 
 	/**
@@ -52,11 +70,7 @@ class Login_Security{
 	 */
 	public function createUser ( $password, $hashing_iterations = 10, $salt_length = 64, &$user_salt) {
 		$user_salt = self::createSalt($salt_length);
-		$salts = array(
-			$user_salt,
-			$this->_CI->config->item("app_hashing_salt"),
-			"fdd3606ec5da81bf410b57828df77caba7fb870edc3307369adf179f838f20fc"
-		);
+		$salts = self::_get_salts();
 		$salt = self::_create_salt( $salts );
 		return self::_hash($password, $salt, $hashing_iterations);
 	}
