@@ -113,7 +113,8 @@ class Computerinfo_Security{
 			"base_url" => $this->CheckHTTPS(base_url()),
 			"asset_url" => $this->CheckHTTPS(base_url().$this->_CI->config->item("asset_url")),
 			"jquery_url" => $this->_CI->config->item("jquery_url"),
-			"jqueryui_version" => $this->_CI->config->item("jqueryui_version")
+			"jqueryui_version" => $this->_CI->config->item("jqueryui_version"),
+			"dev_mode" => $this->_CI->config->item("dev_mode")
 		);
 		return array_unique(array_merge($params, $settings));
 	}

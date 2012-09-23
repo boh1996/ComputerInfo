@@ -27,7 +27,7 @@ class Login_Security{
 	public function check ( $password, $user_password, $user_salt, $hashing_iterations = 10 ) {
 		$password = self::check_security($password);
 		if (!empty($password) && self::_correct_length($password, $this->_CI->config->item("password_length")) && self::_has_number($password)) {
-			$salts = self::_get_salts();
+			$salts = self::_get_salts( $user_salt );
 			$salt = self::_create_salt( $salts );
 			$password = self::_hash($password, $salt, $hashing_iterations);
 			return ($password == $user_password);
@@ -42,7 +42,7 @@ class Login_Security{
 	 * @since 1.0
 	 * @return array
 	 */
-	private function _get_salts () {
+	private function _get_salts ( $user_salt ) {
 		$salts = array(
 			$user_salt
 		);
@@ -70,7 +70,7 @@ class Login_Security{
 	 */
 	public function createUser ( $password, $hashing_iterations = 10, $salt_length = 64, &$user_salt) {
 		$user_salt = self::createSalt($salt_length);
-		$salts = self::_get_salts();
+		$salts = self::_get_salts( $user_salt );
 		$salt = self::_create_salt( $salts );
 		return self::_hash($password, $salt, $hashing_iterations);
 	}

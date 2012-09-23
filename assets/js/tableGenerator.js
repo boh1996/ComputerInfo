@@ -69,6 +69,10 @@ tableGenerator.prototype = {
 	 */
 	localStorageColumnsKey : null,
 
+	/**
+	 * The dessired name of the standard modal
+	 * @type {string}
+	 */
 	modal_id_name : null,
 
 	/**
@@ -149,6 +153,12 @@ tableGenerator.prototype = {
 	 * @type {object}
 	 */
 	fixedHeaderElement : null,
+
+	/**
+	 * If the class is initializing
+	 * @type {Boolean}
+	 */
+	initialize : true,
 
 	/**
 	 * The funciton to be called when a operaiton is done
@@ -449,12 +459,34 @@ tableGenerator.prototype = {
 						} else {
 							this.columns[checkbox.val()].active = false;
 						}
+						this.findSortedColumns();
 						localStorage.setItem(this.localStorageColumnsKey,JSON.stringify(this.columns));
 						this.refreshTable();
 					}, this));
 				}
 			}
 		},this));
+	},
+
+	/**
+	 * This function adds all the sorted columns to the localstorage
+	 */
+	findSortedColumns : function () {
+		if ($(this.fixedHeaderElement).length > 0) {
+			var sort = $(this.fixedHeaderElement).find('thead th[aria-sort]');
+			var current = this.getSortColumn();
+			if (typeof current != undefined && current != null && sort.length > 0 && current.column != sort.attr("data-column")) {
+				delete this.columns[current.column].sort;
+			}
+			if (this.initialize != true) {
+				$.each(this.columns,$.proxy(function(column,settings){
+					if (column == $(sort).attr("data-column")) {
+						this.columns[column].sort = sort.attr("aria-sort");
+					}
+				},this));
+				localStorage.setItem(this.localStorageColumnsKey,JSON.stringify(this.columns));
+			}
+		}
 	},
 
 	/**
@@ -488,10 +520,26 @@ tableGenerator.prototype = {
 		var header = $("<tr></tr>");
 		$.each(this.columns, $.proxy(function (index,element){ 
 			if(element.active === true){
-				header.append('<th>'+element.string+'</th>');
+				header.append('<th data-column="'+index+'">'+element.string+'</th>');
 			}
 		}, this));
 		this.container.find("thead").append(header);
+	},
+
+	getSortColumn : function () {
+		var sort = null;
+		var sortOption = null;
+		var data = null;
+		$.each(this.columns, $.proxy(function (index,element){ 
+			if(element.active === true){
+				if (typeof element.sort != "undefined") {
+					sortOption = (element.sort == "descending")? "desc" : "asc";
+					var sort = $(this.container).find('thead tr th[data-column="' + index + '"]').index();
+					data = {"element" : sort,"option" : sortOption,"column" : index,"columnOptions" : element};
+				}
+			}
+		}, this));
+		return data;
 	},
 
 	/**
@@ -500,7 +548,9 @@ tableGenerator.prototype = {
 	 */
 	initializeDatatables : function (first){
 		var parent = $("#" + $(this.container).parent("div").attr("id"));
-		this.dataTable = $(this.container).dataTable( {
+		var sort = this.getSortColumn();
+		var sortSetting = (sort != undefined) ? [[sort.element,sort.option ]] : null;
+		var settings = {
 			"sDom": "<'row-fluid'<'span4'l<'fields'>><'span4 offset4'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
 			"sPaginationType": "bootstrap",
 			"oLanguage": {
@@ -508,8 +558,18 @@ tableGenerator.prototype = {
 			},
 			"bScrollCollapse": true,
             "bAutoWidth": false,
-             "sWrapper": "dataTables_wrapper form-inline"
-		});
+             "sWrapper": "dataTables_wrapper form-inline",
+             "fnDrawCallback": $.proxy(function (){ 
+             	if (this.dataTable != null) {
+             		this.show();
+					this.findSortedColumns();
+				}	
+			}, this)
+		};
+		if (sortSetting != null) {
+			settings.aaSorting = sortSetting;
+		}
+		this.dataTable = $(this.container).dataTable( settings );
 		$(window).trigger("resize");
 		$(this.container).next(".row-fluid").find(".span6:last").append('<a class="btn btn-large-custom pull-right spacing-right"><i class="icon-plus" id="' + $(this.container).attr("id") + "-add-new" +'"></i></a>');
 		this.generateFieldsDropdown("Fields",$(parent).find(".fields"));
@@ -531,7 +591,7 @@ tableGenerator.prototype = {
 			$(window).trigger("resize");
 		    return false;
 		}, this));
-
+		this.initialize = false;
 		this.handleAdd();
 	},
 

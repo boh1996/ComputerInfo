@@ -79,6 +79,11 @@ function initialize () {
 }
 
 function showPage () {
+	var currentPage = $(".active_page");
+	if (objx.get(generators,currentPage.attr("id")) != null) {
+		var id = objx.get(generators,currentPage.attr("id"));
+		objx.get(application,id).hide();
+	}
 	page = getPage();
    	if ($("#"+page).length > 0) {
    		$(".active_page").addClass("disabled_page").removeClass("active_page");
@@ -88,14 +93,9 @@ function showPage () {
    			$('a[data-target="'+findPageString(page)+'"]').parent("li").addClass("active");
    		}
    	}
-	currentPage = $(".active_page");
 	var newPage = $("#"+page);
 	if (newPage.length == 0) {
 		newPage = currentPage;
-	}
-	if (objx.get(generators,currentPage.attr("id")) != null) {
-		var id = objx.get(generators,currentPage.attr("id"));
-		objx.get(application,id).hide();
 	}
 	if (objx.get(generators,newPage.attr("id")) != null) {
 		var id = objx.get(generators,newPage.attr("id"));

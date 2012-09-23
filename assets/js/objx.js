@@ -291,7 +291,7 @@ objx.bind = function() {
 };
 
 
-/*
+/**
  *  objx.get
  *
  *  Gets a value from an object by property name
@@ -313,9 +313,24 @@ objx.get = function(o, p) {
 	} else {
 		return null;
 	}
-	
-
 };
+
+/**
+ * This function deletes the selected property
+ * @param  {object} o The source object
+ * @param  {string} p The string path
+ */
+objx.delete = function(o,p) {
+	if(o !== null && p !== null && o !== undefined && p !== undefined) {
+		var dotPos = p.indexOf(".");
+		if (typeof o === "object"){
+			if (dotPos == -1 && p in o) {
+				delete o[p];
+			}
+		}
+		objx.delete(o[p.substring(0, dotPos)], p.substring(dotPos + 1));
+	}
+}
 
 /**
  * This function sets the value of an object using dot selector

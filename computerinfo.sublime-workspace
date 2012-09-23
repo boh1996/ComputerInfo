@@ -4,6 +4,42 @@
 		"selected_items":
 		[
 			[
+				"c",
+				"columns"
+			],
+			[
+				"col",
+				"column"
+			],
+			[
+				"e",
+				"element"
+			],
+			[
+				"cur",
+				"current"
+			],
+			[
+				"getC",
+				"getSortColumn"
+			],
+			[
+				"find",
+				"findSortedColumns"
+			],
+			[
+				"fixe",
+				"fixedHeaderElement"
+			],
+			[
+				"user",
+				"user_salt"
+			],
+			[
+				"n",
+				"number"
+			],
+			[
 				"sal",
 				"salts"
 			],
@@ -138,10 +174,6 @@
 			[
 				"sa",
 				"salts"
-			],
-			[
-				"user",
-				"user_password"
 			],
 			[
 				"ha",
@@ -428,10 +460,6 @@
 				"response"
 			],
 			[
-				"cur",
-				"currentElement"
-			],
-			[
 				"ste",
 				"storedVariables"
 			],
@@ -486,34 +514,6 @@
 			[
 				"di",
 				"display"
-			],
-			[
-				"modal",
-				"modal_id_name"
-			],
-			[
-				"seti",
-				"settings"
-			],
-			[
-				"coi",
-				"countProperties"
-			],
-			[
-				"set",
-				"settings"
-			],
-			[
-				"le",
-				"length"
-			],
-			[
-				"lengt",
-				"length_value"
-			],
-			[
-				"filter",
-				"filter_value"
 			]
 		]
 	},
@@ -523,7 +523,7 @@
 			"file": "assets/js/tableGenerator.js",
 			"settings":
 			{
-				"buffer_size": 29498,
+				"buffer_size": 31415,
 				"line_ending": "Windows"
 			}
 		},
@@ -531,15 +531,31 @@
 			"file": "application/views/front_view.php",
 			"settings":
 			{
-				"buffer_size": 6698,
+				"buffer_size": 6735,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "application/libraries/auth/login_security.php",
+			"file": "assets/js/objx.js",
 			"settings":
 			{
-				"buffer_size": 5150,
+				"buffer_size": 9931,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "assets/js/script.js",
+			"settings":
+			{
+				"buffer_size": 3248,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "assets/js/settings.js",
+			"settings":
+			{
+				"buffer_size": 5572,
 				"line_ending": "Windows"
 			}
 		}
@@ -576,6 +592,19 @@
 	},
 	"file_history":
 	[
+		"/C/Users/Bo/Desktop/test.html",
+		"/R/IllutionBootstrap/bootstrap/grunt.js",
+		"/R/ComputerInfo/.git/FETCH_HEAD",
+		"/R/ComputerInfo/application/views/models_view.php",
+		"/R/ComputerInfo/assets/js/settings.js",
+		"/R/ComputerInfo/application/config/config.php",
+		"/R/ComputerInfo/application/views/login_view.php",
+		"/R/ComputerInfo/application/views/login_form_view.php",
+		"/R/ComputerInfo/application/libraries/computerinfo_security.php",
+		"/R/ComputerInfo/application/libraries/auth/login_security.php",
+		"/R/ComputerInfo/application/helpers/unit_helper.php",
+		"/C/Users/Bo/Desktop/Coding/my-first-crawler/example2.php",
+		"/C/Users/Bo/Desktop/Coding/my-first-crawler/example1.php",
 		"/Q/ComputerInfo/application/libraries/auth/login_security.php",
 		"/R/ComputerInfo/assets/bootstrap/less/extra/extra.less",
 		"/R/ComputerInfo/application/libraries/api/api_response.php",
@@ -594,7 +623,6 @@
 		"/R/ComputerInfo/assets/bootstrap/js/core/bootstrap-typeahead.js",
 		"/R/ComputerInfo/assets/js/script.js",
 		"/R/ComputerInfo/assets/bootstrap/js/bootstrap.js",
-		"/R/IllutionBootstrap/bootstrap/grunt.js",
 		"/R/ComputerInfo/assets/js/application.js",
 		"/R/ComputerInfo/assets/bootstrap/js/extra/bootstrap-rowlink.js",
 		"/R/ComputerInfo/assets/bootstrap/js/extra/bootstrap-fileupload.js",
@@ -649,14 +677,10 @@
 		"/R/ComputerInfo/application/libraries/std_library.php",
 		"/R/ComputerInfo/application/controllers/api.php",
 		"/R/ComputerInfo/application/controllers/login.php",
-		"/R/ComputerInfo/application/config/config.php",
-		"/R/ComputerInfo/application/views/login_form_view.php",
-		"/R/ComputerInfo/application/libraries/computerinfo_security.php",
 		"/R/ComputerInfo/application/libraries/auth/google.php",
 		"/R/ComputerInfo/application/controllers/ui.php",
 		"/R/ComputerInfo/assets/js/userInfo.js",
 		"/R/ComputerInfo/application/helpers/array_data_helper.php",
-		"/R/ComputerInfo/application/views/login_view.php",
 		"/R/ComputerInfo/application/libraries/token.php",
 		"/R/ComputerInfo/application/controllers/data.php",
 		"/C/Users/Bo/Desktop/ComputerInfo/assets/js/tableGenerator.js",
@@ -666,7 +690,6 @@
 		"/C/Users/Bo/Desktop/ComputerInfo/application/models/login_model.php",
 		"/C/Users/Bo/Desktop/ComputerInfo/application/controllers/login.php",
 		"/R/ComputerInfo/application/assets/js/settings.js",
-		"/R/ComputerInfo/assets/js/settings.js",
 		"/R/ComputerInfo/application/models/std_model.php",
 		"/C/Users/Bo/Downloads/grayscale.fs",
 		"/R/ComputerInfo/application/config/routes.php",
@@ -674,7 +697,6 @@
 		"/R/Illution Site/Developer/Age.php",
 		"/R/ComputerInfo/application/config/api.php",
 		"/C/Users/Bo/Desktop/ApiGen-2.7.0-standalone/apigen/apigen.php",
-		"/R/ComputerInfo/application/libraries/auth/login_security.php",
 		"/R/ComputerInfo/application/libraries/user.php",
 		"/R/ComputerInfo/application/config/database.php",
 		"/R/ComputerInfo/application/config/autoload.php",
@@ -697,13 +719,7 @@
 		"/C/Users/Bo/Desktop/MechanisM-bootstrap-addons-a1c78a9/MechanisM-bootstrap-addons-a1c78a9/css/icons.css",
 		"/C/Users/Bo/Desktop/MechanisM-bootstrap-addons-a1c78a9/MechanisM-bootstrap-addons-a1c78a9/css/buttons2.css",
 		"/R/ComputerInfo/application/libraries/computer.php",
-		"/R/ComputerInfo/application/views/models_view.php",
-		"/R/ComputerInfo/assets/bootstrap/less/extra/font-awesome-ie7.less",
-		"/R/ComputerInfo/assets/bootstrap/less/extra/font-awesome.less",
-		"/R/ComputerInfo/assets/bootstrap/less/core/responsive.less",
-		"/R/ComputerInfo/assets/bootstrap/js/extra/bootstrap-inputmask.js",
-		"/R/ComputerInfo/assets/bootstrap/js/bootstrap.min.js",
-		"/R/ComputerInfo/assets/bootstrap/less/extra/jasny/iconic.less"
+		"/R/ComputerInfo/assets/bootstrap/less/extra/font-awesome-ie7.less"
 	],
 	"find":
 	{
@@ -722,6 +738,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			" \"",
+			"fixedHeaderElement",
 			".btn-large ",
 			"js/",
 			"typeahead",
@@ -847,9 +865,7 @@
 			"_INTERNAL_LINK_SAVE",
 			"_Check_Property_Names",
 			"_Save_Linked_Properties",
-			"_INTERNAL_SAVE_IG",
-			"_INTERNAL_SAVE",
-			"_Save_Linked"
+			"_INTERNAL_SAVE_IG"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -948,7 +964,7 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 4,
 			"sheets":
 			[
 				{
@@ -956,15 +972,15 @@
 					"file": "assets/js/tableGenerator.js",
 					"settings":
 					{
-						"buffer_size": 29498,
+						"buffer_size": 31415,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								12391,
+								12391
 							]
 						],
 						"settings":
@@ -975,7 +991,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 10533.0,
+						"translation.y": 4397.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -985,15 +1001,15 @@
 					"file": "application/views/front_view.php",
 					"settings":
 					{
-						"buffer_size": 6698,
+						"buffer_size": 6735,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								5407,
+								5199
 							]
 						],
 						"settings":
@@ -1004,36 +1020,93 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 2315.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "application/libraries/auth/login_security.php",
+					"file": "assets/js/objx.js",
 					"settings":
 					{
-						"buffer_size": 5150,
+						"buffer_size": 9931,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2575,
-								2575
+								6124,
+								6124
 							]
 						],
 						"settings":
 						{
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 467.0,
+						"translation.y": 4455.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "assets/js/script.js",
+					"settings":
+					{
+						"buffer_size": 3248,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2113,
+								2113
+							]
+						],
+						"settings":
+						{
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 765.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "assets/js/settings.js",
+					"settings":
+					{
+						"buffer_size": 5572,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3348,
+								3348
+							]
+						],
+						"settings":
+						{
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1080.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
