@@ -82,6 +82,8 @@ else {
 		//Normal Routes
 	} else {
 		$route["home"] = "home";
+		var_dump(!empty($_POST["username"]));
+		die();
 		if (!empty($_POST["username"])) {
 			$route["login/check"] = "login/enter";
 			$route["login/device"] = "login/device";

@@ -55,7 +55,6 @@ class Login extends CI_Controller {
 	 */
 	public function Google($page = "auth"){
 		if(!self::_Is_Set()){
-			self::Logout(false);
 			$this->load->library("auth/google");
 			$this->load->library("token");
 			$this->load->library("User");
@@ -67,6 +66,7 @@ class Login extends CI_Controller {
 			$Google->scopes(array("userinfo.profile","userinfo.email"));
 			$Google->access_type("offline");
 			if($page == "auth"){
+				self::Logout(false);
 				$Google->auth();
 			} else if($page == "callback"){
 				$Google->callback();
