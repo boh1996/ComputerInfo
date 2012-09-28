@@ -18,6 +18,12 @@ class Api_Response{
 	public $Format = NULL;
 
 	/**
+	 * If debug variables should be sent
+	 * @var boolean
+	 */
+	public $Debug = true;
+
+	/**
 	 * An error containg the errors to send
 	 * @var array
 	 * @since 1.0
@@ -237,12 +243,14 @@ class Api_Response{
 		if($this->Code == 200){
 			if(!is_null($this->ResponseKey)){
 				$Response[$this->ResponseKey] = $this->Response;
-				$Response["count"] = count($Response[$this->ResponseKey]);
+				if ($this->Debug) {
+					$Response["count"] = count($Response[$this->ResponseKey]);
+				}
 			} else {
 				$Response = $this->Response;
 				$Response["count"] = count($this->Response);
 			}
-			if(is_array($Response) || $this->Code == 200){
+			if((is_array($Response) || $this->Code == 200) && $this->Debug){
 				$Response["error_message"] = NULL;
 				$Response["error_code"] = NULL;
 			}
@@ -253,9 +261,11 @@ class Api_Response{
 				$Response["error_reason"] = $this->ErrorReason;
 			}
 		}
-		$this->_CI->benchmark->mark('code_end');
-		$Response["script_excecution_time"] = $this->_CI->benchmark->elapsed_time('code_start', 'code_end');;
-		$Response["server_time"] = time();
+		if ($this->Debug) {
+			$this->_CI->benchmark->mark('code_end');
+			$Response["script_excecution_time"] = $this->_CI->benchmark->elapsed_time('code_start', 'code_end');;
+			$Response["server_time"] = time();
+		}
 		$this->ResponseData = $Response;
 	}
 

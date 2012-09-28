@@ -200,7 +200,7 @@ tableGenerator.prototype = {
 	 * The code/object/string to use as length filtering
 	 * @type {[type]}
 	 */
-	length_menu : '<form class="jqtransform"><select class="length_select"><option value="10" selected="selected">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select></form>',
+	length_menu : '<form class="jqtransform"><select class="length_select"><option selected="selected">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select></form>',
 
 	/**
 	 * This function generates the computers row
@@ -526,6 +526,10 @@ tableGenerator.prototype = {
 		this.container.find("thead").append(header);
 	},
 
+	/**
+	 * This function returns a JSON object containing the current sorting column
+	 * @return {object}
+	 */
 	getSortColumn : function () {
 		var sort = null;
 		var sortOption = null;
@@ -547,6 +551,7 @@ tableGenerator.prototype = {
 	 * @param {boolean} first If it's the first run
 	 */
 	initializeDatatables : function (first){
+		this.redraw = true;
 		var parent = $("#" + $(this.container).parent("div").attr("id"));
 		var sort = this.getSortColumn();
 		var sortSetting = (sort != undefined) ? [[sort.element,sort.option ]] : null;
@@ -558,6 +563,7 @@ tableGenerator.prototype = {
 			},
 			"bScrollCollapse": true,
             "bAutoWidth": false,
+            "iDisplayLength" : this.filter_value,
              "sWrapper": "dataTables_wrapper form-inline",
              "fnDrawCallback": $.proxy(function (){ 
              	if (this.dataTable != null) {
@@ -569,20 +575,25 @@ tableGenerator.prototype = {
 		if (sortSetting != null) {
 			settings.aaSorting = sortSetting;
 		}
+		if (typeof this.searchTerm != "undefined" && this.searchTerm != null) {
+			settings.oSearch = {"sSearch": this.searchTerm};
+			this.searchTerm = null;
+		}
 		this.dataTable = $(this.container).dataTable( settings );
 		$(window).trigger("resize");
 		$(this.container).next(".row-fluid").find(".span6:last").append('<a class="btn btn-large-custom pull-right spacing-right"><i class="icon-plus" id="' + $(this.container).attr("id") + "-add-new" +'"></i></a>');
 		this.generateFieldsDropdown("Fields",$(parent).find(".fields"));
+		
+		//Length Select
 		var length_select = $(parent).find(".length_select");
-		$(length_select).val(this.filter_value);
 		$(length_select).change($.proxy(function (){ 
 			this.filter_value = $(length_select).val();
 			 localStorage.setItem(this.localStorageLengthKey,$(length_select).val());
 		}, this));
-		$(length_select).val(this.filter_value);
-		$(length_select).trigger("change");
+
 		$(parent).find(".jqtransform").jqTransform();
 		$(parent).find(".jqtransform").find("select").css("display","none");
+
 		$(parent).find("div.jqTransformSelectWrapper ul li a").click($.proxy(function (index,element){ 
 			var value = $(parent).find("div.jqTransformSelectWrapper span").text();
 			this.filter_value = value;
@@ -591,13 +602,15 @@ tableGenerator.prototype = {
 			$(window).trigger("resize");
 		    return false;
 		}, this));
+
+		//Redraw Done
 		this.initialize = false;
+		this.redraw = false;
 		this.handleAdd();
 	},
 
 	handleAdd : function () {
 		$("#" + $(this.container).attr("id") + "-add-new").live("click",$.proxy(function(){
-			console.log("Add");
 		},this));
 	},
 
@@ -720,7 +733,6 @@ tableGenerator.prototype = {
 			if (requestUrl.indexOf("http") == -1) {
 				requestUrl = window.location.protocol + "://" + requestUrl; //Add HTTPS options
 			}
-
 			$.ajax({
 				url : this.createAutherizedUrl(requestUrl),
 				data : JSON.stringify(object),
@@ -728,13 +740,12 @@ tableGenerator.prototype = {
 				success : $.proxy(function (data){ 
 					modal.modal("hide");
 					if (objx.get(this.storedVariables.modals,modal.attr("data-template") + ".type") == "add") {
-						this.proccessAdd( modal, data);
+						this.processAdd( modal, data);
 					} else {
-						proccessSave( modal, data);
+						this.processSave( modal, data);
 					}
 				}, this),
 				error : $.proxy(function(){
-					console.log("Error while saving");
 					this.showError("Sorry an error encountered! Try again!",modal.find(".modal-body"));
 				},this)
 			});
@@ -747,7 +758,7 @@ tableGenerator.prototype = {
 	 * @param  {Object} modal The modal that just have been saved
 	 * @param  {Object} data  The data sent by the server
 	 */
-	proccessAdd : function ( modal, data) {
+	processAdd : function ( modal, data) {
 		var modalData = objx.get(this.storedVariables.modals,modal.attr("data-template"));
 		if ($(modalData.input_element).is("input")) {
 			$(modalData.input_element).val(objx.get(data,modalData.response_key + "." + modalData.property));
@@ -759,8 +770,26 @@ tableGenerator.prototype = {
 		}
 	},
 
-	proccessSave : function ( modal, data, element, id) {
+	/**
+	 * This function searches in a collection where a property equals a value
+	 * @param  {string|Number} property The property to search in
+	 * @param  {string|Number} value    The value to search for
+	 * @param  {object} search   The object to search in
+	 * @return {[type]}
+	 */
+	findByProperty : function (property, value, search) {
+		for (var i = this.countProperties(search) - 1; i >= 0; i--) {
+			if (objx.get(search[i],property) == value) return i;
+		};
+	},
 
+	processSave : function ( modal, data) {
+		var launchElement = objx.get(this.storedVariables.modals,modal.attr("id") + ".launch_element");
+		var index = this.findByProperty("id",$(launchElement).attr("data-index"),this.response);
+		console.log(this.response[index]);
+		this.response[index] = data[this.responseNode];
+		this.refreshTable();
+		console.log(this.response);
 	},
 
 	/**
@@ -804,7 +833,8 @@ tableGenerator.prototype = {
 				if (event != undefined) {
 					this.runHandler($(event.target), $("#"+id));
 				}
-				objx.set(this.modals,"."+id + ".launch_element",$(event).target);
+				objx.set(this.storedVariables.modals,id + ".launch_element",object);
+				;
 				$("#"+id).modal("show");
 			}
 		},this));
@@ -955,6 +985,7 @@ tableGenerator.prototype = {
 	 */
 	refreshTable : function () {
 		if (this.response != null && this.countProperties(this.response) > 0) {
+			this.searchTerm = $(this.container).parent("div").find(".row-fluid:first .span4:last").find(".dataTables_filter label input").val();
 			this.container.find("thead").html("");
 			this.generateColumns();
 			this.container.find("tbody").html("");

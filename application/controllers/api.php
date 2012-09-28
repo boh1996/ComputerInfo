@@ -700,6 +700,8 @@ class Api extends CI_Controller {
 	 */
 	private function _Computer_Update($Id = NULL,$Overwrite = true){
 		if($this->api_request->Request_Data() != NULL and $this->api_request->Request_Data() != "" and count($this->api_request->Request_Data()) > 0){
+			$this->api_response->ResponseKey = "Computer";
+			$this->api_response->Debug = false;
 			$Request_Data = $this->api_request->Request_Data();
 			if(isset($Request_Data["id"])){
 				unset($Request_Data["id"]);
@@ -1137,6 +1139,7 @@ class Api extends CI_Controller {
 	 */
 	private function _Computer_Create(){
 		if(is_array($this->api_request->Request_Data())){		
+			$this->api_response->Debug = false;
 			$Request_Data = $this->api_request->Request_Data();
 			$this->api_response->ResponseKey = "Computer";
 			if(isset($Request_Data["id"])){
