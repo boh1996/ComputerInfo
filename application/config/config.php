@@ -15,6 +15,7 @@
 |
 */
 $config['base_url']	= 'http://127.0.0.1/ci/';
+//$config['base_url']	= 'http://ci.illution.dk';
 	
 /**
  * If this is set to true, then the login system is turned off

@@ -57,6 +57,9 @@ class Login extends CI_Controller {
 		if(!self::_Is_Set()){
 			self::Logout(false);
 			$this->load->library("auth/google");
+			$this->load->library("token");
+			$this->load->library("User");
+			$this->load->config("api");
 			$this->load->model("login_model");
 			$Google = new Google();
 			$Google->client();
@@ -71,12 +74,15 @@ class Login extends CI_Controller {
 				if($Account !== false && $Account != NULL){
 					$this->login_model->Google($Account->id,$Account->name,$Account->email,$UserId);
 					if(!is_null($UserId)){
-						$this->load->library("token");
+						$User = new User();
+						if (!$User->Load($UserId)) { 
+							self::_redirect($this->config->item("login_page"));
+						}
+						$_SESSION["user_id"] = $User->id;
 						$Token = new Token();
 						$Token->Create($User->id);
 						$this->load->helper("cookie");
 						set_cookie("token",$Token->token,$Token->time_to_live);
-						$_SESSION["user_id"] = $UserId;
 						self::_redirect($this->config->item("front_page"));
 					} else {
 						self::_redirect($this->config->item("login_page"));
@@ -98,7 +104,7 @@ class Login extends CI_Controller {
 	 * @return 
 	 */
 	private function _redirect ( $url ) {
-		redirect((strpos(site_url($url),'http') !== false) ? site_url($url) : 'http://'.site_url($url));
+		redirect((strpos(site_url($url),'http') !== false) ? site_url($url) : $this->Computerinfo_Security->CheckHTTPS(site_url($url)));
 	}
 
 	/**
@@ -176,9 +182,11 @@ class Login extends CI_Controller {
 	 */
 	public function Logout ( $redirect = true) {
 		$this->load->helper("cookie");
-		unset($_SESSION["user_id"]);
+		if (isset($_SESSION["user_id"])) {
+			unset($_SESSION["user_id"]);
+			session_destroy();
+		}
 		set_cookie("token","",time() - 9999);
-		session_destroy();
 		delete_cookie("PHPSESSID");
 		delete_cookie("token");
 		if ($redirect) {

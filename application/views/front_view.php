@@ -1,6 +1,7 @@
 <html>
 	<head>
 		<title>ComputerInfo - Home</title>
+		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/normalize.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>bootstrap/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>bootstrap/css/bootstrap-responsive.min.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/dataTables.bootstrap.css">

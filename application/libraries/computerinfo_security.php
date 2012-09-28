@@ -98,6 +98,7 @@ class Computerinfo_Security{
 	 */
 	public function CheckHTTPS ($url) {
 		$url = str_replace("http://", "", $url);
+		$url = str_replace("https://","", $url);
 		return ($this->_CI->config->item("https") == true) ? "https://" . $url:  "http://" . $url;
 	}
 
