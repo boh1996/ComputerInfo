@@ -109,7 +109,7 @@ class Computerinfo_Security{
 	 * @param array $params The view data
 	 * @return array
 	 */
-	public function ControllerInfo ($params) {
+	public function ControllerInfo ($params = null) {
 		$settings = array(
 			"base_url" => $this->CheckHTTPS(base_url()),
 			"asset_url" => $this->CheckHTTPS(base_url().$this->_CI->config->item("asset_url")),
@@ -117,7 +117,11 @@ class Computerinfo_Security{
 			"jqueryui_version" => $this->_CI->config->item("jqueryui_version"),
 			"dev_mode" => $this->_CI->config->item("dev_mode")
 		);
-		return array_unique(array_merge($params, $settings));
+		if (!is_null($params)) {
+			return array_unique(array_merge($params, $settings));
+		} else {
+			return array_unique($settings);
+		}
 	}
 }
 ?>
