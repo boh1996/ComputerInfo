@@ -66,11 +66,11 @@ class Computerinfo_Security{
 		$Result = self::_RequiresSecurity();
 
 		if($Result && !isset($_SESSION["user_id"])){
-			redirect($this->_CI->config->item("login_page"));
+			redirect($this->_CI->config->item("not_logged_in_page"));
 			die();
 		} else if(isset($_SESSION["user_id"]) && !self::User_Exists($_SESSION["user_id"])){
 			unset($_SESSION["user_id"]);
-			redirect($this->_CI->config->item("login_page"));
+			redirect($this->_CI->config->item("not_logged_in_page"));
 			die();
 		}
 	}

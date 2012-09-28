@@ -81,6 +81,7 @@ else {
 	if(isset($_GET["normal"]) && $_GET["normal"] == "true"){
 		//Normal Routes
 	} else {
+		$route["home"] = "home";
 		if (!empty($_POST["username"])) {
 			$route["login/check"] = "login/enter";
 			$route["login/device"] = "login/device";

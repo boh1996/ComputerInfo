@@ -56,12 +56,17 @@ $config["front_page"] = "ui";
  * @example
  * $config['non_security'] = array("login" => true,"api");
  */
-$config['non_security'] = array("login","api");
+$config['non_security'] = array("login","api","home");
 
 /**
  * The login controller
  */
 $config["login_page"] = "login";
+
+/**
+ * The not logged in front page
+ */
+$config["not_logged_in_page"] = "home";
 
 /**
  * The url where to find the assets
