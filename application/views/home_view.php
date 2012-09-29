@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>ComputerInfo - Home</title>
@@ -24,21 +25,6 @@
 				padding-top: 45px;
 				padding-bottom: 40px;
 			}
-			.clearfix:after {
-				 visibility: hidden;
-				 display: block;
-				 font-size: 0;
-				 line-height: 0;
-				 content: " ";
-				 clear: both;
-				 height: 0;
-				 width: 0;
-				 }
-			.clearfix { display: inline-block; }
-			/* start commented backslash hack \*/
-			* html .clearfix { height: 1%; }
-			.clearfix { display: block; }
-			/* close commented backslash hack */
 		</style>
 
 		<div class="navbar navbar-fixed-top">
@@ -54,12 +40,22 @@
 						<ul class="nav">
 							<li class="active"><a href="#">Home</a></li>
 							<li><a href="#about">About</a></li>
+						</ul>
+						<ul class="nav pull-right">
+							<li><a href="/users/sign_up">Sign Up</a></li>
 							<li class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Login <b class="caret"></b></a>
-								<ul class="dropdown-menu">
-									<li><a href="#">Action</a></li>
-									<li><a href="#">Another action</a></li>
-								</ul>
+								<a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In <strong class="caret"></strong></a>
+								<div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
+									<form method="post" action="https://ci.illution.dk/login/check" method="post" accept-charset="UTF-8">
+										<input id="user_username" style="margin-bottom: 15px;" type="text" placeholder="Username" id="username" name="username"/>
+										<input id="user_password" style="margin-bottom: 15px;" type="password" placeholder="Password" id="password" name="password" />
+										<input id="user_remember_me" style="float: left; margin-right: 10px;" type="checkbox" name="remember-me" id="remember-me" value="1" />
+										<label class="string optional" for="user_remember_me"> Remember me</label>
+										<input class="btn btn-primary" style="clear: left; width: 100%; height: 32px; font-size: 13px;" type="submit" id="sign-in" value="Sign In" />
+										<label style="text-align:center;margin-top:5px">or</label>
+										<input class="btn btn-primary" style="clear: left; width: 100%; height: 32px; font-size: 13px;" type="button" id="sign-in-google" value="Sign In Using Google" />
+									</form>
+								</div>
 							</li>
 						</ul>
 					</div><!--/.nav-collapse -->
@@ -102,8 +98,6 @@
 						<a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
 					</div>
 				</div>
-
-		
 		<!--
 		<script type="text/javascript" src="<?php echo $asset_url; ?>bootstrap/js/bootstrap.js"></script>
 		<script type="text/javascript" src="<?php echo $asset_url; ?>js/jquery.history.js"></script>
@@ -111,5 +105,12 @@
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 		<script type="text/javascript" src="http://127.0.0.1/ci/assets/bootstrap/js/bootstrap.js"></script>
 		<script type="text/javascript" src="http://127.0.0.1/ci/assets/js/jquery.history.js"></script>
+		<script type="text/javascript">
+		$(document).ready(function() {
+			$("#sign-in-google").click(function () {
+				document.location = "https://ci.illution.dk/login/google";
+			})
+		});
+		</script>
 	</body>
 </html>
