@@ -16,7 +16,7 @@
 
 		<div id="page">
 			<div class="page-container">
-				<form class="form-horizontal" method="post" action="<?php echo (strpos(site_url('login/check'),'http') !== false) ? site_url('login/check') : 'http://'.site_url('login/check'); ?>">
+				<form class="form-horizontal" method="post" action="<?php echo $this->computerinfo_security->CheckHTTPS(site_url('login/check')); ?>">
 					<div class="control-group">
 						<input placeholder="Username" class="input-large" type="text" id="username" name="username">
 					</div>

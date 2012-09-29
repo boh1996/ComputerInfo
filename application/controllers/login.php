@@ -39,7 +39,7 @@ class Login extends CI_Controller {
 			self::Logout(false);
 			$data = array(
 				"method" => "username",
-				"back" => (strpos(site_url("login"),'http') !== false) ? site_url("login") : 'http://'.site_url("login")
+				"back" => $this->computerinfo_security->CheckHTTPS(site_url("login"))
 			);
 			$this->load->view("login_form_view",$this->computerinfo_security->ControllerInfo($data));
 		} else {
