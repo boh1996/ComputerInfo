@@ -82,6 +82,7 @@ else {
 		//Normal Routes
 	} else {
 		$route["home"] = "home";
+		$route["windows_client_login"] = "windows_client_login";
 		if (!empty($_POST["username"])) {
 			$route["login/check"] = "login/enter";
 			$route["login/device"] = "login/device";

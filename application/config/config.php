@@ -56,7 +56,7 @@ $config["front_page"] = "ui";
  * @example
  * $config['non_security'] = array("login" => true,"api");
  */
-$config['non_security'] = array("login","api","home");
+$config['non_security'] = array("login","api","home","windows_client_login");
 
 /**
  * The login controller
