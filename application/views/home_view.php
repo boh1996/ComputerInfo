@@ -9,6 +9,11 @@ if(!isset($jquery_url))
 <html>
 	<head>
 		<title>ComputerInfo - Home</title>
+		<!-- charset -->
+		<meta charset="utf-8">
+		<!-- viewport -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<!-- styles -->
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>bootstrap/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>bootstrap/css/bootstrap-responsive.min.css">
 		<style type="text/css">
@@ -21,11 +26,7 @@ if(!isset($jquery_url))
 			}
 		</style>
 	</head>
-
 	<body>
-
-
-
 		<div class="navbar navbar-fixed-top">
 			<div class="navbar-inner">
 				<div class="container">
@@ -109,11 +110,11 @@ if(!isset($jquery_url))
 		<script type="text/javascript" src="<?php echo $asset_url; ?>bootstrap/js/bootstrap.js"></script>
 		<script type="text/javascript" src="<?php echo $asset_url; ?>js/jquery.history.js"></script>
 		<script type="text/javascript">
-		$(document).ready(function() {
-			$("#sign-in-google").click(function () {
-				document.location = "https://ci.illution.dk/login/google";
-			})
-		});
+			$(document).ready(function() {
+				$("#sign-in-google").click(function () {
+					document.location = "https://ci.illution.dk/login/google";
+				})
+			});
 		</script>
 	</body>
 </html>
