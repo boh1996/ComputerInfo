@@ -83,10 +83,10 @@ else {
 	} else {
 		$route["home"] = "home";
 		$route["home/login"] = "home";
-		$route["windows_client_login"] = "windows_client_login";
+		$route["windows/login"] = "windows_login";
 		$route["users/sign_up"] = "user/register";
+		$route["login/windows"] = "login/desktop/windows";
 		if (!empty($_POST["username"])) {
-			echo "Not empty";
 			$route["login/check"] = "login/enter";
 			$route["login/device"] = "login/device";
 		} else {

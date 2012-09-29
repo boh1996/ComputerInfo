@@ -180,6 +180,28 @@ class Login extends CI_Controller {
 	}
 
 	/**
+	 * This function is used to log a user in using the windows client
+	 * @param string $platform The current platform
+	 * @since 1.0
+	 * @access public
+	 */
+	public function Desktop ($platform = "windows") {
+		$this->load->library("token");
+		$Token = new Token();
+		if (self::_check_user_login($User) && !is_null($User->id)) {
+			$this->load->config("api");
+			$Token->Create($User->id);
+			$this->load->helper("cookie");
+			$Token->offline = true;
+			echo '<div style="display:none;" id="token">'.$Token->token.'</div>';
+		} else {
+			if (isset($_COOKIE["token"]) && $Token->Load(array("token" => $_COOKIE["token"]))) {
+				echo '<div style="display:none;" id="token">'.$Token->token.'</div>';
+			}
+		}
+	}
+
+	/**
 	 * This function logs the user out
 	 * @since 1.0
 	 * @access public
