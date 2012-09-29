@@ -36,7 +36,7 @@ var application = {
 		application.settings = new settings(organization);
 		application.settings = application.settings;
 		if (userInfo.getCookie("token") == undefined || userInfo.getCookie("token") == null) {
-			window.location = root + "login";
+			window.location = root + "home/login";
 			return;
 		}
 		userInfo.getInfo(root + "user/me",userInfo.getCookie("token"), function (data,status){ 

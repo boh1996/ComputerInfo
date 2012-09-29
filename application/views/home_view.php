@@ -46,7 +46,7 @@ if(!isset($jquery_url))
 							<li class="dropdown">
 								<a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In <strong class="caret"></strong></a>
 								<div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
-									<form method="post" action="https://ci.illution.dk/login/check" method="post" accept-charset="UTF-8">
+									<form method="post" action="<?php echo $base_url; ?>login/check" method="post" accept-charset="UTF-8">
 										<input style="margin-bottom: 15px;" type="text" placeholder="Username" id="username" name="username"/>
 										<input style="margin-bottom: 15px;" type="password" placeholder="Password" id="password" name="password" />
 										<input style="float: left; margin-right: 10px;" type="checkbox" name="remember-me" id="remember-me" value="1" />
@@ -111,8 +111,13 @@ if(!isset($jquery_url))
 		<script type="text/javascript" src="<?php echo $asset_url; ?>js/jquery.history.js"></script>
 		<script type="text/javascript">
 			$(document).ready(function() {
+				var url = document.location.toString();
+				var baseUrl =  <?php echo '"'.$base_url.'"'; ?>;
+				if (url.indexOf("home/login") != -1) {
+					$('.dropdown-toggle').dropdown("toggle");
+				}
 				$("#sign-in-google").click(function () {
-					document.location = "https://ci.illution.dk/login/google";
+					document.location = <?php echo '"'.$base_url.'login/google"' ?>;
 				})
 			});
 		</script>

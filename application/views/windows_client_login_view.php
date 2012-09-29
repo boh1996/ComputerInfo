@@ -65,7 +65,7 @@ if(!isset($jquery_url))
 		<script type="text/javascript">
 		$(document).ready(function() {
 			$("#sign-in-google").click(function () {
-				document.location = "https://ci.illution.dk/login/google";
+				document.location = <?php echo '"'.$base_url.'login/google"' ?>;
 			})
 			$('input, label').click(function(e) {
 				e.stopPropagation();

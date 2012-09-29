@@ -82,15 +82,18 @@ else {
 		//Normal Routes
 	} else {
 		$route["home"] = "home";
+		$route["home/login"] = "home";
 		$route["windows_client_login"] = "windows_client_login";
+		$route["users/sign_up"] = "user/register";
 		if (!empty($_POST["username"])) {
+			echo "Not empty";
 			$route["login/check"] = "login/enter";
 			$route["login/device"] = "login/device";
 		} else {
 			$route["logout"] = "login/logout";
 			$route["login/device"] = "ui";
 			$route["login/enter"] = "ui";
-			$route["login/check"] = "login";
+			$route["login/check"] = "login/redirect";
 			$route["login/(:any)"] = "login/$1";
 			$route["login"] = "login";
 		}

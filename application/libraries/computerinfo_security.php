@@ -16,6 +16,7 @@ class Computerinfo_Security{
 	 */
 	public function __construct(){
 		$this->_CI =& get_instance();
+		$this->_CI->load->config("settings");
 		if(($this->_CI->config->item("login_off") !== true && $this->_CI->config->item("dev_mode") == true) || ( $this->_CI->config->item("login_off") != true)){
 			session_start();
 			$this->_CI->load->config("api");

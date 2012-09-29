@@ -18,6 +18,10 @@ class Login extends CI_Controller {
 		}
 	}
 
+	public function Redirect () {
+		redirect("home/login");
+	}
+
 	/**
 	 * Is everything set properly
 	 * @since 1.0
@@ -62,7 +66,7 @@ class Login extends CI_Controller {
 			$this->load->model("login_model");
 			$Google = new Google();
 			$Google->client();
-			$Google->redirect_uri(base_url()."login/google/callback");
+			$Google->redirect_uri($this->computerinfo_security->CheckHTTPS(base_url()."login/google/callback"));
 			$Google->scopes(array("userinfo.profile","userinfo.email"));
 			$Google->access_type("offline");
 			if($page == "auth"){
