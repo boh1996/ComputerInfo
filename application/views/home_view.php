@@ -1,29 +1,27 @@
+<?php
+$dev_mode = false;
+if(!isset($asset_url))
+	$asset_url = "http://127.0.0.1/ci/assets/";
+if(!isset($jquery_url))
+	$jquery_url = "//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js";
+?>
 <!DOCTYPE html>
 <html>
 	<head>
 		<title>ComputerInfo - Home</title>
-		<!--
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>bootstrap/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>bootstrap/css/bootstrap-responsive.min.css">
-		-->
-		<link rel="stylesheet" type="text/css" href="http://127.0.0.1/ci/assets/bootstrap/css/bootstrap.min.css">
-		<link rel="stylesheet" type="text/css" href="http://127.0.0.1/ci/assets/bootstrap/css/bootstrap-responsive.min.css">
 	</head>
 
 	<body>
-		<!--
-		<?php 
-			if ($dev_mode) {
-				echo '<script type="text/javascript" src="'.$asset_url.'js/jquery.min.js"></script>';
-			} else {
-				echo '<script type="text/javascript" src="'.$jquery_url.'"></script>';
-			}
-		?>-->
 
 		<style type="text/css">
 			body {
 				padding-top: 45px;
 				padding-bottom: 40px;
+			}
+			.dropdown-menu label {
+				display: block !important;
 			}
 		</style>
 
@@ -79,14 +77,14 @@
 					<div id="myCarousel" class="carousel slide">
 						<div class="carousel-inner">
 							<div class="active item">
-								<img src="http://127.0.0.1/ci/assets/images/Home.png"/>
+								<img src="<?php echo $asset_url; ?>images/Home.png"/>
 								<div class="carousel-caption">
 									<h4>Modern easy to use control panel</h4>
 									<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
 								</div>
 							</div>
 							<div class="item">
-								<img src="http://127.0.0.1/ci/assets/images/Android.png"/>
+								<img src="<?php echo $asset_url; ?>images/Android.png"/>
 								<div class="carousel-caption">
 									<h4>All new fresh Android app</h4>
 									<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
@@ -98,13 +96,15 @@
 						<a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
 					</div>
 				</div>
-		<!--
+		<?php 
+			if ($dev_mode) {
+				echo '<script type="text/javascript" src="'.$asset_url.'js/jquery.min.js"></script>';
+			} else {
+				echo '<script type="text/javascript" src="'.$jquery_url.'"></script>';
+			}
+		?>
 		<script type="text/javascript" src="<?php echo $asset_url; ?>bootstrap/js/bootstrap.js"></script>
 		<script type="text/javascript" src="<?php echo $asset_url; ?>js/jquery.history.js"></script>
-		-->
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-		<script type="text/javascript" src="http://127.0.0.1/ci/assets/bootstrap/js/bootstrap.js"></script>
-		<script type="text/javascript" src="http://127.0.0.1/ci/assets/js/jquery.history.js"></script>
 		<script type="text/javascript">
 		$(document).ready(function() {
 			$("#sign-in-google").click(function () {
