@@ -46,9 +46,9 @@ if(!isset($jquery_url))
 								<a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In <strong class="caret"></strong></a>
 								<div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
 									<form method="post" action="https://ci.illution.dk/login/check" method="post" accept-charset="UTF-8">
-										<input id="user_username" style="margin-bottom: 15px;" type="text" placeholder="Username" id="username" name="username"/>
-										<input id="user_password" style="margin-bottom: 15px;" type="password" placeholder="Password" id="password" name="password" />
-										<input id="user_remember_me" style="float: left; margin-right: 10px;" type="checkbox" name="remember-me" id="remember-me" value="1" />
+										<input style="margin-bottom: 15px;" type="text" placeholder="Username" id="username" name="username"/>
+										<input style="margin-bottom: 15px;" type="password" placeholder="Password" id="password" name="password" />
+										<input style="float: left; margin-right: 10px;" type="checkbox" name="remember-me" id="remember-me" value="1" />
 										<label class="string optional" for="user_remember_me"> Remember me</label>
 										<input class="btn btn-primary" style="clear: left; width: 100%; height: 32px; font-size: 13px;" type="submit" id="sign-in" value="Sign In" />
 										<label style="text-align:center;margin-top:5px">or</label>
@@ -97,6 +97,8 @@ if(!isset($jquery_url))
 						<a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
 					</div>
 				</div>
+			</div>
+		</div>
 		<?php 
 			if ($dev_mode) {
 				echo '<script type="text/javascript" src="'.$asset_url.'js/jquery.min.js"></script>';
