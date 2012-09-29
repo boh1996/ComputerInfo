@@ -11,10 +11,6 @@ if(!isset($jquery_url))
 		<title>ComputerInfo - Home</title>
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>bootstrap/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>bootstrap/css/bootstrap-responsive.min.css">
-	</head>
-
-	<body>
-
 		<style type="text/css">
 			body {
 				padding-top: 45px;
@@ -24,6 +20,11 @@ if(!isset($jquery_url))
 				display: block !important;
 			}
 		</style>
+	</head>
+
+	<body>
+
+
 
 		<div class="navbar navbar-fixed-top">
 			<div class="navbar-inner">
