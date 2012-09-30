@@ -9,6 +9,8 @@ class Api extends CI_Controller {
 	 */
 	private $_User = NULL;
 
+	private $_no_auth = array("_Token");
+
 	/**
 	 * This function recives all the calls when a page is requested
 	 * @param string $method The internal method to call to perform the response
@@ -52,7 +54,7 @@ class Api extends CI_Controller {
 			}
 		}
 	    if (method_exists($this, $method)) {	
-	    	if(self::_Authenticate()){
+	    	if(self::_Authenticate() || self::_No_Auth($method)){
 	    		return call_user_func_array(array($this, $method), $params);
 	    	} else {
 	    		$this->api_response->Code = 403;
@@ -60,6 +62,16 @@ class Api extends CI_Controller {
 	    	}
 	    }
 	    show_404();
+	}
+
+	/**
+	 * This function checks if the current endpoint has auth turned off
+	 * @param string $function The function that is called
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _No_Auth ($function = "") {
+		return (in_array($function, $this->_no_auth));
 	}
 
 	/**
@@ -750,18 +762,40 @@ class Api extends CI_Controller {
 		if (!is_null($token)) {
 			$this->load->library("token");
 			$Token = new Token();
-			if ($Token->Find(array("token" => $token))){
+			if ($Token->Load(array("token" => $token))){
 				$this->api_response->Code = 200;
 				if ($Token->offline == 0) {
 					$Token->time_left = round(($Token->created + $Token->time_to_live) - time());
 				}
-				$this->api_response->Response = $Token->Export(null, false, array("user","created"));
+				if (self::_Is_Application()) {
+					die("true");
+				} else {
+					$this->api_response->Response = $Token->Export(null, false, array("user","created"));
+				}
 			} else {
-				$this->api_response->Code = 404;
+				if (self::_Is_Application()) {
+					die("false");
+				} else {
+					$this->api_response->Code = 404;
+				}
 			}
 		} else {
-			$this->api_response->Code = 400;
+			if (self::_Is_Application()) {
+					die("false");
+			} else {
+				$this->api_response->Code = 400;
+			}
 		}
+	}
+
+	/**
+	 * This function returns if the request is coming from a CI applicaton
+	 * @since 1.0
+	 * @access private
+	 * @return boolean
+	 */
+	private function _Is_Application () {
+		return (isset($_SERVER["HTTP_REFERER"]) && ($_SERVER["HTTP_REFERER"] == "CI/Windows" || $_SERVER["HTTP_REFERER"] == "CI/Android"));
 	}
 
 	/**
@@ -1183,7 +1217,9 @@ class Api extends CI_Controller {
 				$Computer = new Computer();
 				$Computer->Set_Current_User($this->_User->id);
 
-				//$Computer->Import($Request_Data);
+				$Computer->Import($Request_Data);
+				$this->api_response->Code = 200;
+				$this->api_response->Response = $Computer->Export();
 				/*if(!is_null($Computer->organization)){
 					if(!self::_Has_Access("organizations",$this->_User,$Computer->organization)){
 						$this->api_response->Code = 401;
@@ -1193,8 +1229,8 @@ class Api extends CI_Controller {
 					$Computer->organization = $this->_User->organizations[0]->id;
 				}*/
 				//Ensure that all the parameters are right
-				$Computer->created_time = time();
-				$Computer->last_updated = time();
+				/*$Computer->created_time = time();
+				$Computer->last_updated = time();*/
 				/*if($Computer->Save()){
 					$this->api_response->Code = 200;
 					$this->api_response->Response = array("id" => $Computer->id);

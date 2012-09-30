@@ -216,7 +216,7 @@ class Login extends CI_Controller {
 		delete_cookie("PHPSESSID");
 		delete_cookie("token");
 		if ($redirect) {
-			self::_redirect($this->config->item("login_page"));
+			self::_redirect($this->config->item("not_logged_in_page"));
 		}
 	}
 }
