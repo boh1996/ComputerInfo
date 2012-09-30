@@ -250,14 +250,14 @@ class Computer extends Std_Library{
 			"organization"
 		);
 		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = 		array(
-			"location",
-			"printers",
-			"model",
+			//"location",
+			//"printers",
+			//"model",
 			"organization",
-			"connected_devices",
-			"graphic_cards",
-			"processors",
-			"memory"
+			//"connected_devices",
+			//"graphic_cards",
+			//"processors",
+			//"memory"
 		);
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array(
 			"id",
@@ -312,8 +312,8 @@ class Computer extends Std_Library{
 			"graphic_cards"		=> array("graphic_cards",				array("computer_id" 		=> "id")),
 			"processors" 		=> array("computer_processors",			array("computer_id" 		=> "id"),"processor_model_id"),
 			"memory" 			=> array("computer_memory",				array("computer_id" 		=> "id"),null,array("computer_id")),
-			"operating_system" 			=> array("operation_system_installations",				array("computer_id" 		=> "id"),null,array("computer_id"))
+			"operating_system" 	=> array("operation_system_installations", array("computer_id" 		=> "id"),null,array("computer_id"))
  		);
- 		parent::__construct($input);
+ 		parent::__construct();
 	}
 }

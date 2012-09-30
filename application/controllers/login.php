@@ -7,15 +7,7 @@ class Login extends CI_Controller {
 	 * @access public
 	 */
 	public function index(){
-		if (!self::_Is_Set()) {
-			self::Logout(false);
-			$data = array(
-				"method" => "login"
-			);
-			$this->load->view("login_view",$this->computerinfo_security->ControllerInfo($data));
-		} else {
-			redirect($this->config->item("front_page"));
-		}
+		redirect("home/login");
 	}
 
 	public function Redirect () {
@@ -39,16 +31,7 @@ class Login extends CI_Controller {
 	 * @access public
 	 */
 	public function Username () {
-		if (!self::_Is_Set()) {
-			self::Logout(false);
-			$data = array(
-				"method" => "username",
-				"back" => $this->computerinfo_security->CheckHTTPS(site_url("login"))
-			);
-			$this->load->view("login_form_view",$this->computerinfo_security->ControllerInfo($data));
-		} else {
-			redirect($this->config->item("front_page"));
-		}
+		redirect("home/login");
 	}
 
 	/**

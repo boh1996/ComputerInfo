@@ -115,6 +115,7 @@ if(!isset($jquery_url))
 				var baseUrl =  <?php echo '"'.$base_url.'"'; ?>;
 				if (url.indexOf("home/login") != -1) {
 					$('.dropdown-toggle').dropdown("toggle");
+					$("#username").focus();
 				}
 				$("#sign-in-google").click(function () {
 					document.location = <?php echo '"'.$base_url.'login/google"' ?>;

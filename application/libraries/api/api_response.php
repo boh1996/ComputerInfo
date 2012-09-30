@@ -202,7 +202,7 @@ class Api_Response{
 	 */
 	private function _Send_Data(){
 		if(!is_null($this->ResponseString)){
-			echo $this->ResponseString;
+			echo utf8_encode($this->ResponseString);
 		}
 	}
 

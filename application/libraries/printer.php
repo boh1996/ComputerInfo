@@ -144,7 +144,6 @@ class Printer extends Std_Library{
 			"location" => "Location",
 			"groups" => "Printer_Group"
 		);
-		//$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_INTERNAL_ROW_NAME_CONVERT = array(
 			"organization_id" => "organization",
 			"model_id" => "model",
@@ -152,6 +151,5 @@ class Printer extends Std_Library{
 		);
 		$this->_INTERNAL_SIMPLE_LOAD = array("connected_devices" => true);
 		$this->_INTERNAL_LINK_PROPERTIES = array("connected_devices" => array("connected_to_printers",array("printer_id" => "id"),"device_id"),"groups" => array("printer_group_members",array("printer_id" => "id"),"group_id"));
-		//$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_ROW_NAME_CONVERT,"ROW_NAME_CONVERT");
 	}
 }

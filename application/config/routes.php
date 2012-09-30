@@ -51,7 +51,6 @@ if ((!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_RE
 	$route["printer"] = "api/printer";
 	$route["printer/search"] = "api/printer/search";
 	$route["computer/(:num)"] = "api/computer/$1";
-	$route["computer"] = "api/computer";
 	$route["computer/model/(:num)"] = "api/computer/model/$1";
 	$route["computer/search"] = "api/computer/search";
 	$route["device/(:num)"] = "api/device/$1";
@@ -86,6 +85,7 @@ else {
 		$route["windows/login"] = "windows_login";
 		$route["users/sign_up"] = "user/register";
 		$route["login/windows"] = "login/desktop/windows";
+		$route["user/register/check"] = "user/check";
 		if (!empty($_POST["username"])) {
 			$route["login/check"] = "login/enter";
 			$route["login/device"] = "login/device";

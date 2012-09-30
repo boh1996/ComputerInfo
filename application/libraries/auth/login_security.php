@@ -69,10 +69,14 @@ class Login_Security{
 	 * @return string
 	 */
 	public function createUser ( $password, $hashing_iterations = 10, $salt_length = 64, &$user_salt) {
-		$user_salt = self::createSalt($salt_length);
-		$salts = self::_get_salts( $user_salt );
-		$salt = self::_create_salt( $salts );
-		return self::_hash($password, $salt, $hashing_iterations);
+		if (self::_correct_length($password, $this->_CI->config->item("password_length"))) {
+			$user_salt = self::createSalt($salt_length);
+			$salts = self::_get_salts( $user_salt );
+			$salt = self::_create_salt( $salts );
+			return self::_hash($password, $salt, $hashing_iterations);
+		} else {
+			return FALSE;
+		}
 	}
 
 	/**

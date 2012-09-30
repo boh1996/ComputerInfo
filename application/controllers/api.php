@@ -18,8 +18,7 @@ class Api extends CI_Controller {
 	 * @since 1.0
 	 * @access public
 	 */
-	public function _remap($method = NULL, $params = NULL)
-	{	
+	public function _remap($method = NULL, $params = NULL) {
 		$method = explode("_", $method);
 		foreach ($method as $key => $value) {
 			$method[$key] = ucfirst($value);
@@ -1205,10 +1204,21 @@ class Api extends CI_Controller {
 		}
 	}
 
+	/**
+	 * This function is used to create computers from the desktop clients
+	 * @since 1.0
+	 * @access private
+	 */
 	private function _Computer_Client_Create () {
 		if (is_array($this->api_request->Request_Data())) {
 			if ( self::_Get_User_Organizations() != null ) {
 				$Request_Data = $this->api_request->Request_Data();
+				if (isset($Request_Data["computer"])) {
+					$Request_Data = $Request_Data["computer"];
+				} else {
+					$this->api_response->Code = 400;
+					return;
+				}
 				$this->api_response->ResponseKey = "Computer";
 				if(isset($Request_Data["id"])){
 					unset($Request_Data["id"]);
@@ -1216,27 +1226,22 @@ class Api extends CI_Controller {
 				$this->load->library("Computer");
 				$Computer = new Computer();
 				$Computer->Set_Current_User($this->_User->id);
-
 				$Computer->Import($Request_Data);
-				$this->api_response->Code = 200;
-				$this->api_response->Response = $Computer->Export();
-				/*if(!is_null($Computer->organization)){
+				if(!is_null($Computer->organization)){
 					if(!self::_Has_Access("organizations",$this->_User,$Computer->organization)){
 						$this->api_response->Code = 401;
 						return;
 					}
 				} else {
 					$Computer->organization = $this->_User->organizations[0]->id;
-				}*/
+				}
 				//Ensure that all the parameters are right
-				/*$Computer->created_time = time();
-				$Computer->last_updated = time();*/
-				/*if($Computer->Save()){
+				if($Computer->Save()){
 					$this->api_response->Code = 200;
-					$this->api_response->Response = array("id" => $Computer->id);
+					$this->api_response->Response = $Computer->Export(null, false);
 				} else {
 					$this->api_response->Code = 409;
-				}*/
+				}
 			} else {
 				$this->api_response->Code = 401;
 			}

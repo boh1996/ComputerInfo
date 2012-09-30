@@ -11,29 +11,7 @@ if(!isset($jquery_url))
 		<title>ComputerInfo - Home</title>
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>bootstrap/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>bootstrap/css/bootstrap-responsive.min.css">
-		<style type="text/css">
-
-		</style>
-		<style type="text/css">
-		body, html {
-			height: 100%;
-			background-color: #EEE;
-		}
-		html, body, #wrapper {
-		   height:100%;
-		   width: 100%;
-		   margin: 0;
-		   padding: 0;
-		   border: 0;
-		}
-		#wrapper td {
-		   vertical-align: middle;
-		   text-align: center;
-		}
-		form {
-			margin: 0;
-		}
-		</style>
+		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/user.css">
 	</head>
 
 	<body>
@@ -50,8 +28,8 @@ if(!isset($jquery_url))
 							<input class="btn btn-primary" style="clear: left; width: 220px; height: 32px; font-size: 13px;" type="button" id="sign-in-google" value="Sign In Using Google" />
 						</form>
 					</div>
-	</td></tr>
-</table>
+		</td></tr>
+	</table>
 
 	
 		<?php 
@@ -64,6 +42,7 @@ if(!isset($jquery_url))
 		<script type="text/javascript" src="<?php echo $asset_url; ?>bootstrap/js/bootstrap.js"></script>
 		<script type="text/javascript">
 		$(document).ready(function() {
+			$("#username").focus();
 			$("#sign-in-google").click(function () {
 				document.location = <?php echo '"'.$base_url.'login/google"' ?>;
 			})

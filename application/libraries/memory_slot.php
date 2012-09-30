@@ -108,7 +108,7 @@ class Memory_Slot extends Std_Library{
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
 		$this->_INTERNAL_DATABASE_SAVE_IGNORE = array("computer_memory");
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS_ABORT_ON_NULL = true;
-		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = 	array("device_identifier");
+		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = 	array("device_identifier","computer_memory_id");
 		$this->_INTERNAL_EXPORT_FORMATING = array(
 			"empty" => "boolean"
 		);
