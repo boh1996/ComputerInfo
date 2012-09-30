@@ -81,6 +81,6 @@ table.display { width: 100% }
 }
 
 /* This fixes the small white border that was under the fixed header */
-.FixedHeader_Header {
-  background-color: white;
+.FixedHeader_Cloned.fixedHeader.FixedHeader_Header table {
+  margin-bottom: 0px !important;
 }
