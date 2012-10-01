@@ -41,7 +41,7 @@ var application = {
 		}
 		userInfo.getInfo(root + "user/me",userInfo.getCookie("token"), function (data,status){ 
 			if (status == "fail") {
-				window.location = root + "home/login";
+				window.location = root + "logout/reset";
 				return;
 			}
 

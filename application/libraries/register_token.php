@@ -71,6 +71,6 @@ class Register_Token extends Std_Library{
 		$this->_CI->load->config("api");
 		$this->_CI->load->helper("string");
 		$this->token = Rand_Str(64);
-		self::Save();
+		return self::Save();
 	}
 }

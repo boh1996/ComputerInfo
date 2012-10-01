@@ -18,6 +18,10 @@
    	overflow: hidden;
 }
 
+.disabled {
+  display: none;
+}
+
 #loading {
   position: absolute; 
   top: 50%; 

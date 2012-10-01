@@ -11,10 +11,11 @@
 
 	<body>
 		<?php
-			if (isset($missing) && $missing != "") {
-				echo '<script type="text/javascript">var errors = ',$missing,';</script>';
+			if (isset($errors) && $errors != "") {
+				echo '<script type="text/javascript">var errors = ',$errors,';</script>';
 			}
 		?>
+
 		<div class="navbar navbar-fixed-top">
 		  <div class="navbar-inner">
 		    <div class="container">
@@ -35,8 +36,11 @@
 			    <div class="nav-collapse">
 			     	<ul class="nav">
 			     		<li class="active">
-				    		<a data-target="login" data-title="ComputerInfo - Login" href="#">Login</a>
+				    		<a data-target="login" data-title="ComputerInfo - Login" href="#">Register</a>
 				  		</li>
+				  		<li>
+							<a data-title="ComputerInfo - Login" href="<?php echo $base_url.'home/login'; ?>">Login</a>
+						</li>
 		        		<li>
 							<a data-target="back" data-title="ComputerInfo - Back" href="<?php echo $base_url.'home'; ?>">Back</a>
 						</li>
@@ -48,34 +52,107 @@
 		</div>
 
 		<div id="page">
-			<div class="page-container">
-				   <table id="wrapper">
-     				 <tr>
-     				 	<td>
-							<div class="container" style="width:220px;">
-								<form method="post" action="<?php echo $base_url; ?>user/register/check" method="post" accept-charset="UTF-8">
-									<label style="float:left" for="username">Username:</label>
-									<input style="margin-bottom: 15px;" type="text" placeholder="Username" id="username" name="username"/>
+			<div class="container" class="center page-box" style="width:550px; padding-top: 80px;" media="(max-width: 767px)">
+				<form method="post" action="<?php echo $base_url; ?>user/register/check" method="post" class="form-horizontal well" id="register-form" accept-charset="UTF-8">
+					<div class="control-group">
+						<label class="control-label" for="username">Username:</label>
+						<div class="controls">
+							<input type="text" placeholder="Username" required autofocus id="username" pattern="[a-zA-Z0-9]{<?php echo $this->config->item("username_length"); ?>,}" name="username" title="Minimum <?php echo $this->config->item("username_length"); ?> characters"/>
+						</div>
+					</div>
 
-									<label style="float:left" for="password">Password:</label>
-									<input style="margin-bottom: 15px;" type="password" placeholder="Password" id="password" name="password" />
+					<div class="control-group">
+						<label class="control-label" for="password">Password:</label>
+						<div class="controls">	
+							<input type="password" placeholder="Password" pattern=".{<?php echo $this->config->item("password_length"); ?>,}" title="Minimum <?php echo $this->config->item("password_length"); ?> characters" required id="password" name="password" />
+						</div>
+					</div>
 
-									<label style="float:left" for="email">Email:</label>
-									<input style="margin-bottom: 15px;" type="email" placeholder="Email" id="email" name="email" >
+					<div class="control-group">
+						<label class="control-label" for="re-password">Repeat password:</label>
+						<div class="controls">	
+							<input type="password" placeholder="Re-Password" pattern=".{<?php echo $this->config->item("password_length"); ?>,}" title="Minimum <?php echo $this->config->item("password_length"); ?> characters" required id="re-password" name="re-password" />
+						</div>
+					</div>
 
-									<label style="float:left" for="name">Name:</label>
-									<input style="margin-bottom: 15px;" type="text" placeholder="Name" id="name" name="name" >
+					<div class="control-group">
+						<label class="control-label" for="email">Email:</label>
+						<div class="controls">
+							<input type="email" placeholder="Email" id="email" required name="email" >
+						</div>
+					</div>
 
-									<input class="btn btn-primary" style="clear: left; width: 220px; height: 32px; font-size: 13px;" type="submit" id="register" value="Register" />
-									<label style="text-align:center;margin-top:5px">or</label>
-									<input class="btn btn-primary" style="clear: left; width: 220px; height: 32px; font-size: 13px;" type="button" id="register-google" value="Register Using Google" />
-								</form>
+					<div class="control-group">
+						<label class="control-label" for="name">Name:</label>
+						<div class="controls">
+							<input type="text" placeholder="Name" id="name" required name="name" >
+						</div>
+					</div>
+
+					<script type="text/javascript">
+						 var RecaptchaOptions = {
+						    theme : 'custom',
+						    custom_theme_widget: 'recaptcha_widget'
+						 };
+					</script>
+					<div id="recaptcha_widget" style="display:none">
+
+						<div class="control-group">
+							<label class="control-label">reCAPTCHA</label>
+							<div class="controls">
+						    	<a id="recaptcha_image" class="thumbnail"></a>
+						    	<div class="recaptcha_only_if_incorrect_sol" style="color:red">Incorrect please try again</div>
 							</div>
-						</td>
-					</tr>
-				</table>
-      		</div>
+					    </div>
+
+					   	<div class="control-group">
+					   		<label class="recaptcha_only_if_image control-label">Enter the words above:</label>
+					  		<label class="recaptcha_only_if_audio control-label">Enter the numbers you hear:</label>
+
+					  		<div class="controls">
+					  			<div class="input-append">
+					  				<input type="text" id="recaptcha_response_field" required class="input-recaptcha" name="recaptcha_response_field" />
+					  				<a class="btn" href="javascript:Recaptcha.reload()"><i class="icon-refresh"></i></a>
+					  				<a class="btn recaptcha_only_if_image" href="javascript:Recaptcha.switch_type('audio')"><i title="Get an audio CAPTCHA" class="icon-headphones"></i></a>
+					  				<a class="btn recaptcha_only_if_audio" href="javascript:Recaptcha.switch_type('image')"><i title="Get an image CAPTCHA" class="icon-picture"></i></a>
+							    	<a class="btn" href="javascript:Recaptcha.showhelp()"><i class="icon-question-sign"></i></a>
+					  			</div>
+					  		</div>
+						</div>
+
+					</div>
+
+					<script type="text/javascript"
+					   src="<?php echo $recaptcha_url; ?>">
+					</script>
+
+					<noscript>
+					    <iframe src="<?php echo $recaptcha_noscript_url; ?>"
+					       height="300" width="500" frameborder="0"></iframe><br>
+					    <textarea name="recaptcha_challenge_field" rows="3" cols="40">
+					    </textarea>
+					    <input type="hidden" name="recaptcha_response_field" value="manual_challenge">
+					  </noscript>
+
+					  <div class="control-group">
+					 	 <div class="controls">
+							<input class="btn btn-primary" style="clear: left; width: 220px; height: 32px; font-size: 13px;" type="submit" id="register" value="Register" />
+						 </div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" >or</label>
+						<div class="controls">
+							<input class="btn btn-primary" style="clear: left; width: 220px; height: 32px; font-size: 13px;" type="button" id="register-google" value="Register Using Google" />
+						</div>
+					</div>
+				</form>
+			</div>
       	</div>
+
+      	<div class="alert" id="alert" style="display:none;">
+  			<button type="button" class="close" data-dismiss="alert">×</button>
+  			<strong>Warning!</strong><div id="alert-content"></div>
+		</div>
 		<!-- Include jquery,boostrap and script -->
 		<?php 
 			if ($dev_mode) {
@@ -92,6 +169,20 @@
 				$("#register-google").click(function () {
 					document.location = <?php echo '"'.$base_url.'login/google"' ?>;
 				})
+				$("#register-form").on("submit",function(e){
+					e.stopPropagation();
+					if ($("#password").val() == $("#re-password").val()) {
+						$(this).submit();
+					} else {
+						e.preventDefault();
+						$("#alert-content").html("Passwords are not matching");
+						$("#alert").show();
+						setTimeout(function(){
+							$("#alert-content").html("");
+							$("#alert").hide();
+						},2000);
+					}
+				});
 				$('input, label').click(function(e) {
 					e.stopPropagation();
 				});

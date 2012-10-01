@@ -94,6 +94,11 @@ class Login extends CI_Controller {
 		redirect((strpos(site_url($url),'http') !== false) ? site_url($url) : $this->Computerinfo_Security->CheckHTTPS(site_url($url)));
 	}
 
+	public function Reset () {
+		self::Logout(false);
+		self::_redirect("home/login");
+	}
+
 	/**
 	 * This function checks if the entered password and username is corrected and matches
 	 * @param  object &$user_object This will contain the current user, if succes
@@ -193,8 +198,8 @@ class Login extends CI_Controller {
 		$this->load->helper("cookie");
 		if (isset($_SESSION["user_id"])) {
 			unset($_SESSION["user_id"]);
-			session_destroy();
 		}
+		session_destroy();
 		set_cookie("token","",time() - 9999);
 		delete_cookie("PHPSESSID");
 		delete_cookie("token");

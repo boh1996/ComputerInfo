@@ -81,11 +81,15 @@ else {
 		//Normal Routes
 	} else {
 		$route["home"] = "home";
+		$route["logout/reset"] = "login/reset";
 		$route["home/login"] = "home";
 		$route["windows/login"] = "windows_login";
-		$route["users/sign_up"] = "user/register";
+		$route["users/sign_up"] = "user_management/register";
 		$route["login/windows"] = "login/desktop/windows";
-		$route["user/register/check"] = "user/check";
+		$route["user/register/check"] = "user_management/check";
+		$route["user/activate/resend/(:any)"] = "user_management/resend/$1";
+		//$route["user/activate/(:any)"] = "user_management/activate/$1";
+		$route["user/activate"] = "user_management/activate";
 		if (!empty($_POST["username"])) {
 			$route["login/check"] = "login/enter";
 			$route["login/device"] = "login/device";
