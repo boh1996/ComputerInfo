@@ -33,6 +33,38 @@ class Register_Token extends Std_Library{
 	 */
 	public $password = NULL;
 
+	/**
+	 * The users desired email
+	 * @since 1.0
+	 * @access public
+	 * @var string
+	 */
+	public $email = NULL;
+
+	/**
+	 * The users generated salt
+	 * @var string
+	 * @since 1.0
+	 * @access public
+	 */
+	public $user_salt = NULL;
+
+	/**
+	 * The number of iterations done by the hashing function
+	 * @since 1.0
+	 * @access public
+	 * @var integer
+	 */
+	public $hashing_iterations = NULL;
+
+	/**
+	 * The timestamp when the token was created
+	 * @var integer
+	 * @since 1.0
+	 * @access public
+	 */
+	public $created_time = NULL;
+
 	### Class Settings ###
 
 	/**
@@ -59,7 +91,9 @@ class Register_Token extends Std_Library{
 	 */
 	public function __construct(){
 		parent::__construct();
+		$this->_CI = self::CodeIgniter();
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
+		$this->_INTERNAL_CREATED_TIME_PROPERTY 		= "created_time";
 	}
 
 	/**
@@ -69,7 +103,7 @@ class Register_Token extends Std_Library{
 	 */
 	public function Create(){
 		$this->_CI->load->config("api");
-		$this->_CI->load->helper("string");
+		$this->_CI->load->helper("rand");
 		$this->token = Rand_Str(64);
 		return self::Save();
 	}

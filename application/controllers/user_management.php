@@ -51,21 +51,21 @@ class User_Management extends CI_Controller {
 		$this->load->library("input");
 		if (self::_Input_Check(array("username","email","password","name","recaptcha_challenge_field","re-password","recaptcha_response_field"),$missing)) {
 			if ($this->input->post("re-password") != $this->input->post("password")) {
-				$data = array("errors" => array("Passwords not matching"));
+				$data = array("errors" => json_encode(array("Passwords not matching")));
 				self::_Show_View($data);
 			}
 			$captcha = recaptcha_check_answer($this->config->item("recaptcha_private_key"), $_SERVER["REMOTE_ADDR"],$this->input->post("recaptcha_challenge_field"),$this->input->post("recaptcha_response_field"));
 			if (!$captcha->is_valid){
-				self::_Show_View(array("errors" => array($captcha->error)));
+				self::_Show_View(array("errors" => json_encode(array($captcha->error))));
 			} else {
 				if (self::_Check_User_Input($this->input->post("username"),$this->input->post("password"),$this->input->post("email"),$this->input->post("name"),$errors) !== true) {
-					$data = array("errors" => $errors);
+					$data = array("errors" => json_encode($errors));
 					self::_Show_View($data);
 				}
 			}
 		} else {
 			$data = array(
-				"errors" => array("Missing fields" . implode(",",$missing))
+				"errors" => json_encode(array("Missing fields" . implode(",",$missing)))
 			);
 			self::_Show_View($data);
 		}
@@ -112,8 +112,91 @@ class User_Management extends CI_Controller {
 
 	}
 
-	public function Resend ($token = null) {
+	/**
+	 * This endpoint is called when a user is trying to resend the activation email
+	 * @since 1.0
+	 * @access public
+	 * @param integer $id The register token id
+	 */
+	public function Resend ($id = null) {
+		$this->load->library("register_token");
+		$Register_Token = new Register_Token();
+		if ($Register_Token->Load($id)) {
+			self::_Send_Activation_Email($Register_Token,$Register_Token->name,$Register_Token->email);	
+		} else {
+			echo "Sorry no user found";
+		}
+	}
 
+	/**
+	 * This endpoint is called when an activation link is pressed
+	 * @since 1.0
+	 * @access public
+	 * @param string $token The token that links to the user to activate
+	 */
+	public function Activate ($token = null) {
+		if (is_null($token)) {
+			echo "A token is needed";
+			return;
+		}
+		$this->load->library("register_token");
+		$Register_Token = new Register_Token();
+		if ($Register_Token->Load(array("token" => $token))) {
+			if (self::_Activate($Register_Token,$User)) {
+				self::_Login($User);
+				$Register_Token->Delete();
+				self::_redirect($this->config->item("front_page"));
+			} else {
+				echo "Sorry we couldn't activate that user!";
+			}
+		} else {
+			echo "Sorry no user found";
+		}
+	}
+
+	/**
+	 * This function redirects the user
+	 * @since 1.0
+	 * @access private
+	 * @param  stirng $url The url to redirect too;
+	 * @return 
+	 */
+	private function _redirect ( $url ) {
+		redirect((strpos(site_url($url),'http') !== false) ? site_url($url) : $this->Computerinfo_Security->CheckHTTPS(site_url($url)));
+	}
+
+	/**
+	 * This function logs the newly created user in
+	 * @since 1.0
+	 * @access private
+	 * @param object $user The user to log in
+	 */
+	private function _Login ($user) {
+		$_SESSION["user_id"] = $user->id;
+		$this->load->library("token");
+		$this->load->config("api");
+		$Token = new Token();
+		$Token->Create($user->id);
+		$this->load->helper("cookie");
+		set_cookie("token",$Token->token,$Token->time_to_live);
+	}
+
+	/**
+	 * This function activates a user using a register token object
+	 * @since 1.0
+	 * @access private
+	 * @param object $register_token The register token object to load the data from
+	 * @param object &$User A variable to hold the created user
+	 */
+	private function _Activate ($register_token, &$User) {
+		$this->load->library("user");
+		$User = new User();
+		$User->username = $register_token->username;
+		$User->password = $register_token->password;
+		$User->email = $register_token->email;
+		$User->hashing_iterations = $register_token->hashing_iterations;
+		$User->login_token = $register_token->user_salt;
+		return ($User->Save());
 	}
 
 	/**
@@ -129,34 +212,45 @@ class User_Management extends CI_Controller {
 	private function _Register_User ($username, $password, $email, $name) {
 		$this->load->library("user");
 		$this->load->library("register_token");
+		$this->load->library("auth/login_security");
 		$User = new User();
 		$Register_Token = new Register_Token();
-		if ($User->Load(array("username" => $username)) || !$User->Load(array("email" => $email)) || $Register_Token->Load(array("username" => $username)) || $Register_Token->Load(array("email" => $email))) {
-			die("user exists");
+		if ($User->Load(array("username" => $username)) || $User->Load(array("email" => $email)) || $Register_Token->Load(array("username" => $username)) || $Register_Token->Load(array("email" => $email))) {
 			return FALSE;
 		}
-		die("Register");
+		$password = $this->login_security->createUser($password,$this->config->item("hashing_iterations"),$this->config->item("user_salt_length"),$user_salt);
 		$user_data = array(
 			"name" => $name,
 			"username" => $username,
 			"email" => $email,
-			"password" => $password
+			"password" => $password,
+			"user_salt" => $user_salt,
+			"hashing_iterations" => $this->config->item("hashing_iterations")
 		);
 		$Register_Token->Import($user_data);
 		if ($Register_Token->Create()){
-			$template_variables = array(
-				"{activation_url}" => $this->computerinfo_security->CheckHTTPS(base_url()."user/activate/".$Register_Token->token),
-				"{token}" => $Register_Token->token
-			);
-			return self::_Send_Email($name, $email, $this->config->item("register_mail_subject"),$this->config->item("register_mail_template"),$template_variables);
-			echo '<a href="'.$this->computerinfo_security->CheckHTTPS(base_url()."user/activate/resend/".$Register_Token->token).'">Resendt activation email!</a>';
+			return self::_Send_Activation_Email($Register_Token,$name,$email);
 		} else {
 			return FALSE;
 		}
-	}
+	}	
 
-	public function Activate ($token = null) {
-
+	/**
+	 * This function ensures that the email is sent to the user
+	 * @since 1.0
+	 * @access private
+	 * @param object $register_token The register token object
+	 * @param string $name The name of the reciever
+	 * @param string $email The recievers email
+	 * @return boolean
+	 */
+	private function _Send_Activation_Email ($register_token, $name, $email) {
+		$template_variables = array(
+			"{activation_url}" => $this->computerinfo_security->CheckHTTPS(base_url()."user/activate/".$register_token->token),
+			"{token}" => $register_token->token
+		);
+		echo '<a href="'.$this->computerinfo_security->CheckHTTPS(base_url()."user/activate/resend/".$register_token->id).'">Resend activation email!</a>';
+		return self::_Send_Email($name, $email, $this->config->item("register_mail_subject"),$this->config->item("register_mail_template"),$template_variables);
 	}
 
 	/**
@@ -194,6 +288,7 @@ class User_Management extends CI_Controller {
 		$email_content = self::_Template($template_data,$template);
 		$subject = self::_Template($template_data,$subject);
 		send_email($email,$subject,$email_content,$headers);
+		return TRUE;
 	}
 
 	/**

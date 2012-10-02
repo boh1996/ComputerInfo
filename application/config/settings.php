@@ -77,6 +77,16 @@ $config["app_hashing_salt"] = "7b1ff613e73cf8391e0530cc488a59fcbc182e67069ff9508
  * The minimum length of the password
  */
 $config["password_length"] = 7;
+
+/**
+ * The number of iterations to hash the new users password with
+ */
+$config["hashing_iterations"] = 10;
+
+/**
+ * The length of the user salt
+ */
+$config["user_salt_length"] = 64;
 	
 /**
  * The minimum required userame length

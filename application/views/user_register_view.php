@@ -2,12 +2,27 @@
 <html>
 	<head>
 		<title>ComputerInfo - Register</title>
+		<meta charset="utf-8">
+		<!-- viewport -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>bootstrap/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>bootstrap/css/bootstrap-responsive.min.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/form.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/style.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/user.css">
 	</head>
+
+	<style type="text/css">
+		a#recaptcha_image {
+  			height: auto;
+		}
+		a#recaptcha_image img {
+		    width:100%;
+		    height: auto;
+		}
+​
+	</style>
 
 	<body>
 		<?php

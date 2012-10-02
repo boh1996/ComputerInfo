@@ -88,8 +88,7 @@ else {
 		$route["login/windows"] = "login/desktop/windows";
 		$route["user/register/check"] = "user_management/check";
 		$route["user/activate/resend/(:any)"] = "user_management/resend/$1";
-		//$route["user/activate/(:any)"] = "user_management/activate/$1";
-		$route["user/activate"] = "user_management/activate";
+		$route["user/activate/(:any)"] = "user_management/activate/$1";
 		if (!empty($_POST["username"])) {
 			$route["login/check"] = "login/enter";
 			$route["login/device"] = "login/device";
