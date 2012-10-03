@@ -10,7 +10,7 @@
       	</a>
  
       	<!-- Be sure to leave the brand out there if you want it shown -->
-      	<a class="brand" href="#">
+      	<a class="brand" href="<?php echo $base_url; ?>">
       		ComputerInfo
       	</a>
 

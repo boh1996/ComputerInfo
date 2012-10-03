@@ -51,17 +51,35 @@ class User_Management extends CI_Controller {
 		$this->load->library("input");
 		if (self::_Input_Check(array("username","email","password","name","recaptcha_challenge_field","re-password","recaptcha_response_field"),$missing)) {
 			if ($this->input->post("re-password") != $this->input->post("password")) {
-				$data = array("errors" => json_encode(array("Passwords not matching")));
+				$data = array(
+					"errors" => json_encode(array("Passwords not matching")),
+					"username" => $this->input->post("username"),
+					"email" => $this->input->post("email"),
+					"name" => $this->input->post("name")
+				);
 				self::_Show_View($data);
+				return FALSE;
 			}
 			$captcha = recaptcha_check_answer($this->config->item("recaptcha_private_key"), $_SERVER["REMOTE_ADDR"],$this->input->post("recaptcha_challenge_field"),$this->input->post("recaptcha_response_field"));
 			if (!$captcha->is_valid){
-				self::_Show_View(array("errors" => json_encode(array($captcha->error))));
+				self::_Show_View(array(
+					"errors" => json_encode(array($captcha->error)),
+					"username" => $this->input->post("username"),
+					"email" => $this->input->post("email"),
+					"name" => $this->input->post("name")
+				));
+				return;
 			} else {
 				if (self::_Check_User_Input($this->input->post("username"),$this->input->post("password"),$this->input->post("email"),$this->input->post("name"),$errors) !== true) {
-					$data = array("errors" => json_encode($errors));
+					$data = array(
+						"errors" => json_encode($errors),
+						"username" => $this->input->post("username"),
+						"email" => $this->input->post("email"),
+						"name" => $this->input->post("name")
+					);
 					self::_Show_View($data);
 				}
+				return;
 			}
 		} else {
 			$data = array(
@@ -116,15 +134,15 @@ class User_Management extends CI_Controller {
 	 * This endpoint is called when a user is trying to resend the activation email
 	 * @since 1.0
 	 * @access public
-	 * @param integer $id The register token id
+	 * @param integer $identifier The register token string identifier
 	 */
-	public function Resend ($id = null) {
+	public function Resend ($identifier = null) {
 		$this->load->library("register_token");
 		$Register_Token = new Register_Token();
-		if ($Register_Token->Load($id)) {
+		if ($Register_Token->Load(array("identifier" => $identifier)) && !is_null($Register_Token->id)) {
 			self::_Send_Activation_Email($Register_Token,$Register_Token->name,$Register_Token->email);	
 		} else {
-			echo "Sorry no user found";
+			$this->load->view("register_status_view",$this->computerinfo_security->ControllerInfo(array("message" => "Sorry no user found!")));
 		}
 	}
 
@@ -136,21 +154,22 @@ class User_Management extends CI_Controller {
 	 */
 	public function Activate ($token = null) {
 		if (is_null($token)) {
-			echo "A token is needed";
+			$this->load->view("register_status_view",$this->computerinfo_security->ControllerInfo(array("message" => "No token specified!")));
 			return;
 		}
 		$this->load->library("register_token");
 		$Register_Token = new Register_Token();
 		if ($Register_Token->Load(array("token" => $token))) {
-			if (self::_Activate($Register_Token,$User)) {
-				self::_Login($User);
+			$User = self::_Activate($Register_Token);
+			if (is_object($User)) {
+				self::_Login($User->id);
 				$Register_Token->Delete();
 				self::_redirect($this->config->item("front_page"));
 			} else {
-				echo "Sorry we couldn't activate that user!";
+				$this->load->view("register_status_view",$this->computerinfo_security->ControllerInfo(array("message" => "Sorry we couldn't activate that user!")));
 			}
 		} else {
-			echo "Sorry no user found";
+			$this->load->view("register_status_view",$this->computerinfo_security->ControllerInfo(array("message" => "Sorry no user found!")));
 		}
 	}
 
@@ -169,14 +188,14 @@ class User_Management extends CI_Controller {
 	 * This function logs the newly created user in
 	 * @since 1.0
 	 * @access private
-	 * @param object $user The user to log in
+	 * @param integer $user_id The id of the user to login
 	 */
-	private function _Login ($user) {
-		$_SESSION["user_id"] = $user->id;
+	private function _Login ($user_id) {
+		$_SESSION["user_id"] = $user_id;
 		$this->load->library("token");
 		$this->load->config("api");
 		$Token = new Token();
-		$Token->Create($user->id);
+		$Token->Create($user_id);
 		$this->load->helper("cookie");
 		set_cookie("token",$Token->token,$Token->time_to_live);
 	}
@@ -186,17 +205,21 @@ class User_Management extends CI_Controller {
 	 * @since 1.0
 	 * @access private
 	 * @param object $register_token The register token object to load the data from
-	 * @param object &$User A variable to hold the created user
 	 */
-	private function _Activate ($register_token, &$User) {
+	private function _Activate ($register_token) {
 		$this->load->library("user");
 		$User = new User();
 		$User->username = $register_token->username;
 		$User->password = $register_token->password;
 		$User->email = $register_token->email;
+		$User->name = $register_token->name;
 		$User->hashing_iterations = $register_token->hashing_iterations;
 		$User->login_token = $register_token->user_salt;
-		return ($User->Save());
+		if ($User->Save()) {
+			return $User;
+		} else {
+			return FALSE;
+		}
 	}
 
 	/**
@@ -236,6 +259,25 @@ class User_Management extends CI_Controller {
 	}	
 
 	/**
+	 * This function deletes a users registration
+	 * @since 1.0
+	 * @access public
+	 * @param string $identifier The register token string identifier
+	 */
+	public function Delete ($identifier = null) {
+		$this->load->library("register_token");
+		$Register_Token = new Register_Token();
+		if ($Register_Token->Load(array("identifier" => $identifier))) {
+			$Register_Token->Delete();
+			$this->load->view("register_status_view",$this->computerinfo_security->ControllerInfo(array(
+				"message" => 'Your registration have been removed click <a href="'.$this->computerinfo_security->CheckHTTPS(base_url()."users/sign_up").'">here</a> to sign up again!'
+			)));
+		} else {
+			$this->load->view("register_status_view",$this->computerinfo_security->ControllerInfo(array("message" => "Sorry no user found!")));
+		}
+	}
+
+	/**
 	 * This function ensures that the email is sent to the user
 	 * @since 1.0
 	 * @access private
@@ -249,7 +291,11 @@ class User_Management extends CI_Controller {
 			"{activation_url}" => $this->computerinfo_security->CheckHTTPS(base_url()."user/activate/".$register_token->token),
 			"{token}" => $register_token->token
 		);
-		echo '<a href="'.$this->computerinfo_security->CheckHTTPS(base_url()."user/activate/resend/".$register_token->id).'">Resend activation email!</a>';
+		$this->load->view("register_status_view",$this->computerinfo_security->ControllerInfo(array(
+			"message" => '<a class="btn" href="'.$this->computerinfo_security->CheckHTTPS(base_url()."user/activate/resend/".$register_token->identifier).'">Resend activation email!</a>
+			<a class="btn" href="'.$this->computerinfo_security->CheckHTTPS(base_url()."user/register/delete/".$register_token->identifier).'">Remove registration</a>
+			'
+		)));
 		return self::_Send_Email($name, $email, $this->config->item("register_mail_subject"),$this->config->item("register_mail_template"),$template_variables);
 	}
 
@@ -275,6 +321,7 @@ class User_Management extends CI_Controller {
 		$template_constants = array(
 			"{base_url}" => $this->computerinfo_security->CheckHTTPS(base_url()),
 			"{email}" => $email,
+			"{asset_url}" => $this->computerinfo_security->CheckHTTPS(base_url().$this->config->item("asset_url")),
 			"{name}" => $name,
 			"{webmaster_email}" => $this->config->item("webmaster_email"),
 			"{organization_name}" => $this->config->item("email_sender_name"),

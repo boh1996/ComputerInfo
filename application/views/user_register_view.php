@@ -43,7 +43,7 @@
 		      	</a>
 		 
 		      	<!-- Be sure to leave the brand out there if you want it shown -->
-		      	<a class="brand" href="#">
+		      	<a class="brand" href="<?php echo $base_url; ?>">
 		      		ComputerInfo
 		      	</a>
 
@@ -67,12 +67,15 @@
 		</div>
 
 		<div id="page">
-			<div class="container" class="center page-box" style="width:550px; padding-top: 80px;" media="(max-width: 767px)">
+			<div class="container" class="center page-box" style="width:550px; padding-top: 80px;">
 				<form method="post" action="<?php echo $base_url; ?>user/register/check" method="post" class="form-horizontal well" id="register-form" accept-charset="UTF-8">
+					<div id="messages">
+
+					</div>
 					<div class="control-group">
 						<label class="control-label" for="username">Username:</label>
 						<div class="controls">
-							<input type="text" placeholder="Username" required autofocus id="username" pattern="[a-zA-Z0-9]{<?php echo $this->config->item("username_length"); ?>,}" name="username" title="Minimum <?php echo $this->config->item("username_length"); ?> characters"/>
+							<input type="text" placeholder="Username" <?php if(isset($username)) echo 'value="'.$username.'"'; ?> required autofocus id="username" pattern="[a-zA-Z0-9]{<?php echo $this->config->item("username_length"); ?>,}" name="username" title="Minimum <?php echo $this->config->item("username_length"); ?> characters"/>
 						</div>
 					</div>
 
@@ -93,14 +96,14 @@
 					<div class="control-group">
 						<label class="control-label" for="email">Email:</label>
 						<div class="controls">
-							<input type="email" placeholder="Email" id="email" required name="email" >
+							<input type="email" placeholder="Email" <?php if(isset($email)) echo 'value="'.$email.'"'; ?> id="email" required name="email" >
 						</div>
 					</div>
 
 					<div class="control-group">
 						<label class="control-label" for="name">Name:</label>
 						<div class="controls">
-							<input type="text" placeholder="Name" id="name" required name="name" >
+							<input type="text" placeholder="Name" <?php if(isset($name)) echo 'value="'.$name.'"'; ?> id="name" required name="name" >
 						</div>
 					</div>
 
@@ -164,9 +167,14 @@
 			</div>
       	</div>
 
-      	<div class="alert" id="alert" style="display:none;">
+      	<div class="alert alert-error" id="alert" style="display:none;">
   			<button type="button" class="close" data-dismiss="alert">×</button>
   			<strong>Warning!</strong><div id="alert-content"></div>
+		</div>
+
+		<div class="alert allert-error error" id="error" style="display:none;">
+  			<button type="button" class="close" data-dismiss="alert">×</button>
+  			<strong>Warning!</strong><div class="error-content"></div>
 		</div>
 		<!-- Include jquery,boostrap and script -->
 		<?php 
@@ -180,6 +188,20 @@
 		<script type="text/javascript" src="<?php echo $asset_url; ?>js/html5shiv.js"></script>
 		<script type="text/javascript">
 			$(document).ready(function() {
+				if (typeof errors != "undefined") {
+					$.each(errors,function(index,element) {
+						var object = $("#error").clone();
+						object.attr("id","");
+						object.css("display","");
+						if (element == "incorrect-captcha-sol") {
+							$(object).find(".error-content").append('<span class="label label-important">Incorrect CAPTCHA!</span>');
+						} else {
+							$(object).find(".error-content").append('<span class="label label-important">'+element+'!</span>');
+						}
+						$("#messages").append(object);
+					});
+				}
+
 				$("#username").focus();
 				$("#register-google").click(function () {
 					document.location = <?php echo '"'.$base_url.'login/google"' ?>;

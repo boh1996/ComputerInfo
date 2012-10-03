@@ -18,6 +18,14 @@ class Register_Token extends Std_Library{
 	public $name = NULL;
 
 	/**
+	 * The register token
+	 * @var string
+	 * @since 1.0
+	 * @access public
+	 */
+	public $token = NULL;
+
+	/**
 	 * The users username
 	 * @var string
 	 * @since 1.0
@@ -65,6 +73,14 @@ class Register_Token extends Std_Library{
 	 */
 	public $created_time = NULL;
 
+	/**
+	 * A string identifier
+	 * @since 1.0
+	 * @access public
+	 * @var string
+	 */
+	public $identifier = NULL;
+
 	### Class Settings ###
 
 	/**
@@ -105,6 +121,7 @@ class Register_Token extends Std_Library{
 		$this->_CI->load->config("api");
 		$this->_CI->load->helper("rand");
 		$this->token = Rand_Str(64);
+		$this->identifier = Rand_Str(32);
 		return self::Save();
 	}
 }

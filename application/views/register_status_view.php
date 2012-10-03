@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>ComputerInfo - Login</title>
+		<title>ComputerInfo - Register</title>
+		<meta charset="utf-8">
+		<!-- viewport -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>bootstrap/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>bootstrap/css/bootstrap-responsive.min.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/form.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/style.css">
+		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/user.css">
 	</head>
 
 	<body>
-
 		<div class="navbar navbar-fixed-top">
 		  <div class="navbar-inner">
 		    <div class="container">
@@ -30,11 +34,14 @@
 			    <div class="nav-collapse">
 			     	<ul class="nav">
 			     		<li class="active">
-				    		<a data-target="login" data-title="ComputerInfo - Login" href="#">Login</a>
+				    		<a data-target="login" data-title="ComputerInfo - Login" href="<?php echo $base_url.'/users/sign_up'; ?>">Register</a>
 				  		</li>
-						<li>
-							<a data-target="back" data-title="ComputerInfo - Back" href="<?php echo $base_url.'home/login'; ?>">Back</a>
-						</li>		          
+				  		<li>
+							<a data-title="ComputerInfo - Login" href="<?php echo $base_url.'home/login'; ?>">Login</a>
+						</li>
+		        		<li>
+							<a data-target="back" data-title="ComputerInfo - Back" href="<?php echo $base_url.'home'; ?>">Back</a>
+						</li>
 					</ul>
 		      	</div>
 		 
@@ -43,13 +50,21 @@
 		</div>
 
 		<div id="page">
-			<div class="page-container">
-				<a class="btn" href="<?php echo $this->computerinfo_security->CheckHTTPS(site_url('login/username')); ?>">Username & Password</a><br><br>
-				<a class="btn" href="<?php echo $this->computerinfo_security->CheckHTTPS(site_url('login/google')); ?>">Google</a>
-      		</div>
+			<div class="container" class="center page-box" style="width:550px; padding-top: 80px;">
+				<div class="well">
+					<p style="text-align:center;">
+						<?php
+						if (isset($message)) {
+							echo "<strong>".$message."</strong";
+						} else {
+							echo "<strong>Sorry an error encountered</strong";
+						}
+						?>
+					</p>
+				</div>
+			</div>
       	</div>
 
-		<!-- Include jquery,boostrap and script -->
 		<?php 
 			if ($dev_mode) {
 				echo '<script type="text/javascript" src="'.$asset_url.'js/jquery.min.js"></script>';
@@ -58,6 +73,4 @@
 			}
 		?>
 		<script type="text/javascript" src="<?php echo $asset_url; ?>bootstrap/js/bootstrap.js"></script>
-		<script type="text/javascript" src="<?php echo $asset_url; ?>js/jquery.history.js"></script>
 	</body>
-</html>

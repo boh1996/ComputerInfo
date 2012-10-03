@@ -114,6 +114,11 @@ class User extends Std_Library{
 		$this->_INTERNAL_LOAD_FROM_CLASS = array(
 			"organizations" => "Organization"
 		);
+		$this->_INTERNAL_OVERWRITE_ON_DUBLICATE = false; //This can changed
+		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = 	array(
+			"email",
+			"username"
+		);
 		$this->_INTERNAL_IMPORT_IGNORE = array(
 			"username",
 			"password",
