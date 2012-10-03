@@ -2,7 +2,7 @@
 class Register_Token extends Std_Library{
 
 	/**
-	 * The database id of the user
+	 * The database id of the token
 	 * @var integer
 	 * @since 1.0
 	 * @access public
@@ -10,31 +10,15 @@ class Register_Token extends Std_Library{
 	public $id = NULL;
 
 	/**
-	 * The full name of the user
-	 * @var string
+	 * The user requesting a new password
 	 * @since 1.0
 	 * @access public
+	 * @var object
 	 */
-	public $name = NULL;
+	public $user = null;
 
 	/**
-	 * The register token
-	 * @var string
-	 * @since 1.0
-	 * @access public
-	 */
-	public $token = NULL;
-
-	/**
-	 * The users username
-	 * @var string
-	 * @since 1.0
-	 * @access public
-	 */
-	public $username = NULL;
-
-	/**
-	 * The users password
+	 * The users desired password
 	 * @since 1.0
 	 * @access public
 	 * @var string
@@ -42,28 +26,12 @@ class Register_Token extends Std_Library{
 	public $password = NULL;
 
 	/**
-	 * The users desired email
-	 * @since 1.0
-	 * @access public
-	 * @var string
-	 */
-	public $email = NULL;
-
-	/**
-	 * The users generated salt
+	 * The reset token
 	 * @var string
 	 * @since 1.0
 	 * @access public
 	 */
-	public $user_salt = NULL;
-
-	/**
-	 * The number of iterations done by the hashing function
-	 * @since 1.0
-	 * @access public
-	 * @var integer
-	 */
-	public $hashing_iterations = NULL;
+	public $token = null;
 
 	/**
 	 * The timestamp when the token was created
@@ -74,10 +42,10 @@ class Register_Token extends Std_Library{
 	public $created_time = NULL;
 
 	/**
-	 * A string identifier
+	 * A string identifier for the token
+	 * @var string
 	 * @since 1.0
 	 * @access public
-	 * @var string
 	 */
 	public $identifier = NULL;
 
@@ -98,7 +66,7 @@ class Register_Token extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Database_Table = "register_tokens";
+	public $Database_Table = "reset_password_tokens";
 	
 	/**
 	 * This is the concstructor, it configurates the std library
@@ -111,9 +79,13 @@ class Register_Token extends Std_Library{
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
 		$this->_INTERNAL_CREATED_TIME_PROPERTY 		= "created_time";
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = 	array(
-			"email",
-			"username"
+			"user",
+			"token"
 		);
+		$this->_INTERNAL_LOAD_FROM_CLASS = array(
+			"organizations" => "Organization"
+		);
+		$this->_INTERNAL_ROW_NAME_CONVERT = array("user_id" 				=> "user");
 	}
 
 	/**

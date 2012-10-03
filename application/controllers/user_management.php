@@ -92,12 +92,13 @@ class User_Management extends CI_Controller {
 	/**
 	 * This function shos the register view
 	 * @param array $data The custom input data
+	 * @param string $view The view to show
 	 * @since 1.0
 	 * @access private
 	 */
-	private function _Show_View ($data = array()) {
+	private function _Show_View ($data = array(), $view = "user_register_view") {
 		$data = array_unique(array_merge($data,$this->_recaptcha));
-		$this->load->view("user_register_view",$this->computerinfo_security->ControllerInfo($data));
+		$this->load->view($view,$this->computerinfo_security->ControllerInfo($data));
 	}
 
 	/**
@@ -418,5 +419,13 @@ class User_Management extends CI_Controller {
 			}
 		}
 		return TRUE;
+	}
+
+	public function Forgot_Password () {
+		self::_Show_View(array(),"reset_password_view");
+	}
+
+	public function Reset_Password () {
+		
 	}
 }

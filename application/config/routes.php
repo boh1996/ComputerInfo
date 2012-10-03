@@ -90,6 +90,8 @@ else {
 		$route["user/register/delete/(:any)"] = "user_management/delete/$1";
 		$route["user/activate/resend/(:any)"] = "user_management/resend/$1";
 		$route["user/activate/(:any)"] = "user_management/activate/$1";
+		$route["user/reset/password"] = "user_management/forgot_password";
+		$route["user/reset/password/check"] = "user_management/reset_password";
 		if (!empty($_POST["username"])) {
 			$route["login/check"] = "login/enter";
 			$route["login/device"] = "login/device";

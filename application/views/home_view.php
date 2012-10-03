@@ -51,6 +51,7 @@ if(!isset($jquery_url))
 										<input style="margin-bottom: 15px;" type="password" placeholder="Password" id="password" name="password" />
 										<input style="float: left; margin-right: 10px;" type="checkbox" name="remember-me" id="remember-me" value="1" />
 										<label class="string optional" for="user_remember_me"> Remember me</label>
+										<a style="text-align:left;padding:0;" href="<?php echo $base_url.'user/reset/password' ?>">I forgot my password!</a>
 										<input class="btn btn-primary" style="clear: left; width: 100%; height: 32px; font-size: 13px;" type="submit" id="sign-in" value="Sign In" />
 										<label style="text-align:center;margin-top:5px">or</label>
 										<input class="btn btn-primary" style="clear: left; width: 100%; height: 32px; font-size: 13px;" type="button" id="sign-in-google" value="Sign In Using Google" />
@@ -119,7 +120,7 @@ if(!isset($jquery_url))
 				}
 				$("#sign-in-google").click(function () {
 					document.location = <?php echo '"'.$base_url.'login/google"' ?>;
-				})
+				});
 			});
 		</script>
 	</body>
