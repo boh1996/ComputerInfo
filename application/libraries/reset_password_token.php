@@ -1,5 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');  
-class Register_Token extends Std_Library{
+class Reset_Password_Token extends Std_Library{
 
 	/**
 	 * The database id of the token
@@ -18,20 +18,20 @@ class Register_Token extends Std_Library{
 	public $user = null;
 
 	/**
-	 * The users desired password
-	 * @since 1.0
-	 * @access public
-	 * @var string
-	 */
-	public $password = NULL;
-
-	/**
 	 * The reset token
 	 * @var string
 	 * @since 1.0
 	 * @access public
 	 */
 	public $token = null;
+
+	/**
+	 * The email the token was sent too
+	 * @since 1.0
+	 * @access public
+	 * @var string
+	 */
+	public $email = NULL;
 
 	/**
 	 * The timestamp when the token was created
@@ -78,12 +78,13 @@ class Register_Token extends Std_Library{
 		$this->_CI = self::CodeIgniter();
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
 		$this->_INTERNAL_CREATED_TIME_PROPERTY 		= "created_time";
+		$this->_INTERNAL_LOAD_FROM_CLASS = array("user" => "User");
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = 	array(
 			"user",
 			"token"
 		);
-		$this->_INTERNAL_LOAD_FROM_CLASS = array(
-			"organizations" => "Organization"
+		$this->_INTERNAL_LOAD_FROM_CLASS = 	array(
+			"user" => "User"
 		);
 		$this->_INTERNAL_ROW_NAME_CONVERT = array("user_id" 				=> "user");
 	}

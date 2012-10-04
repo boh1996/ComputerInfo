@@ -421,11 +421,207 @@ class User_Management extends CI_Controller {
 		return TRUE;
 	}
 
+	/**
+	 * This function shows the reset password view
+	 * @since 1.0
+	 * @access public
+	 */
 	public function Forgot_Password () {
 		self::_Show_View(array(),"reset_password_view");
 	}
 
+	/**
+	 * This function is called when a user posts from the reset password form
+	 * @since 1.0
+	 * @access public
+	 */
 	public function Reset_Password () {
+		$this->load->library("user");
+		$User = new User();
+		if (self::_Input_Check(array("email","recaptcha_challenge_field","recaptcha_response_field"),$missing)) {
+			$captcha = recaptcha_check_answer($this->config->item("recaptcha_private_key"), $_SERVER["REMOTE_ADDR"],$this->input->post("recaptcha_challenge_field"),$this->input->post("recaptcha_response_field"));
+			if (!$captcha->is_valid){
+				self::_Show_View(array(
+					"errors" => json_encode(array($captcha->error)),
+					"email" => $this->input->post("email")
+				),"reset_password_view");
+				return;
+			} else {
+				if(!self::_Email_Check($this->input->post("email"))) {
+					self::_Show_View(array(
+						"errors" => json_encode(array("Email is not an email!"))
+					),"reset_password_view");
+				}
+				$email = $this->input->post("email");
+				if ($User->Load(array("email" => $email))) {
+					if (self::_Reset_Password($email,$User) === false) {
+						$this->load->view("register_status_view",$this->computerinfo_security->ControllerInfo(array(
+							"message" => 'A password reset for this account has already been requested!',
+							"title" => "Reset password"
+						)));
+					}
+				} else {
+					$this->load->view("register_status_view",$this->computerinfo_security->ControllerInfo(array(
+						"message" => 'No user found!',
+						"title" => "Reset password"
+					)));
+				}
+			}
+		} else {	
+			self::_Show_View(array("error" => json_encode($missing)),"reset_password_view");
+		}
+	}
+
+	/**
+	 * This function is the backend of the send reset email form
+	 * @since 1.0
+	 * @access private
+	 * @param string $email The users email
+	 * @param object $user  The user object
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _Reset_Password ($email, $user) {
+		$this->load->library("reset_password_token");
+		$Reset_Token = new Reset_Password_Token();
+		if ($Reset_Token->Load(array("email" => $email))) {
+			return FALSE;
+		}
+		$Reset_Token->user = $user->id;
+		$Reset_Token->email = $email;
+		$Reset_Token->Create();
+		return self::_Send_Password_Reset_Email($Reset_Token,$user->name, $user->email);
+	}
+
+	/**
+	 * This function resends the password reset email
+	 * @param string $identifier The token identifier
+	 * @since 1.0
+	 * @access public
+	 */
+	public function Password_Resend ($identifier = null) {
+		$this->load->library("reset_password_token");
+		$Reset_Token = new Reset_Password_Token();
+		if ($Reset_Token->Load(array("identifier" => $identifier))) {
+			self::_Send_Password_Reset_Email($Reset_Token,$Reset_Token->user->name,$Reset_Token->email);
+		} else {
+			$this->load->view("register_status_view",$this->computerinfo_security->ControllerInfo(array(
+				"message" => 'No request found!',
+				"title" => "Reset password"
+			)));
+		}
+	}
+
+	/**
+	 * This function checks if the token is correct and then shows the change password view
+	 * @since 1.0
+	 * @access public
+	 * @param string $token The reset password token
+	 */
+	public function Create_New_Password ($token = null) {
+		$this->load->library("reset_password_token");
+		$Reset_Token = new Reset_Password_Token();
+		if (!is_null($token) && $Reset_Token->Load(array("token" => $token))) {
+			$this->load->view("reset_create_new_password_view",$this->computerinfo_security->ControllerInfo(array(
+				"token" => $Reset_Token->token,
+				"title" => "Reset password"
+			)));
+		} else {
+			$this->load->view("register_status_view",$this->computerinfo_security->ControllerInfo(array(
+				"message" => 'No request found!',
+				"title" => "Reset password"
+			)));
+		}
+	}
+
+	/**
+	 * This function is the post endpoint for the change password form
+	 * @since 1.0
+	 * @access public
+	 */
+	public function Reset_Password_Check () {
+		if (self::_Input_Check(array("password","re-password","token"),$missing)) {
+			if ($this->input->post("password") != $this->input->post("re-password")) {
+				self::_Show_View(array("error" => json_encode(array("Passwords are not matching"))),"reset_create_new_password_view");
+				return;
+			}
+			if (!self::_Password_Correct($this->input->post("password"))) {
+				self::_Show_View(array("error" => json_encode(array("Password should be seven or more characters and contain letters and numbers!"))),"reset_create_new_password_view");
+				return;
+			}
+			$this->load->library("reset_password_token");
+			$this->load->library("user");
+			$this->load->library("auth/login_security");
+			$Reset_Token = new Reset_Password_Token();
+			$User = new User();
+			if ($Reset_Token->Load(array("token" => $this->input->post("token")))) {
+				$User->Load($Reset_Token->user->id);
+				$User->hashing_iterations = $this->config->item("hashing_iterations");
+				$User->password = $this->login_security->createUser($this->input->post("password"),$this->config->item("hashing_iterations"),$this->config->item("user_salt_length"),$user_salt);
+				$User->login_token = $user_salt;
+				if ($User->Save()) {
+					$this->load->view("register_status_view",$this->computerinfo_security->ControllerInfo(array(
+						"message" => 'Successfully changed password!',
+						"title" => "Reset password"
+					)));
+					$Reset_Token->Delete();
+				} else {
+					self::_Show_View(array("error" => json_encode(array("Invalid token")),"token" => $this->input->post("token")),"reset_create_new_password_view");
+				}
+			} else {
+				self::_Show_View(array("error" => json_encode(array("Invalid token"))),"reset_create_new_password_view");
+			}
+		} else {
+			self::_Show_View(array("error" => json_encode(array("Missing input!"))),"reset_create_new_password_view");
+		}
+	}
+
+	/**
+	 * This function sends the reset message to the user
+	 * @since 1.0
+	 * @access private
+	 * @param object $reset_token The reset token object
+	 * @param string $name        The name of the reciever
+	 * @param string $email       The users email, to send the email to
+	 * @return boolean
+	 */
+	private function _Send_Password_Reset_Email ($reset_token, $name, $email) {
+		$template_variables = array(
+			"{reset_url}" => $this->computerinfo_security->CheckHTTPS(base_url()."user/reset/password/new/".$reset_token->token),
+			"{remove_url}" => $this->computerinfo_security->CheckHTTPS(base_url()."user/remove/new/password/".$reset_token->identifier),
+			"{token}" => $reset_token->token,
+			"{reset_time}" => date("H:i:s"),
+			"{reset_day}" => date("d-m-Y")
+		);
+		$this->load->view("register_status_view",$this->computerinfo_security->ControllerInfo(array(
+			"message" => '<a class="btn" href="'.$this->computerinfo_security->CheckHTTPS(base_url()."user/reset/password/resend/".$reset_token->identifier).'">Resend password reset email!</a>
+			<a class="btn" href="'.$this->computerinfo_security->CheckHTTPS(base_url()."user/remove/new/password/".$reset_token->identifier).'">Remove request!</a>',
+			"title" => "Reset password"
+		)));
+		return self::_Send_Email($name, $email, $this->config->item("reset_password_mail_subject"),$this->config->item("reset_password_mail_template"),$template_variables);
 		
+	}
+
+	/**
+	 * This function removes the password reset request
+	 * @param string $identifier The string identifier of the token
+	 * @since 1.0
+	 * @access public
+	 */
+	public function Remove_New_Password ($identifier = null) {
+		$this->load->library("reset_password_token");
+		$Reset_Token = new Reset_Password_Token();
+		if ($Reset_Token->Load(array("identifier" => $identifier))) {
+			$Reset_Token->Delete();
+			$this->load->view("register_status_view",$this->computerinfo_security->ControllerInfo(array(
+				"message" => 'Request removed!',
+				"title" => "Reset password"
+			)));
+		} else {
+			$this->load->view("register_status_view",$this->computerinfo_security->ControllerInfo(array(
+				"message" => 'No request found!',
+				"title" => "Reset password"
+			)));
+		}
 	}
 }

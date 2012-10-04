@@ -80,6 +80,21 @@ class Login_Security{
 	}
 
 	/**
+	 * This function creates a hashed password and returns the hashed password
+	 * @since 1.0
+	 * @access public
+	 * @param  string $password           The password to hash
+	 * @param  integer $hashing_iterations The number of hashing iterations
+	 * @param  string $user_salt          The users salt
+	 * @return string
+	 */
+	public function createHashedPassword ($password, $hashing_iterations, $user_salt) {
+		$salts = self::_get_salts( $user_salt );
+		$salt = self::_create_salt( $salts );
+		return self::_hash($password, $salt, $hashing_iterations);
+	}
+
+	/**
 	 * This function creates a salt based on salts in an array
 	 * @since 1.0
 	 * @param  string $salts An array containing the salts to use to create the final salt

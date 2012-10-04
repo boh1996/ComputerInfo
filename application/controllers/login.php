@@ -109,6 +109,12 @@ class Login extends CI_Controller {
 	private function _check_user_login ( &$user_object ) {
 		$this->load->library("User");
 		$this->load->library("auth/login_security");
+		if (isset($_SESSION["user_id"]) && $this->computerinfo_security->User_Exists($_SESSION["user_id"])) {
+			$User = new User();
+			$User->Load(1);
+			$user_object = $User;
+			return TRUE;
+		}
 		if (!isset($_SESSION["user_id"]) && $this->input->post('username') != false && $this->input->post('password') != false) {
 			$User = new User();
 			$username = $this->login_security->check_security($this->input->post('username'));

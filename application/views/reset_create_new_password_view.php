@@ -71,63 +71,27 @@
 
 		<div id="page">
 			<div class="container" class="center page-box" style="width:550px; padding-top: 80px;">
-				<form method="post" action="<?php echo $base_url; ?>user/reset/password/check" method="post" class="form-horizontal well" id="register-form" accept-charset="UTF-8">
+				<form method="post" action="<?php echo $base_url; ?>user/password/new/check" method="post" class="form-horizontal well" id="register-form" accept-charset="UTF-8">
+
+					<input type="hidden" name="token" <?php if(isset($token))echo 'value="'.$token.'"'; ?> />
 
 					<div class="control-group">
-						<label class="control-label" for="email">Email:</label>
-						<div class="controls">
-							<input type="email" tabindex="1"  placeholder="Email" <?php if(isset($email)) echo 'value="'.$email.'"'; ?> id="email" required name="email" >
+						<label class="control-label" for="password">Password:</label>
+						<div class="controls">	
+							<input type="password" placeholder="Password" pattern=".{<?php echo $this->config->item("password_length"); ?>,}" title="Minimum <?php echo $this->config->item("password_length"); ?> characters" required id="password" name="password" />
 						</div>
 					</div>
 
-					<script type="text/javascript">
-						 var RecaptchaOptions = {
-						    theme : 'custom',
-						    custom_theme_widget: 'recaptcha_widget'
-						 };
-					</script>
-					<div id="recaptcha_widget" style="display:none">
-
-						<div class="control-group">
-							<label class="control-label">reCAPTCHA</label>
-							<div class="controls">
-						    	<a id="recaptcha_image" class="thumbnail"></a>
-						    	<div class="recaptcha_only_if_incorrect_sol" style="color:red">Incorrect please try again</div>
-							</div>
-					    </div>
-
-					   	<div class="control-group">
-					   		<label class="recaptcha_only_if_image control-label">Enter the words above:</label>
-					  		<label class="recaptcha_only_if_audio control-label">Enter the numbers you hear:</label>
-
-					  		<div class="controls">
-					  			<div class="input-append">
-					  				<input type="text" tabindex="2" id="recaptcha_response_field" required class="input-recaptcha" name="recaptcha_response_field" />
-					  				<a class="btn" tabindex="4"  href="javascript:Recaptcha.reload()"><i class="icon-refresh"></i></a>
-					  				<a tabindex="5" class="btn recaptcha_only_if_image" href="javascript:Recaptcha.switch_type('audio')"><i title="Get an audio CAPTCHA" class="icon-headphones"></i></a>
-					  				<a tabindex="6" class="btn recaptcha_only_if_audio" href="javascript:Recaptcha.switch_type('image')"><i title="Get an image CAPTCHA" class="icon-picture"></i></a>
-							    	<a tabindex="7" class="btn" href="javascript:Recaptcha.showhelp()"><i class="icon-question-sign"></i></a>
-					  			</div>
-					  		</div>
+					<div class="control-group">
+						<label class="control-label" for="re-password">Repeat password:</label>
+						<div class="controls">	
+							<input type="password" placeholder="Re-Password" pattern=".{<?php echo $this->config->item("password_length"); ?>,}" title="Minimum <?php echo $this->config->item("password_length"); ?> characters" required id="re-password" name="re-password" />
 						</div>
-
 					</div>
-
-					<script type="text/javascript"
-					   src="<?php echo $recaptcha_url; ?>">
-					</script>
-
-					<noscript>
-					    <iframe src="<?php echo $recaptcha_noscript_url; ?>"
-					       height="300" width="500" frameborder="0"></iframe><br>
-					    <textarea name="recaptcha_challenge_field" rows="3" cols="40">
-					    </textarea>
-					    <input type="hidden" name="recaptcha_response_field" value="manual_challenge">
-					  </noscript>
 
 					  <div class="control-group">
 					 	 <div class="controls">
-							<input class="btn btn-primary" tabindex="3"  style="clear: left; width: 220px; height: 32px; font-size: 13px;" type="submit" id="send" value="Send email" />
+							<input class="btn btn-primary" tabindex="3"  style="clear: left; width: 220px; height: 32px; font-size: 13px;" type="submit" id="reset" value="Reset Password" />
 						 </div>
 					</div>
 				</form>
@@ -164,7 +128,7 @@
 					});
 				}
 
-				$("#email").focus();
+				$("#password").focus();
 				$('input, label').click(function(e) {
 					e.stopPropagation();
 				});
