@@ -109,28 +109,55 @@ class Login extends CI_Controller {
 	private function _check_user_login ( &$user_object ) {
 		$this->load->library("User");
 		$this->load->library("auth/login_security");
+
+		//If the user already is logged in
 		if (isset($_SESSION["user_id"]) && $this->computerinfo_security->User_Exists($_SESSION["user_id"])) {
 			$User = new User();
-			$User->Load(1);
+			$User->Load($_SESSION["user_id"]);
 			$user_object = $User;
 			return TRUE;
+
+		//Else destroy the old session
+		} else if (isset($_SESSION["user_id"])) {
+			$this->load->helper("cookie");
+			unset($_SESSION["user_id"]);
+			delete_cookie("PHPSESSID");
+			delete_cookie("token");
 		}
-		if (!isset($_SESSION["user_id"]) && $this->input->post('username') != false && $this->input->post('password') != false) {
-			$User = new User();
-			$username = $this->login_security->check_security($this->input->post('username'));
-			$password = $this->login_security->check_security($this->input->post('password'));
-			if ($User->Find(array("username" => $username)) && !is_null($User->username)) {
-				if ($this->login_security->check($password, $User->password, $User->login_token,$User->hashing_iterations)) {
-					$user_object = $User;
-					return true;
-				} else {
-					return false;
-				}
+		//If no password or usernmae is posted
+		if ($this->input->post('username') == false || $this->input->post('password') == false) {
+			return FALSE;
+		}
+		//Get the password and username
+		$User = new User();
+		$username = $this->login_security->check_security($this->input->post('username'));
+		$password = $this->login_security->check_security($this->input->post('password'));
+
+		//If any of the input variables is empty
+		if (is_null($username) || is_null($password) || $password === false || $username === false) {
+			return FALSE;
+		}
+
+		//The user is as standard set as not authenticated
+		$authenticated = false;
+
+		//If the 
+		if (filter_var($username, FILTER_VALIDATE_EMAIL) && $User->Load(array("email" => $username)) && !is_null($User->password)) {
+			$authenticated = true;
+		} else if ($User->Load(array("username" => $username)) && !is_null($User->username) && !is_null($User->password)) {
+			$authenticated = true;
+		}
+
+		//If the user is authenticated check the password and set the username to $user_object
+		if ($authenticated === true) {
+			if ($this->login_security->check($password, $User->password, $User->login_token,$User->hashing_iterations)) {
+				$user_object = $User;
+				return true;
 			} else {
 				return false;
 			}
 		} else {
-			return false;
+			return FALSE;
 		}
 	}
 
@@ -206,7 +233,6 @@ class Login extends CI_Controller {
 			unset($_SESSION["user_id"]);
 		}
 		session_destroy();
-		set_cookie("token","",time() - 9999);
 		delete_cookie("PHPSESSID");
 		delete_cookie("token");
 		if ($redirect) {
