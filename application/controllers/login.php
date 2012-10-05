@@ -183,21 +183,52 @@ class Login extends CI_Controller {
 
 	/**
 	 * This function is called if it's a device that is using the login form
+	 * @param string $type The authentication type
 	 * @since 1.0
 	 * @access public
 	 */
-	public function Device () {
-		if (self::_check_user_login($User)) {
-			$this->load->library("token");
-			$this->load->config("api");
-			$Token = new Token();
-			$Token->offline = 1;
-			$Token->Create($User->id);
-			$_SESSION["user_id"] = $User->id;
-			echo json_encode(array("User" => $User->Export(),"status" => "OK","token" => $Token->Export(null, false, array("user","created"))));
-		} else {
-			echo json_encode(array("User" => null,"status" => "FAIL"));
+	public function Device ($type = "username") {
+		$authenticated = false;
+		switch ($type) {
+			case 'google':
+				if (!isset($_GET["access_token"])) {
+					break;
+				}
+				$access_token = $_GET["access_token"];
+				$this->load->library("auth/google");
+				$this->load->config("api");
+				$this->load->model("login_model");
+				$Google = new Google();
+				$Google->client();
+				$Google->access_token($access_token);
+				$account_data = $Google->account_data();
+				if($account_data !== false && $account_data != NULL){
+					$this->login_model->Google($account_data->id,$account_data->name,$account_data->email,$user_id);
+					if(!is_null($user_id)){
+						$User = new User();
+						$User->Load($user_id);
+						$authenticated = true;
+					}
+				}
+			break;
+				
+			default:
+				if (self::_check_user_login($User)) {
+					$authenticated = true;
+				}
+			break;
 		}
+			if ($authenticated && isset($User)) {
+				$this->load->library("token");
+				$this->load->config("api");
+				$Token = new Token();
+				$Token->offline = 1;
+				$Token->Create($User->id);
+				$_SESSION["user_id"] = $User->id;
+				echo json_encode(array("User" => $User->Export(),"status" => "OK","token" => $Token->Export(null, false, array("user","created"))));
+			} else {
+				echo json_encode(array("User" => null,"status" => "FAIL"));
+			}
 	}
 
 	/**

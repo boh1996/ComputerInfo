@@ -539,7 +539,7 @@ class Google{
 	 * @access public
 	 */
 	public function account_data(){
-		if(self::_check_parameters(array("access_token","auth"))){
+		if(self::_check_parameters(array("access_token"/*,"auth"*/))){
 			$url = $this->_account_url;
 
 			$ch = curl_init();
