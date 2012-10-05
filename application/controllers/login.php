@@ -189,6 +189,7 @@ class Login extends CI_Controller {
 	 */
 	public function Device ($type = "username") {
 		$authenticated = false;
+		$this->load->library("user");
 		switch ($type) {
 			case 'google':
 				if (!isset($_GET["access_token"])) {
@@ -202,6 +203,9 @@ class Login extends CI_Controller {
 				$Google->client();
 				$Google->access_token($access_token);
 				$account_data = $Google->account_data();
+				if (!isset($account_data->email)) {
+					break;
+				}
 				if($account_data !== false && $account_data != NULL){
 					$this->login_model->Google($account_data->id,$account_data->name,$account_data->email,$user_id);
 					if(!is_null($user_id)){
