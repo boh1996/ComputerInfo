@@ -210,6 +210,20 @@ class Google{
 	}
 
 	/**
+	 * This function is used to set the state property
+	 * @since 1.0
+	 * @access public
+	 * @param  string $state The state value
+	 */
+	public function state ( $state = null) {
+		if (!is_null($state)) {
+			$this->_state = $state;
+		} else {
+			return $this->_state;
+		}
+	}
+
+	/**
 	 * This function sets or gets the approval_prompt value
 	 * @param  string $approval_prompt The approval promt typr "auto" or "force"
 	 * @return string
@@ -430,7 +444,7 @@ class Google{
 	 */
 	public function auth(){
 		if(self::_check_parameters(array("client_id","scope","response_type","redirect_uri"))){
-			$request_url = self::_build_url("auth",array("client_id","scope","response_type","redirect_uri","access_type","approval_prompt"));
+			$request_url = self::_build_url("auth",array("client_id","scope","response_type","redirect_uri","access_type","approval_prompt","state"));
 			header("Location: ".$request_url);
 			return TRUE;
 		} else {
@@ -452,6 +466,9 @@ class Google{
 				$fields = array("code","client_id","client_secret","redirect_uri","grant_type");
 			} else {
 				return FALSE;
+			}
+			if (!is_null($_GET["state"])) {
+				$this->_state = $_GET["state"];
 			}
 		} else if(!is_null($this->_refresh_token)){
 			$this->_grant_type = "refresh_token";

@@ -44,7 +44,7 @@ if(!isset($jquery_url))
 		$(document).ready(function() {
 			$("#username").focus();
 			$("#sign-in-google").click(function () {
-				document.location = <?php echo '"'.$base_url.'login/google"' ?>;
+				document.location = <?php echo '"'.$base_url.'login/windows/google"' ?>;
 			})
 			$('input, label').click(function(e) {
 				e.stopPropagation();

@@ -37,10 +37,11 @@ class Login extends CI_Controller {
 	/**
 	 * This function lets the user login with Google
 	 * @param string $page The current operation "auth" or "callback"
+	 * @param string $platform The platform the user is authenticating from
 	 * @since 1.0
 	 * @access public
 	 */
-	public function Google($page = "auth"){
+	public function Google($page = "auth",$platform = "web"){
 		if(!self::_Is_Set()){
 			$this->load->library("auth/google");
 			$this->load->library("token");
@@ -51,12 +52,23 @@ class Login extends CI_Controller {
 			$Google->client();
 			$Google->redirect_uri($this->computerinfo_security->CheckHTTPS(base_url()."login/google/callback"));
 			$Google->scopes(array("userinfo.profile","userinfo.email"));
+			$Google->state($platform);
 			$Google->access_type("offline");
 			if($page == "auth"){
 				self::Logout(false);
 				$Google->auth();
 			} else if($page == "callback"){
 				$Google->callback();
+				if ($Google->state() != "web") {
+					if (!$Google->access_token()) {
+						self::_redirect(base_url() . "login/desktop/windows");
+						return;
+					}
+					if ($Google->state() == "windows") {
+						header("Location: ".$this->computerinfo_security->CheckHTTPS(base_url() . "login/desktop/windows?access_token=".$Google->access_token()));
+						return;
+					}
+				}
 				$Account = $Google->account_data();
 				if($Account !== false && $Account != NULL){
 					$this->login_model->Google($Account->id,$Account->name,$Account->email,$UserId);
@@ -91,7 +103,7 @@ class Login extends CI_Controller {
 	 * @return 
 	 */
 	private function _redirect ( $url ) {
-		redirect((strpos(site_url($url),'http') !== false) ? site_url($url) : $this->Computerinfo_Security->CheckHTTPS(site_url($url)));
+		redirect($this->computerinfo_security->CheckHTTPS(site_url($url)));
 	}
 
 	public function Reset () {
@@ -196,23 +208,8 @@ class Login extends CI_Controller {
 					break;
 				}
 				$access_token = $_GET["access_token"];
-				$this->load->library("auth/google");
-				$this->load->config("api");
-				$this->load->model("login_model");
-				$Google = new Google();
-				$Google->client();
-				$Google->access_token($access_token);
-				$account_data = $Google->account_data();
-				if (!isset($account_data->email)) {
-					break;
-				}
-				if($account_data !== false && $account_data != NULL){
-					$this->login_model->Google($account_data->id,$account_data->name,$account_data->email,$user_id);
-					if(!is_null($user_id)){
-						$User = new User();
-						$User->Load($user_id);
-						$authenticated = true;
-					}
+				if (self::_Google_Auth_Access_Token($access_token,$User)) {
+					$authenticated = true;
 				}
 			break;
 				
@@ -236,6 +233,35 @@ class Login extends CI_Controller {
 	}
 
 	/**
+	 * This function gets user data by access token from googles servers
+	 * @since 1.0
+	 * @access private
+	 * @param string $access_token The access token to use as auth
+	 * @param object &$User         A variable to store the user object
+	 */
+	private function _Google_Auth_Access_Token ($access_token, &$User) {
+		$this->load->library("auth/google");
+		$this->load->config("api");
+		$this->load->model("login_model");
+		$Google = new Google();
+		$Google->client();
+		$Google->access_token($access_token);
+		$account_data = $Google->account_data();
+		if (!isset($account_data->email)) {
+			return FALSE;
+		}
+		if($account_data !== false && $account_data != NULL){
+			$this->login_model->Google($account_data->id,$account_data->name,$account_data->email,$user_id);
+			if(!is_null($user_id)){
+				$User = new User();
+				$User->Load($user_id);
+				return TRUE;
+			}
+		}
+		return FALSE;
+	}
+
+	/**
 	 * This function is used to log a user in using the windows client
 	 * @param string $platform The current platform
 	 * @since 1.0
@@ -244,7 +270,15 @@ class Login extends CI_Controller {
 	public function Desktop ($platform = "windows") {
 		$this->load->library("token");
 		$Token = new Token();
+		$authenticated = false;
 		if (self::_check_user_login($User) && !is_null($User->id)) {
+			$authenticated = true;
+		} else if (isset($_GET["access_token"])) {
+			if (self::_Google_Auth_Access_Token($_GET["access_token"],$User)) {
+				$authenticated = true;
+			}
+		}	
+		if ($authenticated) {
 			$this->load->config("api");
 			$Token->Create($User->id);
 			$this->load->helper("cookie");

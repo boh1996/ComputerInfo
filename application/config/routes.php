@@ -81,6 +81,7 @@ else {
 		//Normal Routes
 	} else {
 		$route["login/device/google"] = "login/device/google";
+		$route["login/windows/google"] = "login/google/auth/windows";
 		$route["home"] = "home";
 		$route["logout/reset"] = "login/reset";
 		$route["home/login"] = "home";
