@@ -61,11 +61,11 @@ class Login extends CI_Controller {
 				$Google->callback();
 				if ($Google->state() != "web") {
 					if (!$Google->access_token()) {
-						self::_redirect(base_url() . "login/desktop/windows");
+						self::_redirect(base_url() . "login/windows");
 						return;
 					}
 					if ($Google->state() == "windows") {
-						header("Location: ".$this->computerinfo_security->CheckHTTPS(base_url() . "login/desktop/windows?access_token=".$Google->access_token()));
+						header("Location: ".$this->computerinfo_security->CheckHTTPS(base_url() . "login/windows?access_token=".$Google->access_token()));
 						return;
 					}
 				}
