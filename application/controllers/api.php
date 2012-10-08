@@ -148,8 +148,81 @@ class Api extends CI_Controller {
 			if($Computer->Load($Id)){
 				if(self::_Has_Access("organizations",$this->_User,$Computer->organization)){
 					$this->api_response->Code = 200;
-					//echo $Computer->memory->slots[0]->empty;
 					$this->api_response->Response = $Computer->Export(null,false);
+				} else {
+					$this->api_response->Code = 401;
+				}
+			} else {
+				$this->api_response->Code = 404;
+			}
+		} else {
+			$this->api_response->Code = 400;
+		}
+	}
+
+	/**
+	 * This function checks if the user has access to watch that content
+	 * @param string $Node   The node where to check for a "organization" id etc
+	 * @param object $Object The object to check in
+	 * @param integer $Id     The id to check for
+	 * @return boolean
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _Has_Access($Node = NULL,$Object = NULL,$Id = NULL){
+		if(is_object($Id) && property_exists($Id, "id")){
+			$Id = (int)$Id->id;
+		} else {
+			return FALSE;
+		}
+		if(!is_null($Node) && is_string($Node) && !is_null($Object) && is_object($Object) && !is_null($Id) && is_integer($Id) && property_exists($Object, $Node)){
+			if(is_array($Object->{$Node})){
+				$Return = FALSE;
+				foreach ($Object->{$Node} as $Element) {
+					if(is_object($Element)){
+						if(property_exists($Element, "id") && $Element->id == $Id){
+							$Return = TRUE;
+						}
+					} else {
+						if($Element == $Id){
+							$Return = TRUE;
+						}
+					}
+				}
+				return $Return;
+			} else {
+				if(is_object($Object->{$Node})){
+					if(property_exists($Object->{$Node}, "id")){
+						return ($Object->{$Node}->id == $Id);
+					} else {
+						return FALSE;
+					}
+				} else {
+					return ($Object->{$Node} == $Id);
+				}
+			}
+		} else {
+
+			return FALSE;
+		}
+	}
+
+	/**
+	 * This function deletes a computer, found by it's database id
+	 * @param integer $Id The id of the computer to delete
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _Computer_Delete($Id = NULL){
+		if(!is_null($Id)){
+			$this->load->library("Computer");
+			$this->api_response->ResponseKey = "Computer";
+			$Computer = new Computer();
+			if($Computer->Load($Id)){
+				if(self::_Has_Access("organizations",$this->_User,$Computer->organization)){
+					$this->api_response->Code = 200;
+					$Computer->Delete(true);
+					$this->api_response->Response = array();
 				} else {
 					$this->api_response->Code = 401;
 				}
@@ -798,33 +871,6 @@ class Api extends CI_Controller {
 	}
 
 	/**
-	 * This function deletes a computer, found by it's database id
-	 * @param integer $Id The id of the computer to delete
-	 * @since 1.0
-	 * @access private
-	 */
-	private function _Computer_Delete($Id = NULL){
-		if(!is_null($Id)){
-			$this->load->library("Computer");
-			$this->api_response->ResponseKey = "Computer";
-			$Computer = new Computer();
-			if($Computer->Load($Id)){
-				if(self::_Has_Access("organizations",$this->_User,$Computer->organization)){
-					$this->api_response->Code = 200;
-					$Computer->Delete(true);
-					$this->api_response->Response = array();
-				} else {
-					$this->api_response->Code = 401;
-				}
-			} else {
-				$this->api_response->Code = 404;
-			}
-		} else {
-			$this->api_response->Code = 400;
-		}
-	}
-
-	/**
 	 * This function converts property names to row names
 	 * used in the search function
 	 * @param array $Query  The query to convert
@@ -1115,52 +1161,6 @@ class Api extends CI_Controller {
 			}
 		} else {
 			$this->api_response->Code = 400;
-		}
-	}
-
-	/**
-	 * This function checks if the user has access to watch that content
-	 * @param string $Node   The node where to check for a "organization" id etc
-	 * @param object $Object The object to check in
-	 * @param integer $Id     The id to check for
-	 * @return boolean
-	 * @since 1.0
-	 * @access private
-	 */
-	private function _Has_Access($Node = NULL,$Object = NULL,$Id = NULL){
-		if(is_object($Object) && property_exists($Object, "id")){
-			$Id = (int)$Object->id;
-		} else {
-			return FALSE;
-		}
-		if(!is_null($Node) && is_string($Node) && !is_null($Object) && is_object($Object) && !is_null($Id) && is_integer($Id) && property_exists($Object, $Node)){
-			if(is_array($Object->{$Node})){
-				$Return = FALSE;
-				foreach ($Object->{$Node} as $Element) {
-					if(is_object($Element)){
-						if(property_exists($Element, "id") && $Element->id == $Id){
-							$Return = TRUE;
-						}
-					} else {
-						if($Element === $Id){
-							$Return = TRUE;
-						}
-					}
-				}
-				return $Return;
-			} else {
-				if(is_object($Object->{$Node})){
-					if(property_exists($Object->{$Node}, "id")){
-						return ($Object->{$Node}->id === $Id);
-					} else {
-						return FALSE;
-					}
-				} else {
-					return ($Object->{$Node} === $Id);
-				}
-			}
-		} else {
-			return FALSE;
 		}
 	}
 

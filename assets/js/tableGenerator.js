@@ -223,6 +223,7 @@ tableGenerator.prototype = {
 					}
 				}
 				if(i == this.countProperties(this.columns)) {
+					objectElement.append('<th style="width:136px;"><a class="btn delete-button" data-launch="false">Delete</a><a class="btn edit-button">Edit</a></th>');
 					this.container.find("tbody").append(objectElement);
 					this.ensureLayout();
 				}	
@@ -347,13 +348,16 @@ tableGenerator.prototype = {
 		requestUrl = this.createAutherizedUrl(requestUrl);
 		$.ajax({
 			url : this.createAutherizedUrl(requestUrl),
+			timeoutNumber : 2500,
 			success : $.proxy(function (data, code, XMLHttpRequest){
 				if (data != null) {
 					this.response = objx.get(data,this.multipleResponseNode); 
 					data = this.response;
 					if (data != null && data != undefined) {
 						$.each(data, $.proxy(function (index,element){ 
-							this.generateNode(element,index);
+							if (typeof element != "undefined" && typeof element.id != "undefined") {
+								this.generateNode(element,element.id);
+							}
 							if(data != null && index == data.length-1){
 								this.readyCallback();
 							} else if (data == null) {
@@ -523,6 +527,7 @@ tableGenerator.prototype = {
 				header.append('<th data-column="'+index+'">'+element.string+'</th>');
 			}
 		}, this));
+		header.append('<th>Actions</th>');
 		this.container.find("thead").append(header);
 	},
 
@@ -603,10 +608,70 @@ tableGenerator.prototype = {
 		    return false;
 		}, this));
 
+		$(this.container).find("a.delete-button").live("click",$.proxy(function(event) {
+			event.stopPropagation();
+			event.preventDefault();
+			event.stopImmediatePropagation();
+			var element = $($(event.target).get(0)).parent("th").parent("tr").get(0);
+			this.confirmDialog("Are you sure you want to delete this object?",$.proxy(function () {
+				this.deleteObject(element);
+			},this));
+		},this));
+
 		//Redraw Done
 		this.initialize = false;
 		this.redraw = false;
 		this.handleAdd();
+	},
+
+	/**
+	 * This function creates or launches the confirm dialog
+	 * @param  {string} text           The question to ask the user
+	 * @param  {function} succesCallback The function to call if the user pressed Yes
+	 */
+	confirmDialog : function (text, succesCallback) {
+		if (typeof this.storedVariables["confirm-dialog"] != "undefined") {
+			var modal = this.storedVariables["confirm-dialog"].modal;
+			modal.find(".modal-body").html(text);
+			modal.modal("show");
+			$(modal).find(".modal-footer .btn-primary").click(function (event) {
+				if (typeof succesCallback == "function" && $($(event.target).get(0)).hasClass("btn-primary")) {
+					succesCallback();
+				}
+			});
+		} else {
+			var modal = $('<div class="modal hide"><div class="modal-header"><button type="button" class="close" data-dismiss="modal">&times;</button><h3>Are you sure?</h3></div><div class="modal-body"></div><div class="modal-footer"><a href="#" class="btn" data-dismiss="modal">Cancel</a><a href="#" data-dismiss="modal" class="btn btn-primary">Yes</a></div></div>');
+			var id = this.randomString(6);
+			this.storedVariables["confirm-dialog"] = {id : id};
+			modal.attr("id",id);
+			modal.find(".modal-body").html(text);
+			$("body").append(modal);
+			modal.modal("show");
+			console.log();
+			$(modal).find(".modal-footer .btn-primary").click(function (event) {
+				if (typeof succesCallback == "function" && $($(event.target).get(0)).hasClass("btn-primary")) {
+					succesCallback();
+				}
+			});
+			this.storedVariables["confirm-dialog"].modal = modal;
+		}
+	},
+
+	/**
+	 * This function sends the delete message for the selected object
+	 * @param  {object} element The element that has a data-index attribute
+	 */
+	deleteObject : function (element) {
+		var element = $(element);
+		var requestUrl = this.root + this.requestType + "/{id}";
+		$.ajax({
+			url : this.createAutherizedUrl(requestUrl.replace("{id}",element.attr("data-index"))),
+			type : "DELETE",
+			success : $.proxy(function (data){ 
+				delete this.response[this.findByProperty("id",element.attr("data-index"),this.response)];
+				this.refreshTable();
+			}, this)
+		});
 	},
 
 	handleAdd : function () {
@@ -810,32 +875,64 @@ tableGenerator.prototype = {
 
 		$(container).find('.request_error').bind('closed', function () {
 		 	$(".request_error").css("display","none");
+		 	$(window).trigger("resize");
 		})
+		$(window).trigger("resize");
+	},
+
+	/**
+	 * This function launches the modal box from an object
+	 * @param  {object} element The clicked element
+	 */
+	tableRowClicked : function (element) {
+		var element = $(element).parent("tr");
+		if (element.find("td").hasClass("dataTables_empty") != true && element.find("td").hasClass("dataTables_empty") != "true") {
+			var id = this.createModalFromObject($(this.onCickModal),null,this.modal_id_name);
+			var html = $(this.onCickModal).html();
+			html = html.replace(/\{([a-zA-Z_\.]*)\}/g, $.proxy(function (match, contents, offset, s) {
+				if (this.response != undefined && objx.get(this.response[element.attr("data-index")],contents) != null) {
+					return objx.get(this.response[element.attr("data-index")],contents);
+				} else {
+					return "";
+				}
+			},this));
+			$("#"+id).html(html);
+			if (typeof element != undefined) {
+				this.runHandler(element, $("#"+id));
+			}
+			objx.set(this.storedVariables.modals,id + ".launch_element",element);
+			$("#"+id).modal("show");
+		}
 	},
 
 	/**
 	 * This fuction creates the on click modal
 	 */
 	createModal : function () {
+		$(this.container).find(".edit-button").live("click",$.proxy(function(event){
+			event.stopPropagation();
+			event.preventDefault();
+			event.stopImmediatePropagation();
+			if ($(event.target).attr("data-launch") == "false") {
+					return;
+			}
+			this.tableRowClicked($(event.target).parent("th"));
+		},this));	
+
 		$(this.container).find("tbody tr").live("click",$.proxy(function(event){
-			var object = $(event.target).parent("tr");
-			if (object.find("td").hasClass("dataTables_empty") != true && object.find("td").hasClass("dataTables_empty") != "true") {
-				var id = this.createModalFromObject($(this.onCickModal),null,this.modal_id_name);
-				var html = $(this.onCickModal).html();
-				html = html.replace(/\{([a-zA-Z_\.]*)\}/g, $.proxy(function (match, contents, offset, s) {
-					if (this.response != undefined && objx.get(this.response[object.attr("data-index")],contents) != null) {
-						return objx.get(this.response[object.attr("data-index")],contents);
-					} else {
-						return "";
+			event.stopPropagation();
+			event.preventDefault();
+			event.stopImmediatePropagation();
+			if (typeof event.target != "undefined") {
+				var curElement = $(event.target).get(0);
+				if ($(curElement).is("th")) {
+					if ($(curElement).find("a").attr("data-launch") == "false") {
+						return;
 					}
-				},this));
-				$("#"+id).html(html);
-				if (event != undefined) {
-					this.runHandler($(event.target), $("#"+id));
+				} else if ($(curElement).attr("data-launch") == "false") {
+					return;
 				}
-				objx.set(this.storedVariables.modals,id + ".launch_element",object);
-				;
-				$("#"+id).modal("show");
+				this.tableRowClicked(curElement);
 			}
 		},this));
 	},
@@ -992,7 +1089,9 @@ tableGenerator.prototype = {
 			this.dataTable.fnClearTable();
 			this.dataTable.fnDestroy();
 			$.each(this.response, $.proxy(function (index,element){ 
-				this.generateNode(element,index);
+				if (typeof element != "undefined" && typeof element.id != "undefined") {
+					this.generateNode(element,element.id);
+				}
 				if(index == this.response.length-1){
 					this.initializeDatatables(false);
 				}	

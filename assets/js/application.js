@@ -44,7 +44,6 @@ var application = {
 				window.location = root + "logout/reset";
 				return;
 			}
-
 			
 			//Computers
 			application.computerGenerator = new tableGenerator({
@@ -154,7 +153,7 @@ var application = {
 
 	readyCallback : function () {
 		application.ready += 1;
-		if (application.ready == 5) {
+		if (application.ready == 1) {
 			if (typeof application.callback == "function") {
 				application.callback();
 			}
