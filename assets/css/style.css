@@ -88,3 +88,9 @@ table.display { width: 100% }
 .FixedHeader_Cloned.fixedHeader.FixedHeader_Header table {
   margin-bottom: 0px !important;
 }
+
+.table-button {
+	margin-right: 1px;
+	margin-top: -6px;
+	margin-bottom: -3px;
+}
