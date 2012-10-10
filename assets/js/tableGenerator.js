@@ -223,7 +223,7 @@ tableGenerator.prototype = {
 					}
 				}
 				if(i == this.countProperties(this.columns)) {
-					objectElement.append('<th style="width:136px;"><a class="btn delete-button" data-launch="false">Delete</a><a class="btn edit-button">Edit</a></th>');
+					objectElement.append('<th class="table-button-column"><a class="btn delete-button table-button" data-launch="false">Delete</a><a class="btn edit-button table-button">Edit</a></th>');
 					this.container.find("tbody").append(objectElement);
 					this.ensureLayout();
 				}	

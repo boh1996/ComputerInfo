@@ -15,6 +15,8 @@ var application = {
 	 */
 	organization : null,
 
+	generators : {},
+
 	/**
 	 * The application settings object
 	 * @type {object}
@@ -24,6 +26,10 @@ var application = {
 	ready : 0,
 
 	callback : null,
+
+	addGenerator : function (object, name) {
+		this.generators[name] = object;
+	},
 
 	/**
 	 * This function initializes the computer info application
@@ -66,7 +72,7 @@ var application = {
 				},
 				callback : application.readyCallback
 			});
-			application.computerGenerator.getNodes(organization);
+			application.addGenerator(application.computerGenerator,"computerGenerator");
 
 			//Locations
 			application.locationGenerator = new tableGenerator({
@@ -86,7 +92,7 @@ var application = {
 				},
 				callback : application.readyCallback
 			});
-			application.locationGenerator.getNodes(organization);
+			//application.addGenerator(application.locationGenerator,"locationGenerator");
 
 			//Units
 			application.unitsGenerator = new tableGenerator({
@@ -107,7 +113,7 @@ var application = {
 				},
 				callback : application.readyCallback
 			});
-			application.unitsGenerator.getNodes(organization);
+			//application.addGenerator(application.unitsGenerator,"unitsGenerator");
 
 			//Printers
 			application.printerGenerator = new tableGenerator({
@@ -127,7 +133,7 @@ var application = {
 				},
 				callback : application.readyCallback
 			});
-			application.printerGenerator.getNodes(organization);
+			//application.addGenerator(application.printerGenerator,"printerGenerator");
 
 			//Screeens
 			application.screenGenerator = new tableGenerator({
@@ -146,14 +152,38 @@ var application = {
 				},
 				callback : application.readyCallback
 			});
-			application.screenGenerator.getNodes(organization);
+			//application.addGenerator(application.screenGenerator,"screenGenerator");
+
+			application.launch();
+
 			$(".dataTables_filter").find("input").addClass("input-large");
 		});	 
 	},
 
+	launch : function () {
+		$.each(application.generators,function(index,element){
+			element.getNodes(application.organization);
+		});
+	},
+
+	/**
+	 * This function counts object properties in a object
+	 * @param  {object|array} obj The object to count the number of properties ib
+	 * @return {integer}
+	 */
+	countProperties :function (obj) {
+		  var prop;
+		  var propCount = 0;
+
+		  for (prop in obj) {
+		    propCount++;
+		  }
+		return propCount;
+	},
+
 	readyCallback : function () {
 		application.ready += 1;
-		if (application.ready == 1) {
+		if (application.ready == application.countProperties(application.generators)) {
 			if (typeof application.callback == "function") {
 				application.callback();
 			}

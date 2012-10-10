@@ -10,12 +10,22 @@
 
 .length_select{
 	background: transparent;
-   	padding: 5px;
-   	font-size: 16px;
-   	border: 1px solid #ccc;
-   	width: 240px;
-   	height: 34px;
-   	overflow: hidden;
+  padding: 5px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  width: 240px;
+  height: 34px;
+  overflow: hidden;
+}
+
+.table-button {
+  margin-right: 2px;
+  margin-top: -6px;
+  margin-bottom: -4px;
+}
+
+.table-button-column {
+  width:138px;
 }
 
 .disabled {
