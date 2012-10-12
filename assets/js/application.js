@@ -180,7 +180,6 @@ var application = {
 			application.addGenerator(application.screenGenerator,"screenGenerator");
 
 			$(".dataTables_filter").find("input").addClass("input-large");
-			application.callback();
 		});	 
 	},
 
@@ -189,9 +188,9 @@ var application = {
 	 * @param  {string current The current generator
 	 */
 	launch : function (current,callbackOnFirst) {
-		/*this.callbackOnFirst = callbackOnFirst || false;
+		this.callbackOnFirst = callbackOnFirst || false;
 		var generators = application.generators;
-		if (typeof current != "undefined" && typeof generators[current] != "undefined") {
+		/*if (typeof current != "undefined" && typeof generators[current] != "undefined") {
 			var currentGenerator = generators[current];
 			var generators = application.remoevArrayKey(current,generators);
 			var currentArray = Array();

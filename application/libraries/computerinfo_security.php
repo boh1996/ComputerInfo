@@ -71,12 +71,8 @@ class Computerinfo_Security{
 			redirect($this->_CI->config->item("not_logged_in_page"));
 		} else if(isset($_SESSION["user_id"]) && !self::User_Exists($_SESSION["user_id"])){
 			self::Logout();
-			redirect($this->_CI->config->item("not_logged_in_page"));
-			
-		} else if (empty($_SESSION["user_id"])) {
-			self::Logout();
-			redirect($this->_CI->config->item("not_logged_in_page"));
-		} 
+			redirect($this->_CI->config->item("not_logged_in_page"));		
+		}
 	}
 
 	/**
@@ -101,7 +97,7 @@ class Computerinfo_Security{
 	 * @access public
 	 */
 	public function Logout () {
-		$this->load->helper("cookie");
+		$this->_CI->load->helper("cookie");
 		if (isset($_SESSION["user_id"])) {
 			unset($_SESSION["user_id"]);
 		}
