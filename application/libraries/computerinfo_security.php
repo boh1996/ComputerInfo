@@ -4,7 +4,7 @@ class Computerinfo_Security{
 	/**
 	 * A pointer to the current instance of CodeIgniter
 	 * @var object
-	 * @since 1.0
+	 * @since 1.1
 	 * @access private
 	 */
 	private $_CI = NULL;
@@ -67,13 +67,16 @@ class Computerinfo_Security{
 		$Result = self::_RequiresSecurity();
 
 		if($Result && !isset($_SESSION["user_id"])){
+			self::Logout();
 			redirect($this->_CI->config->item("not_logged_in_page"));
-			die();
 		} else if(isset($_SESSION["user_id"]) && !self::User_Exists($_SESSION["user_id"])){
-			unset($_SESSION["user_id"]);
+			self::Logout();
 			redirect($this->_CI->config->item("not_logged_in_page"));
-			die();
-		}
+			
+		} else if (empty($_SESSION["user_id"])) {
+			self::Logout();
+			redirect($this->_CI->config->item("not_logged_in_page"));
+		} 
 	}
 
 	/**
@@ -90,6 +93,21 @@ class Computerinfo_Security{
 		} else {
 			return FALSE;
 		}
+	}
+
+	/**
+	 * This function destroys all session data
+	 * @since 1.1
+	 * @access public
+	 */
+	public function Logout () {
+		$this->load->helper("cookie");
+		if (isset($_SESSION["user_id"])) {
+			unset($_SESSION["user_id"]);
+		}
+		session_destroy();
+		delete_cookie("PHPSESSID");
+		delete_cookie("token");
 	}
 
 	/**

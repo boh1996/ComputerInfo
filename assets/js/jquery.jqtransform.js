@@ -20,7 +20,6 @@
 	var jqTransformImgPreloaded = false;
 
 	var jqTransformPreloadHoverFocusImg = function(strImgUrl) {
-		//guillemets to remove for ie
 		strImgUrl = strImgUrl.replace(/^url\((.*)\)/,'$1').replace(/^\"(.*)\"$/,'$1');
 		var imgHover = new Image();
 		imgHover.src = strImgUrl.replace(/\.([a-zA-Z]*)$/,'-hover.$1');

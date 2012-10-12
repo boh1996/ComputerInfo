@@ -53,6 +53,7 @@ $(window).ready(function(){
 		$("#loading-background").remove();
 		$("#loading").hide();
 	    showPage();
+	    application.launch("screenGenerator",true);
 	});
 });
 

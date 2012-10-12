@@ -1,3 +1,173 @@
+function settings (organization) {
+	this.organization = organization;
+	this.handlers = {
+		screen_size : {
+			url : root + "options/screen_size",
+			property : "detection_string",
+			response_key : "Screen_Sizes"
+		},
+		floor : {
+			fill_values : {
+				"building" : ".building_select"
+			},
+			url : root + "options/floor",
+			query_parameters : {
+				"organization" : this.organization
+			},
+			property : "name",
+			query_key : "name",
+			type : "typeahead",
+			response_key : "Floors"
+		},
+		location : {
+			url : root + "options/location?organization=" + this.organization,
+			property : "name",
+			response_key : "Locations"
+		},
+		manufacturer : {	
+			url : root + "options/manufacturer",
+			query_key : "name",
+			property : "name",
+			type : "typeahead",
+			response_key : "Manufacturers"
+		},
+		device_type : {
+			url : root + "options/device_type",
+			property : "name",
+			response_key : "Device_Types"
+		},
+		computer_model : {
+			url : root + "options/computer_model",
+			property : "name",
+			query_key : "name",
+			fill_values : {
+				"type" : ".type_select"
+			},
+			type : "typeahead",
+			response_key : "Computer_Models"
+		},
+		device_model : {
+			url : root + "options/device_model",
+			property : "name",
+			query_key : "name",
+			fill_values : {
+				"type" : ".type_select"
+			},
+			type : "typeahead",
+			response_key : "Device_Models"
+		},
+		printer_model : {
+			url : root + "options/printer_model",
+			property : "name",
+			query_key : "name",
+			type : "typeahead",
+			response_key : "Printer_Models"
+		},
+		building : {
+			url : root + "options/building?organization="+this.organization,
+			property : "name",
+			response_key : "Buildings"
+		}
+	}
+}
+settings.prototype = {
+
+	/**
+	 * The current organization
+	 * @type {Number}
+	 */
+	organization : null,
+
+	/**
+	 * The available columns for the computers
+	 * @type {Object}
+	 */
+	computerColumns : {	
+		"identifier" : {"string" : "Identifier", "active" : true},
+		"screen_size.detection_string" : {"string" : "Screen Size", "active" : true},
+		"model.type.name" : {"string" : "Type", "active" : true},
+		"model.name" : {"string" : "Model", "active" : true},
+		"location.name" : {"string" : "Location", "active" : false},
+		"lan_mac" : {"string" : "Lan Mac", "active" : false},
+		"wifimac" : {"string" : "Wifi Mac", "active" : false},
+		"ip" : {"string" : "Ip", "active" : false},
+		"disk_space" : {"string" : "Disk", "active" : false},
+		"memory.total_physical_memory" : {"string" : "Memory", "active" : true},
+		"model.manufacturer.abbrevation" : {"string" : "Manufacturer", "active" : false},
+		"serial" : {"string" : "Serial", "active" : false},
+		//"screen_size.aspect_ratio" : {"string" : "Screen Aspect Ratio", "active" : false},
+		//"processors.name" : {"string" : "CPU", "active" : false},
+		//"cpu.cores" : {"string" : "CPU Cores", "active" : false},
+		//"cpu.clock_rate" : {"string" : "CPU Clock Rate", "active" : false},
+		//"cpu.manufacturer.name" : {"string" : "CPU Manufacturer", "active" : false},
+		//"location.room_number" : {"string" : "Room Number", "active" : false},
+		//"location.floor.name" : {"string" : "Floor Number", "active" : false},
+		//"location.building.name" : {"string" : "Building Number", "active" : false},
+		"power_usage_per_hour" : {"string" : "Power", "active" : false},
+		"created_time" : {"string" : "Time created", "active" : true},
+		"last_updated" : {"string" : "Last updated", "active" : false},
+		"creator_user.name" : {"string" : "Creator", "active" : false},
+		"last_updated_user.name" : {"string" : "Last updated by", "active" : false},
+	},
+
+	/**
+	 * The available columns for the unit object
+	 * @type {Object}
+	 */
+	unitColumns : {
+		"identifier" : {"string" : "Identifier", "active" : true},
+		"description" : {"string" : "Description", "active" : true},
+		"model.name" : {"string" : "Model", "active" : true},
+		"model.manufacturer.name" : {"string" : "Manufacturer", "active" : false},
+		"model.type.name" : {"string" : "Type", "active" : false},
+		"location.name" : {"string" : "Location", "active" : false},
+		"created_time" : {"string" : "Time created", "active" : false},
+		"serial" : {"string" : "Serial", "active" : false},
+	},
+
+	/**
+	 * The available columns for the location object
+	 * @type {Object}
+	 */
+	locationColumns : {
+		"name" : {"string" : "Name", "active" : true},
+		"room_number" : {"string" : "Room Number", "active" : true},
+		"floor.name" : {"string" : "Floor", "active" : false},
+		"building.name" : {"string" : "Building", "active" : false}
+	},
+
+	/**
+	 * The available columns for the printer object
+	 * @type {Object}
+	 */
+	printerColumns : {
+		"identifier" : {"string" : "Identifier", "active" : true},
+		"name" : {"string" : "Name", "active" : true},
+		"model.name" : {"string" : "Model", "active" : true},
+		"model.manufacturer.name" : {"string" : "Manufacturer", "active" : false},
+		"location.name" : {"string" : "Location", "active" : true},
+		"location.room_number" : {"string" : "Room Number", "active" : false},
+	},
+
+	/**
+	 * The available columns for the screen object
+	 * @type {Object}
+	 */
+	screenColumns : {
+		"identifier" : {"string" : "Identifier", "active" : true},
+		"location.name" : {"string" : "Location", "active" : true},
+		"model.name" : {"string" : "Model", "active" : false},
+		"model.manufacturer" : {"string" : "Manufacturer", "active" : false},
+		"scren_size.detection_string" : {"string" : "Screen Size", "active" : false},
+		"screen_size.aspect_ratio" : {"string" : "Aspect ratio", "active" : false},
+	},
+
+	/**
+	 * Some optional handlers to use
+	 * @type {Object}
+	 */
+	handlers : {}
+}
 /**
  * The table generators constructor
  * @param  {object} settings The settings json object
@@ -318,9 +488,6 @@ tableGenerator.prototype = {
 	 * This function can be called when the table is hidded
 	 */
 	hide : function () {
-		if (this.initialize == true) {
-			return false;
-		}
 		$(this.fixedHeaderElement).hide();
 	},
 
@@ -328,9 +495,6 @@ tableGenerator.prototype = {
 	 * This function can be called when the table is shown
 	 */
 	show : function () {
-		if (this.initialize == true) {
-			return false;
-		}
 		if (this.fixedHeader == null) {
 			this.fixedHeader = new FixedHeader( this.dataTable, {
 				 "offsetTop": 40
@@ -1120,4 +1284,387 @@ tableGenerator.prototype = {
 			$(this.container).find("tbody tr:first").find('.dataTables_empty').attr("colspan",$(this.container).find("thead tr th").size());
 		}
 	}
+}
+var userInfo = {
+
+	/**
+	 * This function gets info from a url
+	 * @param  {string} url   The url to get data from
+	 * @param  {string} token An optional user token
+	 * @param {function} callback The function to call when the action is done
+	 */
+	getInfo : function ( url, token, callback) {
+		token = token || this.token || null;
+		info = null;
+		$.ajax({
+			url : this.createAutherizedUrl(url,token),
+			success :  function (data) {
+				info = data;
+				if (typeof callback == "function") {
+					callback(data,"ok");
+				}
+			},
+			error : function () {
+				callback(null,"fail");
+			}
+		});
+	},
+
+	/**
+	 * This function reads a cookie by name
+	 * @param  {string} c_name The name of the cookie to read
+	 * @return {string}
+	 */
+	getCookie : function (c_name) {
+		var i,x,y,ARRcookies=document.cookie.split(";");
+		for (i=0;i<ARRcookies.length;i++) {
+		  	x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
+		  	y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
+		  	x=x.replace(/^\s+|\s+$/g,"");
+		  	if (x==c_name) {
+		    	return unescape(y);
+		  	}
+		}
+	},
+
+	/**
+	 * This function sets a cookie by name
+	 * @param {string} c_name The name of the cookie to set
+	 * @param {string} value  The value to set
+	 * @param {integer} exdays The expirering day
+	 */
+	setCookie : function (c_name,value,exdays) {
+		var exdate=new Date();
+		exdate.setDate(exdate.getDate() + exdays);
+		var c_value=escape(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
+		document.cookie=c_name + "=" + c_value;
+	},
+
+	/**
+	 * This function adds the token parameter to the url
+	 * @since 1.1
+	 * @param  {string} url The current url to append the token too
+	 * @param {string} token The user token0
+	 * @return {string}
+	 */
+	createAutherizedUrl : function (url,token) {
+		token = token || this.token;
+		if (token != null) {
+			if (url.indexOf("?") == -1) {
+				url += "?";
+			} else {
+				url += "&";
+			}
+			url += "token=" + token;
+		}
+		return url;
+	},
+}
+var application = {
+	/**
+	 * The units generator object
+	 * @type {object}
+	 */
+	unitsGenerator : null,
+	computerGenerator : null,
+	locationGenerator : null,
+	printerGenerator : null,
+	screenGenerator : null,
+
+	/**
+	 * The current selected organization
+	 * @type {integer}
+	 */
+	organization : null,
+
+	generators : {},
+
+	/**
+	 * The application settings object
+	 * @type {object}
+	 */
+	settings : null,
+
+	ready : 0,
+
+	callback : null,
+
+	addGenerator : function (object, name) {
+		this.generators[name] = object;
+	},
+
+	/**
+	 * This function initializes the computer info application
+	 * @param  {integer} organization The current organization
+	 * @param {function} callback An optional ready callback for the app
+	 */
+	initialize : function (organization,callback) {
+		application.callback = callback;
+		application.organization = organization;
+		application.settings = new settings(organization);
+		application.settings = application.settings;
+		if (userInfo.getCookie("token") == undefined || userInfo.getCookie("token") == null) {
+			window.location = root + "home/login";
+			return;
+		}
+		userInfo.getInfo(root + "user/me",userInfo.getCookie("token"), function (data,status){ 
+			if (status == "fail") {
+				window.location = root + "logout/reset";
+				return;
+			}
+			
+			//Computers
+			application.computerGenerator = new tableGenerator({
+				requestType : "computer",
+				container : $("#computer"),
+				columns :application.settings.computerColumns,
+				responseNode : "Computer",
+				multipleResponseNode : "Computers",
+				localStorageColumnsKey : "computer_columns",
+				multipleRequestType : "computers",
+				root : root,
+				modal : $("#edit_computer"),
+				localStorageLengthKey : "computer_length_value",
+				handlers : {
+					model_type :application.settings.handlers.device_type,
+					model :application.settings.handlers.computer_model,
+					screen_size :application.settings.handlers.screen_size,
+					location :application.settings.handlers.location,
+					manufacturer :application.settings.handlers.manufacturer
+				},
+				callback : application.readyCallback
+			});
+			application.addGenerator(application.computerGenerator,"computerGenerator");
+
+			//Locations
+			application.locationGenerator = new tableGenerator({
+				requestType : "location",
+				modal : $("#edit_location"),
+				container : $("#location"),
+				localStorageLengthKey : "location_length_value",
+				columns :application.settings.locationColumns,
+				responseNode : "Location",
+				multipleResponseNode : "Locations",
+				multipleRequestType : "locations",
+				localStorageColumnsKey : "location_columns",
+				root : root,
+				handlers : {
+					floor :application.settings.handlers.floor,
+					building :application.settings.handlers.building
+				},
+				callback : application.readyCallback
+			});
+			//application.addGenerator(application.locationGenerator,"locationGenerator");
+
+			//Units
+			application.unitsGenerator = new tableGenerator({
+				requestType : "device",
+				container : $("#unit"),
+				modal : $("#edit_unit"),
+				columns :application.settings.unitColumns,
+				responseNode : "Device",
+				multipleResponseNode : "Devices",
+				multipleRequestType : "devices",
+				root : root,
+				localStorageColumnsKey : "unit_columns",
+				localStorageLengthKey : "unit_length_value",
+				handlers : {
+					location :application.settings.handlers.location,
+					model_type :application.settings.handlers.device_type,
+					model :application.settings.handlers.device_model
+				},
+				callback : application.readyCallback
+			});
+			//application.addGenerator(application.unitsGenerator,"unitsGenerator");
+
+			//Printers
+			application.printerGenerator = new tableGenerator({
+				modal : $("#edit_printer"),
+				requestType : "printer",
+				localStorageLengthKey : "printer_length_value",
+				container : $("#printer"),
+				columns :application.settings.printerColumns,
+				responseNode : "Printer",
+				multipleResponseNode : "Printers",
+				localStorageColumnsKey : "printer_columns",
+				multipleRequestType : "printers",
+				root : root,
+				handlers : {
+					location :application.settings.handlers.location,
+					model :application.settings.handlers.printer_model
+				},
+				callback : application.readyCallback
+			});
+			//application.addGenerator(application.printerGenerator,"printerGenerator");
+
+			//Screeens
+			application.screenGenerator = new tableGenerator({
+				requestType : "screen",
+				modal : $("#edit_screen"),
+				localStorageLengthKey : "screen_length_value",
+				localStorageColumnsKey : "screen_columns",
+				container : $("#screen"),
+				columns :application.settings.screenColumns,
+				responseNode : "Screen",
+				multipleResponseNode : "Screens",
+				multipleRequestType : "screens",
+				root : root,
+				handlers : {
+					location :application.settings.handlers.location,
+				},
+				callback : application.readyCallback
+			});
+			//application.addGenerator(application.screenGenerator,"screenGenerator");
+
+			application.launch();
+
+			$(".dataTables_filter").find("input").addClass("input-large");
+		});	 
+	},
+
+	launch : function () {
+		$.each(application.generators,function(index,element){
+			element.getNodes(application.organization);
+		});
+	},
+
+	/**
+	 * This function counts object properties in a object
+	 * @param  {object|array} obj The object to count the number of properties ib
+	 * @return {integer}
+	 */
+	countProperties :function (obj) {
+		  var prop;
+		  var propCount = 0;
+
+		  for (prop in obj) {
+		    propCount++;
+		  }
+		return propCount;
+	},
+
+	readyCallback : function () {
+		application.ready += 1;
+		if (application.ready == application.countProperties(application.generators)) {
+			if (typeof application.callback == "function") {
+				application.callback();
+			}
+		}
+	}
+}
+/**
+ * Generators
+ */
+var unitsGenerator,computerGenerator,locationGenerator,printerGenerator,screenGenerator = null;
+
+/**
+ * End of generators
+ */
+
+var data = {
+	"computer" : "computers",
+	"printer" : "printers",
+	"units" : "units",
+	"screens" : "screens",
+	"users" : "users",
+	//"organizations" : "organizations",
+	"locations" : "locations",
+}
+
+var generators = {
+		"computers" : "computerGenerator",
+		"printers" : "printerGenerator",
+		"units" : "unitsGenerator",
+		"locations" : "locationGenerator",
+		"screens" : "screenGenerator"
+};
+
+if (typeof history.pushState === 'undefined') {
+  var History = window.History; // Note: We are using a capital H instead of a lower h
+}
+
+$(".nav li a").live('click', function (event) {
+  	var title,url,object;
+  
+  	event.preventDefault();
+  	if (event.target.nodeName == 'A') {
+	   	url = event.target.getAttribute('data-target');
+	    title = event.target.getAttribute('data-title');
+	    History.pushState(data[url],title, data[url]);
+	}
+});
+
+$(window).ready(function(){
+	$(".logout").live("click",function(){
+		window.location = root + "logout";
+	});
+	initialize();
+	History.Adapter.bind(window,'statechange',function(){
+		showPage();
+    });
+
+	application.initialize(1,function () {
+		$("#loading-background").remove();
+		$("#loading").hide();
+	    showPage();
+	});
+});
+
+function getPage () {
+	var state = History.getState();
+   	page = state.cleanUrl.replace(root,"");
+	page = page.replace("http://","");
+   	page = page.replace("https://","");
+   	page = page.replace("//","");
+   	page = page.replace("www.","");
+   	return page;
+}
+
+function initialize () {
+	page = getPage();
+   	if ($("#"+page).length > 0) {
+		$(".active_page").addClass("disabled_page").removeClass("active_page");
+		$("#"+page).removeClass("disabled_page").addClass("active_page");
+		if ($('a[data-target="'+findPageString(page)+'"]').length > 0 && !$('a[data-target="'+findPageString(page)+'"]').parent("li").hasClass("active")) {
+			$(".active").removeClass("active");
+			$('a[data-target="'+findPageString(page)+'"]').parent("li").addClass("active");
+		}
+	}
+}
+
+function showPage () {
+	var currentPage = $(".active_page");
+	if (objx.get(generators,currentPage.attr("id")) != null) {
+		var id = objx.get(generators,currentPage.attr("id"));
+		objx.get(application,id).hide();
+	}
+	page = getPage();
+   	if ($("#"+page).length > 0) {
+   		$(".active_page").addClass("disabled_page").removeClass("active_page");
+   		$("#"+page).removeClass("disabled_page").addClass("active_page");
+   		if ($('a[data-target="'+findPageString(page)+'"]').length > 0 && !$('a[data-target="'+findPageString(page)+'"]').parent("li").hasClass("active")) {
+   			$(".active").removeClass("active");
+   			$('a[data-target="'+findPageString(page)+'"]').parent("li").addClass("active");
+   		}
+   	}
+	var newPage = $("#"+page);
+	if (newPage.length == 0) {
+		newPage = currentPage;
+	}
+	if (objx.get(generators,newPage.attr("id")) != null) {
+		var id = objx.get(generators,newPage.attr("id"));
+		if (objx.get(application,id) != null) {
+			objx.get(application,id).show();
+		}
+	}
+}
+
+function findPageString (str) {
+	var returnValue = "";
+	$.each(data,function(index,element){
+		if (element == str) {
+			returnValue = index;
+		}
+	});
+	return returnValue;
 }

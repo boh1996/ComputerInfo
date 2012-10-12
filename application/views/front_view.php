@@ -190,7 +190,6 @@
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/dataTables.bootstrap.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/FixedHeader.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/jquery.jqtransform.js"></script>
-	<script type="text/javascript" src="<?php echo $asset_url; ?>js/chosen.jquery.min.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/settings.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/objx.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/userInfo.js"></script>

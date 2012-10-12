@@ -27,9 +27,24 @@ var application = {
 
 	callback : null,
 
+	current : null,
+
+	/**
+	 * If the callback should be fired when the first element is done
+	 * @type {Boolean}
+	 */
+	callbackOnFirst : false,
+
+	/**
+	 * This function adds a active geneerator to the list of generators
+	 * @param {object} object The tableGenerator object
+	 * @param {string} name   The name of the generator
+	 */
 	addGenerator : function (object, name) {
 		this.generators[name] = object;
 	},
+
+
 
 	/**
 	 * This function initializes the computer info application
@@ -70,7 +85,9 @@ var application = {
 					location :application.settings.handlers.location,
 					manufacturer :application.settings.handlers.manufacturer
 				},
-				callback : application.readyCallback
+				callback : function () {
+					application.readyCallback("computerGenerator");
+				}
 			});
 			application.addGenerator(application.computerGenerator,"computerGenerator");
 
@@ -90,7 +107,9 @@ var application = {
 					floor :application.settings.handlers.floor,
 					building :application.settings.handlers.building
 				},
-				callback : application.readyCallback
+				callback : function () {
+					application.readyCallback("locationGenerator");
+				}
 			});
 			//application.addGenerator(application.locationGenerator,"locationGenerator");
 
@@ -111,7 +130,9 @@ var application = {
 					model_type :application.settings.handlers.device_type,
 					model :application.settings.handlers.device_model
 				},
-				callback : application.readyCallback
+				callback : function () {
+					application.readyCallback("unitGenerator");
+				}
 			});
 			//application.addGenerator(application.unitsGenerator,"unitsGenerator");
 
@@ -131,7 +152,9 @@ var application = {
 					location :application.settings.handlers.location,
 					model :application.settings.handlers.printer_model
 				},
-				callback : application.readyCallback
+				callback : function () {
+					application.readyCallback("printerGenerator");
+				}
 			});
 			//application.addGenerator(application.printerGenerator,"printerGenerator");
 
@@ -150,18 +173,33 @@ var application = {
 				handlers : {
 					location :application.settings.handlers.location,
 				},
-				callback : application.readyCallback
+				callback : function () {
+					application.readyCallback("screenGenerator");
+				}
 			});
-			//application.addGenerator(application.screenGenerator,"screenGenerator");
-
-			application.launch();
+			application.addGenerator(application.screenGenerator,"screenGenerator");
 
 			$(".dataTables_filter").find("input").addClass("input-large");
+			application.callback();
 		});	 
 	},
 
-	launch : function () {
-		$.each(application.generators,function(index,element){
+	/**
+	 * This function launches the app
+	 * @param  {string current The current generator
+	 */
+	launch : function (current,callbackOnFirst) {
+		/*this.callbackOnFirst = callbackOnFirst || false;
+		var generators = application.generators;
+		if (typeof current != "undefined" && typeof generators[current] != "undefined") {
+			var currentGenerator = generators[current];
+			var generators = application.remoevArrayKey(current,generators);
+			var currentArray = Array();
+			this.current = current;
+			currentArray[current] = currentGenerator;
+			var generators = application.merge_options(currentArray,generators)
+		}*/
+		$.each(generators,function(index,element){
 			element.getNodes(application.organization);
 		});
 	},
@@ -181,7 +219,43 @@ var application = {
 		return propCount;
 	},
 
-	readyCallback : function () {
+	/**
+	 * This function unsets an array element
+	 * @param  {string|integer} search The element to unset
+	 * @param {Array} array The array to unset the element in
+	 */
+	remoevArrayKey : function (search,array) {
+		for (var key in array) {
+		    if (array[key] == search) {
+		        array.splice(key, 1);
+		    }
+		}
+		return array;
+	},
+
+	/**
+	 * Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
+	 * @param obj1
+	 * @param obj2
+	 * @returns obj3 a new object based on obj1 and obj2
+	 */
+	merge_options : function (obj1,obj2){
+	    var obj3 = {};
+	    for (var attrname in obj1) { obj3[attrname] = obj1[attrname]; }
+	    for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
+	    return obj3;
+	},
+
+	/**
+	 * This function is called by the tableGenerator each time a table is ready
+	 * @return {[type]} [description]
+	 */
+	readyCallback : function (caller) {
+		/*if (this.callbackOnFirst == true && caller == this.current) {
+			if (typeof application.callback == "function") {
+				application.callback();
+			}
+		}*/
 		application.ready += 1;
 		if (application.ready == application.countProperties(application.generators)) {
 			if (typeof application.callback == "function") {
