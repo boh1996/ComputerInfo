@@ -9,7 +9,7 @@
   			<input type="hidden" name="id" value="{id}">
 	  		<tr><td>Identifier</td><td><input type="text" data-name="identifier" class="input-large" value="{identifier}" name="model"></td></tr>
 	    	<tr data-handler="model"><td>Model</td><td>
-	    		<input name="model" placeholder="Model" type="text" data-provide="typeahead" data-name="model.name" class="typeahead" value="{model.name}"><i data-property="name" data-response-key="Computer_Model" data-add-model="add_computer_model" class="icon-plus spacing1"></i>
+	    		<input name="model" placeholder="Model" type="text" data-provide="typeahead" data-name="model.name" class="typeahead" value="{model.name}"><i data-property="name" data-response-key="Computer_Model" data-add-model="add_computer_model" class="icon-plus spacing2"></i>
 	    	</td></tr>
 	    	<tr data-handler="model_type"><td>Type</td><td>
 	    		<form class="jqtransform"><select name="type" class="type_select" data-selected="{model.type.id}">

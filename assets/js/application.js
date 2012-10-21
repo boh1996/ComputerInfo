@@ -25,7 +25,13 @@ var application = {
 
 	ready : 0,
 
-	callback : null,
+	initializeCallback : null,
+
+	/**
+	 * Loaded callback
+	 * @type {function}
+	 */
+	doneCallback : null,
 
 	current : null,
 
@@ -49,10 +55,12 @@ var application = {
 	/**
 	 * This function initializes the computer info application
 	 * @param  {integer} organization The current organization
-	 * @param {function} callback An optional ready callback for the app
+	 * @param {function} initializeCallback An optional initializeCallback for the app
+	 * @param {function} doneCallback The function to call when all things have been loaded
 	 */
-	initialize : function (organization,callback) {
-		application.callback = callback;
+	initialize : function (organization,initializeCallback,doneCallback) {
+		application.initializeCallback = initializeCallback;
+		application.doneCallback = doneCallback;
 		application.organization = organization;
 		application.settings = new settings(organization);
 		application.settings = application.settings;
@@ -177,9 +185,10 @@ var application = {
 					application.readyCallback("screenGenerator");
 				}
 			});
-			application.addGenerator(application.screenGenerator,"screenGenerator");
-
-			$(".dataTables_filter").find("input").addClass("input-large");
+			//application.addGenerator(application.screenGenerator,"screenGenerator");
+			if (typeof initializeCallback == "function") {
+				application.initializeCallback();
+			}
 		});	 
 	},
 
@@ -190,14 +199,14 @@ var application = {
 	launch : function (current,callbackOnFirst) {
 		this.callbackOnFirst = callbackOnFirst || false;
 		var generators = application.generators;
-		/*if (typeof current != "undefined" && typeof generators[current] != "undefined") {
+		if (typeof current != "undefined" && typeof generators[current] != "undefined") {
 			var currentGenerator = generators[current];
 			var generators = application.remoevArrayKey(current,generators);
 			var currentArray = Array();
 			this.current = current;
 			currentArray[current] = currentGenerator;
 			var generators = application.merge_options(currentArray,generators)
-		}*/
+		}
 		$.each(generators,function(index,element){
 			element.getNodes(application.organization);
 		});
@@ -246,19 +255,20 @@ var application = {
 	},
 
 	/**
-	 * This function is called by the tableGenerator each time a table is ready
-	 * @return {[type]} [description]
+	 * This function is called by the tableGenerator each time a table is readys
 	 */
 	readyCallback : function (caller) {
-		/*if (this.callbackOnFirst == true && caller == this.current) {
-			if (typeof application.callback == "function") {
-				application.callback();
+		if (this.callbackOnFirst == true && caller == this.current) {
+			if (typeof application.doneCallback == "function") {
+				application.doneCallback();
+				return;
 			}
-		}*/
+		}
 		application.ready += 1;
-		if (application.ready == application.countProperties(application.generators)) {
-			if (typeof application.callback == "function") {
-				application.callback();
+		if (application.ready == application.countProperties(application.generators)-1) {
+			if (typeof application.doneCallback == "function") {
+				application.doneCallback();
+				return;
 			}
 		}
 	}

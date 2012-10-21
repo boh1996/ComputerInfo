@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>ComputerInfo - Home</title>
+		<title>ComputerInfo - <?php echo $this->lang->line('ui_home_page'); ?></title>
 
 		<!-- charset -->
 		<meta charset="utf-8">
@@ -40,25 +40,25 @@
 		    <div class="nav-collapse">
 		     	<ul class="nav">
 		     		<li class="active">
-			    		<a data-target="computer" data-title="ComputerInfo - Computers" href="#">Computere</a>
+			    		<a data-target="computer" data-title="ComputerInfo - <?php echo $this->lang->line('ui_computers_page'); ?><" href="#"><?php echo $this->lang->line('ui_computers_page'); ?></a>
 			  		</li>
 				  	<li>
-				  		<a data-target="printer" data-title="ComputerInfo - Printere" href="#">Printere</a>
+				  		<a data-target="printer" data-title="ComputerInfo - <?php echo $this->lang->line('ui_printers_page'); ?>" href="#"><?php echo $this->lang->line('ui_printers_page'); ?></a>
 				  	</li>
 					<li>
-				    	<a data-target="units" data-title="ComputerInfo - Enheder" href="#">Enheder</a>
+				    	<a data-target="units" data-title="ComputerInfo - <?php echo $this->lang->line('ui_units_page'); ?>" href="#"><?php echo $this->lang->line('ui_units_page'); ?></a>
 				  	</li>
 				  	<li>
-				  		<a data-target="locations" data-title="ComputerInfo - Rum" href="#">Rum</a>
+				  		<a data-target="locations" data-title="ComputerInfo - <?php echo $this->lang->line('ui_rooms_page'); ?>" href="#"><?php echo $this->lang->line('ui_rooms_page'); ?></a>
 				  	</li>
 				  	<!--<li>
 				  		<a data-target="organizations" data-title="ComputerInfo - Organizationer" href="#">Organizationer</a>
 				  	</li>-->
 				  	<li>
-				  		<a data-target="screens" data-title="ComputerInfo - Skaerme" href="#">Screens</a>
+				  		<a data-target="screens" data-title="ComputerInfo - <?php echo $this->lang->line('ui_screens_page'); ?>" href="#"><?php echo $this->lang->line('ui_screens_page'); ?></a>
 				  	</li>
 				  	<li>
-				  		<a data-target="users" data-title="ComputerInfo - Brugere" href="#">Users</a>
+				  		<a data-target="users" data-title="ComputerInfo - <?php echo $this->lang->line(''); ?>" href="#"><?php echo $this->lang->line('$lang["ui_users_page'); ?></a>
 				  	</li>
 				</ul>
 				<ul class="nav pull-right">
@@ -160,7 +160,7 @@
 
 	<?php $this->load->view("models_view"); ?>
 
-	<div id="loading">
+	<!--<div id="loading">
 		<div id="floatingCirclesG">
 			<div class="f_circleG" id="frotateG_01"></div>
 			<div class="f_circleG" id="frotateG_02"></div>
@@ -173,7 +173,7 @@
 		</div>
 	</div>
 
-	<div class="modal-backdrop in" id="loading-background"></div>
+	<div class="modal-backdrop in" id="loading-background"></div>-->
 
 	<!-- Include jquery,boostrap and script -->
 	<?php 
@@ -183,7 +183,7 @@
 			echo '<script type="text/javascript" src="'.$jquery_url.'"></script>';
 		}
 	?>
-	<script type="text/javascript" src="<?php echo $asset_url; ?>bootstrap/js/bootstrap.js"></script>
+	<!--<script type="text/javascript" src="<?php echo $asset_url; ?>bootstrap/js/bootstrap.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/jquery.history.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/jquery.dataTables.min.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/custom-form-elements.js"></script>
@@ -195,6 +195,6 @@
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/userInfo.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/tableGenerator.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/application.js"></script>
-	<script type="text/javascript" src="<?php echo $asset_url; ?>js/script.js"></script>
+	<script type="text/javascript" src="<?php echo $asset_url; ?>js/script.js"></script>-->
 	</body>
 </html>

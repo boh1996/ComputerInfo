@@ -69,10 +69,68 @@ class Computerinfo_Security{
 		if($Result && !isset($_SESSION["user_id"])){
 			self::Logout();
 			redirect($this->_CI->config->item("not_logged_in_page"));
+			return;
 		} else if(isset($_SESSION["user_id"]) && !self::User_Exists($_SESSION["user_id"])){
 			self::Logout();
-			redirect($this->_CI->config->item("not_logged_in_page"));		
+			redirect($this->_CI->config->item("not_logged_in_page"));
+			return;		
 		}
+
+		if (!$Result) {
+			return;
+		}
+
+		if (isset($_SESSION["user_id"])) {
+			if (!self::VerifyToken()) {
+				self::Logout();
+				redirect($this->_CI->config->item("not_logged_in_page"));	
+				return;
+			}
+		} else {
+			self::Logout();
+		}
+	}
+
+	/**
+	 * This function verifies that the token is correct and has time left,
+	 * if no time is left a new token is created
+	 * @since 1.1
+	 * @access public
+	 */
+	public function VerifyToken () {
+		$this->_CI->load->library("token");
+		$Token = new Token();
+		if (isset($_SESSION["user_id"]) && self::User_Exists($_SESSION["user_id"])) {
+			if (isset($_COOKIE["token"]) && $Token->Load(array("token" => $_COOKIE["token"])) && !is_null($Token->token) && $Token->user->id == $_SESSION["user_id"]) {
+				if (!$Token->IsValid()) {
+					$this->_CI->load->library("user");
+					$User = new User();
+					$User->Load($_SESSION["user_id"]);
+					self::CreateToken($User);
+					return TRUE;
+				} else {
+					return TRUE;
+				}
+			} else {
+				return FALSE;
+			}
+		} else {
+			return FALSE;
+		}
+	}
+
+	/**
+	 * This function creates a new token for a user
+	 * @since 1.1
+	 * @access public
+	 * @param object $User The user object
+	 */
+	public function CreateToken ($User) {
+		$this->_CI->load->library("token");
+		$Token = new Token();
+		$Token->Create($User->id);
+		$this->_CI->load->helper("cookie");
+		set_cookie("token",$Token->token,$Token->time_to_live);
 	}
 
 	/**

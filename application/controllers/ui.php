@@ -6,7 +6,7 @@ class UI extends CI_Controller {
 	 * @since 1.0
 	 * @access public
 	 */
-	public function _remap($method = NULL,$params = array()){
+	public function _remap($method = NULL,$params = array()) {
 		$data = array(
 			"method" => $method,
 			"params" => json_encode($params),

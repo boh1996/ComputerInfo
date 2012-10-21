@@ -8,7 +8,7 @@ if(!isset($jquery_url))
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>ComputerInfo - Home</title>
+		<title>ComputerInfo - <?php echo $this->lang->line('ui_home_page'); ?></title>
 		<!-- charset -->
 		<meta charset="utf-8">
 		<!-- viewport -->
@@ -38,8 +38,8 @@ if(!isset($jquery_url))
 					<a class="brand" href="#">ComputerInfo</a>
 					<div class="nav-collapse collapse">
 						<ul class="nav">
-							<li class="active"><a href="#">Home</a></li>
-							<li><a href="#about">About</a></li>
+							<li class="active"><a href="#"><?php echo $this->lang->line('ui_home_page'); ?></a></li>
+							<li><a href="#about"><?php echo $this->lang->line('ui_about_page'); ?></a></li>
 						</ul>
 						<ul class="nav pull-right">
 							<li><a href="/users/sign_up">Sign Up</a></li>

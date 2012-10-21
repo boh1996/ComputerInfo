@@ -391,7 +391,9 @@ tableGenerator.prototype = {
 			url : this.createAutherizedUrl(requestUrl.replace("{id}",id)),
 			success : $.proxy(function (data){ 
 				data = objx.get(data,this.responseNode);
-				this.generateNode(data);
+				if (typeof data != "undefined" && typeof data.id != "undefined") {
+					this.generateNode(data,data.id);
+				}
 				this.readyCallback();
 			}, this)
 		});

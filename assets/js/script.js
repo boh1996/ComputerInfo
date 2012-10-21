@@ -1,9 +1,4 @@
 /**
- * Generators
- */
-var unitsGenerator,computerGenerator,locationGenerator,printerGenerator,screenGenerator = null;
-
-/**
  * End of generators
  */
 
@@ -50,10 +45,11 @@ $(window).ready(function(){
     });
 
 	application.initialize(1,function () {
+	    application.launch("computerGenerator",true);
+	},function () {
 		$("#loading-background").remove();
 		$("#loading").hide();
 	    showPage();
-	    application.launch("screenGenerator",true);
 	});
 });
 
