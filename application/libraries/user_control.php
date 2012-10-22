@@ -15,7 +15,7 @@ class User_Control{
 	 * @since 1.0
 	 * @access public
 	 */
-	public $language = "danish";
+	public $language = "english";
 
 	/**
 	 * This function calls all the needed security functions
@@ -28,8 +28,27 @@ class User_Control{
 		if (empty($this->language)) {
 			$this->language = $this->_CI->config->item("language");
 		}
-		$this->_CI->lang->load('pages', $this->language);
+		self::batch_load_lang_files(array(
+			"pages",
+			"info",
+			"messages",
+			"errors",
+			"modals",
+			"captcha",
+			"login"
+		));
+	}
 
+	/**
+	 * This function loads up lang files using an array
+	 * @param  array  $files The array of file without extension and _lang
+	 * @since 1.0
+	 * @access public
+	 */
+	public function batch_load_lang_files ( array $files ) {
+ 		foreach ($files as $file) {
+ 			$this->_CI->lang->load($file, $this->language);
+ 		}
 	}
 }
 ?>

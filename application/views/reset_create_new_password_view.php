@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>ComputerInfo - Reset Password</title>
+		<title><?php echo $this->lang->line('ui_title_brand'); ?> - <?php echo $this->lang->line('ui_reset_password_page'); ?></title>
 		<meta charset="utf-8">
 		<!-- viewport -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -44,23 +44,23 @@
 		 
 		      	<!-- Be sure to leave the brand out there if you want it shown -->
 		      	<a class="brand" href="<?php echo $base_url; ?>">
-		      		ComputerInfo
+		      		<?php echo $this->lang->line('ui_brand_name'); ?>
 		      	</a>
 
 			    <!-- Everything you want hidden at 940px or less, place within here -->
 			    <div class="nav-collapse">
 			     	<ul class="nav">
-			     		<li class="active">
-				    		<a data-target="reset" data-title="ComputerInfo - Reset Password" href="#">Forgot Password</a>
+			       		<li class="active">
+				    		<a data-target="reset" data-title="<?php echo $this->lang->line('ui_title_brand'); ?> - <?php echo $this->lang->line('ui_reset_password_page'); ?>" href="#">Forgot Password</a>
 				  		</li>
 			     		<li>
-				    		<a data-target="register" data-title="ComputerInfo - Login" href="<?php echo $base_url.'home/users/sign_up'; ?>">Register</a>
+				    		<a data-target="login" data-title="<?php echo $this->lang->line('ui_title_brand'); ?> - <?php echo $this->lang->line('ui_register'); ?>" href="<?php echo $base_url.'/users/sign_up'; ?>"><?php echo $this->lang->line('ui_register'); ?></a>
 				  		</li>
 				  		<li>
-							<a data-title="ComputerInfo - Login" href="<?php echo $base_url.'home/login'; ?>">Login</a>
+							<a data-title="<?php echo $this->lang->line('ui_title_brand'); ?> - <?php echo $this->lang->line('ui_login'); ?>" href="<?php echo $base_url.'home/login'; ?>"><?php echo $this->lang->line('ui_login'); ?></a>
 						</li>
 		        		<li>
-							<a data-target="back" data-title="ComputerInfo - Back" href="<?php echo $base_url.'home'; ?>">Back</a>
+							<a data-target="back" data-title="<?php echo $this->lang->line('ui_title_brand'); ?> - <?php echo $this->lang->line('ui_back'); ?>" href="<?php echo $base_url.'home'; ?>"><?php echo $this->lang->line('ui_back'); ?></a>
 						</li>
 					</ul>
 		      	</div>
@@ -76,22 +76,22 @@
 					<input type="hidden" name="token" <?php if(isset($token))echo 'value="'.$token.'"'; ?> />
 
 					<div class="control-group">
-						<label class="control-label" for="password">Password:</label>
+						<label class="control-label" for="password"><?php echo $this->lang->line('ui_regsiter_password'); ?>:</label>
 						<div class="controls">	
-							<input type="password" placeholder="Password" pattern=".{<?php echo $this->config->item("password_length"); ?>,}" title="Minimum <?php echo $this->config->item("password_length"); ?> characters" required id="password" name="password" />
+							<input type="password" placeholder="<?php echo $this->lang->line('ui_regsiter_password'); ?>" pattern=".{<?php echo $this->config->item("password_length"); ?>,}" title="Minimum <?php echo $this->config->item("password_length"); ?> characters" required id="password" name="password" />
 						</div>
 					</div>
 
 					<div class="control-group">
-						<label class="control-label" for="re-password">Repeat password:</label>
+						<label class="control-label" for="re-password"><?php echo $this->lang->line('ui_register_repeat_password'); ?>:</label>
 						<div class="controls">	
-							<input type="password" placeholder="Re-Password" pattern=".{<?php echo $this->config->item("password_length"); ?>,}" title="Minimum <?php echo $this->config->item("password_length"); ?> characters" required id="re-password" name="re-password" />
+							<input type="password" placeholder="<?php echo $this->lang->line('ui_re_passowrd'); ?>" pattern=".{<?php echo $this->config->item("password_length"); ?>,}" title="Minimum <?php echo $this->config->item("password_length"); ?> characters" required id="re-password" name="re-password" />
 						</div>
 					</div>
 
 					  <div class="control-group">
 					 	 <div class="controls">
-							<input class="btn btn-primary" tabindex="3"  style="clear: left; width: 220px; height: 32px; font-size: 13px;" type="submit" id="reset" value="Reset Password" />
+							<input class="btn btn-primary" tabindex="3"  style="clear: left; width: 220px; height: 32px; font-size: 13px;" type="submit" id="reset" value="<?php echo $this->lang->line('ui_reset_password'); ?>" />
 						 </div>
 					</div>
 				</form>
@@ -120,7 +120,7 @@
 						object.attr("id","");
 						object.css("display","");
 						if (element == "incorrect-captcha-sol") {
-							$(object).find(".error-content").append('<span class="label label-important">Incorrect CAPTCHA!</span>');
+							$(object).find(".error-content").append('<span class="label label-important"><?php echo $this->lang->line('ui_register_incorrect_captcha'); ?></span>');
 						} else {
 							$(object).find(".error-content").append('<span class="label label-important">'+element+'!</span>');
 						}

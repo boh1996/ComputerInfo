@@ -8,7 +8,7 @@ if(!isset($jquery_url))
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>ComputerInfo - Home</title>
+		<title><?php echo $this->lang->line('ui_title_brand'); ?> - <?php echo $this->lang->line('ui_login_page'); ?></title>
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>bootstrap/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>bootstrap/css/bootstrap-responsive.min.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/user.css">
@@ -19,13 +19,13 @@ if(!isset($jquery_url))
       <tr><td>
 					<div class="container" style="width:220px;">
 						<form method="post" action="<?php echo $base_url; ?>login/windows" method="post" accept-charset="UTF-8">
-							<label style="float:left" for="username">Username:</label>
-							<input style="margin-bottom: 15px;" type="text" placeholder="Username or Email" id="username" name="username"/>
-							<label style="float:left" for="password">Password:</label>
-							<input style="margin-bottom: 15px;" type="password" placeholder="Password" id="password" name="password" />
-							<input class="btn btn-primary" style="clear: left; width: 220px; height: 32px; font-size: 13px;" type="submit" id="sign-in" value="Sign In" />
-							<label style="text-align:center;margin-top:5px">or</label>
-							<input class="btn btn-primary" style="clear: left; width: 220px; height: 32px; font-size: 13px;" type="button" id="sign-in-google" value="Sign In Using Google" />
+							<label style="float:left" for="username"><?php echo $this->lang->line('ui_login_username_or_email'); ?>:</label>
+							<input style="margin-bottom: 15px;" type="text" placeholder="<?php echo $this->lang->line('ui_login_username_or_email'); ?>" id="username" name="username"/>
+							<label style="float:left" for="password"><?php echo $this->lang->line('ui_login_password'); ?>:</label>
+							<input style="margin-bottom: 15px;" type="password" placeholder="<?php echo $this->lang->line('ui_login_password'); ?>" id="password" name="password" />
+							<input class="btn btn-primary" style="clear: left; width: 220px; height: 32px; font-size: 13px;" type="submit" id="sign-in" value="<?php echo $this->lang->line('ui_sign_in'); ?>" />
+							<label style="text-align:center;margin-top:5px"><?php echo $this->lang->line('ui_or'); ?></label>
+							<input class="btn btn-primary" style="clear: left; width: 220px; height: 32px; font-size: 13px;" type="button" id="sign-in-google" value="<?php echo $this->lang->line('ui_google_login'); ?>" />
 						</form>
 					</div>
 		</td></tr>

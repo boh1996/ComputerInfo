@@ -11,6 +11,9 @@ class UI extends CI_Controller {
 			"method" => $method,
 			"params" => json_encode($params),
 		);
+		$this->user_control->batch_load_lang_files(array(
+			"modals"
+		));
 		$this->load->view("front_view",$this->computerinfo_security->ControllerInfo($data));
 	}
 }

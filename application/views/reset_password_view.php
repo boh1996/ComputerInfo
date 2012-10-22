@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>ComputerInfo - Reset Password</title>
+		<title><?php echo $this->lang->line('ui_title_brand'); ?> - <?php echo $this->lang->line('ui_reset_password_page'); ?></title>
 		<meta charset="utf-8">
 		<!-- viewport -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -44,23 +44,23 @@
 		 
 		      	<!-- Be sure to leave the brand out there if you want it shown -->
 		      	<a class="brand" href="<?php echo $base_url; ?>">
-		      		ComputerInfo
+		      		<?php echo $this->lang->line('ui_brand_name'); ?>
 		      	</a>
 
 			    <!-- Everything you want hidden at 940px or less, place within here -->
 			    <div class="nav-collapse">
 			     	<ul class="nav">
 			     		<li class="active">
-				    		<a data-target="reset" data-title="ComputerInfo - Reset Password" href="#">Forgot Password</a>
+				    		<a data-target="reset" data-title="<?php echo $this->lang->line('ui_title_brand'); ?> - <?php echo $this->lang->line('ui_reset_password_page'); ?>" href="#">Forgot Password</a>
 				  		</li>
 			     		<li>
-				    		<a data-target="register" data-title="ComputerInfo - Login" href="<?php echo $base_url.'home/users/sign_up'; ?>">Register</a>
+				    		<a data-target="login" data-title="<?php echo $this->lang->line('ui_title_brand'); ?> - <?php echo $this->lang->line('ui_register'); ?>" href="<?php echo $base_url.'/users/sign_up'; ?>"><?php echo $this->lang->line('ui_register'); ?></a>
 				  		</li>
 				  		<li>
-							<a data-title="ComputerInfo - Login" href="<?php echo $base_url.'home/login'; ?>">Login</a>
+							<a data-title="<?php echo $this->lang->line('ui_title_brand'); ?> - <?php echo $this->lang->line('ui_login'); ?>" href="<?php echo $base_url.'home/login'; ?>"><?php echo $this->lang->line('ui_login'); ?></a>
 						</li>
 		        		<li>
-							<a data-target="back" data-title="ComputerInfo - Back" href="<?php echo $base_url.'home'; ?>">Back</a>
+							<a data-target="back" data-title="<?php echo $this->lang->line('ui_title_brand'); ?> - <?php echo $this->lang->line('ui_back'); ?>" href="<?php echo $base_url.'home'; ?>"><?php echo $this->lang->line('ui_back'); ?></a>
 						</li>
 					</ul>
 		      	</div>
@@ -74,9 +74,9 @@
 				<form method="post" action="<?php echo $base_url; ?>user/reset/password/check" method="post" class="form-horizontal well" id="register-form" accept-charset="UTF-8">
 
 					<div class="control-group">
-						<label class="control-label" for="email">Email:</label>
+						<label class="control-label" for="email"><?php echo $this->lang->line('ui_reset_password_email'); ?>:</label>
 						<div class="controls">
-							<input type="email" tabindex="1"  placeholder="Email" <?php if(isset($email)) echo 'value="'.$email.'"'; ?> id="email" required name="email" >
+							<input type="email" tabindex="1"  placeholder="<?php echo $this->lang->line('ui_reset_password_email'); ?>" <?php if(isset($email)) echo 'value="'.$email.'"'; ?> id="email" required name="email" >
 						</div>
 					</div>
 
@@ -89,23 +89,23 @@
 					<div id="recaptcha_widget" style="display:none">
 
 						<div class="control-group">
-							<label class="control-label">reCAPTCHA</label>
+							<label class="control-label"><?php echo $this->lang->line('captcha_recaptcha'); ?>:</label>
 							<div class="controls">
 						    	<a id="recaptcha_image" class="thumbnail"></a>
-						    	<div class="recaptcha_only_if_incorrect_sol" style="color:red">Incorrect please try again</div>
+						    	<div class="recaptcha_only_if_incorrect_sol" style="color:red"><?php echo $this->lang->line('captcha_error_incorrect'); ?></div>
 							</div>
 					    </div>
 
 					   	<div class="control-group">
-					   		<label class="recaptcha_only_if_image control-label">Enter the words above:</label>
-					  		<label class="recaptcha_only_if_audio control-label">Enter the numbers you hear:</label>
+					   		<label class="recaptcha_only_if_image control-label"><?php echo $this->lang->line('captcha_enter_words_above'); ?>:</label>
+					  		<label class="recaptcha_only_if_audio control-label"><?php echo $this->lang->line('captcha_enter_words_you_hear'); ?>:</label>
 
 					  		<div class="controls">
 					  			<div class="input-append">
-					  				<input type="text" tabindex="2" id="recaptcha_response_field" required class="input-recaptcha" name="recaptcha_response_field" />
+					  				<input type="text" tabindex="2" id="recaptcha_response_field" required class="input-recaptcha" placeholder="<?php echo $this->lang->line('capctha_enter_the_capctha'); ?>" name="recaptcha_response_field" />
 					  				<a class="btn" tabindex="4"  href="javascript:Recaptcha.reload()"><i class="icon-refresh"></i></a>
-					  				<a tabindex="5" class="btn recaptcha_only_if_image" href="javascript:Recaptcha.switch_type('audio')"><i title="Get an audio CAPTCHA" class="icon-headphones"></i></a>
-					  				<a tabindex="6" class="btn recaptcha_only_if_audio" href="javascript:Recaptcha.switch_type('image')"><i title="Get an image CAPTCHA" class="icon-picture"></i></a>
+					  				<a tabindex="5" class="btn recaptcha_only_if_image" href="javascript:Recaptcha.switch_type('audio')"><i title="<?php echo $this->lang->line('captcha_get_audio'); ?>" class="icon-headphones"></i></a>
+					  				<a tabindex="6" class="btn recaptcha_only_if_audio" href="javascript:Recaptcha.switch_type('image')"><i title="<?php echo $this->lang->line('captcha_get_image'); ?>" class="icon-picture"></i></a>
 							    	<a tabindex="7" class="btn" href="javascript:Recaptcha.showhelp()"><i class="icon-question-sign"></i></a>
 					  			</div>
 					  		</div>
@@ -156,7 +156,7 @@
 						object.attr("id","");
 						object.css("display","");
 						if (element == "incorrect-captcha-sol") {
-							$(object).find(".error-content").append('<span class="label label-important">Incorrect CAPTCHA!</span>');
+							$(object).find(".error-content").append('<span class="label label-important"><?php echo $this->lang->line('ui_register_incorrect_captcha'); ?></span>');
 						} else {
 							$(object).find(".error-content").append('<span class="label label-important">'+element+'!</span>');
 						}

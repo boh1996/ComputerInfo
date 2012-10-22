@@ -10,6 +10,10 @@ class User_Management extends CI_Controller {
 
 	public function __construct () {
 		parent::__construct();
+		$this->user_control->batch_load_lang_files(array(
+			"register",
+			"reset_password"
+		));
 		$this->load->config("recaptcha");
 		$this->_recaptcha = array(
 			"recaptcha_url" => $this->computerinfo_security->CheckHTTPS("http://www.google.com/recaptcha/api/challenge?k=".$this->config->item("recaptcha_public_key")),
@@ -52,7 +56,7 @@ class User_Management extends CI_Controller {
 		if (self::_Input_Check(array("username","email","password","name","recaptcha_challenge_field","re-password","recaptcha_response_field"),$missing)) {
 			if ($this->input->post("re-password") != $this->input->post("password")) {
 				$data = array(
-					"errors" => json_encode(array("Passwords not matching")),
+					"errors" => json_encode(array($this->lang->line("error_password_not_macthing"))),
 					"username" => $this->input->post("username"),
 					"email" => $this->input->post("email"),
 					"name" => $this->input->post("name")
@@ -82,6 +86,7 @@ class User_Management extends CI_Controller {
 				return;
 			}
 		} else {
+			//Needs translations
 			$data = array(
 				"errors" => json_encode(array("Missing fields" . implode(",",$missing)))
 			);
@@ -115,18 +120,18 @@ class User_Management extends CI_Controller {
 	private function _Check_User_Input ($username, $password, $email, $name, &$errors) {
 		$errors = array();
 		if (!self::_Username_Correct($username)) {
-			$errors[] = "Username needs to be 5 characters or more";
+			$errors[] = $this->lang->line("register_username_requirement");
 		}
 		if (!self::_Password_Correct($password)) {
-			$errors[] = "Password needs to be 7 characters or more and include numbers";
+			$errors[] = $this->lang->line("register_password_requirement");
 		}
 		if (!self::_Email_Check($email)) {
-			$errors[] = "Not a matching email";
+			$errors[] = $this->lang->line("register_not_valid_email");
 		}
 		if (count($errors) > 0) {
 			return false;
 		}
-		$errors[] = "Username or email already exists";
+		$errors[] = $this->lang->line("register_username_or_email_exists");
 		return self::_Register_User($username,$password,$email,$name);
 
 	}
@@ -143,7 +148,7 @@ class User_Management extends CI_Controller {
 		if ($Register_Token->Load(array("identifier" => $identifier)) && !is_null($Register_Token->id)) {
 			self::_Send_Activation_Email($Register_Token,$Register_Token->name,$Register_Token->email);	
 		} else {
-			$this->load->view("register_status_view",$this->computerinfo_security->ControllerInfo(array("message" => "Sorry no user found!")));
+			$this->load->view("register_status_view",$this->computerinfo_security->ControllerInfo(array("message" => $this->lang->line("register_resend_no_user_found"))));
 		}
 	}
 
@@ -155,7 +160,7 @@ class User_Management extends CI_Controller {
 	 */
 	public function Activate ($token = null) {
 		if (is_null($token)) {
-			$this->load->view("register_status_view",$this->computerinfo_security->ControllerInfo(array("message" => "No token specified!")));
+			$this->load->view("register_status_view",$this->computerinfo_security->ControllerInfo(array("message" => $this->lang->line("register_no_token_found"))));
 			return;
 		}
 		$this->load->library("register_token");
@@ -167,10 +172,10 @@ class User_Management extends CI_Controller {
 				$Register_Token->Delete();
 				self::_redirect($this->config->item("front_page"));
 			} else {
-				$this->load->view("register_status_view",$this->computerinfo_security->ControllerInfo(array("message" => "Sorry we couldn't activate that user!")));
+				$this->load->view("register_status_view",$this->computerinfo_security->ControllerInfo(array("message" => $this->lang->line("register_we_couldnt_activate"))));
 			}
 		} else {
-			$this->load->view("register_status_view",$this->computerinfo_security->ControllerInfo(array("message" => "Sorry no user found!")));
+			$this->load->view("register_status_view",$this->computerinfo_security->ControllerInfo(array("message" => $this->lang->line("register_resend_no_user_found"))));
 		}
 	}
 
@@ -270,12 +275,40 @@ class User_Management extends CI_Controller {
 		$Register_Token = new Register_Token();
 		if ($Register_Token->Load(array("identifier" => $identifier))) {
 			$Register_Token->Delete();
+			$template_constants = array(
+				"{signup_url}" => $this->computerinfo_security->CheckHTTPS(base_url()."users/sign_up")
+			);
+			$template = $this->lang->line("registration_removed");
+			$template_data = self::_Template_Mix($template_constants);
 			$this->load->view("register_status_view",$this->computerinfo_security->ControllerInfo(array(
-				"message" => 'Your registration have been removed click <a href="'.$this->computerinfo_security->CheckHTTPS(base_url()."users/sign_up").'">here</a> to sign up again!'
+				"message" => self::_Template($template_data,$template)
 			)));
 		} else {
-			$this->load->view("register_status_view",$this->computerinfo_security->ControllerInfo(array("message" => "Sorry no user found!")));
+			$this->load->view("register_status_view",$this->computerinfo_security->ControllerInfo(array("message" => $this->lang->line("register_resend_no_user_found"))));
 		}
+	}
+
+	/**
+	 * This function returns the standard constants mixed with the custom
+	 * @param array $constants The custom constrants
+	 * @since 1.1
+	 * @access private
+	 * @return array
+	 */
+	private function _Template_Mix ($constants = null) {
+		$template_constants = array(
+			"{base_url}" => $this->computerinfo_security->CheckHTTPS(base_url()),
+			"{asset_url}" => $this->computerinfo_security->CheckHTTPS(base_url().$this->config->item("asset_url")),
+			"{webmaster_email}" => $this->config->item("webmaster_email"),
+			"{organization_name}" => $this->config->item("email_sender_name"),
+			"{app_name}" => $this->config->item("app_name")
+		);
+		if (!is_null($constants) && is_array($constants)) {
+			$template_data = array_unique(array_merge($template_constants,$constants));
+		} else {
+			$template_data = $template_constants;
+		}
+		return $template_data;
 	}
 
 	/**
@@ -290,14 +323,46 @@ class User_Management extends CI_Controller {
 	private function _Send_Activation_Email ($register_token, $name, $email) {
 		$template_variables = array(
 			"{activation_url}" => $this->computerinfo_security->CheckHTTPS(base_url()."user/activate/".$register_token->token),
-			"{token}" => $register_token->token
+			"{token}" => $register_token->token,
+			"{email}" => $email,
+			"{name}" => $name,
+			"{resend_activation_url}" => $this->computerinfo_security->CheckHTTPS(base_url()."user/activate/resend/".$register_token->identifier),
+			"{remove_email_url}" => $this->computerinfo_security->CheckHTTPS(base_url()."user/register/delete/".$register_token->identifier),
 		);
+		$template = $this->lang->line("register_activation_mail_send");
+		$template_data = self::_Template_Mix($template_variables);
 		$this->load->view("register_status_view",$this->computerinfo_security->ControllerInfo(array(
-			"message" => '<a class="btn" href="'.$this->computerinfo_security->CheckHTTPS(base_url()."user/activate/resend/".$register_token->identifier).'">Resend activation email!</a>
-			<a class="btn" href="'.$this->computerinfo_security->CheckHTTPS(base_url()."user/register/delete/".$register_token->identifier).'">Remove registration</a>
-			'
+			"message" => self::_Template($template_data,$template)
 		)));
-		return self::_Send_Email($name, $email, $this->config->item("register_mail_subject"),$this->config->item("register_mail_template"),$template_variables);
+		return self::_Send_Email($name, $email, $this->lang->line("register_mail_subject"),$this->lang->line("register_mail_template"),$template_variables);
+	}
+
+	/**
+	 * This function sends the reset message to the user
+	 * @since 1.0
+	 * @access private
+	 * @param object $reset_token The reset token object
+	 * @param string $name        The name of the reciever
+	 * @param string $email       The users email, to send the email to
+	 * @return boolean
+	 */
+	private function _Send_Password_Reset_Email ($reset_token, $name, $email) {
+		$template_variables = array(
+			"{token}" => $reset_token->token,
+			"{reset_time}" => date("H:i:s"),
+			"{reset_day}" => date("d-m-Y"),
+			"{resend_url}" => $this->computerinfo_security->CheckHTTPS(base_url()."user/reset/password/resend/".$reset_token->identifier),
+			"{reset_url}" => $this->computerinfo_security->CheckHTTPS(base_url()."user/reset/password/new/".$reset_token->token),
+			"{remove_url}" => $this->computerinfo_security->CheckHTTPS(base_url()."user/remove/new/password/".$reset_token->identifier),
+			"{email}" => $email,
+			"{name}" => $name,
+		);
+		$template = $this->lang->line("password_reset_email_send");
+		$template_data = self::_Template_Mix($template_variables);
+		$this->load->view("register_status_view",$this->computerinfo_security->ControllerInfo(array(
+			"message" => self::_Template($template_data,$template)
+		)));
+		return self::_Send_Email($name, $email, $this->lang->line("reset_password_mail_subject"),$this->lang->line("reset_password_mail_template"),$template_variables);
 	}
 
 	/**
@@ -449,21 +514,21 @@ class User_Management extends CI_Controller {
 			} else {
 				if(!self::_Email_Check($this->input->post("email"))) {
 					self::_Show_View(array(
-						"errors" => json_encode(array("Email is not an email!"))
+						"errors" => json_encode(array($this->lang->line("not_a_valid_email")))
 					),"reset_password_view");
 				}
 				$email = $this->input->post("email");
 				if ($User->Load(array("email" => $email))) {
 					if (self::_Reset_Password($email,$User) === false) {
 						$this->load->view("register_status_view",$this->computerinfo_security->ControllerInfo(array(
-							"message" => 'A password reset for this account has already been requested!',
-							"title" => "Reset password"
+							"message" => $this->lang->line("password_reset_has_been_requested"),
+							"title" => $this->lang->line("ui_reset_password")
 						)));
 					}
 				} else {
 					$this->load->view("register_status_view",$this->computerinfo_security->ControllerInfo(array(
-						"message" => 'No user found!',
-						"title" => "Reset password"
+						"message" => $this->lang->line("reset_password_no_user_found"),
+						"title" => $this->lang->line("ui_reset_password")
 					)));
 				}
 			}
@@ -506,8 +571,8 @@ class User_Management extends CI_Controller {
 			self::_Send_Password_Reset_Email($Reset_Token,$Reset_Token->user->name,$Reset_Token->email);
 		} else {
 			$this->load->view("register_status_view",$this->computerinfo_security->ControllerInfo(array(
-				"message" => 'No request found!',
-				"title" => "Reset password"
+				"message" => $this->lang->line("reset_password_no_request_found"),
+				"title" => $this->lang->line("ui_reset_password")
 			)));
 		}
 	}
@@ -524,12 +589,12 @@ class User_Management extends CI_Controller {
 		if (!is_null($token) && $Reset_Token->Load(array("token" => $token))) {
 			$this->load->view("reset_create_new_password_view",$this->computerinfo_security->ControllerInfo(array(
 				"token" => $Reset_Token->token,
-				"title" => "Reset password"
+				"title" => $this->lang->line("ui_reset_password")
 			)));
 		} else {
 			$this->load->view("register_status_view",$this->computerinfo_security->ControllerInfo(array(
-				"message" => 'No request found!',
-				"title" => "Reset password"
+				"message" => $this->lang->line("reset_password_no_request_found"),
+				"title" => $this->lang->line("ui_reset_password")
 			)));
 		}
 	}
@@ -542,11 +607,11 @@ class User_Management extends CI_Controller {
 	public function Reset_Password_Check () {
 		if (self::_Input_Check(array("password","re-password","token"),$missing)) {
 			if ($this->input->post("password") != $this->input->post("re-password")) {
-				self::_Show_View(array("error" => json_encode(array("Passwords are not matching"))),"reset_create_new_password_view");
+				self::_Show_View(array("error" => json_encode(array($this->lang->line("error_password_not_macthing")))),"reset_create_new_password_view");
 				return;
 			}
 			if (!self::_Password_Correct($this->input->post("password"))) {
-				self::_Show_View(array("error" => json_encode(array("Password should be seven or more characters and contain letters and numbers!"))),"reset_create_new_password_view");
+				self::_Show_View(array("error" => json_encode(array($this->lang->line("password_pattern_description")))),"reset_create_new_password_view");
 				return;
 			}
 			$this->load->library("reset_password_token");
@@ -561,45 +626,19 @@ class User_Management extends CI_Controller {
 				$User->login_token = $user_salt;
 				if ($User->Save()) {
 					$this->load->view("register_status_view",$this->computerinfo_security->ControllerInfo(array(
-						"message" => 'Successfully changed password!',
-						"title" => "Reset password"
+						"message" => $this->lang->line("successfully_changed_password"),
+						"title" => $this->lang->line("ui_reset_password")
 					)));
 					$Reset_Token->Delete();
 				} else {
-					self::_Show_View(array("error" => json_encode(array("Invalid token")),"token" => $this->input->post("token")),"reset_create_new_password_view");
+					self::_Show_View(array("error" => json_encode(array($this->lang->line("error_no_token_found"))),"token" => $this->input->post("token")),"reset_create_new_password_view");
 				}
 			} else {
-				self::_Show_View(array("error" => json_encode(array("Invalid token"))),"reset_create_new_password_view");
+				self::_Show_View(array("error" => json_encode(array($this->lang->line("error_no_token_found")))),"reset_create_new_password_view");
 			}
 		} else {
-			self::_Show_View(array("error" => json_encode(array("Missing input!"))),"reset_create_new_password_view");
+			self::_Show_View(array("error" => json_encode(array($this->lang->line("error_missing_input")))),"reset_create_new_password_view");
 		}
-	}
-
-	/**
-	 * This function sends the reset message to the user
-	 * @since 1.0
-	 * @access private
-	 * @param object $reset_token The reset token object
-	 * @param string $name        The name of the reciever
-	 * @param string $email       The users email, to send the email to
-	 * @return boolean
-	 */
-	private function _Send_Password_Reset_Email ($reset_token, $name, $email) {
-		$template_variables = array(
-			"{reset_url}" => $this->computerinfo_security->CheckHTTPS(base_url()."user/reset/password/new/".$reset_token->token),
-			"{remove_url}" => $this->computerinfo_security->CheckHTTPS(base_url()."user/remove/new/password/".$reset_token->identifier),
-			"{token}" => $reset_token->token,
-			"{reset_time}" => date("H:i:s"),
-			"{reset_day}" => date("d-m-Y")
-		);
-		$this->load->view("register_status_view",$this->computerinfo_security->ControllerInfo(array(
-			"message" => '<a class="btn" href="'.$this->computerinfo_security->CheckHTTPS(base_url()."user/reset/password/resend/".$reset_token->identifier).'">Resend password reset email!</a>
-			<a class="btn" href="'.$this->computerinfo_security->CheckHTTPS(base_url()."user/remove/new/password/".$reset_token->identifier).'">Remove request!</a>',
-			"title" => "Reset password"
-		)));
-		return self::_Send_Email($name, $email, $this->config->item("reset_password_mail_subject"),$this->config->item("reset_password_mail_template"),$template_variables);
-		
 	}
 
 	/**
@@ -614,13 +653,13 @@ class User_Management extends CI_Controller {
 		if ($Reset_Token->Load(array("identifier" => $identifier))) {
 			$Reset_Token->Delete();
 			$this->load->view("register_status_view",$this->computerinfo_security->ControllerInfo(array(
-				"message" => 'Request removed!',
-				"title" => "Reset password"
+				"message" => $this->lang->line("password_reset_removed"),
+				"title" => $this->lang->line("ui_reset_password")
 			)));
 		} else {
 			$this->load->view("register_status_view",$this->computerinfo_security->ControllerInfo(array(
-				"message" => 'No request found!',
-				"title" => "Reset password"
+				"message" => $this->lang->line("reset_password_no_request_found"),
+				"title" => $this->lang->line("ui_reset_password")
 			)));
 		}
 	}

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>ComputerInfo - Register</title>
+		<title><?php echo $this->lang->line('ui_title_brand'); ?> - <?php echo (isset($title))? $title : $this->lang->line('ui_register'); ?></title>
 		<meta charset="utf-8">
 		<!-- viewport -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -44,20 +44,20 @@
 		 
 		      	<!-- Be sure to leave the brand out there if you want it shown -->
 		      	<a class="brand" href="<?php echo $base_url; ?>">
-		      		ComputerInfo
+		      		<?php echo $this->lang->line('ui_brand_name'); ?>
 		      	</a>
 
 			    <!-- Everything you want hidden at 940px or less, place within here -->
 			    <div class="nav-collapse">
 			     	<ul class="nav">
 			     		<li class="active">
-				    		<a data-target="login" data-title="ComputerInfo - Login" href="#">Register</a>
+				    		<a data-target="login" data-title="<?php echo $this->lang->line('ui_title_brand'); ?> - <?php echo $this->lang->line('ui_register'); ?>" href="<?php echo $base_url.'/users/sign_up'; ?>"><?php echo $this->lang->line('ui_register'); ?></a>
 				  		</li>
 				  		<li>
-							<a data-title="ComputerInfo - Login" href="<?php echo $base_url.'home/login'; ?>">Login</a>
+							<a data-title="<?php echo $this->lang->line('ui_title_brand'); ?> - <?php echo $this->lang->line('ui_login'); ?>" href="<?php echo $base_url.'home/login'; ?>"><?php echo $this->lang->line('ui_login'); ?></a>
 						</li>
 		        		<li>
-							<a data-target="back" data-title="ComputerInfo - Back" href="<?php echo $base_url.'home'; ?>">Back</a>
+							<a data-target="back" data-title="<?php echo $this->lang->line('ui_title_brand'); ?> - <?php echo $this->lang->line('ui_back'); ?>" href="<?php echo $base_url.'home'; ?>"><?php echo $this->lang->line('ui_back'); ?></a>
 						</li>
 					</ul>
 		      	</div>
@@ -73,37 +73,37 @@
 
 					</div>
 					<div class="control-group">
-						<label class="control-label" for="username">Username:</label>
+						<label class="control-label" for="username"><?php echo $this->lang->line('ui_register_username'); ?>:</label>
 						<div class="controls">
-							<input type="text" placeholder="Username" <?php if(isset($username)) echo 'value="'.$username.'"'; ?> required autofocus id="username" pattern="[a-zA-Z0-9]{<?php echo $this->config->item("username_length"); ?>,}" name="username" title="Minimum <?php echo $this->config->item("username_length"); ?> characters"/>
+							<input type="text" placeholder="<?php echo $this->lang->line('ui_register_username'); ?>" <?php if(isset($username)) echo 'value="'.$username.'"'; ?> required autofocus id="username" pattern="[a-zA-Z0-9]{<?php echo $this->config->item("username_length"); ?>,}" name="username" title="Minimum <?php echo $this->config->item("username_length"); ?> characters"/>
 						</div>
 					</div>
 
 					<div class="control-group">
-						<label class="control-label" for="password">Password:</label>
+						<label class="control-label" for="password"><?php echo $this->lang->line('ui_regsiter_password'); ?>:</label>
 						<div class="controls">	
-							<input type="password" placeholder="Password" pattern=".{<?php echo $this->config->item("password_length"); ?>,}" title="Minimum <?php echo $this->config->item("password_length"); ?> characters" required id="password" name="password" />
+							<input type="password" placeholder="<?php echo $this->lang->line('ui_regsiter_password'); ?>" pattern=".{<?php echo $this->config->item("password_length"); ?>,}" title="Minimum <?php echo $this->config->item("password_length"); ?> characters" required id="password" name="password" />
 						</div>
 					</div>
 
 					<div class="control-group">
-						<label class="control-label" for="re-password">Repeat password:</label>
+						<label class="control-label" for="re-password"><?php echo $this->lang->line('ui_register_repeat_password'); ?>:</label>
 						<div class="controls">	
-							<input type="password" placeholder="Re-Password" pattern=".{<?php echo $this->config->item("password_length"); ?>,}" title="Minimum <?php echo $this->config->item("password_length"); ?> characters" required id="re-password" name="re-password" />
+							<input type="password" placeholder="<?php echo $this->lang->line('ui_re_passowrd'); ?>" pattern=".{<?php echo $this->config->item("password_length"); ?>,}" title="Minimum <?php echo $this->config->item("password_length"); ?> characters" required id="re-password" name="re-password" />
 						</div>
 					</div>
 
 					<div class="control-group">
-						<label class="control-label" for="email">Email:</label>
+						<label class="control-label" for="email"><?php echo $this->lang->line('ui_register_email'); ?>:</label>
 						<div class="controls">
-							<input type="email" placeholder="Email" <?php if(isset($email)) echo 'value="'.$email.'"'; ?> id="email" required name="email" >
+							<input type="email" placeholder="<?php echo $this->lang->line('ui_register_email'); ?>" <?php if(isset($email)) echo 'value="'.$email.'"'; ?> id="email" required name="email" >
 						</div>
 					</div>
 
 					<div class="control-group">
-						<label class="control-label" for="name">Name:</label>
+						<label class="control-label" for="name"><?php echo $this->lang->line('ui_register_name'); ?>:</label>
 						<div class="controls">
-							<input type="text" placeholder="Name" <?php if(isset($name)) echo 'value="'.$name.'"'; ?> id="name" required name="name" >
+							<input type="text" placeholder="<?php echo $this->lang->line('ui_register_name'); ?>" <?php if(isset($name)) echo 'value="'.$name.'"'; ?> id="name" required name="name" >
 						</div>
 					</div>
 
@@ -116,23 +116,23 @@
 					<div id="recaptcha_widget" style="display:none">
 
 						<div class="control-group">
-							<label class="control-label">reCAPTCHA</label>
+							<label class="control-label"><?php echo $this->lang->line('captcha_recaptcha'); ?>:</label>
 							<div class="controls">
 						    	<a id="recaptcha_image" class="thumbnail"></a>
-						    	<div class="recaptcha_only_if_incorrect_sol" style="color:red">Incorrect please try again</div>
+						    	<div class="recaptcha_only_if_incorrect_sol" style="color:red"><?php echo $this->lang->line('captcha_error_incorrect'); ?></div>
 							</div>
 					    </div>
 
 					   	<div class="control-group">
-					   		<label class="recaptcha_only_if_image control-label">Enter the words above:</label>
-					  		<label class="recaptcha_only_if_audio control-label">Enter the numbers you hear:</label>
+					   		<label class="recaptcha_only_if_image control-label"><?php echo $this->lang->line('captcha_enter_words_above'); ?></label>
+					  		<label class="recaptcha_only_if_audio control-label"><?php echo $this->lang->line('captcha_enter_words_you_hear'); ?></label>
 
 					  		<div class="controls">
 					  			<div class="input-append">
-					  				<input type="text" id="recaptcha_response_field" required class="input-recaptcha" name="recaptcha_response_field" />
+					  				<input type="text" id="recaptcha_response_field" required class="input-recaptcha" placeholder="<?php echo $this->lang->line('capctha_enter_the_capctha'); ?>" name="recaptcha_response_field" />
 					  				<a class="btn" href="javascript:Recaptcha.reload()"><i class="icon-refresh"></i></a>
-					  				<a class="btn recaptcha_only_if_image" href="javascript:Recaptcha.switch_type('audio')"><i title="Get an audio CAPTCHA" class="icon-headphones"></i></a>
-					  				<a class="btn recaptcha_only_if_audio" href="javascript:Recaptcha.switch_type('image')"><i title="Get an image CAPTCHA" class="icon-picture"></i></a>
+					  				<a class="btn recaptcha_only_if_image" href="javascript:Recaptcha.switch_type('audio')"><i title="<?php echo $this->lang->line('captcha_get_audio'); ?>" class="icon-headphones"></i></a>
+					  				<a class="btn recaptcha_only_if_audio" href="javascript:Recaptcha.switch_type('image')"><i title="<?php echo $this->lang->line('captcha_get_image'); ?>" class="icon-picture"></i></a>
 							    	<a class="btn" href="javascript:Recaptcha.showhelp()"><i class="icon-question-sign"></i></a>
 					  			</div>
 					  		</div>
@@ -154,13 +154,13 @@
 
 					  <div class="control-group">
 					 	 <div class="controls">
-							<input class="btn btn-primary" style="clear: left; width: 220px; height: 32px; font-size: 13px;" type="submit" id="register" value="Register" />
+							<input class="btn btn-primary" style="clear: left; width: 220px; height: 32px; font-size: 13px;" type="submit" id="register" value="<?php echo $this->lang->line('ui_register'); ?>" />
 						 </div>
 					</div>
 					<div class="control-group">
-						<label class="control-label" >or</label>
+						<label class="control-label" ><?php echo $this->lang->line('ui_or'); ?></label>
 						<div class="controls">
-							<input class="btn btn-primary" style="clear: left; width: 220px; height: 32px; font-size: 13px;" type="button" id="register-google" value="Register Using Google" />
+							<input class="btn btn-primary" style="clear: left; width: 220px; height: 32px; font-size: 13px;" type="button" id="register-google" value="<?php echo $this->lang->line('ui_register_using_google'); ?>" />
 						</div>
 					</div>
 				</form>
@@ -169,12 +169,12 @@
 
       	<div class="alert alert-error" id="alert" style="display:none;">
   			<button type="button" class="close" data-dismiss="alert">×</button>
-  			<strong>Warning!</strong><div id="alert-content"></div>
+  			<strong><?php echo $this->lang->line('ui_warning'); ?></strong><div id="alert-content"></div>
 		</div>
 
 		<div class="alert allert-error error" id="error" style="display:none;">
   			<button type="button" class="close" data-dismiss="alert">×</button>
-  			<strong>Warning!</strong><div class="error-content"></div>
+  			<strong><?php echo $this->lang->line('ui_warning'); ?></strong><div class="error-content"></div>
 		</div>
 		<!-- Include jquery,boostrap and script -->
 		<?php 
@@ -194,7 +194,7 @@
 						object.attr("id","");
 						object.css("display","");
 						if (element == "incorrect-captcha-sol") {
-							$(object).find(".error-content").append('<span class="label label-important">Incorrect CAPTCHA!</span>');
+							$(object).find(".error-content").append('<span class="label label-important"><?php echo $this->lang->line('ui_register_incorrect_captcha'); ?></span>');
 						} else {
 							$(object).find(".error-content").append('<span class="label label-important">'+element+'!</span>');
 						}

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>ComputerInfo - <?php echo (isset($title))? $title : "Register"; ?></title>
+		<title><?php echo $this->lang->line('ui_title_brand'); ?> - <?php echo (isset($title))? $title : $this->lang->line('ui_register'); ?></title>
 		<meta charset="utf-8">
 		<!-- viewport -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -27,20 +27,20 @@
 		 
 		      	<!-- Be sure to leave the brand out there if you want it shown -->
 		      	<a class="brand" href="<?php echo $base_url; ?>">
-		      		ComputerInfo
+		      		<?php echo $this->lang->line('ui_brand_name'); ?>
 		      	</a>
 
 			    <!-- Everything you want hidden at 940px or less, place within here -->
 			    <div class="nav-collapse">
 			     	<ul class="nav">
 			     		<li class="active">
-				    		<a data-target="login" data-title="ComputerInfo - Login" href="<?php echo $base_url.'/users/sign_up'; ?>">Register</a>
+				    		<a data-target="login" data-title="<?php echo $this->lang->line('ui_title_brand'); ?> - <?php echo $this->lang->line('ui_register'); ?>" href="<?php echo $base_url.'/users/sign_up'; ?>"><?php echo $this->lang->line('ui_register'); ?></a>
 				  		</li>
 				  		<li>
-							<a data-title="ComputerInfo - Login" href="<?php echo $base_url.'home/login'; ?>">Login</a>
+							<a data-title="<?php echo $this->lang->line('ui_title_brand'); ?> - <?php echo $this->lang->line('ui_login'); ?>" href="<?php echo $base_url.'home/login'; ?>"><?php echo $this->lang->line('ui_login'); ?></a>
 						</li>
 		        		<li>
-							<a data-target="back" data-title="ComputerInfo - Back" href="<?php echo $base_url.'home'; ?>">Back</a>
+							<a data-target="back" data-title="<?php echo $this->lang->line('ui_title_brand'); ?> - <?php echo $this->lang->line('ui_back'); ?>" href="<?php echo $base_url.'home'; ?>"><?php echo $this->lang->line('ui_back'); ?></a>
 						</li>
 					</ul>
 		      	</div>
@@ -57,7 +57,7 @@
 						if (isset($message)) {
 							echo "<strong>".$message."</strong";
 						} else {
-							echo "<strong>Sorry an error encountered</strong";
+							echo "<strong>".$this->lang->line('error_encountered')."</strong";
 						}
 						?>
 					</p>

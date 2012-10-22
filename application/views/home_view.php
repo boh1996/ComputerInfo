@@ -8,7 +8,7 @@ if(!isset($jquery_url))
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>ComputerInfo - <?php echo $this->lang->line('ui_home_page'); ?></title>
+		<title><?php echo $this->lang->line('ui_title_brand'); ?> - <?php echo $this->lang->line('ui_home_page'); ?></title>
 		<!-- charset -->
 		<meta charset="utf-8">
 		<!-- viewport -->
@@ -35,26 +35,26 @@ if(!isset($jquery_url))
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</a>
-					<a class="brand" href="#">ComputerInfo</a>
+					<a class="brand" href="#"><?php echo $this->lang->line('ui_brand_name'); ?></a>
 					<div class="nav-collapse collapse">
 						<ul class="nav">
 							<li class="active"><a href="#"><?php echo $this->lang->line('ui_home_page'); ?></a></li>
 							<li><a href="#about"><?php echo $this->lang->line('ui_about_page'); ?></a></li>
 						</ul>
 						<ul class="nav pull-right">
-							<li><a href="/users/sign_up">Sign Up</a></li>
+							<li><a href="/users/sign_up"><?php echo $this->lang->line('ui_sign_up'); ?></a></li>
 							<li class="dropdown">
-								<a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In <strong class="caret"></strong></a>
+								<a class="dropdown-toggle" href="#" data-toggle="dropdown"><?php echo $this->lang->line('ui_sign_in'); ?><strong class="caret"></strong></a>
 								<div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
 									<form method="post" action="<?php echo $base_url; ?>login/check" method="post" accept-charset="UTF-8">
 										<input style="margin-bottom: 15px;" type="text" placeholder="Username or Email" id="username" name="username"/>
 										<input style="margin-bottom: 15px;" type="password" placeholder="Password" id="password" name="password" />
 										<input style="float: left; margin-right: 10px;" type="checkbox" name="remember-me" id="remember-me" value="1" />
-										<label class="string optional" for="user_remember_me"> Remember me</label>
-										<a style="text-align:left;padding:0;" href="<?php echo $base_url.'user/reset/password' ?>">I forgot my password!</a>
-										<input class="btn btn-primary" style="clear: left; width: 100%; height: 32px; font-size: 13px;" type="submit" id="sign-in" value="Sign In" />
-										<label style="text-align:center;margin-top:5px">or</label>
-										<input class="btn btn-primary" style="clear: left; width: 100%; height: 32px; font-size: 13px;" type="button" id="sign-in-google" value="Sign In Using Google" />
+										<label class="string optional" for="user_remember_me"> <?php echo $this->lang->line('ui_remember_me'); ?></label>
+										<a style="text-align:left;padding:0;" href="<?php echo $base_url.'user/reset/password' ?>"><?php echo $this->lang->line('ui_forgot_password'); ?></a>
+										<input class="btn btn-primary" style="clear: left; width: 100%; height: 32px; font-size: 13px;" type="submit" id="sign-in" value="<?php echo $this->lang->line('ui_sign_in'); ?>" />
+										<label style="text-align:center;margin-top:5px"><?php echo $this->lang->line('ui_login_or'); ?></label>
+										<input class="btn btn-primary" style="clear: left; width: 100%; height: 32px; font-size: 13px;" type="button" id="sign-in-google" value="<?php echo $this->lang->line('ui_google_login'); ?>" />
 									</form>
 								</div>
 							</li>
@@ -66,9 +66,9 @@ if(!isset($jquery_url))
 
 		<div class="container">
 			<div class="row">
-				<div class="span12"><h1>ComputerInfo - The source of information </h1></div>
+				<div class="span12"><h1><?php echo $this->lang->line('ui_home_title'); ?></h1></div>
 				<div class="span12">
-					<h4>With CoumputerInfo you've got all the information you need at your fingertips, right when you need them most.</h4>
+					<h4><?php echo $this->lang->line('ui_home_subtitle'); ?></h4>
 				</div>
 				<div class="span12">
 
@@ -82,14 +82,14 @@ if(!isset($jquery_url))
 							<div class="active item">
 								<img src="<?php echo $asset_url; ?>images/Home.png"/>
 								<div class="carousel-caption">
-									<h4>Modern easy to use control panel</h4>
+									<h4><?php echo $this->lang->line('ui_home_control_panel_title'); ?></h4>
 									<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
 								</div>
 							</div>
 							<div class="item">
 								<img src="<?php echo $asset_url; ?>images/Android.png"/>
 								<div class="carousel-caption">
-									<h4>All new fresh Android app</h4>
+									<h4><?php echo $this->lang->line('ui_home_android_app_title'); ?></h4>
 									<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
 								</div>
 							</div>

@@ -22,36 +22,50 @@ please activate your account.
 <br>
 To activate your account please visit <a href="{activation_url}">this</a> link!
 <br>
+If this request wasn\'t created by you, then visit <a href="{remove_email_url}">this</a> link!
+<br>
 Regards Illution';
 
-/**
- * A template for the mail to send to the user,
- * when they have requested for password reset
- * use {name} for the users name, 
- * {email} for the users email
- * and {token} for the reset token,
- * {base_url} for the site url,
- * and {reset_url} for the reset url with the token appended,
- * {webmaster_email} for the webmaster email,
- * {organization_name} fort the host organization name,
- * {app_name} for your application name,
- * {reset_time} the time when the email was sent,
- * {reset_day} the day when the email was sent,
- * {remove_url} the url to the request remove page
- */
-$lang["reset_password_mail_template"] = 'Hey {name}!<br>
-You have requested for a password reset at {reset_time} on the {reset_day},<br>
-for your account at <a href="{base_url}">Computer Info</a>,<br>
-click <a href="{reset_url}">this</a> link to change your password!<br>
-If the password reset request wasn\' created by you,
-then click <a href="{remove_url}">this</a> link!
-<br>
-Regards Illution
-';
+$lang["ui_register_username"] = "Username";
 
-/**
- * The template for subject for the reset password email
- * @see reset_password_mail_template for template variables
- */
-$lang["reset_password_mail_subject"] = "Dear {name} you have requested a password reset at ComputerInfo!";
+$lang["ui_regsiter_password"] = "Password";
+
+$lang["ui_re_passowrd"] = "Re-Password";
+
+$lang["ui_register_repeat_password"] = "Repeat password";
+
+$lang["ui_register_email"] = "Email";
+
+$lang["ui_register_name"] = "Name";
+
+$lang["ui_register_using_google"] = "Register Using Google";
+
+$lang["ui_register_incorrect_captcha"] = "Incorrect CAPTCHA!";
+
+$lang["register_error_passwords_not_matching"] = "Passwords not matching";
+
+$lang["register_username_requirement"] = "Username needs to be 5 characters or more";
+
+$lang["register_password_requirement"] = "Password needs to be 7 characters or more and include numbers";
+
+$lang["register_not_valid_email"] = "Not a matching email";
+
+$lang["register_username_or_email_exists"] = "Username or email already exists";
+
+$lang["register_resend_no_user_found"] = "Sorry no user found!";
+
+$lang["register_no_token_found"] = "No token specified!";
+
+$lang["register_we_couldnt_activate"] = "Sorry we couldn't activate that user!";
+
+$lang["registration_removed"] = 'Your registration have been removed click <a href="{signup_url}">here</a> to sign up again!';
+
+$lang["register_activation_mail_send"] = '<a class="btn" href="{resend_activation_url}">Resend activation email!</a>
+<a class="btn" href="{remove_email_url}">Remove registration</a>';
+
+$lang["not_a_valid_email"] = "Email is not an email!";
+
+$lang["error_password_not_macthing"] = "Passwords not matching";
+
+$lang["password_pattern_description"] = "Password should be seven or more characters and contain letters and numbers!";
 ?>
