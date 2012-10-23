@@ -360,7 +360,8 @@ class User_Management extends CI_Controller {
 		$template = $this->lang->line("password_reset_email_send");
 		$template_data = self::_Template_Mix($template_variables);
 		$this->load->view("register_status_view",$this->computerinfo_security->ControllerInfo(array(
-			"message" => self::_Template($template_data,$template)
+			"message" => self::_Template($template_data,$template),
+			"title" => $this->lang->line("ui_reset_password")
 		)));
 		return self::_Send_Email($name, $email, $this->lang->line("reset_password_mail_subject"),$this->lang->line("reset_password_mail_template"),$template_variables);
 	}
