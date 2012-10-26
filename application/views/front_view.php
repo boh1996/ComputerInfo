@@ -83,9 +83,7 @@
 
 						<thead>
 						</thead>
-						<tbody>
-			
-						</tbody>
+						<tbody></tbody>
 					</table>
 				</div>	
 
@@ -185,7 +183,7 @@
 	?>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>bootstrap/js/bootstrap.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/jquery.history.js"></script>
-	<script type="text/javascript" src="<?php echo $asset_url; ?>js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="<?php echo $asset_url; ?>js/jquery.dataTables.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/custom-form-elements.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/dataTables.bootstrap.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/FixedHeader.js"></script>

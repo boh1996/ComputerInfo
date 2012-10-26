@@ -45,12 +45,13 @@ $(window).ready(function(){
     });
 
 	application.initialize(1,function () {
-	    application.launch("computerGenerator",true);
+		var generator = generators[getPage()] || generators["computers"];
+	    application.launch(generator,true);
 	},function () {
 		$("#loading-background").remove();
 		$("#loading").hide();
 	    showPage();
-	});
+	},"danish");
 });
 
 function getPage () {

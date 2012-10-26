@@ -18,7 +18,9 @@ function tableGenerator (settings) {
 	this.multipleResponseNode = settings.multipleResponseNode;
 	this.multipleRequestType = settings.multipleRequestType;
 	this.root = (settings.root.indexOf("http") == -1)? window.location.protocol + "://" + settings.root : settings.root;
-
+	if (typeof settings.languageFile != "undefined") {
+		this.languageFile = settings.languageFile;
+	}
 	if (typeof settings.callback != "undefined") {
 		this.doneCallback = settings.callback;
 	}
@@ -56,6 +58,8 @@ tableGenerator.prototype = {
 	 * @type {string}
 	 */
 	token : null,
+
+	languageFile : null,
 
 	/**
 	 * The name of the key where to store the length select values
@@ -560,6 +564,31 @@ tableGenerator.prototype = {
 	},
 
 	/**
+	 * This function renders and updates the length select menu
+	 * @param   {object} parent The parent div of the table
+	 * @private
+	 */
+	_lengthSelect : function (parent) {
+		$(parent).find(".dataTables_length label").replaceWith('<form class="jqtransform">'+$(parent).find(".dataTables_length label").html()+'</form>');
+		$(parent).find(".dataTables_length form select").addClass("length_select");
+
+		var lengthSelect = $(parent).find(".length_select");
+
+		$(parent).find(".jqtransform").jqTransform();
+		$(parent).find(".jqtransform").find("select").css("display","none");
+
+		$(parent).find("div.jqTransformSelectWrapper ul li a").click($.proxy(function (index,element){ 
+			var value = $(parent).find("div.jqTransformSelectWrapper span").text();
+			this.filter_value = value;
+		    $(lengthSelect).val(value);
+		    localStorage.setItem(this.localStorageLengthKey,$(lengthSelect).val());
+			$(lengthSelect).trigger("change");
+			$(window).trigger("resize");
+		    return false;
+		}, this));
+	},
+
+	/**
 	 * This function initializes the jQuery datatables
 	 * @param {boolean} first If it's the first run
 	 */
@@ -571,20 +600,30 @@ tableGenerator.prototype = {
 		var settings = {
 			"sDom": "<'row-fluid'<'span4'l<'fields'>><'span4 offset4'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
 			"sPaginationType": "bootstrap",
-			"oLanguage": {
-				"sLengthMenu": this.length_menu
-			},
+			"oLanguage": {},
 			"bScrollCollapse": true,
             "bAutoWidth": false,
             "iDisplayLength" : this.filter_value,
              "sWrapper": "dataTables_wrapper form-inline",
              "fnDrawCallback": $.proxy(function (){ 
+             	this._lengthSelect(parent);
+             	this.initialize = false;
+   				if ($(parent).find(".fields").find("ul").length == 0) {
+   					this.generateFieldsDropdown("Fields",$(parent).find(".fields"));
+   				}
+   				if ($("#" + $(this.container).attr("id")+"-add-new").length == 0) {
+   					$(this.container).next(".row-fluid").find(".span6:last").append('<a class="btn btn-large-custom pull-right spacing-right"><i class="icon-plus" id="' + $(this.container).attr("id") + "-add-new" +'"></i></a>');
+   				}
              	if (this.dataTable != null) {
              		this.show();
 					this.findSortedColumns();
 				}	
+				$(window).trigger("resize");
 			}, this)
 		};
+		if (this.languageFile != null) {
+			settings.oLanguage.sUrl = this.languageFile;
+		}
 		if (sortSetting != null) {
 			settings.aaSorting = sortSetting;
 		}
@@ -594,27 +633,6 @@ tableGenerator.prototype = {
 		}
 		this.dataTable = $(this.container).dataTable( settings );
 		$(window).trigger("resize");
-		$(this.container).next(".row-fluid").find(".span6:last").append('<a class="btn btn-large-custom pull-right spacing-right"><i class="icon-plus" id="' + $(this.container).attr("id") + "-add-new" +'"></i></a>');
-		this.generateFieldsDropdown("Fields",$(parent).find(".fields"));
-		
-		//Length Select
-		var length_select = $(parent).find(".length_select");
-		$(length_select).change($.proxy(function (){ 
-			this.filter_value = $(length_select).val();
-			 localStorage.setItem(this.localStorageLengthKey,$(length_select).val());
-		}, this));
-
-		$(parent).find(".jqtransform").jqTransform();
-		$(parent).find(".jqtransform").find("select").css("display","none");
-
-		$(parent).find("div.jqTransformSelectWrapper ul li a").click($.proxy(function (index,element){ 
-			var value = $(parent).find("div.jqTransformSelectWrapper span").text();
-			this.filter_value = value;
-		    $(length_select).val(value);
-			$(length_select).trigger("change");
-			$(window).trigger("resize");
-		    return false;
-		}, this));
 
 		$(this.container).find("a.delete-button").live("click",$.proxy(function(event) {
 			event.stopPropagation();
@@ -627,9 +645,9 @@ tableGenerator.prototype = {
 		},this));
 
 		//Redraw Done
-		this.initialize = false;
 		this.redraw = false;
 		this.handleAdd();
+		$(window).trigger("resize");
 	},
 
 	/**
@@ -926,23 +944,6 @@ tableGenerator.prototype = {
 			}
 			this.tableRowClicked($(event.target).parent("th"));
 		},this));	
-
-		$(this.container).find("tbody tr").live("click",$.proxy(function(event){
-			event.stopPropagation();
-			event.preventDefault();
-			event.stopImmediatePropagation();
-			if (typeof event.target != "undefined") {
-				var curElement = $(event.target).get(0);
-				if ($(curElement).is("th")) {
-					if ($(curElement).find("a").attr("data-launch") == "false") {
-						return;
-					}
-				} else if ($(curElement).attr("data-launch") == "false") {
-					return;
-				}
-				this.tableRowClicked(curElement);
-			}
-		},this));
 	},
 
 	/**

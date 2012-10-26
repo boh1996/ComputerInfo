@@ -10,11 +10,9 @@
 
 .length_select{
 	background: transparent;
-  padding: 5px;
-  font-size: 16px;
+  padding-right: 5px;
   border: 1px solid #ccc;
   width: 240px;
-  height: 34px;
   overflow: hidden;
 }
 
@@ -46,10 +44,6 @@
   position: absolute !important;
   top: -9999px !important;
   left: -9999px !important;
-}
-
-.fields-select{
-  margin-bottom: 10px;
 }
 
 .dataTables_wrapper { width: 100% }

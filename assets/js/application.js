@@ -35,6 +35,8 @@ var application = {
 
 	current : null,
 
+	language : null,
+
 	/**
 	 * If the callback should be fired when the first element is done
 	 * @type {Boolean}
@@ -57,12 +59,14 @@ var application = {
 	 * @param  {integer} organization The current organization
 	 * @param {function} initializeCallback An optional initializeCallback for the app
 	 * @param {function} doneCallback The function to call when all things have been loaded
+	 * @param {string} language The users language
 	 */
-	initialize : function (organization,initializeCallback,doneCallback) {
+	initialize : function (organization,initializeCallback,doneCallback,language) {
 		application.initializeCallback = initializeCallback;
 		application.doneCallback = doneCallback;
 		application.organization = organization;
 		application.settings = new settings(organization);
+		application.language = language;
 		application.settings = application.settings;
 		if (userInfo.getCookie("token") == undefined || userInfo.getCookie("token") == null) {
 			window.location = root + "home/login";
@@ -84,6 +88,7 @@ var application = {
 				localStorageColumnsKey : "computer_columns",
 				multipleRequestType : "computers",
 				root : root,
+				languageFile : root + "assets/translations/datatables/"+application.language+".txt",
 				modal : $("#edit_computer"),
 				localStorageLengthKey : "computer_length_value",
 				handlers : {
@@ -106,6 +111,7 @@ var application = {
 				container : $("#location"),
 				localStorageLengthKey : "location_length_value",
 				columns :application.settings.locationColumns,
+				languageFile : root + "assets/translations/datatables/"+application.language+".txt",
 				responseNode : "Location",
 				multipleResponseNode : "Locations",
 				multipleRequestType : "locations",
@@ -132,6 +138,7 @@ var application = {
 				multipleRequestType : "devices",
 				root : root,
 				localStorageColumnsKey : "unit_columns",
+				languageFile : root + "assets/translations/datatables/"+application.language+".txt",
 				localStorageLengthKey : "unit_length_value",
 				handlers : {
 					location :application.settings.handlers.location,
@@ -139,7 +146,7 @@ var application = {
 					model :application.settings.handlers.device_model
 				},
 				callback : function () {
-					application.readyCallback("unitGenerator");
+					application.readyCallback("unitsGenerator");
 				}
 			});
 			//application.addGenerator(application.unitsGenerator,"unitsGenerator");
@@ -156,6 +163,7 @@ var application = {
 				localStorageColumnsKey : "printer_columns",
 				multipleRequestType : "printers",
 				root : root,
+				languageFile : root + "assets/translations/datatables/"+application.language+".txt",
 				handlers : {
 					location :application.settings.handlers.location,
 					model :application.settings.handlers.printer_model
@@ -177,6 +185,7 @@ var application = {
 				responseNode : "Screen",
 				multipleResponseNode : "Screens",
 				multipleRequestType : "screens",
+				languageFile : root + "assets/translations/datatables/"+application.language+".txt",
 				root : root,
 				handlers : {
 					location :application.settings.handlers.location,
