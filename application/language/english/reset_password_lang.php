@@ -35,21 +35,20 @@ $lang["reset_password_request_removed"] = "Request removed!";
  * {reset_day} the day when the email was sent,
  * {remove_url} the url to the request remove page
  */
-$lang["reset_password_mail_template"] = 'Hey {name}!<br>
+$lang["reset_password_mail_template"] = 'Hi {name},<br><br>
 You have requested for a password reset at {reset_time} on the {reset_day},<br>
 for your account at <a href="{base_url}">Computer Info</a>,<br>
 click <a href="{reset_url}">this</a> link to change your password!<br>
-If the password reset request wasn\' created by you,
+If the password reset request wasn\'t created by you,
 then click <a href="{remove_url}">this</a> link!
-<br>
-Regards Illution
+<br><br>Regards,<br>Illution<br>https://illution.dk<br>support@illution.dk
 ';
 
 /**
  * The template for subject for the reset password email
  * @see reset_password_mail_template for template variables
  */
-$lang["reset_password_mail_subject"] = "Dear {name} you have requested a password reset at ComputerInfo!";
+$lang["reset_password_mail_subject"] = "Dear {name}, you have requested a password reset at ComputerInfo!";
 
 $lang["password_reset_removed"] = "Your password reset have successfully been removed!";
 ?>
