@@ -1,5 +1,6 @@
 {
     "sProcessing":   "Henter...",
+    "sLoadingRecords": "Henter...",
     "sLengthMenu":   "_MENU_",
     "sZeroRecords":  "Ingen linjer matcher s&oslash;gningen",
     "sInfo":         "Viser _START_ til _END_ af _TOTAL_ linjer",
@@ -8,10 +9,15 @@
     "sInfoPostFix":  "",
     "sSearch":       "S&oslash;g:",
     "sUrl":          "",
+    "sEmptyTable":     "Ingen data fundet",
     "oPaginate": {
         "sFirst":    "F&oslash;rste",
         "sPrevious": "Forrige",
         "sNext":     "N&aelig;ste",
         "sLast":     "Sidste"
+    },
+    "oAria": {
+        "sSortAscending":  ": Aktiver for at sortere stigende",
+        "sSortDescending": ": Aktiver for at sortere faldende"
     }
 }

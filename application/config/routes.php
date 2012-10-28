@@ -85,6 +85,7 @@ else {
 		$route["home"] = "home";
 		$route["logout/reset"] = "login/reset";
 		$route["home/login"] = "home";
+		$route["translate/(:any)"] = "translations/file/$1";
 		$route["windows/login"] = "windows_login";
 		$route["users/sign_up"] = "user_management/register";
 		$route["login/windows"] = "login/desktop/windows";

@@ -43,4 +43,6 @@ $lang["ui_about_page"] = "About";
 $lang["ui_activate_page"] = "Activate";
 
 $lang["ui_reset_password_page"] = "Reset Password";
+
+$lang["ui_settings_page"] = "Settings";
 ?>

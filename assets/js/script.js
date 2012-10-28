@@ -10,6 +10,7 @@ var data = {
 	"users" : "users",
 	//"organizations" : "organizations",
 	"locations" : "locations",
+	"settings" : "settings"
 }
 
 var generators = {
@@ -24,7 +25,7 @@ if (typeof history.pushState === 'undefined') {
   var History = window.History; // Note: We are using a capital H instead of a lower h
 }
 
-$(".nav li a").live('click', function (event) {
+$(".nav li a[data-target],ul li a[data-target]").live('click', function (event) {
   	var title,url,object;
   
   	event.preventDefault();
@@ -83,12 +84,18 @@ function showPage () {
 		objx.get(application,id).hide();
 	}
 	page = getPage();
+	if (page == "") {
+		page == "computers";
+	}
+	console.log(page);
    	if ($("#"+page).length > 0) {
    		$(".active_page").addClass("disabled_page").removeClass("active_page");
    		$("#"+page).removeClass("disabled_page").addClass("active_page");
    		if ($('a[data-target="'+findPageString(page)+'"]').length > 0 && !$('a[data-target="'+findPageString(page)+'"]').parent("li").hasClass("active")) {
    			$(".active").removeClass("active");
-   			$('a[data-target="'+findPageString(page)+'"]').parent("li").addClass("active");
+   			if ($('a[data-target="'+findPageString(page)+'"]').attr("data-no-active") != "true") {
+   				$('a[data-target="'+findPageString(page)+'"]').parent("li").addClass("active");
+   			}
    		}
    	}
 	var newPage = $("#"+page);

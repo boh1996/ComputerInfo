@@ -26,4 +26,8 @@ $lang["ui_back"] = "Back";
 $lang["ui_warning"] = "Warning!";
 
 $lang["ui_or"] = "or";
+
+$lang["ui_user"] = "User";
+
+$lang["ui_settings"] = "Settings";
 ?>

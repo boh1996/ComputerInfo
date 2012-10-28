@@ -18,6 +18,9 @@ function tableGenerator (settings) {
 	this.multipleResponseNode = settings.multipleResponseNode;
 	this.multipleRequestType = settings.multipleRequestType;
 	this.root = (settings.root.indexOf("http") == -1)? window.location.protocol + "://" + settings.root : settings.root;
+	if (typeof settings.translations != "undefined") {
+		$.extend(this.translations,settings.translations);
+	}
 	if (typeof settings.languageFile != "undefined") {
 		this.languageFile = settings.languageFile;
 	}
@@ -201,6 +204,22 @@ tableGenerator.prototype = {
 	dataTable : null,
 
 	/**
+	 * The tableGenerator translations
+	 * @type {Object}
+	 */
+	translations : {
+		"error_encountered" : "Sorry an error encountered! Try again!",
+		"no_ressource_found" : "No ressource could be found or an error occured!",
+		"are_you_sure" : "Are you sure?",
+		"cancel" : "Cancel",
+		"yes" : "Yes",
+		"confirm_delete_object" : "Are you sure you want to delete this object?",
+		"edit" : "Edit",
+		"delete" : "Delete",
+		"fields" : "Fields"
+	},
+
+	/**
 	 * The code/object/string to use as length filtering
 	 * @type {[type]}
 	 */
@@ -227,7 +246,7 @@ tableGenerator.prototype = {
 					}
 				}
 				if(i == this.countProperties(this.columns)) {
-					objectElement.append('<th class="table-button-column"><a class="btn delete-button table-button" data-launch="false">Delete</a><a class="btn edit-button table-button">Edit</a></th>');
+					objectElement.append('<th class="table-button-column"><a class="btn delete-button table-button" data-launch="false">'+this.translations["delete"]+'</a><a class="btn edit-button table-button">'+this.translations["edit"]+'</a></th>');
 					this.container.find("tbody").append(objectElement);
 					this.ensureLayout();
 				}	
@@ -379,7 +398,7 @@ tableGenerator.prototype = {
 			}, this),
 			error : $.proxy(function (){
 				this.readyCallback();
-				this.showError("No ressource could be found or an error occured!",$("#error_container"));
+				this.showError(this.translations["no_ressource_found"],$("#error_container"));
 			}, this),
 		});
 	},
@@ -609,7 +628,7 @@ tableGenerator.prototype = {
              	this._lengthSelect(parent);
              	this.initialize = false;
    				if ($(parent).find(".fields").find("ul").length == 0) {
-   					this.generateFieldsDropdown("Fields",$(parent).find(".fields"));
+   					this.generateFieldsDropdown(this.translations["fields"],$(parent).find(".fields"));
    				}
    				if ($("#" + $(this.container).attr("id")+"-add-new").length == 0) {
    					$(this.container).next(".row-fluid").find(".span6:last").append('<a class="btn btn-large-custom pull-right spacing-right"><i class="icon-plus" id="' + $(this.container).attr("id") + "-add-new" +'"></i></a>');
@@ -622,7 +641,7 @@ tableGenerator.prototype = {
 			}, this)
 		};
 		if (this.languageFile != null) {
-			settings.oLanguage.sUrl = this.languageFile;
+			settings.oLanguage = this.languageFile;
 		}
 		if (sortSetting != null) {
 			settings.aaSorting = sortSetting;
@@ -639,7 +658,7 @@ tableGenerator.prototype = {
 			event.preventDefault();
 			event.stopImmediatePropagation();
 			var element = $($(event.target).get(0)).parent("th").parent("tr").get(0);
-			this.confirmDialog("Are you sure you want to delete this object?",$.proxy(function () {
+			this.confirmDialog(this.translations["confirm_delete_object"],$.proxy(function () {
 				this.deleteObject(element);
 			},this));
 		},this));
@@ -666,7 +685,7 @@ tableGenerator.prototype = {
 				}
 			});
 		} else {
-			var modal = $('<div class="modal hide"><div class="modal-header"><button type="button" class="close" data-dismiss="modal">&times;</button><h3>Are you sure?</h3></div><div class="modal-body"></div><div class="modal-footer"><a href="#" class="btn" data-dismiss="modal">Cancel</a><a href="#" data-dismiss="modal" class="btn btn-primary">Yes</a></div></div>');
+			var modal = $('<div class="modal hide"><div class="modal-header"><button type="button" class="close" data-dismiss="modal">&times;</button><h3>'+this.translations["are_you_sure"]+'</h3></div><div class="modal-body"></div><div class="modal-footer"><a href="#" class="btn" data-dismiss="modal">'+this.translations["cancel"]+'</a><a href="#" data-dismiss="modal" class="btn btn-primary">'+this.translations["yes"]+'</a></div></div>');
 			var id = this.randomString(6);
 			this.storedVariables["confirm-dialog"] = {id : id};
 			modal.attr("id",id);
@@ -837,7 +856,7 @@ tableGenerator.prototype = {
 					}
 				}, this),
 				error : $.proxy(function(){
-					this.showError("Sorry an error encountered! Try again!",modal.find(".modal-body"));
+					this.showError(this.translations["error_encountered"],modal.find(".modal-body"));
 				},this)
 			});
 		}

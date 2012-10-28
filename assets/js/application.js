@@ -88,7 +88,8 @@ var application = {
 				localStorageColumnsKey : "computer_columns",
 				multipleRequestType : "computers",
 				root : root,
-				languageFile : root + "assets/translations/datatables/"+application.language+".txt",
+				translations : settings.tableGeneratorTranslations,
+				languageFile : datatables_translations,
 				modal : $("#edit_computer"),
 				localStorageLengthKey : "computer_length_value",
 				handlers : {
@@ -102,7 +103,7 @@ var application = {
 					application.readyCallback("computerGenerator");
 				}
 			});
-			application.addGenerator(application.computerGenerator,"computerGenerator");
+			//application.addGenerator(application.computerGenerator,"computerGenerator");
 
 			//Locations
 			application.locationGenerator = new tableGenerator({
@@ -111,12 +112,13 @@ var application = {
 				container : $("#location"),
 				localStorageLengthKey : "location_length_value",
 				columns :application.settings.locationColumns,
-				languageFile : root + "assets/translations/datatables/"+application.language+".txt",
+				languageFile : datatables_translations,
 				responseNode : "Location",
 				multipleResponseNode : "Locations",
 				multipleRequestType : "locations",
 				localStorageColumnsKey : "location_columns",
 				root : root,
+				translations : settings.tableGeneratorTranslations,
 				handlers : {
 					floor :application.settings.handlers.floor,
 					building :application.settings.handlers.building
@@ -135,10 +137,11 @@ var application = {
 				columns :application.settings.unitColumns,
 				responseNode : "Device",
 				multipleResponseNode : "Devices",
+				translations : settings.tableGeneratorTranslations,
 				multipleRequestType : "devices",
 				root : root,
 				localStorageColumnsKey : "unit_columns",
-				languageFile : root + "assets/translations/datatables/"+application.language+".txt",
+				languageFile : datatables_translations,
 				localStorageLengthKey : "unit_length_value",
 				handlers : {
 					location :application.settings.handlers.location,
@@ -156,6 +159,7 @@ var application = {
 				modal : $("#edit_printer"),
 				requestType : "printer",
 				localStorageLengthKey : "printer_length_value",
+				translations : settings.tableGeneratorTranslations,
 				container : $("#printer"),
 				columns :application.settings.printerColumns,
 				responseNode : "Printer",
@@ -163,7 +167,7 @@ var application = {
 				localStorageColumnsKey : "printer_columns",
 				multipleRequestType : "printers",
 				root : root,
-				languageFile : root + "assets/translations/datatables/"+application.language+".txt",
+				languageFile : datatables_translations,
 				handlers : {
 					location :application.settings.handlers.location,
 					model :application.settings.handlers.printer_model
@@ -179,13 +183,14 @@ var application = {
 				requestType : "screen",
 				modal : $("#edit_screen"),
 				localStorageLengthKey : "screen_length_value",
+				translations : settings.tableGeneratorTranslations,
 				localStorageColumnsKey : "screen_columns",
 				container : $("#screen"),
 				columns :application.settings.screenColumns,
 				responseNode : "Screen",
 				multipleResponseNode : "Screens",
 				multipleRequestType : "screens",
-				languageFile : root + "assets/translations/datatables/"+application.language+".txt",
+				languageFile : datatables_translations,
 				root : root,
 				handlers : {
 					location :application.settings.handlers.location,
@@ -194,7 +199,7 @@ var application = {
 					application.readyCallback("screenGenerator");
 				}
 			});
-			//application.addGenerator(application.screenGenerator,"screenGenerator");
+			application.addGenerator(application.screenGenerator,"screenGenerator");
 			if (typeof initializeCallback == "function") {
 				application.initializeCallback();
 			}
