@@ -1733,4 +1733,9 @@ class Api extends CI_Controller {
 	private function _Cpu_Search(){
 		self::_Simple_Search("Cpu");
 	}
+
+	private function _User_Settings_Create () {
+		echo $this->_User->id;
+		die();
+	}
 }

@@ -104,7 +104,7 @@
 				</div>
 
 				<div id="settings" class="settings" class="disabled_page">
-					<form class="form-horizontal well settings-form">
+					<form class="form-horizontal well settings-form" id="settings-form">
 						<div class="control-group">
 							<label class="control-label" for="save-selection"><?php echo $this->lang->line('ui_user_settings_save_selection'); ?>:</label>
 							<div class="controls">
@@ -117,11 +117,14 @@
 						<div class="control-group">
 							<label class="control-label" for="user-language"><?php echo $this->lang->line('ui_user_settings_language'); ?>:</label>
 							<div class="controls">
-									<select id="user-language" class="combobox">
-										<option></option>
-										<option value="danish">Dansk</option>
-										<option value="english">English</option>
-									</select>
+									<input type="text" id="user-language" data-provide="typeahead" autocomplete="off">
+							</div>
+						</div>
+
+						<div class="control-group">
+							<label class="control-label" for="save-settings"><?php echo $this->lang->line('ui_user_settings_save_changes'); ?>:</label>
+							<div class="controls">
+									<input type="submit" class="btn btn-primary span2" id="save-settings" value="<?php echo $this->lang->line('ui_user_settings_save'); ?>">
 							</div>
 						</div>
 					</form>
@@ -191,6 +194,7 @@
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/tableGenerator.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/application.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/script.js"></script>
+	<script type="text/javascript" src="<?php echo $asset_url; ?>js/settings.js"></script>
 	<script type="text/javascript">
 		$('#save-selections').toggleButtons({
 		    style: {
@@ -198,7 +202,19 @@
 		        disabled: "danger"
 		    }
 		});
-		$('.combobox').combobox();
+		$("#user-language").typeahead({
+			<?php
+				$string = 'source : [';
+				if (is_array($this->config->item("languages"))) {
+					foreach ($this->config->item("languages") as $folder => $language) {
+						$string .= '"'.$language.'",';
+					}
+					$string = rtrim($string,",");
+				}
+				$string .="]";
+				echo $string;
+			?>
+		});
 	</script>
 	</body>
 </html>

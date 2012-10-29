@@ -87,7 +87,6 @@ function showPage () {
 	if (page == "") {
 		page == "computers";
 	}
-	console.log(page);
    	if ($("#"+page).length > 0) {
    		$(".active_page").addClass("disabled_page").removeClass("active_page");
    		$("#"+page).removeClass("disabled_page").addClass("active_page");

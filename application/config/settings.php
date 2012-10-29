@@ -97,4 +97,6 @@ $config["dev_mode"] = true;
  * If this parameter is true and dev_mode is true, then security is off
  */
 $config["login_off"] = false;
+
+$config["languages"] = array("danish" => "Dansk","english" => "English");
 ?>
