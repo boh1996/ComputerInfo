@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -16,6 +17,7 @@
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/loading.css">
 		<script type="text/javascript">var root = "<?php echo $base_url; ?>";</script>
 		<script type="text/javascript">var method = "<?php echo $method; ?>";</script>
+		<script type="text/javascript">var language = "<?php echo $language; ?>";</script>
 	</head>
 	<body>
 
@@ -39,7 +41,7 @@
 		    <!-- Everything you want hidden at 940px or less, place within here -->
 		    <div class="nav-collapse">
 		     	<ul class="nav">
-		     		<li class="active">
+		     		<li>
 			    		<a data-target="computer" data-title="<?php echo $this->lang->line('ui_title_brand'); ?> - <?php echo $this->lang->line('ui_computers_page'); ?><" href="#"><?php echo $this->lang->line('ui_computers_page'); ?></a>
 			  		</li>
 				  	<li>
@@ -51,14 +53,11 @@
 				  	<li>
 				  		<a data-target="locations" data-title="<?php echo $this->lang->line('ui_title_brand'); ?> - <?php echo $this->lang->line('ui_rooms_page'); ?>" href="#"><?php echo $this->lang->line('ui_rooms_page'); ?></a>
 				  	</li>
-				  	<!--<li>
-				  		<a data-target="organizations" data-title="<?php echo $this->lang->line('ui_title_brand'); ?> - Organizationer" href="#">Organizationer</a>
-				  	</li>-->
 				  	<li>
 				  		<a data-target="screens" data-title="<?php echo $this->lang->line('ui_title_brand'); ?> - <?php echo $this->lang->line('ui_screens_page'); ?>" href="#"><?php echo $this->lang->line('ui_screens_page'); ?></a>
 				  	</li>
 				  	<li>
-				  		<a data-target="users" data-title="<?php echo $this->lang->line('ui_title_brand'); ?> - <?php echo $this->lang->line(''); ?>" href="#"><?php echo $this->lang->line('$lang["ui_users_page'); ?></a>
+				  		<a data-target="users" data-title="<?php echo $this->lang->line('ui_title_brand'); ?> - <?php echo $this->lang->line('ui_users_page'); ?>" href="#"><?php echo $this->lang->line('ui_users_page'); ?></a>
 				  	</li>
 				</ul>
 				<ul class="nav pull-right">
@@ -103,21 +102,23 @@
 
 				</div>
 
-				<div id="settings" class="settings" class="disabled_page">
+				<div id="settings" class="settings disabled_page">
 					<form class="form-horizontal well settings-form" id="settings-form">
 						<div class="control-group">
 							<label class="control-label" for="save-selection"><?php echo $this->lang->line('ui_user_settings_save_selection'); ?>:</label>
 							<div class="controls">
 								<div id="save-selections">
-									<input type="checkbox" id="save-selection" checked="checked">
+									<input type="checkbox" id="save-selection" <?php echo ($save_selections === "true")?'checked="checked"': ""; ?>>
 								</div>
 							</div>
 						</div>
 
+						<hr>
+
 						<div class="control-group">
 							<label class="control-label" for="user-language"><?php echo $this->lang->line('ui_user_settings_language'); ?>:</label>
 							<div class="controls">
-									<input type="text" id="user-language" data-provide="typeahead" autocomplete="off">
+									<input type="text" id="user-language" value="<?php echo $languageString; ?>" data-provide="typeahead" autocomplete="off">
 							</div>
 						</div>
 

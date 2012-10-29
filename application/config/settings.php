@@ -99,4 +99,8 @@ $config["dev_mode"] = true;
 $config["login_off"] = false;
 
 $config["languages"] = array("danish" => "Dansk","english" => "English");
+
+$config["session_id_cookie"] = "SESSIONID";
+
+$config["user_id_session"] = "user_id";
 ?>

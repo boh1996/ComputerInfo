@@ -9,7 +9,7 @@ class Api extends CI_Controller {
 	 */
 	private $_User = NULL;
 
-	private $_no_auth = array("_Token");
+	private $_no_auth = array("_Token","_Ci_Version","_Codeigniter_Version_Check","_Ci_Version_Remote");
 
 	/**
 	 * This function recives all the calls when a page is requested
@@ -52,8 +52,9 @@ class Api extends CI_Controller {
 				return TRUE;
 			}
 		}
+
 	    if (method_exists($this, $method)) {	
-	    	if(self::_Authenticate() || self::_No_Auth($method)){
+	    	if(self::_Authenticate() || self::_No_Auth($method) == true){
 	    		return call_user_func_array(array($this, $method), $params);
 	    	} else {
 	    		$this->api_response->Code = 403;
@@ -1734,8 +1735,59 @@ class Api extends CI_Controller {
 		self::_Simple_Search("Cpu");
 	}
 
+	/**
+	 * This function saves the users settings
+	 * @since 1.0
+	 * @access private
+	 */
 	private function _User_Settings_Create () {
-		echo $this->_User->id;
+		$this->load->model("settings");
+		$data = array();
+		if ($this->input->post("save_selection") !== false && in_array($this->input->post("save_selection"), array("true","false"))) {
+			$data["save_selection"] = $this->input->post("save_selection");
+		}
+
+		if ($this->input->post("language") && array_search($this->input->post("language"), $this->config->item("languages")) !== false) {
+			$data["language"] = array_search($this->input->post("language"), $this->config->item("languages"));
+		}
+		if (count($data) > 0) {
+			$this->settings->set($this->_User->id,$data);
+			$this->api_response->Response = array("status" => "Success");
+			$this->api_response->Code = 200; 
+		} else {
+			$this->api_response->Code = 400;
+		}
+	}
+
+	/**
+	 * This function outputs the current version of CodeIgniter
+	 * @since 1.1
+	 * @access private
+	 */
+	private function _Ci_Version () {
+		echo CI_VERSION;
+		die();
+	}
+
+	/**
+	 * This function outputs if the installed version is the newest available version of CodeIgniter
+	 * @since 1.1
+	 * @access private
+	 */
+	private function _Codeigniter_Version_Check () {
+		 $newestVersion = file_get_contents("http://versions.ellislab.com/codeigniter_version.txt");
+		 $installedVersion = CI_VERSION;
+		 echo ($newestVersion == $installedVersion)? "false" : "true";
+		 die();
+	}
+
+	/**
+	 * This function outputs the newest version of CodeIgniter
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _Ci_Version_Remote () {
+		echo file_get_contents("http://versions.ellislab.com/codeigniter_version.txt");
 		die();
 	}
 }

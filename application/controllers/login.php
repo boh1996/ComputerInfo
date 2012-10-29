@@ -22,7 +22,7 @@ class Login extends CI_Controller {
 	 */
 	private function _Is_Set () {
 		$this->load->helper("cookie");
-		return (isset($_SESSION["user_id"]) && get_cookie("token") != null && get_cookie("token") != false && get_cookie("token") != "");
+		return (isset($_SESSION[$this->config->item("user_id_session")]) && get_cookie("token") != null && get_cookie("token") != false && get_cookie("token") != "");
 	}
 
 	/**
@@ -77,7 +77,7 @@ class Login extends CI_Controller {
 						if (!$User->Load($UserId)) { 
 							self::_redirect($this->config->item("login_page"));
 						}
-						$_SESSION["user_id"] = $User->id;
+						$_SESSION[$this->config->item("user_id_session")] = $User->id;
 						$Token = new Token();
 						$Token->Create($User->id);
 						$this->load->helper("cookie");
@@ -123,16 +123,16 @@ class Login extends CI_Controller {
 		$this->load->library("auth/login_security");
 
 		//If the user already is logged in
-		if (isset($_SESSION["user_id"]) && $this->computerinfo_security->User_Exists($_SESSION["user_id"])) {
+		if (isset($_SESSION[$this->config->item("user_id_session")]) && $this->computerinfo_security->User_Exists($_SESSION[$this->config->item("user_id_session")])) {
 			$User = new User();
-			$User->Load($_SESSION["user_id"]);
+			$User->Load($_SESSION[$this->config->item("user_id_session")]);
 			$user_object = $User;
 			return TRUE;
 
 		//Else destroy the old session
-		} else if (isset($_SESSION["user_id"])) {
+		} else if (isset($_SESSION[$this->config->item("user_id_session")])) {
 			$this->load->helper("cookie");
-			unset($_SESSION["user_id"]);
+			unset($_SESSION[$this->config->item("user_id_session")]);
 			delete_cookie("PHPSESSID");
 			delete_cookie("token");
 		}
@@ -180,7 +180,7 @@ class Login extends CI_Controller {
 	 */
 	public function Enter () {
 		if (self::_check_user_login($User) && !is_null($User->id)) {
-			$_SESSION["user_id"] = $User->id;
+			$_SESSION[$this->config->item("user_id_session")] = $User->id;
 			$this->load->library("token");
 			$this->load->config("api");
 			$Token = new Token();
@@ -225,7 +225,7 @@ class Login extends CI_Controller {
 				$Token = new Token();
 				$Token->offline = 1;
 				$Token->Create($User->id);
-				$_SESSION["user_id"] = $User->id;
+				$_SESSION[$this->config->item("user_id_session")] = $User->id;
 				echo json_encode(array("User" => $User->Export(),"status" => "OK","token" => $Token->Export(null, false, array("user","created"))));
 			} else {
 				echo json_encode(array("User" => null,"status" => "FAIL"));
@@ -297,13 +297,7 @@ class Login extends CI_Controller {
 	 * @access public
 	 */
 	public function Logout ( $redirect = true) {
-		$this->load->helper("cookie");
-		if (isset($_SESSION["user_id"])) {
-			unset($_SESSION["user_id"]);
-		}
-		session_destroy();
-		delete_cookie("PHPSESSID");
-		delete_cookie("token");
+		$this->computerinfo_security->Logout();
 		if ($redirect) {
 			self::_redirect($this->config->item("not_logged_in_page"));
 		}

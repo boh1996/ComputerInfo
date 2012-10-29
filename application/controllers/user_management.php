@@ -197,7 +197,7 @@ class User_Management extends CI_Controller {
 	 * @param integer $user_id The id of the user to login
 	 */
 	private function _Login ($user_id) {
-		$_SESSION["user_id"] = $user_id;
+		$_SESSION[$this->config->item("user_id_session")] = $user_id;
 		$this->load->library("token");
 		$this->load->config("api");
 		$Token = new Token();
@@ -222,6 +222,8 @@ class User_Management extends CI_Controller {
 		$User->hashing_iterations = $register_token->hashing_iterations;
 		$User->login_token = $register_token->user_salt;
 		if ($User->Save()) {
+			$this->load->model("settings");
+			$this->settings->set($User->id,array("language" => $this->config->item("language")));
 			return $User;
 		} else {
 			return FALSE;

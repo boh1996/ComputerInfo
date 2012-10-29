@@ -52,7 +52,7 @@ $(window).ready(function(){
 		$("#loading-background").remove();
 		$("#loading").hide();
 	    showPage();
-	},"danish");
+	},language);
 });
 
 function getPage () {
@@ -70,9 +70,11 @@ function initialize () {
    	if ($("#"+page).length > 0) {
 		$(".active_page").addClass("disabled_page").removeClass("active_page");
 		$("#"+page).removeClass("disabled_page").addClass("active_page");
-		if ($('a[data-target="'+findPageString(page)+'"]').length > 0 && !$('a[data-target="'+findPageString(page)+'"]').parent("li").hasClass("active")) {
+		if ($('a[data-target="'+findPageString(page,"computers")+'"]').length > 0 && !$('a[data-target="'+findPageString(page,"computers")+'"]').parent("li").hasClass("active")) {
 			$(".active").removeClass("active");
-			$('a[data-target="'+findPageString(page)+'"]').parent("li").addClass("active");
+			if ($('a[data-target="'+findPageString(page,"computers")+'"]').attr("data-no-active") != "true") {
+   				$('a[data-target="'+findPageString(page,"computers")+'"]').parent("li").addClass("active");
+   			}
 		}
 	}
 }
@@ -90,10 +92,10 @@ function showPage () {
    	if ($("#"+page).length > 0) {
    		$(".active_page").addClass("disabled_page").removeClass("active_page");
    		$("#"+page).removeClass("disabled_page").addClass("active_page");
-   		if ($('a[data-target="'+findPageString(page)+'"]').length > 0 && !$('a[data-target="'+findPageString(page)+'"]').parent("li").hasClass("active")) {
+   		if ($('a[data-target="'+findPageString(page,"computers")+'"]').length > 0 && !$('a[data-target="'+findPageString(page,"computers")+'"]').parent("li").hasClass("active")) {
    			$(".active").removeClass("active");
-   			if ($('a[data-target="'+findPageString(page)+'"]').attr("data-no-active") != "true") {
-   				$('a[data-target="'+findPageString(page)+'"]').parent("li").addClass("active");
+   			if ($('a[data-target="'+findPageString(page,"computers")+'"]').attr("data-no-active") != "true") {
+   				$('a[data-target="'+findPageString(page,"computers")+'"]').parent("li").addClass("active");
    			}
    		}
    	}
@@ -109,8 +111,8 @@ function showPage () {
 	}
 }
 
-function findPageString (str) {
-	var returnValue = "";
+function findPageString (str,std) {
+	var returnValue = std || "";
 	$.each(data,function(index,element){
 		if (element == str) {
 			returnValue = index;

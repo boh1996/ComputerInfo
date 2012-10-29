@@ -10,6 +10,9 @@ $("#settings-form").submit(function (event) {
 	$.ajax({
 		url : root + "user/settings?token="+userInfo.getCookie("token"),
 		type : "POST",
-		data : data
+		data : data,
+		success : function () {
+			window.location = window.location;
+		}
 	});
 });;

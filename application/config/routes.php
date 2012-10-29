@@ -37,7 +37,14 @@
 | in the URL cannot be matched to a valid route.
 |
 */
+$route["update/codeigniter/check"] = "api/codeigniter_version_check";
+$route["update/codeigniter/version"] = "api/ci/version";
+$route["update/codeigniter/remote"] = "api/ci_version_remote";
 
+$whitelist = array("localhost","127.0.0.1");
+if (in_array($_SERVER["HTTP_HOST"],$whitelist)) {
+
+}
 /**
  * Api Routes
  */

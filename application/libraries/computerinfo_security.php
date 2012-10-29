@@ -66,11 +66,11 @@ class Computerinfo_Security{
 
 		$Result = self::_RequiresSecurity();
 
-		if($Result && !isset($_SESSION["user_id"])){
+		if($Result && !isset($_SESSION[$this->_CI->config->item("user_id_session")])){
 			self::Logout();
 			redirect($this->_CI->config->item("not_logged_in_page"));
 			return;
-		} else if(isset($_SESSION["user_id"]) && !self::User_Exists($_SESSION["user_id"])){
+		} else if(isset($_SESSION[$this->_CI->config->item("user_id_session")]) && !self::User_Exists($_SESSION[$this->_CI->config->item("user_id_session")])){
 			self::Logout();
 			redirect($this->_CI->config->item("not_logged_in_page"));
 			return;		
@@ -80,7 +80,7 @@ class Computerinfo_Security{
 			return;
 		}
 
-		if (isset($_SESSION["user_id"])) {
+		if (isset($_SESSION[$this->_CI->config->item("user_id_session")])) {
 			if (!self::VerifyToken()) {
 				self::Logout();
 				redirect($this->_CI->config->item("not_logged_in_page"));	
@@ -100,12 +100,12 @@ class Computerinfo_Security{
 	public function VerifyToken () {
 		$this->_CI->load->library("token");
 		$Token = new Token();
-		if (isset($_SESSION["user_id"]) && self::User_Exists($_SESSION["user_id"])) {
-			if (isset($_COOKIE["token"]) && $Token->Load(array("token" => $_COOKIE["token"])) && !is_null($Token->token) && $Token->user->id == $_SESSION["user_id"]) {
+		if (isset($_SESSION[$this->_CI->config->item("user_id_session")]) && self::User_Exists($_SESSION[$this->_CI->config->item("user_id_session")])) {
+			if (isset($_COOKIE["token"]) && $Token->Load(array("token" => $_COOKIE["token"])) && !is_null($Token->token) && $Token->user->id == $_SESSION[$this->_CI->config->item("user_id_session")]) {
 				if (!$Token->IsValid()) {
 					$this->_CI->load->library("user");
 					$User = new User();
-					$User->Load($_SESSION["user_id"]);
+					$User->Load($_SESSION[$this->_CI->config->item("user_id_session")]);
 					self::CreateToken($User);
 					return TRUE;
 				} else {
@@ -156,11 +156,11 @@ class Computerinfo_Security{
 	 */
 	public function Logout () {
 		$this->_CI->load->helper("cookie");
-		if (isset($_SESSION["user_id"])) {
-			unset($_SESSION["user_id"]);
+		if (isset($_SESSION[$this->_CI->config->item("user_id_session")])) {
+			unset($_SESSION[$this->_CI->config->item("user_id_session")]);
 		}
 		session_destroy();
-		delete_cookie("PHPSESSID");
+		delete_cookie($this->_CI->config->item("session_id_cookie"));
 		delete_cookie("token");
 	}
 
