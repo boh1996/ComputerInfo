@@ -152,7 +152,7 @@ var application = {
 					application.readyCallback("unitsGenerator");
 				}
 			});
-			//application.addGenerator(application.unitsGenerator,"unitsGenerator");
+			application.addGenerator(application.unitsGenerator,"unitsGenerator");
 
 			//Printers
 			application.printerGenerator = new tableGenerator({

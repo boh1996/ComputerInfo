@@ -56,7 +56,7 @@ $config["password_length"] = 7;
 /**
  * The number of iterations to hash the new users password with
  */
-$config["hashing_iterations"] = 10;
+$config["hashing_iterations"] = 10000;
 
 /**
  * The length of the user salt

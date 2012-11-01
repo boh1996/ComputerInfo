@@ -1410,7 +1410,7 @@ class Api extends CI_Controller {
 			$Device->last_updated = time();
 			if($Device->Save()){
 				$this->api_response->Code = 200;
-				$this->api_response->Response = array();
+				$this->api_response->Response = $Device->Export();
 			} else {
 				$this->api_response->Code = 409;
 			}
@@ -1742,6 +1742,7 @@ class Api extends CI_Controller {
 	 */
 	private function _User_Settings_Create () {
 		$this->load->model("settings");
+		$this->load->library("auth/login_security");
 		$data = array();
 		if ($this->input->post("save_selection") !== false && in_array($this->input->post("save_selection"), array("true","false"))) {
 			$data["save_selection"] = $this->input->post("save_selection");
@@ -1750,6 +1751,25 @@ class Api extends CI_Controller {
 		if ($this->input->post("language") && array_search($this->input->post("language"), $this->config->item("languages")) !== false) {
 			$data["language"] = array_search($this->input->post("language"), $this->config->item("languages"));
 		}
+
+		//Only promt for password if the user has a password
+		if ($this->user_control->user->password != "") {
+			if ($this->input->post("user_email") !== false && filter_var($this->input->post("user_email"), FILTER_VALIDATE_EMAIL)) {
+				$User->email = $this->input->post("user_email");
+			}
+
+			if ($this->input->post("user_password") !== false && $this->login_security->check($this->input->post("user_password"), $this->user_control->user->password, $this->user_control->user->login_token,$this->user_control->user->hashing_iterations,$userHash)) {
+				if ($this->user_control->user->password != $userHash) {
+					$this->user_control->user->password = $userHash;
+					$this->user_control->user->hashing_iterations = $this->config->item("hashing_iterations");
+				}
+			} else {
+				$this->api_response->Code = 403;
+				return;
+			}
+			$this->user_control->user->Save();
+		}
+
 		if (count($data) > 0) {
 			$this->settings->set($this->_User->id,$data);
 			$this->api_response->Response = array("status" => "Success");

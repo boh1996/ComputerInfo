@@ -228,17 +228,17 @@ tableGenerator.prototype = {
 	/**
 	 * This function generates the computers row
 	 * @param  {object} data The api response data
-	 * @param {integer} index The index in the response where to findthis node
+	 * @param {integer} id The node id
 	 */
-	generateNode : function (data,index){
+	generateNode : function (data,id){
 		var objectElement = $('<tr></tr>');
 		if(data != null && data != undefined){
-			objectElement.attr("data-index",index);
+			objectElement.attr("data-id",id);
 			var i = 0;
-			$.each(this.columns, $.proxy(function (index,element){ 
+			$.each(this.columns, $.proxy(function (columnIndex,element){ 
 				i++;
-				if(this.columns[index].active == true){
-					var row = objx.get(data,index);
+				if(this.columns[columnIndex].active == true){
+					var row = objx.get(data,columnIndex);
 					if(row !== undefined && row !== null && row !== -1 && row !== false){
 						objectElement.append('<th>'+ row.toString() +'</th>');
 					} else {
@@ -631,7 +631,7 @@ tableGenerator.prototype = {
    					this.generateFieldsDropdown(this.translations["fields"],$(parent).find(".fields"));
    				}
    				if ($("#" + $(this.container).attr("id")+"-add-new").length == 0) {
-   					$(this.container).next(".row-fluid").find(".span6:last").append('<a class="btn btn-large-custom pull-right spacing-right"><i class="icon-plus" id="' + $(this.container).attr("id") + "-add-new" +'"></i></a>');
+   					$(this.container).next(".row-fluid").find(".span6:last").append('<a class="btn pull-right spacing-right"><i class="icon-plus" id="' + $(this.container).attr("id") + "-add-new" +'"></i></a>');
    				}
              	if (this.dataTable != null) {
              		this.show();
@@ -709,11 +709,12 @@ tableGenerator.prototype = {
 	deleteObject : function (element) {
 		var element = $(element);
 		var requestUrl = this.root + this.requestType + "/{id}";
+		console.log(this.createAutherizedUrl(requestUrl.replace("{id}",element.attr("data-id"))));
 		$.ajax({
-			url : this.createAutherizedUrl(requestUrl.replace("{id}",element.attr("data-index"))),
+			url : this.createAutherizedUrl(requestUrl.replace("{id}",element.attr("data-id"))),
 			type : "DELETE",
 			success : $.proxy(function (data){ 
-				delete this.response[this.findByProperty("id",element.attr("data-index"),this.response)];
+				delete this.response[this.findByProperty("id",element.attr("data-id"),this.response)];
 				this.refreshTable();
 			}, this)
 		});
@@ -895,11 +896,11 @@ tableGenerator.prototype = {
 
 	processSave : function ( modal, data) {
 		var launchElement = objx.get(this.storedVariables.modals,modal.attr("id") + ".launch_element");
-		var index = this.findByProperty("id",$(launchElement).attr("data-index"),this.response);
-		console.log(this.response[index]);
+		var index = this.findByProperty("id",$(launchElement).attr("data-id"),this.response);
+		console.log(this.response.length);
 		this.response[index] = data[this.responseNode];
+		console.log(this.response.length);
 		this.refreshTable();
-		console.log(this.response);
 	},
 
 	/**
@@ -935,8 +936,8 @@ tableGenerator.prototype = {
 			var id = this.createModalFromObject($(this.onCickModal),null,this.modal_id_name);
 			var html = $(this.onCickModal).html();
 			html = html.replace(/\{([a-zA-Z_\.]*)\}/g, $.proxy(function (match, contents, offset, s) {
-				if (this.response != undefined && objx.get(this.response[element.attr("data-index")],contents) != null) {
-					return objx.get(this.response[element.attr("data-index")],contents);
+				if (this.response != undefined && objx.get(this.response[this.findByProperty("id",element.attr("data-id"),this.response)],contents) != null) {
+					return objx.get(this.response[this.findByProperty("id",element.attr("data-id"),this.response)],contents);
 				} else {
 					return "";
 				}
@@ -1012,7 +1013,7 @@ tableGenerator.prototype = {
 	runObjectHandlers : function ( object, handler, modal, key ) {
 		if (handler != null) {
 			if (typeof handler.type == "undefined" || handler.type == "select") {
-				var url = this.buildHandlerUrl(handler);
+				var url = this.buildHandlerUrl(handler);0
 				if (url.indexOf("&") != -1) {
 					url = url.slice(0,url.length-1);
 				}

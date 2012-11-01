@@ -62,7 +62,7 @@
 				</ul>
 				<ul class="nav pull-right">
 				  	<li class="dropdown">
-						<a class="dropdown-toggle" href="#" data-toggle="dropdown"><?php echo $this->lang->line('ui_user'); ?><strong class="caret"></strong></a>
+						<a class="dropdown-toggle" href="#" data-toggle="dropdown"><?php echo (!is_null($this->user_control->user))? $this->user_control->user->name :$this->lang->line('ui_user') ; ?>&nbsp;<strong class="caret"></strong></a>
 						<ul class="dropdown-menu" role="menu">
 			  				<li><a data-no-active="true" data-target="settings" data-title="<?php echo $this->lang->line('ui_title_brand'); ?> - <?php echo $this->lang->line('ui_settings_page'); ?>" tabindex="-1" href="#"><?php echo $this->lang->line('ui_settings'); ?></a></li>
 						    <li class="divider"></li>
@@ -108,7 +108,7 @@
 							<label class="control-label" for="save-selection"><?php echo $this->lang->line('ui_user_settings_save_selection'); ?>:</label>
 							<div class="controls">
 								<div id="save-selections">
-									<input type="checkbox" id="save-selection" <?php echo ($save_selections === "true")?'checked="checked"': ""; ?>>
+									<input type="checkbox" name="save-selection" id="save-selection" <?php echo ($save_selections === "true")?'checked="checked"': ""; ?>>
 								</div>
 							</div>
 						</div>
@@ -118,9 +118,58 @@
 						<div class="control-group">
 							<label class="control-label" for="user-language"><?php echo $this->lang->line('ui_user_settings_language'); ?>:</label>
 							<div class="controls">
-									<input type="text" id="user-language" value="<?php echo $languageString; ?>" data-provide="typeahead" autocomplete="off">
+									<input type="text" name="user-language" id="user-language" value="<?php echo $languageString; ?>" data-provide="typeahead" autocomplete="off">
 							</div>
 						</div>
+
+						<hr>
+						<?php
+							if ($this->user_control->user->password != "") {
+						?>
+								<div class="control-group">
+									<label class="control-label" for="user-email"><?php echo $this->lang->line('ui_user_settings_email'); ?>:</label>
+									<div class="controls">
+											<input type="text" name="user-email" id="user-email" value="<?php echo (!is_null($this->user_control->user->email))? $this->user_control->user->email: ""; ?>" data-provide="typeahead" autocomplete="off">
+									</div>
+								</div>
+
+								<div class="control-group">
+									<label class="control-label" for="user-name"><?php echo $this->lang->line('ui_user_settings_name'); ?>:</label>
+									<div class="controls">
+											<input type="text" name="user-name" id="user-name" value="<?php echo (!is_null($this->user_control->user->name))? $this->user_control->user->name: ""; ?>" data-provide="typeahead" autocomplete="off">
+									</div>
+								</div>
+
+								<hr>
+
+								
+								<!--<div class="control-group">
+									<label class="control-label" for="user-new-password"><?php echo $this->lang->line('ui_user_settings_new_password'); ?>:</label>
+									<div class="controls">
+											<input type="password" id="user-new-password" data-provide="typeahead" autocomplete="off">
+									</div>
+								</div>
+
+								<div class="control-group">
+									<label class="control-label" for="user-new-repassword"><?php echo $this->lang->line('ui_user_settings_re_new_password'); ?>:</label>
+									<div class="controls">
+											<input type="password" id="user-new-repassword" data-provide="typeahead" autocomplete="off">
+									</div>
+								</div>
+
+								<hr>-->
+
+								<div class="control-group">
+									<label class="control-label" for="user-password"><?php echo $this->lang->line('ui_user_settings_confirm_with_password'); ?>:</label>
+									<div class="controls">
+											<input type="password" name="user-password" id="user-password" data-provide="typeahead" autocomplete="off">
+									</div>
+								</div>
+								
+								<hr>
+						<?php 
+							}
+						?>
 
 						<div class="control-group">
 							<label class="control-label" for="save-settings"><?php echo $this->lang->line('ui_user_settings_save_changes'); ?>:</label>
@@ -128,6 +177,23 @@
 									<input type="submit" class="btn btn-primary span2" id="save-settings" value="<?php echo $this->lang->line('ui_user_settings_save'); ?>">
 							</div>
 						</div>
+
+						<?php
+							if ($this->user_control->user->password == "" && !empty($this->user_control->user->google)) {
+						?>
+								<hr>
+
+								<div class="control-group">
+									<label class="control-label" for="unlink"><?php echo $this->lang->line('ui_user_settings_unlink_google'); ?>:</label>
+									<div class="controls">
+										<input class="btn btn-primary span2" type="button" id="unlink" value="<?php echo $this->lang->line('ui_user_settings_unlink'); ?>">
+									</div>
+								</div>
+						<?php
+							}
+						?>
+
+						<!-- Change password and Unlink/Link google -->
 					</form>
 				</div>
 

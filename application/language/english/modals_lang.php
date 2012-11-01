@@ -33,6 +33,10 @@ $lang["modals_mac_label"] = "MAC";
 
 $lang["modals_ip_label"] = "Ip";
 
+$lang["modals_select_manufacturer"] = "Select manufacturer";
+
+$lang["modals_model_name"]= "Model name";
+
 $lang["modals_description_label"] = "Description";
 
 $lang["modals_year_of_purchase_label"] = "Year of purchase";

@@ -243,7 +243,8 @@ class Computer extends Std_Library{
 			"disk_space",
 			"power_usage_per_hour",
 			"wifi_mac",
-			"lan_mac"
+			"lan_mac",
+			"location"
 		);
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = 	array(
 			"identifier",

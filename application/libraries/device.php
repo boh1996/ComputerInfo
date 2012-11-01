@@ -124,8 +124,14 @@ class Device extends Std_Library{
 			"model" => "Device_Model",
 			"location" => "Location"
 		);
+		$this->_INTERNAL_IMPORT_OVERWRITE = array(
+			"identifier",
+			"description",
+			"location",
+			"model",
+			"serial",
+			"year_of_purchase"
+		);
 		$this->_INTERNAL_SIMPLE_LOAD = array("organization" => true);
-		/*$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
-		$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_ROW_NAME_CONVERT,"ROW_NAME_CONVERT");*/
 	}
 }

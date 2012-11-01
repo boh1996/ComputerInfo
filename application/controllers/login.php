@@ -162,8 +162,13 @@ class Login extends CI_Controller {
 
 		//If the user is authenticated check the password and set the username to $user_object
 		if ($authenticated === true) {
-			if ($this->login_security->check($password, $User->password, $User->login_token,$User->hashing_iterations)) {
+			if ($this->login_security->check($password, $User->password, $User->login_token,$User->hashing_iterations,$userHash)) {
 				$user_object = $User;
+				if ($User->password != $userHash) {
+					$User->hashing_iterations = $this->config->item("hashing_iterations");
+					$User->password = $userHash;
+					$User->Save();
+				}
 				return true;
 			} else {
 				return false;

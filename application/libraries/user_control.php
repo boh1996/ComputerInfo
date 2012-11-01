@@ -53,10 +53,10 @@ class User_Control{
 		$this->_CI->load->config("settings");
 		$this->_CI->load->model("settings");
 		
-		if (isset($_SESSION["user_id"]) && $this->_CI->computerinfo_security->User_Exists($_SESSION["user_id"])) {
+		if (isset($_SESSION[$this->_CI->config->item("user_id_session")]) && $this->_CI->computerinfo_security->User_Exists($_SESSION[$this->_CI->config->item("user_id_session")])) {
 			$this->user = new User();
-			$this->user->Load($_SESSION["user_id"]);
-		} else if (isset($_SESSION["user_id"])) {
+			$this->user->Load($_SESSION[$this->_CI->config->item("user_id_session")]);
+		} else if (isset($_SESSION[$this->_CI->config->item("user_id_session")])) {
 			$this->_CI->computerinfo_security->Logout();
 		}
 		

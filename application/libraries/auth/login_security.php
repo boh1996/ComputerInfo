@@ -22,14 +22,21 @@ class Login_Security{
 	 * @param  string  $user_password      The password taken from the database
 	 * @param  string  $user_salt          The salt assosiacted with the user
 	 * @param  integer $hashing_iterations The number of time to hash the password before check
+	 * @param string &userPasswordHash If the password is rehashed then this will contain a different hash
 	 * @return boolean
 	 */
-	public function check ( $password, $user_password, $user_salt, $hashing_iterations = 10 ) {
+	public function check ( $password, $user_password, $user_salt, $hashing_iterations = 10, &$userPasswordHash ) {
 		$password = self::check_security($password);
 		if (!empty($password) && self::_correct_length($password, $this->_CI->config->item("password_length")) && self::_has_number($password)) {
 			$salts = self::_get_salts( $user_salt );
 			$salt = self::_create_salt( $salts );
+			$userPassword = $password;
 			$password = self::_hash($password, $salt, $hashing_iterations);
+			if ($hashing_iterations != $this->_CI->config->item("hashing_iterations")) {
+				$userPasswordHash = self::_hash($userPassword, $salt, $this->_CI->config->item("hashing_iterations"));
+			} else {
+				$userPasswordHash = $password;
+			}
 			return ($password == $user_password);
 		} else {
 			return false;

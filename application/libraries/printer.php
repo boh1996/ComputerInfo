@@ -149,6 +149,14 @@ class Printer extends Std_Library{
 			"model_id" => "model",
 			"location_id" => "location"
 		);
+		$this->_INTERNAL_IMPORT_OVERWRITE = array(
+			"identifier",
+			"name",
+			"model",
+			"mac",
+			"ip",
+			"location"
+		);
 		$this->_INTERNAL_SIMPLE_LOAD = array("connected_devices" => true);
 		$this->_INTERNAL_LINK_PROPERTIES = array("connected_devices" => array("connected_to_printers",array("printer_id" => "id"),"device_id"),"groups" => array("printer_group_members",array("printer_id" => "id"),"group_id"));
 	}
