@@ -769,6 +769,7 @@ tableGenerator.prototype = {
 
 		//Create the corresponding events
 		$("#" + id).find(".modal-footer").find(".btn-primary").live("click",$.proxy(function(event){
+			event.stopPropagation();
 			var requestType = objx.get(this.storedVariables,"modals." + modalTemplate.attr("id") + ".request_type") || this.save_request_type || this.requestType || null;
 			this.saveModal(modal, requestType);
 		},this));
@@ -897,9 +898,7 @@ tableGenerator.prototype = {
 	processSave : function ( modal, data) {
 		var launchElement = objx.get(this.storedVariables.modals,modal.attr("id") + ".launch_element");
 		var index = this.findByProperty("id",$(launchElement).attr("data-id"),this.response);
-		console.log(this.response.length);
 		this.response[index] = data[this.responseNode];
-		console.log(this.response.length);
 		this.refreshTable();
 	},
 

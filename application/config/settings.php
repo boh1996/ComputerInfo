@@ -2,7 +2,7 @@
 /**
  * The standard redirect page if logged in
  */
-$config["front_page"] = "ui";
+$config["front_page"] = "";
 	
 /**
  * This contains the controllers that doesn't need security
