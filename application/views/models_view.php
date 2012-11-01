@@ -89,8 +89,8 @@
 	    	<tr><td><?php echo $this->lang->line('modals_description_label'); ?></td><td><textarea placeholder="<?php echo $this->lang->line('modals_description_label'); ?>" data-name="description"></textarea>{description}</td></tr>
 	    	<tr><td><?php echo $this->lang->line('modals_identifier_label'); ?></td><td><input type="text" class="input-large" placeholder="<?php echo $this->lang->line('modals_identifier_label'); ?>" value="{identifier}" data-name="identifier"></td></tr>
 	    	<tr><td><?php echo $this->lang->line('modals_serial_label'); ?></td><td><input type="text" class="input-large" value="{serial}" placeholder="<?php echo $this->lang->line('modals_serial_label'); ?>" data-name="serial"></td></tr>
-	    	<tr><td><?php echo $this->lang->line('modals_year_of_purchase_label'); ?></td><td><input type="text" class="input-large" value="{year_of_purchase}" placeholder="<?php echo $this->lang->line('modals_year_of_purchase_label'); ?>" data-name="year_of_purchase"></td></tr>
-    	</table>
+	    	<tr><td><?php echo $this->lang->line('modals_year_of_purchase_label'); ?></td><td><div class="input-append"><input type="text" class="input-large datepicker" data-date-format="dd-mm-yyyy" value="{year_of_purchase}" placeholder="<?php echo $this->lang->line('modals_year_of_purchase_label'); ?>" data-name="year_of_purchase"><span class="add-on"><i class="icon-th"></i></span></div></td></tr>
+		</table>
   	</div>
   	<div class="modal-footer">
     	<a href="#" class="btn" data-dismiss="modal"><?php echo $this->lang->line('modals_close_button'); ?></a>

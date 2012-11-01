@@ -947,6 +947,7 @@ tableGenerator.prototype = {
 			}
 			objx.set(this.storedVariables.modals,id + ".launch_element",element);
 			$("#"+id).modal("show");
+			$("#"+id).find(".datepicker").datepicker();
 		}
 	},
 
