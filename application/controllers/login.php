@@ -307,5 +307,42 @@ class Login extends CI_Controller {
 			self::_redirect($this->config->item("not_logged_in_page"));
 		}
 	}
+
+	/**
+	 * This function perfroms actions with a token, logout etc.
+	 * @param string $type   The action to perfrom
+	 * @param string $device The requesting device "mobile" or "windows"
+	 * @since 1.0
+	 * @access public
+	 */
+	public function Token ($type = "logout",$device = "mobile") {
+		$error = false;
+		$this->load->library("token");
+		$Token = new Token();
+		switch ($type) {
+			case 'logout':
+				if ($this->input->get("token") !== false) {
+					if ($Token->Load(array("token" => $this->input->get("token"))) && $Token->IsValid()) {
+						$Token->Delete();
+					} else {
+						$error = true;
+					}
+				} else {	
+					$error = true;
+				}
+				break;
+			
+			default:
+				$error = true;
+			break;
+		}
+		if ($error === false) {
+			echo json_encode(array("status" => "Success"));
+		} else {
+			if ($device == "mobile") {
+				echo json_encode(array("status" => "FAIL"));
+			}
+		}
+	}
 }
 ?>

@@ -82,6 +82,7 @@ var application = {
 			application.computerGenerator = new tableGenerator({
 				requestType : "computer",
 				container : $("#computer"),
+				addModalId : "add_computer",
 				columns :application.settings.computerColumns,
 				responseNode : "Computer",
 				multipleResponseNode : "Computers",
@@ -110,6 +111,7 @@ var application = {
 				requestType : "location",
 				modal : $("#edit_location"),
 				container : $("#location"),
+				addModalId : "add_location",
 				localStorageLengthKey : "location_length_value",
 				columns :application.settings.locationColumns,
 				languageFile : datatables_translations,
@@ -143,6 +145,7 @@ var application = {
 				localStorageColumnsKey : "unit_columns",
 				languageFile : datatables_translations,
 				localStorageLengthKey : "unit_length_value",
+				addModalId : "add_unit",
 				handlers : {
 					location :application.settings.handlers.location,
 					model_type :application.settings.handlers.device_type,

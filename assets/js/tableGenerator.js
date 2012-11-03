@@ -39,8 +39,11 @@ function tableGenerator (settings) {
 	if (typeof settings.organization != "undefined") {
 		this.organization = settings.organization;
 	}
-	if (typeof this.getCookie("token") != undefined) {
+	if (typeof this.getCookie("token") != "undefined") {
 		this.token = this.getCookie("token");
+	}
+	if (typeof settings.addModalId != "undefined") {
+		this.addModal = $("#"+settings.addModalId);
 	}
 }
 	
@@ -81,6 +84,8 @@ tableGenerator.prototype = {
 	 * @type {string}
 	 */
 	modal_id_name : null,
+
+	addModal : null,
 
 	/**
 	 * The object request type
@@ -631,7 +636,7 @@ tableGenerator.prototype = {
    					this.generateFieldsDropdown(this.translations["fields"],$(parent).find(".fields"));
    				}
    				if ($("#" + $(this.container).attr("id")+"-add-new").length == 0) {
-   					$(this.container).next(".row-fluid").find(".span6:last").append('<a class="btn pull-right spacing-right"><i class="icon-plus" id="' + $(this.container).attr("id") + "-add-new" +'"></i></a>');
+   					$(this.container).next(".row-fluid").find(".span6:last").append('<a class="btn pull-right spacing-right" id="' + $(this.container).attr("id") + "-add-new" +'"><i class="icon-plus"></i></a>');
    				}
              	if (this.dataTable != null) {
              		this.show();
@@ -722,6 +727,13 @@ tableGenerator.prototype = {
 
 	handleAdd : function () {
 		$("#" + $(this.container).attr("id") + "-add-new").live("click",$.proxy(function(){
+			if (typeof this.addModal != "undefined") {
+				var id = this.createModalFromObject($(this.addModal));
+				if (typeof id != "undefined") {
+					this.runHandler($(event.target).get(0), $("#"+id));
+				}
+				$("#"+id).find(".datepicker").datepicker();
+			}
 		},this));
 	},
 

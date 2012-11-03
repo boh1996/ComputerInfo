@@ -52,4 +52,10 @@ $lang["modals_add_computer_label"] = "Add Computer";
 $lang["modals_add_computer_model_label"] = "Add computer model";
 
 $lang["modals_edit_name_label"] = "Edit {name}";
+
+$lang["modals_add_unit"] = "Add unit";
+
+$lang["modals_add_location"] = "Add screen";
+
+$lang["modals_add_location"] = "Add location";
 ?>

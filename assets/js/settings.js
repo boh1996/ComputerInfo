@@ -15,7 +15,7 @@ $("#settings-form").submit(function (event) {
 		type : "POST",
 		data : data,
 		success : function () {
-			//window.location = window.location;
+			window.location = window.location;
 		}
 	});
 });;

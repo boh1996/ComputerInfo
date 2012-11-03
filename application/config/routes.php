@@ -88,6 +88,8 @@ else {
 	if(isset($_GET["normal"]) && $_GET["normal"] == "true"){
 		//Normal Routes
 	} else {
+		$route["device/logout"] = "login/token/logout";
+		$route["windows/logout"] = "login/token/logout/windows";
 		$route["login/device/google"] = "login/device/google";
 		$route["login/windows/google"] = "login/google/auth/windows";
 		$route["home"] = "home";

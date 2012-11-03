@@ -1754,20 +1754,16 @@ class Api extends CI_Controller {
 
 		//Only promt for password if the user has a password
 		if ($this->user_control->user->password != "") {
-			if ($this->input->post("user_email") !== false && filter_var($this->input->post("user_email"), FILTER_VALIDATE_EMAIL)) {
-				$User->email = $this->input->post("user_email");
-			}
-
 			if ($this->input->post("user_password") !== false && $this->login_security->check($this->input->post("user_password"), $this->user_control->user->password, $this->user_control->user->login_token,$this->user_control->user->hashing_iterations,$userHash)) {
 				if ($this->user_control->user->password != $userHash) {
 					$this->user_control->user->password = $userHash;
 					$this->user_control->user->hashing_iterations = $this->config->item("hashing_iterations");
 				}
-			} else {
-				$this->api_response->Code = 403;
-				return;
+				if ($this->input->post("user_email") !== false && filter_var($this->input->post("user_email"), FILTER_VALIDATE_EMAIL)) {
+					$User->email = $this->input->post("user_email");
+				}
+				$this->user_control->user->Save();
 			}
-			$this->user_control->user->Save();
 		}
 
 		if (count($data) > 0) {
