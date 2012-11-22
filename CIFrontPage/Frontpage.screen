@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
+  <widgets xsi:type="model:Panel" id="1" width="1041" height="49" measuredWidth="1041" measuredHeight="49"/>
+  <widgets xsi:type="model:Label" id="2" x="80" y="5" text="ComputerInfo" measuredWidth="154" measuredHeight="40">
+    <font size="24px"/>
+  </widgets>
+  <widgets xsi:type="model:VLine" id="3" x="75" height="1081" measuredWidth="6" measuredHeight="1081"/>
+  <widgets xsi:type="model:VLine" id="4" x="904" height="1081" measuredWidth="6" measuredHeight="1081"/>
+  <widgets xsi:type="model:Label" id="5" x="90" y="56" text="ComputerInfo - The source of information" measuredWidth="796" measuredHeight="67">
+    <font size="43px"/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="6" x="104" y="122" text="With CoumputerInfo you've got all the information you need at your fingertips, right when you need them most." measuredWidth="780" measuredHeight="29">
+    <font size="16px"/>
+  </widgets>
+  <widgets xsi:type="model:Placeholder" id="8" x="447" y="168" width="437" height="436" measuredWidth="437" measuredHeight="436"/>
+  <widgets xsi:type="model:Text" id="10" x="104" y="168" width="329" height="377" measuredWidth="329" measuredHeight="377" dummyText="true">
+    <font size="15px"/>
+  </widgets>
+  <widgets xsi:type="model:Button" id="11" x="104" y="571" width="177" height="33" text="Try ComputerInfo for free!" measuredWidth="177" measuredHeight="33">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Placeholder" id="12" x="96" y="640" width="337" height="209" measuredWidth="337" measuredHeight="209"/>
+  <widgets xsi:type="model:Text" id="13" x="447" y="671" width="437" height="178" measuredWidth="437" measuredHeight="178" dummyText="true">
+    <font size="15px"/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="14" x="447" y="632" text="The Windows information collector" measuredWidth="379" measuredHeight="40">
+    <font size="24px"/>
+  </widgets>
+  <widgets xsi:type="model:Placeholder" id="15" x="547" y="865" width="337" height="208" measuredWidth="337" measuredHeight="208"/>
+  <widgets xsi:type="model:Text" id="16" x="104" y="904" width="437" height="161" measuredWidth="437" measuredHeight="161" dummyText="true">
+    <font size="15px"/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="17" x="104" y="865" text="The Android client" measuredWidth="202" measuredHeight="40">
+    <font size="24px"/>
+  </widgets>
+  <widgets xsi:type="model:HLine" id="18" x="80" y="616" width="825" measuredWidth="825" measuredHeight="6"/>
+  <widgets xsi:type="model:VLine" id="19" x="256" height="49" measuredWidth="6" measuredHeight="49"/>
+  <widgets xsi:type="model:Label" id="20" x="272" y="8" text="Home" measuredWidth="51" measuredHeight="31">
+    <font size="17px"/>
+  </widgets>
+  <widgets xsi:type="model:VLine" id="21" x="328" y="1" height="49" measuredWidth="6" measuredHeight="49"/>
+  <widgets xsi:type="model:Label" id="22" x="344" y="9" text="About" measuredWidth="52" measuredHeight="31">
+    <font size="17px"/>
+  </widgets>
+  <widgets xsi:type="model:VLine" id="23" x="400" y="1" height="49" measuredWidth="6" measuredHeight="49"/>
+  <hRuler/>
+  <vRuler/>
+  <font size="12px"/>
+</model:Screen>
