@@ -859,7 +859,7 @@ tableGenerator.prototype = {
 			}
 			$.ajax({
 				url : this.createAutherizedUrl(requestUrl),
-				data : JSON.stringify(object),
+				data : JSON.stringify(this.autherizeObject(object)),
 				type : type,
 				success : $.proxy(function (data){ 
 					modal.modal("hide");
@@ -874,6 +874,16 @@ tableGenerator.prototype = {
 				},this)
 			});
 		}
+	},
+
+	/**
+	 * This function adds the organization to the saved object
+	 * @param  {object} object The object to autherize
+	 * @return {object}        The autherized object
+	 */
+	autherizeObject : function (object) {
+		object.organization = this.organization;
+		return object;
 	},
 
 	/**

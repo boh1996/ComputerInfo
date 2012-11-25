@@ -83,16 +83,13 @@ class Processor_Model extends Std_Library{
 	 */
 	public $model_number = NULL;
 
-	### Class Settings ###
-
 	/**
-	 * This property contains a pointer to Code Igniter
-	 * @var object
+	 * If the model is 32 bit or 64 bit
+	 * @var string
 	 * @since 1.0
-	 * @access private
-	 * @internal This is just a local container for Code Igniter
+	 * @access public
 	 */
-	private $_CI = NULL;
+	public $data_width = null;
 
 	/**
 	 * This variable stores the database table for the class

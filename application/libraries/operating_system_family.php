@@ -37,15 +37,6 @@ class Operating_System_Family extends Std_Library{
 	### Class Settings ###
 
 	/**
-	 * This property contains a pointer to Code Igniter
-	 * @var object
-	 * @since 1.0
-	 * @access private
-	 * @internal This is just a local container for Code Igniter
-	 */
-	private $_CI = NULL;
-
-	/**
 	 * This variable stores the database table for the class
 	 * @var string
 	 * @access public

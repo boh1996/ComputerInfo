@@ -104,7 +104,7 @@ var application = {
 					application.readyCallback("computerGenerator");
 				}
 			});
-			//application.addGenerator(application.computerGenerator,"computerGenerator");
+			application.addGenerator(application.computerGenerator,"computerGenerator");
 
 			//Locations
 			application.locationGenerator = new tableGenerator({

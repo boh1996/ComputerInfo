@@ -53,15 +53,6 @@ class Token extends Std_Library{
 	### Class Settings ###
 
 	/**
-	 * This property contains a pointer to Code Igniter
-	 * @var object
-	 * @since 1.0
-	 * @access private
-	 * @internal This is just a local container for Code Igniter
-	 */
-	private $_CI = NULL;
-
-	/**
 	 * This variable stores the database table for the class
 	 * @var string
 	 * @access public
@@ -72,7 +63,8 @@ class Token extends Std_Library{
 	/**
 	 * This is the constructor, it configurates the std library
 	 * @since 1.0
-	 * @access private
+	 * @access 
+	private
 	 */
 	public function __construct(){
 		parent::__construct();

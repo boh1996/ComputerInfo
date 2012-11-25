@@ -28,15 +28,6 @@ class Computer_Memory extends Std_Library{
 	### Class Settings ###
 
 	/**
-	 * This property contains a pointer to Code Igniter
-	 * @var object
-	 * @since 1.0
-	 * @access private
-	 * @internal This is just a local container for Code Igniter
-	 */
-	private $_CI = NULL;
-
-	/**
 	 * This variable stores the database table for the class
 	 * @var string
 	 * @access public
@@ -51,6 +42,7 @@ class Computer_Memory extends Std_Library{
 	 */
 	public function __construct(){
 		parent::__construct();
+		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS_ABORT_ON_NULL = TRUE;
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = 	array("computer_id");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id","slots");

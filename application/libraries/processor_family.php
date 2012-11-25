@@ -18,6 +18,14 @@ class Processor_Family extends Std_Library{
 	public $manufacturer = NULL;
 
 	/**
+	 * The processor family "id"
+	 * @var string
+	 * @since 1.0
+	 * @access public
+	 */
+	public $detection_string = null;
+
+	/**
 	 * The name of the processor family
 	 * @since 1.0
 	 * @access public
@@ -26,23 +34,12 @@ class Processor_Family extends Std_Library{
 	public $name = NULL;
 
 	/**
-	 * The processor architecture object
+	 * The architecture object
 	 * @since 1.0
 	 * @access public
 	 * @var object
 	 */
-	public $architecture = NULL;
-
-	### Class Settings ###
-
-	/**
-	 * This property contains a pointer to Code Igniter
-	 * @var object
-	 * @since 1.0
-	 * @access private
-	 * @internal This is just a local container for Code Igniter
-	 */
-	private $_CI = NULL;
+	public $architecture = null;
 
 	/**
 	 * This variable stores the database table for the class
@@ -60,7 +57,7 @@ class Processor_Family extends Std_Library{
 	public function __construct(){
 		parent::__construct();
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
-		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("name");
+		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("detection_string");
 		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = array("manufaturer");
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS_ABORT_ON_NULL = TRUE;
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");

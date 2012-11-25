@@ -191,7 +191,7 @@ class Computer extends Std_Library{
 	 * @access public
 	 * @var array
 	 */
-	public $graphic_cards = NULL;
+	public $graphics_cards = NULL;
 
 	/**
 	 * An array containing the processeor available for a specific PC
@@ -225,12 +225,13 @@ class Computer extends Std_Library{
 	 * @access private
 	 */
 	public function __construct( $input = null ){
+		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS_ABORT_ON_NULL = true;
 		$this->_INTERNAL_EXPORT_INGNORE = 				array("CI","Database_Table","_CI");
 		$this->_INTERNAL_FORCE_ARRAY = 					array(
 			"lan_macs",
 			"printers",
 			"connected_devices",
-			"graphic_cards",
+			"graphics_cards",
 			"processors"
 		);
 
@@ -244,21 +245,19 @@ class Computer extends Std_Library{
 			"power_usage_per_hour",
 			"wifi_mac",
 			"lan_mac",
-			"location"
+			"location",
+			"memory"
 		);
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = 	array(
 			"identifier",
 			"organization"
 		);
 		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = 		array(
-			//"location",
-			//"printers",
-			//"model",
+			"location",
+			"model",
 			"organization",
-			//"connected_devices",
-			//"graphic_cards",
-			//"processors",
-			//"memory"
+			"operating_system",
+			"screen_size"
 		);
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array(
 			"id",
@@ -273,9 +272,6 @@ class Computer extends Std_Library{
 		$this->_INTERNAL_CREATED_TIME_PROPERTY 		= "created_time";
 		$this->_INTERNAL_LAST_UPDATED_USER_PROPERTY = "last_updated_user";
 		$this->_INTERNAL_CREATED_USER_PROPERTY 		= "creator_user";
-		$this->_INTERNAL_IMPORT_OVERWRITE = array(
-			"memory"
-		);
 		$this->_INTERNAL_EXPORT_FORMATING = array(
 			"created_time" => array("date","d/m-Y - H:i:s"),
 			"last_updated" => array("date","d/m-Y - H:i:s")
@@ -287,11 +283,10 @@ class Computer extends Std_Library{
 			"connected_devices" => "Device",
 			"location" 			=> "Location",
 			"screen_size" 		=> "Screen_Size",
-			"operating_system" 	=> "Operating_System_Version",
 			"groups" 			=> "Computer_Group",
 			"last_updated_user" => "User",
-			"graphic_cards" 	=> "Graphic_Card",
-			"processors" 		=> "Processor_Model",
+			"graphics_cards" 	=> "Graphic_Card",
+			"processors" 		=> "Processor",
 			"creator_user" 		=> "User",
 			"memory" 			=> "Computer_Memory",
 			"operating_system" 	=> "Operating_System_Installation",
@@ -307,13 +302,13 @@ class Computer extends Std_Library{
 			"last_updated_user_id" 			=> "last_updated_user"
 		);
 		$this->_INTERNAL_LINK_PROPERTIES = array(
-			"printers" 			=> array("connected_to_printers",		array("device_id" 			=> "id"),"printer_id"),
-			"connected_devices" => array("connected_devices",			array("connected_id" 		=> "id"),"device_id"),
-			"groups" 			=> array("computer_group_members",		array("computer_id" 		=> "id"),"group_id"),
-			"graphic_cards"		=> array("graphic_cards",				array("computer_id" 		=> "id")),
-			"processors" 		=> array("computer_processors",			array("computer_id" 		=> "id"),"processor_model_id"),
-			"memory" 			=> array("computer_memory",				array("computer_id" 		=> "id"),null,array("computer_id")),
-			"operating_system" 	=> array("operation_system_installations", array("computer_id" 		=> "id"),null,array("computer_id"))
+			"printers" 			=> array("connected_to_printers",			array("device_id" 			=> "id"),"printer_id"),
+			"connected_devices" => array("connected_devices",				array("connected_id" 		=> "id"),"device_id",array("connected_id","device_id")),
+			"groups" 			=> array("computer_group_members",			array("computer_id" 		=> "id"),"group_id"),
+			"graphics_cards"	=> array("graphics_cards",					array("computer_id" 		=> "id")),
+			"processors" 		=> array("computer_processors",				array("computer_id" 		=> "id"),null,array("computer_id","device_identifier")),
+			"memory" 			=> array("computer_memory",					array("computer_id" 		=> "id"),null,array("computer_id")),
+			"operating_system" 	=> array("operation_system_installations",	array("computer_id" 		=> "id"),null,array("computer_id"))
  		);
  		parent::__construct();
 	}

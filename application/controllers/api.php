@@ -114,6 +114,7 @@ class Api extends CI_Controller {
 	 */
 	public function _output($Output)
 	{	
+		$this->api_response->Expires = date(time()+5);
 	    $this->api_response->Send_Response();
 	}
 

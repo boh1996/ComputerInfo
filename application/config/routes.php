@@ -37,17 +37,20 @@
 | in the URL cannot be matched to a valid route.
 |
 */
-$route["update/codeigniter/check"] = "api/codeigniter_version_check";
-$route["update/codeigniter/version"] = "api/ci/version";
-$route["update/codeigniter/remote"] = "api/ci_version_remote";
+
 
 $whitelist = array("localhost","127.0.0.1");
 if (in_array($_SERVER["HTTP_HOST"],$whitelist)) {
-
+	$route["update/codeigniter/check"] = "api/codeigniter_version_check";
+	$route["update/codeigniter/version"] = "api/ci/version";
+	$route["update/codeigniter/remote"] = "api/ci_version_remote";
 }
 /**
  * Api Routes
  */
+$route["data"] = "data";
+
+
 if ((!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') || (isset($_GET["dev"]) && $_GET["dev"] == "true") || (isset($_SERVER["HTTP_REFERER"]) && $_SERVER["HTTP_REFERER"] == "CI/Windows")) {
   	$route["computer"] = "api/computer";
   	$route["options/(:any)"] = "api/options/$1";
@@ -85,43 +88,39 @@ if ((!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_RE
  * User Routes
  */
 else {
-	if(isset($_GET["normal"]) && $_GET["normal"] == "true"){
-		//Normal Routes
-	} else {
-		$route["device/logout"] = "login/token/logout";
-		$route["windows/logout"] = "login/token/logout/windows";
-		$route["login/device/google"] = "login/device/google";
-		$route["login/windows/google"] = "login/google/auth/windows";
-		$route["home"] = "home";
-		$route["logout/reset"] = "login/reset";
-		$route["home/login"] = "home";
-		$route["translate/(:any)"] = "translations/file/$1";
-		$route["windows/login"] = "windows_login";
-		$route["users/sign_up"] = "user_management/register";
-		$route["login/windows"] = "login/desktop/windows";
-		$route["user/register/check"] = "user_management/check";
-		$route["user/register/delete/(:any)"] = "user_management/delete/$1";
-		$route["user/activate/resend/(:any)"] = "user_management/resend/$1";
-		$route["user/activate/(:any)"] = "user_management/activate/$1";
-		$route["user/password/new/check"] = "user_management/reset_password_check";
-		$route["user/reset/password"] = "user_management/forgot_password";
-		$route["user/remove/new/password/(:any)"] = "user_management/remove_new_password/$1";
-		$route["user/reset/password/resend/(:any)"] = "user_management/password_resend/$1";
-		$route["user/reset/password/check"] = "user_management/reset_password";
-		$route["user/reset/password/new/(:any)"] = "user_management/create_new_password/$1";
-		$route["login/device"] = "login/device";
-		if (!empty($_POST["username"])) {
-			$route["login/check"] = "login/enter";
-		} else {
-			$route["logout"] = "login/logout";
-			$route["login/enter"] = "ui";
-			$route["login/check"] = "login/redirect";
-			$route["login/(:any)"] = "login/$1";
-			$route["login"] = "login";
-		}
-		$route["(:any)"] = "ui/$1";
-	}
 	
+	$route["device/logout"] = "login/token/logout";
+	$route["windows/logout"] = "login/token/logout/windows";
+	$route["login/device/google"] = "login/device/google";
+	$route["login/windows/google"] = "login/google/auth/windows";
+	$route["home"] = "home";
+	$route["logout/reset"] = "login/reset";
+	$route["home/login"] = "home";
+	$route["translate/(:any)"] = "translations/file/$1";
+	$route["windows/login"] = "windows_login";
+	$route["users/sign_up"] = "user_management/register";
+	$route["login/windows"] = "login/desktop/windows";
+	$route["user/register/check"] = "user_management/check";
+	$route["user/register/delete/(:any)"] = "user_management/delete/$1";
+	$route["user/activate/resend/(:any)"] = "user_management/resend/$1";
+	$route["user/activate/(:any)"] = "user_management/activate/$1";
+	$route["user/password/new/check"] = "user_management/reset_password_check";
+	$route["user/reset/password"] = "user_management/forgot_password";
+	$route["user/remove/new/password/(:any)"] = "user_management/remove_new_password/$1";
+	$route["user/reset/password/resend/(:any)"] = "user_management/password_resend/$1";
+	$route["user/reset/password/check"] = "user_management/reset_password";
+	$route["user/reset/password/new/(:any)"] = "user_management/create_new_password/$1";
+	$route["login/device"] = "login/device";
+	if (!empty($_POST["username"])) {
+		$route["login/check"] = "login/enter";
+	} else {
+		$route["logout"] = "login/logout";
+		$route["login/enter"] = "ui";
+		$route["login/check"] = "login/redirect";
+		$route["login/(:any)"] = "login/$1";
+		$route["login"] = "login";
+	}
+	$route["(:any)"] = "ui/$1";
 }
 /**
  * Standard routes
