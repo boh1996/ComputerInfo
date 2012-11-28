@@ -196,7 +196,6 @@ class Computer extends Std_Library{
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS_ABORT_ON_NULL = true;
 		$this->_INTERNAL_EXPORT_INGNORE = 				array("CI","Database_Table","_CI");
 		$this->_INTERNAL_FORCE_ARRAY = 					array(
-			"lan_macs",
 			"printers",
 			"connected_devices",
 			"graphics_cards",
@@ -221,7 +220,6 @@ class Computer extends Std_Library{
 			"location",
 			"model",
 			"organization",
-			"operating_system",
 			"screen_size"
 		);
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array(
@@ -231,7 +229,8 @@ class Computer extends Std_Library{
 			"groups",
 			"graphic_cards",
 			"processors",
-			"memory"
+			"memory",
+			"operating_system"
 		);
 		$this->_INTERNAL_LAST_UPDATED_PROPERTY 		= "last_updated";
 		$this->_INTERNAL_CREATED_TIME_PROPERTY 		= "created_time";
@@ -256,13 +255,15 @@ class Computer extends Std_Library{
 			"memory" 			=> "Computer_Memory",
 			"operating_system" 	=> "Operating_System_Installation",
 		);
-		$this->_INTERNAL_SIMPLE_LOAD = 		array("printers" => true);
+		$this->_INTERNAL_SIMPLE_LOAD = 		array(
+			"printers" => true,
+			"organization" => true
+		);
 		$this->_INTERNAL_ROW_NAME_CONVERT = array(
 			"organization_id" 				=> "organization",
 			"model_id" 						=> "model",
 			"location_id" 					=> "location",
 			"screen_size_id" 				=> "screen_size",
-			"operating_system_verison_id" 	=> "operating_system",
 			"creator_user_id" 				=> "creator_user",
 			"last_updated_user_id" 			=> "last_updated_user"
 		);
@@ -270,8 +271,8 @@ class Computer extends Std_Library{
 			"printers" 			=> array("connected_to_printers",			array("device_id" 			=> "id"),"printer_id"),
 			"connected_devices" => array("connected_devices",				array("connected_id" 		=> "id"),"device_id",array("connected_id","device_id")),
 			"groups" 			=> array("computer_group_members",			array("computer_id" 		=> "id"),"group_id"),
-			"graphics_cards"	=> array("graphics_cards",					array("computer_id" 		=> "id")),
-			"processors" 		=> array("computer_processors",				array("computer_id" 		=> "id"),null,array("computer_id","device_identifier")),
+			"graphics_cards"	=> array("graphics_cards",					array("computer_id" 		=> "id"),null,array("device_identifier","computer_id")),
+			"processors" 		=> array("computer_processors",				array("computer_id" 		=> "id"),null,array("device_identifier","computer_id")),
 			"memory" 			=> array("computer_memory",					array("computer_id" 		=> "id"),null,array("computer_id")),
 			"operating_system" 	=> array("operation_system_installations",	array("computer_id" 		=> "id"),null,array("computer_id"))
  		);

@@ -23,7 +23,7 @@ class Graphic_Card_Model extends Std_Library{
 	 * @since 1.0
 	 * @access public
 	 */
-	public $manufaturer = NULL;
+	public $manufacturer = NULL;
 
 	/**
 	 * The name of the graphic card
@@ -75,13 +75,13 @@ class Graphic_Card_Model extends Std_Library{
 	public function __construct(){
 		parent::__construct();
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
-		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("name","manufaturer");
+		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("detection_string");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
 		$this->_INTERNAL_LOAD_FROM_CLASS = array(
-			"manufacturer" => "Manufacturer
-		");
+			"manufacturer" => "Manufacturer"
+		);
 		$this->_INTERNAL_ROW_NAME_CONVERT = array(
-			"manufacturer_id" => "manufaturer",
+			"manufacturer_id" => "manufacturer",
 		);
 	}
 }

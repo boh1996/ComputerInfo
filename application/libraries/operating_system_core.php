@@ -25,6 +25,14 @@ class Operating_System_Core extends Std_Library{
 	 */
 	public $name = NULL;
 
+	/**
+	 * The detection string
+	 * @since 1.0
+	 * @access public
+	 * @var string
+	 */
+	public $detection_string = null;
+
 	### Class Settings ###
 
 	/**
@@ -43,7 +51,7 @@ class Operating_System_Core extends Std_Library{
 	public function __construct(){
 		parent::__construct();
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
-		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("manufaturer,name");
+		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("detection_string");
 		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = array("manufacturer");
 		$this->_INTERNAL_ROW_NAME_CONVERT = array(
 			"manufacturer_id" => "manufacturer"

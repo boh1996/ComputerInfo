@@ -38,8 +38,6 @@
 |
 */
 
-$route["data"] = "data";
-
 $whitelist = array("localhost","127.0.0.1");
 if (in_array($_SERVER["HTTP_HOST"],$whitelist)) {
 	$route["update/codeigniter/check"] = "api/codeigniter_version_check";
