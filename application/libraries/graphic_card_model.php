@@ -49,6 +49,14 @@ class Graphic_Card_Model extends Std_Library{
 	 */
 	public $video_processor = NULL;
 
+	/**
+	 * The graphics card model detection string
+	 * @since 1.0
+	 * @access public
+	 * @var string
+	 */
+	public $detection_string = null;
+
 	### Class Settings ###
 
 	/**

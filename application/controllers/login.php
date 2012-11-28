@@ -228,7 +228,6 @@ class Login extends CI_Controller {
 				$this->load->library("token");
 				$this->load->config("api");
 				$Token = new Token();
-				$Token->offline = 1;
 				$Token->Create($User->id);
 				$_SESSION[$this->config->item("user_id_session")] = $User->id;
 				echo json_encode(array("User" => $User->Export(),"status" => "OK","token" => $Token->Export(null, false, array("user","created"))));
@@ -285,9 +284,8 @@ class Login extends CI_Controller {
 		}	
 		if ($authenticated) {
 			$this->load->config("api");
-			$Token->Create($User->id);
+			$Token->Create($User->id,true,true);
 			$this->load->helper("cookie");
-			$Token->offline = true;
 			echo '<div style="display:none;" id="token">'.$Token->token.'</div>';
 		} else {
 			if (isset($_COOKIE["token"]) && $Token->Load(array("token" => $_COOKIE["token"]))) {

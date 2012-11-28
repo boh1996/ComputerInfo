@@ -63,8 +63,6 @@ class Token extends Std_Library{
 	/**
 	 * This is the constructor, it configurates the std library
 	 * @since 1.0
-	 * @access 
-	private
 	 */
 	public function __construct(){
 		parent::__construct();
@@ -91,22 +89,23 @@ class Token extends Std_Library{
 	 * instead it generates a token
 	 * @param boolean $Save If the token is going to be saved to the database
 	 * @param integer $UserId The id of the user to create the token for
+	 * @param boolean $isOffline If the token is to be used offline
 	 * @since 1.0
 	 * @access public
 	 */
-	public function Create($UserId = NULL,$Save = true){
+	public function Create($UserId = NULL,$Save = true,$isOfffline = false){
 		if(!is_null($UserId)){
 			self::Import(array("user" => $UserId));
 		}
-		if(is_null($this->offline)){
-			$this->offline = 0;
-		}
+		$this->offline = $isOfffline;
 		$this->_CI->load->config("api");
 		$this->_CI->load->helper("string");
-		if ($this->offline == 0) {
+		if ($isOfffline === false ) {
+			$this->offline = 0;
 			$this->time_to_live = $this->_CI->config->item("token_time_to_live");
 		} else {
 			$this->time_to_live = 0;
+			$this->offline = 1;
 		}	
 		$this->token = Rand_Str($this->_CI->config->item("token_length"));
 		$this->created = time();

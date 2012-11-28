@@ -51,7 +51,6 @@ class Operating_System_Family extends Std_Library{
 	 */
 	public function __construct(){
 		parent::__construct();
-		//$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("manufaturer,name");
 		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = array("manufacturer","core");
@@ -63,6 +62,5 @@ class Operating_System_Family extends Std_Library{
 			"manufacturer" => "Manufacturer",
 			"core" => "Operating_System_Core"
 		);
-		//$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_ROW_NAME_CONVERT,"ROW_NAME_CONVERT");
 	}
 }

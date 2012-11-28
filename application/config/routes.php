@@ -38,6 +38,7 @@
 |
 */
 
+$route["data"] = "data";
 
 $whitelist = array("localhost","127.0.0.1");
 if (in_array($_SERVER["HTTP_HOST"],$whitelist)) {
@@ -48,10 +49,15 @@ if (in_array($_SERVER["HTTP_HOST"],$whitelist)) {
 /**
  * Api Routes
  */
-$route["data"] = "data";
+$route["login/windows"] = "login/desktop/windows";
+$route["windows/logout"] = "login/token/logout/windows";
+$route["login/windows/google"] = "login/google/auth/windows";
+$route["windows/login"] = "windows_login";
+$route["login/device"] = "login/device";
+$route["device/logout"] = "login/token/logout";
+$route["login/device/google"] = "login/device/google";
 
-
-if ((!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') || (isset($_GET["dev"]) && $_GET["dev"] == "true") || (isset($_SERVER["HTTP_REFERER"]) && $_SERVER["HTTP_REFERER"] == "CI/Windows")) {
+if ((!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') || (isset($_GET["dev"]) && $_GET["dev"] == "true") || (isset($_SERVER["HTTP_USER_AGENT"]) && $_SERVER["HTTP_USER_AGENT"] == "CI/Windows")) {
   	$route["computer"] = "api/computer";
   	$route["options/(:any)"] = "api/options/$1";
 	$route["printer/model"] = "api/printer_model";
@@ -88,18 +94,11 @@ if ((!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_RE
  * User Routes
  */
 else {
-	
-	$route["device/logout"] = "login/token/logout";
-	$route["windows/logout"] = "login/token/logout/windows";
-	$route["login/device/google"] = "login/device/google";
-	$route["login/windows/google"] = "login/google/auth/windows";
 	$route["home"] = "home";
 	$route["logout/reset"] = "login/reset";
 	$route["home/login"] = "home";
 	$route["translate/(:any)"] = "translations/file/$1";
-	$route["windows/login"] = "windows_login";
 	$route["users/sign_up"] = "user_management/register";
-	$route["login/windows"] = "login/desktop/windows";
 	$route["user/register/check"] = "user_management/check";
 	$route["user/register/delete/(:any)"] = "user_management/delete/$1";
 	$route["user/activate/resend/(:any)"] = "user_management/resend/$1";
@@ -110,7 +109,6 @@ else {
 	$route["user/reset/password/resend/(:any)"] = "user_management/password_resend/$1";
 	$route["user/reset/password/check"] = "user_management/reset_password";
 	$route["user/reset/password/new/(:any)"] = "user_management/create_new_password/$1";
-	$route["login/device"] = "login/device";
 	if (!empty($_POST["username"])) {
 		$route["login/check"] = "login/enter";
 	} else {

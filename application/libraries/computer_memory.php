@@ -55,7 +55,7 @@ class Computer_Memory extends Std_Library{
 		);
 		$this->_INTERNAL_LINK_SAVE_DUPLICATE_FUNCTION = array("slots" => "OVERWRITE");
 		$this->_INTERNAL_LINK_PROPERTIES = array(
-			"slots" 		=> array("computer_memory_slots",			array("computer_memory_id" 		=> "id"), null, array("computer_memory_id"))
+			"slots" 		=> array("computer_memory_slots",			array("computer_memory_id" 		=> "id"), null, array("computer_memory_id","device_identifier"))
 		);
 		$this->_INTERNAL_LOAD_FROM_CLASS = array(
 			"slots" => "Memory_Slot"

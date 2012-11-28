@@ -54,7 +54,14 @@ class Api extends CI_Controller {
 		}
 
 	    if (method_exists($this, $method)) {	
-	    	if(self::_Authenticate() || self::_No_Auth($method) == true){
+	    	$authenticated = false;
+	    	if (self::_No_Auth($method) == true) {
+	    		$authenticated = true;
+	    	} else if (self::_Authenticate()) {
+	    		$authenticated = true;
+	    	}
+	    	if($authenticated == true){
+	    		error_log("Calling methid: ".$method);
 	    		return call_user_func_array(array($this, $method), $params);
 	    	} else {
 	    		$this->api_response->Code = 403;
@@ -90,17 +97,22 @@ class Api extends CI_Controller {
 		    if (isset($_GET["token"]) && !empty($_GET["token"])) {
 		    	$token_string = htmlentities(mysql_real_escape_string($_GET["token"]));
 		    } else {
+		    	error_log("No token set");
 		    	return FALSE;
 		    }
 		    if (!$Token->Load(array("token" => $token_string))){
+		    	error_log("Token can't be loaded");
 		    	return FALSE;
 			}
 			if (!$Token->IsValid()) {
+				error_log("Token isn't valid");
 				return FALSE;
 			}
 		  	if($this->_User->Load($Token->user->id)){
+		  		error_log("Token is valid");
 		  		return TRUE;
 		  	} else {
+		  		error_log("No user found");
 		  		return FALSE;
 		  	}
 	  	}
@@ -163,48 +175,98 @@ class Api extends CI_Controller {
 	}
 
 	/**
+	 * This function get's the id for the has access function
+	 * @since 1.0
+	 * @access private
+	 * @return boolean|integer
+	 * @param object|array|integer|string $id The integer or object to check
+	 */
+	private function _Get_Id ($id) {
+		if (is_array($id)) {
+			if (isset($id[0]) && is_object($id[0]) && property_exists($id[0], "id")) {
+				return $id[0]->id;
+			} else {
+				return false;
+			}
+		} else if (is_integer($id)) {
+			return $id;
+		} else {
+			$id = (int)$id;
+			if (!is_null($id)) {
+				return $id;
+			} else {
+				return false;
+			}
+		}
+	}
+
+	/**
 	 * This function checks if the user has access to watch that content
-	 * @param string $Node   The node where to check for a "organization" id etc
+	 * @param string $node   The node where to check for a "organization" id etc
 	 * @param object $Object The object to check in
 	 * @param integer $Id     The id to check for
 	 * @return boolean
 	 * @since 1.0
 	 * @access private
 	 */
-	private function _Has_Access($Node = NULL,$Object = NULL,$Id = NULL){
-		if(is_object($Id) && property_exists($Id, "id")){
-			$Id = (int)$Id->id;
+	private function _Has_Access($node = NULL,$Object = NULL,$Id = NULL){
+		$Id = self::_Get_Id($Id);
+		if ($Id === false) return false;
+		if (!is_null($node) && is_string($node) && !is_null($Object) && !is_null($Id) && is_integer($Id)) {
+			if (is_array($Object)) {
+				$return = false;
+				foreach ($Object as $key => $element) {
+					if (self::_Check_Access($element,$id,$node)) {
+						$return = true;
+					}
+				}
+				return $return;
+			} else {
+				return self::_Check_Access($Object, $Id, $node);
+			}
 		} else {
-			return FALSE;
+			return false;
 		}
-		if(!is_null($Node) && is_string($Node) && !is_null($Object) && is_object($Object) && !is_null($Id) && is_integer($Id) && property_exists($Object, $Node)){
-			if(is_array($Object->{$Node})){
+		
+	}
+
+	/**
+	 * This function is used to repeat the check access progress
+	 * @since 1.0
+	 * @access private
+	 * @param object $element The object to check in
+	 * @param integer $id      The id to check for
+	 * @param string $node    The node to check in
+	 * @return boolean
+	 */
+	private function _Check_Access ($element = null, $id = null,$node = null) {
+		if(!is_null($node) && is_string($node) && !is_null($element) && is_object($element) && !is_null($id) && is_integer($id) && property_exists($element, $node)){
+			if(is_array($element->{$node})){
 				$Return = FALSE;
-				foreach ($Object->{$Node} as $Element) {
+				foreach ($element->{$node} as $Element) {
 					if(is_object($Element)){
-						if(property_exists($Element, "id") && $Element->id == $Id){
+						if(property_exists($Element, "id") && $Element->id == $id){
 							$Return = TRUE;
 						}
 					} else {
-						if($Element == $Id){
+						if($Element == $id){
 							$Return = TRUE;
 						}
 					}
 				}
 				return $Return;
 			} else {
-				if(is_object($Object->{$Node})){
-					if(property_exists($Object->{$Node}, "id")){
-						return ($Object->{$Node}->id == $Id);
+				if(is_object($element->{$node})){
+					if(property_exists($element->{$node}, "id")){
+						return ($element->{$node}->id == $id);
 					} else {
 						return FALSE;
 					}
 				} else {
-					return ($Object->{$Node} == $Id);
+					return ($element->{$node} == $id);
 				}
 			}
 		} else {
-
 			return FALSE;
 		}
 	}
@@ -869,7 +931,7 @@ class Api extends CI_Controller {
 	 * @return boolean
 	 */
 	private function _Is_Application () {
-		return (isset($_SERVER["HTTP_REFERER"]) && ($_SERVER["HTTP_REFERER"] == "CI/Windows" || $_SERVER["HTTP_REFERER"] == "CI/Android"));
+		return ((isset($_SERVER["HTTP_USER_AGENT"]) && ($_SERVER["HTTP_USER_AGENT"] == "CI/Windows") || (isset($_SERVER["HTTP_REFERER"]) && $_SERVER["HTTP_REFERER"] == "CI/Android")));
 	}
 
 	/**

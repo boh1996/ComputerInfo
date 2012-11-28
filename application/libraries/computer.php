@@ -36,36 +36,12 @@ class Computer extends Std_Library{
 	public $date_of_purchase = NULL;
 
 	/**
-	 * The primary LAN mac of the computer
-	 * @var string
-	 * @since 1.0
-	 * @access public
-	 */
-	public $lan_mac = NULL;
-
-	/**
-	 * The primary WIFI mac of the computer
-	 * @var string
-	 * @since 1.0
-	 * @access public
-	 */
-	public $wifi_mac = NULL;
-
-	/**
 	 * The primary ip address of the computer
 	 * @var string
 	 * @access public
 	 * @since 1.0
 	 */
 	public $ip = NULL;
-
-	/**
-	 * The amount of disk space left
-	 * @var string
-	 * @since 1.0
-	 * @access public
-	 */
-	public $disk_space = NULL;
 
 	/**
 	 * The printer groups that this computer is a member off
@@ -161,14 +137,6 @@ class Computer extends Std_Library{
 	public $printers = NULL;
 
 	/**
-	 * An array containig all the lan macs
-	 * @var array
-	 * @since 1.0
-	 * @access public
-	 */
-	public $lan_macs = NULL;
-
-	/**
 	 * A list of other connected devices
 	 * @var string
 	 * @since 1.0
@@ -241,10 +209,7 @@ class Computer extends Std_Library{
 			"serial",
 			"ip",
 			"date_of_purchase",
-			"disk_space",
 			"power_usage_per_hour",
-			"wifi_mac",
-			"lan_mac",
 			"location",
 			"memory"
 		);

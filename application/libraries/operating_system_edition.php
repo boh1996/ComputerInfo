@@ -42,7 +42,7 @@ class Operating_System_Edition extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Database_Table = "operation_system_editions";
+	public $Database_Table = "operating_system_editions";
 
 	/**
 	 * The constructor, it configurates the Std Library
@@ -53,7 +53,6 @@ class Operating_System_Edition extends Std_Library{
 		parent::__construct();
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("detection_string");
-		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = array("core","edition");
 		$this->_INTERNAL_ROW_NAME_CONVERT = array(
 			"manufacturer_id" => "manufacturer"
 		);
