@@ -177,6 +177,30 @@ class Computer extends Std_Library{
 	 */
 	public $memory = NULL;
 
+	/**
+	 * A list of the computers network adapters
+	 * @since 1.0
+	 * @access public
+	 * @var array
+	 */
+	public $network_cards = null;
+
+	/**
+	 * An array containing the available logical drives of the computer
+	 * @var array
+	 * @since 1.0
+	 * @access public
+	 */
+	public $logical_drives = null;
+
+	/**
+	 * An array containing the physical instlaled drives in the computer
+	 * @since 1.0
+	 * @access public
+	 * @var array
+	 */
+	public $physical_drives = null;
+
 	### Class Settings ###
 
 	/**
@@ -199,9 +223,10 @@ class Computer extends Std_Library{
 			"printers",
 			"connected_devices",
 			"graphics_cards",
-			"processors"
+			"processors",
+			"network_cards",
+			"logical_drives"
 		);
-
 		$this->_INTERNAL_OVERWRITE_ON_DUBLICATE = true; //This can changed
 		$this->_INTERNAL_IMPORT_OVERWRITE = 			array(
 			"identifier",
@@ -230,7 +255,9 @@ class Computer extends Std_Library{
 			"graphic_cards",
 			"processors",
 			"memory",
-			"operating_system"
+			"operating_system",
+			"network_cards",
+			"logical_drives"
 		);
 		$this->_INTERNAL_LAST_UPDATED_PROPERTY 		= "last_updated";
 		$this->_INTERNAL_CREATED_TIME_PROPERTY 		= "created_time";
@@ -254,6 +281,8 @@ class Computer extends Std_Library{
 			"creator_user" 		=> "User",
 			"memory" 			=> "Computer_Memory",
 			"operating_system" 	=> "Operating_System_Installation",
+			"network_cards"		=> "Network_Card",
+			"logical_drives"	=> "Logical_Drive"
 		);
 		$this->_INTERNAL_SIMPLE_LOAD = 		array(
 			"printers" => true,
@@ -268,13 +297,16 @@ class Computer extends Std_Library{
 			"last_updated_user_id" 			=> "last_updated_user"
 		);
 		$this->_INTERNAL_LINK_PROPERTIES = array(
-			"printers" 			=> array("connected_to_printers",			array("device_id" 			=> "id"),"printer_id"),
-			"connected_devices" => array("connected_devices",				array("connected_id" 		=> "id"),"device_id",array("connected_id","device_id")),
-			"groups" 			=> array("computer_group_members",			array("computer_id" 		=> "id"),"group_id"),
-			"graphics_cards"	=> array("graphics_cards",					array("computer_id" 		=> "id"),null,array("device_identifier","computer_id")),
-			"processors" 		=> array("computer_processors",				array("computer_id" 		=> "id"),null,array("device_identifier","computer_id")),
-			"memory" 			=> array("computer_memory",					array("computer_id" 		=> "id"),null,array("computer_id")),
-			"operating_system" 	=> array("operation_system_installations",	array("computer_id" 		=> "id"),null,array("computer_id"))
+			"printers" 					=> array("connected_to_printers",			array("device_id" 			=> "id"),"printer_id"),
+			"connected_devices" 		=> array("connected_devices",				array("connected_id" 		=> "id"),"device_id",array("connected_id","device_id")),
+			"groups" 					=> array("computer_group_members",			array("computer_id" 		=> "id"),"group_id"),
+			"graphics_cards"			=> array("graphics_cards",					array("computer_id" 		=> "id"),null,array("device_identifier","computer_id")),
+			"network_cards"				=> array("computer_network_cards",			array("computer_id" 		=> "id"),null,array("device_identifier","computer_id")),
+			"logical_drives"			=> array("logical_drives",					array("computer_id" 		=> "id"),null,array("device_identifier","computer_id")),
+			"physical_drives"			=> array("physical_drives",					array("computer_id" 		=> "id"),null,array("device_identifier","computer_id")),
+			"processors" 				=> array("computer_processors",				array("computer_id" 		=> "id"),null,array("device_identifier","computer_id")),
+			"memory" 					=> array("computer_memory",					array("computer_id" 		=> "id"),null,array("computer_id")),
+			"operating_system" 			=> array("operation_system_installations",	array("computer_id" 		=> "id"),null,array("computer_id"))
  		);
  		parent::__construct();
 	}
