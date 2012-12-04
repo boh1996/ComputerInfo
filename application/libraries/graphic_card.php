@@ -95,7 +95,7 @@ class Graphic_Card extends Std_Library{
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array(
 			"id"
 		);
-		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = 	array(
+		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array(
 			"device_identifier",
 			"computer_id"
 		);
@@ -106,7 +106,7 @@ class Graphic_Card extends Std_Library{
 		);
 		$this->_INTERNAL_ROW_NAME_CONVERT = array(
 			"screen_size_id" => "screen_size",
-			"graphics_card_model_id" => "model"
+			"graphics_card_model_id" => "model",
 			"video_architecture_id" => "video_architecture"
 		);
 	}

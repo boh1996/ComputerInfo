@@ -96,7 +96,7 @@ class Graphic_Card_Model extends Std_Library{
 		);
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
 		$this->_INTERNAL_LOAD_FROM_CLASS = array(
-			"manufacturer" => "Manufacturer"
+			"manufacturer" => "Manufacturer",
 			"memory_type" => "Video_Ram"
 		);
 		$this->_INTERNAL_ROW_NAME_CONVERT = array(
