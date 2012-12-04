@@ -57,6 +57,14 @@ class Graphic_Card_Model extends Std_Library{
 	 */
 	public $detection_string = null;
 
+	/**
+	 * The type of RAM used in the graphics card
+	 * @since 1.0
+	 * @access public
+	 * @var object
+	 */
+	public $memory_type = null;
+
 	### Class Settings ###
 
 	/**
@@ -76,12 +84,18 @@ class Graphic_Card_Model extends Std_Library{
 		parent::__construct();
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("detection_string");
+		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = array(
+			"manufacturer",
+			"memory_type"
+			);
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
 		$this->_INTERNAL_LOAD_FROM_CLASS = array(
 			"manufacturer" => "Manufacturer"
+			"memory_type" => "Video_Ram"
 		);
 		$this->_INTERNAL_ROW_NAME_CONVERT = array(
 			"manufacturer_id" => "manufacturer",
+			"memory_type_id" => "memory_type"
 		);
 	}
 }

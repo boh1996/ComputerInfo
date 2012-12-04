@@ -65,14 +65,6 @@ class Graphic_Card extends Std_Library{
 	 */
 	public $device_identifier = null;
 
-	/**
-	 * The type of RAM used in the graphics card
-	 * @since 1.0
-	 * @access public
-	 * @var object
-	 */
-	public $video_ram = null;
-
 	### Class Settings ###
 
 	/**
@@ -91,7 +83,7 @@ class Graphic_Card extends Std_Library{
 	public function __construct(){
 		parent::__construct();
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
-		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = array("screen_size","model","Video_Architecture");
+		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = array("screen_size","model","video_architecture");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = 	array(
 			"device_identifier",
@@ -99,15 +91,13 @@ class Graphic_Card extends Std_Library{
 		);
 		$this->_INTERNAL_LOAD_FROM_CLASS = array(
 			"screen_size" => "Screen_Size",
-			"model" => "Graphic_Card_Model"
+			"model" => "Graphic_Card_Model",
 			"video_architecture" => "Video_Architecture"
-			"video_ram" => "Video_Ram"
 		);
 		$this->_INTERNAL_ROW_NAME_CONVERT = array(
 			"screen_size_id" => "screen_size",
 			"graphics_card_model_id" => "model"
-			"video_architecture_id" => "video_architecture",
-			"video_ram_id" => "video_ram"
+			"video_architecture_id" => "video_architecture"
 		);
 	}
 }
