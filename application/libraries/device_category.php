@@ -36,5 +36,6 @@ class Device_Category extends Std_Library{
 		parent::__construct();
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
+		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("name");
 	}
 }

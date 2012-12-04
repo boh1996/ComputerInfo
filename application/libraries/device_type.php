@@ -51,5 +51,8 @@ class Device_Type extends Std_Library{
 		$this->_INTERNAL_LOAD_FROM_CLASS = array(
 			"category" => "Device_Category"
 		);
+		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array(
+			"name"
+		);
 	}
 }

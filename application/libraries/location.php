@@ -66,10 +66,23 @@ class Location extends Std_Library{
 	 */
 	public function __construct(){
 		parent::__construct();
-		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
-		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("name","organization_id");
-		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
-		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = array("organization","building","floor");
+		$this->_INTERNAL_EXPORT_INGNORE = array(
+			"CI",
+			"Database_Table",
+			"_CI"
+		);
+		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array(
+			"name",
+			"organization_id"
+		);
+		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array(
+			"id"
+		);
+		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = array(
+			"organization",
+			"building",
+			"floor"
+		);
 		$this->_INTERNAL_ROW_NAME_CONVERT = array(
 			"organization_id" => "organization",
 			"floor_id" => "floor",
@@ -77,7 +90,8 @@ class Location extends Std_Library{
 		);
 		$this->_INTERNAL_LOAD_FROM_CLASS = array(
 			"building" => "Building",
-			"floor" => "Floor"
+			"floor" => "Floor",
+			"organization" => "Organization"
 		);
 		$this->_INTERNAL_IMPORT_OVERWRITE = array(
 			"name",

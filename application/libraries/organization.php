@@ -52,7 +52,7 @@ class Organization extends Std_Library{
 		parent::__construct();
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
-		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("email","name");
+		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("name");
 		$this->_INTERNAL_SIMPLE_LOAD = array("employees" => true);
 		$this->_INTERNAL_LOAD_FROM_CLASS = array("employees" => "User");
 		$this->_INTERNAL_LINK_PROPERTIES = array("employees" => array("employees",array("organization_id" => "id"),"user_id"));

@@ -102,7 +102,6 @@ class Device extends Std_Library{
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("identifier","organization","model");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
 		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = array("location","organization","model");
-		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = array("organization","model","location");
 		$this->_INTERNAL_LAST_UPDATED_PROPERTY = array("last_updated");
 		$this->_INTERNAL_CREATED_TIME_PROPERTY = array("created_time");
 		$this->_INTERNAL_ROW_NAME_CONVERT = array(

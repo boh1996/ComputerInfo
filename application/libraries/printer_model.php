@@ -39,8 +39,6 @@ class Printer_Model extends Std_Library{
 	 */
 	public $color = NULL;
 
-
-
 	/**
 	 * This variable stores the database table for the class
 	 * @var string
@@ -63,10 +61,8 @@ class Printer_Model extends Std_Library{
 		$this->_INTERNAL_LOAD_FROM_CLASS = array(
 			"manufacturer" => "Manufacturer"
 		);
-		//$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_INTERNAL_ROW_NAME_CONVERT = array(
 			"manufacturer_id" => "manufacturer"
 		);
-		//$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_ROW_NAME_CONVERT,"ROW_NAME_CONVERT");
 	}
 }

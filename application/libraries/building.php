@@ -42,7 +42,6 @@ class Building extends Std_Library{
 	 */
 		public function __construct(){
 		parent::__construct();
-		//$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("organization","name");
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS_ABORT_ON_NULL = true;

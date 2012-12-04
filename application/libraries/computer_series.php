@@ -42,7 +42,6 @@ class Computer_Series extends Std_Library{
 	 */
 	public function __construct(){
 		parent::__construct();
-		//$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = array("manufaturer");
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("manufaturer,name");
@@ -53,6 +52,5 @@ class Computer_Series extends Std_Library{
 		$this->_INTERNAL_LOAD_FROM_CLASS = array(
 			"manufacturer" => "Manufacturer"
 		);
-		//$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_ROW_NAME_CONVERT,"ROW_NAME_CONVERT");
 	}
 }

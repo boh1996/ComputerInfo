@@ -49,8 +49,6 @@ class Screen_Model extends Std_Library{
 	 */
 	public $power_usage = NULL;
 
-
-
 	/**
 	 * This variable stores the database table for the class
 	 * @var string
@@ -66,7 +64,6 @@ class Screen_Model extends Std_Library{
 	 */
 	public function __construct(){
 		parent::__construct();
-		//$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = array("manufacturer","screen_size");
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("manufacturer,name","screen_size");
@@ -79,6 +76,5 @@ class Screen_Model extends Std_Library{
 			"manufacturer" => "Manufacturer",
 			"screen_size" => "Screen_Size"
 		);
-		//$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_ROW_NAME_CONVERT,"ROW_NAME_CONVERT");
 	}
 }

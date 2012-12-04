@@ -106,7 +106,7 @@ class User extends Std_Library{
 			"organizations" => "Organization"
 		);
 		$this->_INTERNAL_SIMPLE_LOAD = array("organizations" => true);
-		$this->_INTERNAL_OVERWRITE_ON_DUBLICATE = false; //This can changed
+		$this->_INTERNAL_OVERWRITE_ON_DUBLICATE = false;
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = 	array(
 			"email",
 			"username"

@@ -57,8 +57,6 @@ class Screen_Size extends Std_Library{
 	 */
 	public $abbrevation = NULL;
 
-
-
 	/**
 	 * This variable stores the database table for the class
 	 * @var string

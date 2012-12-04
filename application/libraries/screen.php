@@ -73,9 +73,6 @@ class Screen extends Std_Library{
 	 */
 	public $last_updated_user = NULL;
 
-
-
-
 	/**
 	 * This variable stores the database table for the class
 	 * @var string

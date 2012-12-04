@@ -52,7 +52,6 @@ class Device_Model extends Std_Library{
 	public function __construct(){
 		parent::__construct();
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
-		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = array("manufacturer");
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("name");
 		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = array("manufaturer","type");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
@@ -60,6 +59,9 @@ class Device_Model extends Std_Library{
 			"manufacturer" => "Manufacturer",
 			"type" => "Device_Type"
 		);
-		$this->_INTERNAL_ROW_NAME_CONVERT = array("device_type_id" => "type","manufacturer_id" => "manufacturer");
+		$this->_INTERNAL_ROW_NAME_CONVERT = array(
+			"device_type_id" => "type",
+			"manufacturer_id" => "manufacturer"
+		);
 	}
 }

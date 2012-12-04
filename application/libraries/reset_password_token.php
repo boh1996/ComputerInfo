@@ -49,8 +49,6 @@ class Reset_Password_Token extends Std_Library{
 	 */
 	public $identifier = NULL;
 
-
-
 	/**
 	 * This variable stores the database table for the class
 	 * @var string

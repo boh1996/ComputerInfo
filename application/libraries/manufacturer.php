@@ -61,5 +61,8 @@ class Manufacturer extends Std_Library{
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("detection_string");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
+		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = array(
+			"manufacturer"
+		);
 	}
 }

@@ -52,21 +52,30 @@ class Computer_Group extends Std_Library{
 	public function __construct(){
 		parent::__construct();
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
-		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
-		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = array("organization");
+		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array(
+			"id"
+		);
+		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = array(
+			"organization"
+		);
 		$this->_INTERNAL_LOAD_FROM_CLASS = array(
 			"members" => "Computer",
 			"organization" => "Organization"
 		);
-		//$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_INTERNAL_ROW_NAME_CONVERT = array(
 			"organization_id" => "organization"
 		);
-		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("name","organization");
-		$this->_INTERNAL_FORCE_ARRAY = array("members");
+		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array(
+			"name",
+			"organization"
+		);
+		$this->_INTERNAL_FORCE_ARRAY = array(
+			"members"
+		);
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS_ABORT_ON_NULL = true;
-		$this->_INTERNAL_SIMPLE_LOAD = array("members" => true);
-		$this->_INTERNAL_LINK_PROPERTIES = array("members" => array("computer_groups_members",array("group_id" => "id"),"computer_id"));
-		//$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_ROW_NAME_CONVERT,"ROW_NAME_CONVERT");
+		$this->_INTERNAL_SIMPLE_LOAD = array(
+			"members" => true
+		);
+		$this->_INTERNAL_LINK_PROPERTIES = array("members" => array("computer_groups_members",array("group_id" => "id"),"computer_id",array("group_id","computer_id")));
 	}
 }

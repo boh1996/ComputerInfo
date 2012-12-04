@@ -36,14 +36,6 @@ class Computer extends Std_Library{
 	public $date_of_purchase = NULL;
 
 	/**
-	 * The primary ip address of the computer
-	 * @var string
-	 * @access public
-	 * @since 1.0
-	 */
-	public $ip = NULL;
-
-	/**
 	 * The printer groups that this computer is a member off
 	 * @since 1.0
 	 * @access public
