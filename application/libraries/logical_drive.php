@@ -65,6 +65,14 @@ class Logical_Drive extends Std_Library{
 	 */
 	public $drive_type = null;
 
+	/**
+	 * The drive letter
+	 * @since 1.0
+	 * @access public
+	 * @var string
+	 */
+	public $name = null;
+
 	### Class Settings ###
 
 	/**

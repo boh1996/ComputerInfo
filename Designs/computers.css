@@ -9,6 +9,12 @@
 .space-right {
 	margin-right: 5px;
 }
+.space-left {
+    margin-left: 5px;
+}
+.pull-in-left {
+    margin-left: 20px;
+}
 .center {
 	margin-left: auto;
 	margin-right: auto;
@@ -18,8 +24,8 @@
 	width:auto;
 }
 
-body,html {
-	width: 100% !important;
+.object[href] {
+    cursor: pointer;
 }
 
 .model-image {
@@ -38,6 +44,9 @@ body,html {
   .page-container{
     margin-top:30px;
     margin-left:10px;
+    box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -webkit-box-sizing:border-box
   }
 }
 
