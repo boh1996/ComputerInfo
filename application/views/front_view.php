@@ -41,7 +41,7 @@
 		    <div class="nav-collapse">
 		     	<ul class="nav">
 		     		<li>
-			    		<a data-target="computer" data-title="<?php echo $this->lang->line('ui_title_brand'); ?> - <?php echo $this->lang->line('ui_computers_page'); ?><" href="#"><?php echo $this->lang->line('ui_computers_page'); ?></a>
+			    		<a data-target="computer" data-title="<?php echo $this->lang->line('ui_title_brand'); ?> - <?php echo $this->lang->line('ui_computers_page'); ?>" href="#"><?php echo $this->lang->line('ui_computers_page'); ?></a>
 			  		</li>
 				  	<li>
 				  		<a data-target="printer" data-title="<?php echo $this->lang->line('ui_title_brand'); ?> - <?php echo $this->lang->line('ui_printers_page'); ?>" href="#"><?php echo $this->lang->line('ui_printers_page'); ?></a>
