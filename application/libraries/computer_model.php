@@ -18,6 +18,14 @@ class Computer_Model extends Std_Library{
 	public $manufacturer = NULL;
 
 	/**
+	 * The url to an image representing the model
+	 * @since 1.0
+	 * @access public
+	 * @var string
+	 */
+	public $image_url = null;
+
+	/**
 	 * Th computer type "Laptop","Stationary" etc
 	 * @var integer
 	 * @since 1.0

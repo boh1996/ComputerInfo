@@ -191,11 +191,15 @@ class Api extends CI_Controller {
 		} else if (is_integer($id)) {
 			return $id;
 		} else {
-			$id = (int)$id;
-			if (!is_null($id)) {
-				return $id;
+			if (is_object($id) && property_exists($id, "id")) {
+				return $id->id;
 			} else {
-				return false;
+				$id = (int)$id;
+				if (!is_null($id)) {
+					return $id;
+				} else {
+					return false;
+				}
 			}
 		}
 	}

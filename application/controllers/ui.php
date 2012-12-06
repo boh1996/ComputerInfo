@@ -18,7 +18,8 @@ class UI extends CI_Controller {
 		);
 		$this->user_control->batch_load_lang_files(array(
 			"modals",
-			"user_settings"
+			"user_settings",
+			"computers"
 		));
 		$this->load->view("front_view",$this->computerinfo_security->ControllerInfo($data));
 	}

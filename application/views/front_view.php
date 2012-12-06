@@ -14,6 +14,7 @@
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/style.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/form.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/loading.css">
+		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/scrollbar.css">
 		<script type="text/javascript">var root = "<?php echo $base_url; ?>";</script>
 		<script type="text/javascript">var method = "<?php echo $method; ?>";</script>
 		<script type="text/javascript">var language = "<?php echo $language; ?>";</script>
@@ -83,6 +84,10 @@
 				<!-- Computers -->
 				<div id="computers" class="disabled_page">
 					<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="computer"><thead></thead><tbody></tbody></table>
+				</div>	
+
+				<div id="computer_id">
+					<?php $this->load->view("computer_view"); ?>
 				</div>	
 
 				<div id="printers" class="disabled_page">
@@ -247,7 +252,8 @@
 		}
 	?>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>bootstrap/js/bootstrap.js"></script>
-	<script type="text/javascript" src="<?php echo $asset_url; ?>js/jquery.history.js"></script>
+	<script src="<?php echo $asset_url;?>js/mustache.js"></script>
+	<!--<script type="text/javascript" src="<?php echo $asset_url; ?>js/jquery.history.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/jquery.dataTables.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/custom-form-elements.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/dataTables.bootstrap.js"></script>
@@ -256,11 +262,22 @@
 	<script type="text/javascript" src="<?php echo $base_url.'translate/settings';?>"></script>
 	<script type="text/javascript" src="<?php echo $base_url.'translate/datatable';?>"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/objx.js"></script>
-	<script type="text/javascript" src="<?php echo $asset_url; ?>js/userInfo.js"></script>
+	--><script type="text/javascript" src="<?php echo $asset_url; ?>js/userInfo.js"></script><!--
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/tableGenerator.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/application.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/script.js"></script>
-	<script type="text/javascript" src="<?php echo $asset_url; ?>js/settings.js"></script>
+	<script type="text/javascript" src="<?php echo $asset_url; ?>js/settings.js"></script>-->
+	<script type="text/javascript" id="computerTemplate">
+		$.ajax({
+			url : root+"computer/23?token="+userInfo.getCookie("token"),
+			success: function (data) {
+				$("#computer_id").html(Mustache.render($("#computer_id").html(), data.Computer));
+				$("div.accordion-body").each(function(index,element){
+					$(element).find("div.object:last").next("hr").remove();
+				});
+			}
+		});
+	</script>
 	<script type="text/javascript">
 		$('#save-selections').toggleButtons({
 		    style: {
@@ -280,6 +297,11 @@
 				$string .="]";
 				echo $string;
 			?>
+		});
+	</script>
+	<script type="text/javascript">
+		$(".object[href]").live('click',function(){
+			window.location = $(this).attr("href");
 		});
 	</script>
 	</body>
