@@ -87,7 +87,7 @@
 				</div>	
 
 				<div id="computer_id">
-					<?php $this->load->view("computer_view"); ?>
+					
 				</div>	
 
 				<div id="printers" class="disabled_page">
@@ -253,8 +253,8 @@
 	?>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>bootstrap/js/bootstrap.js"></script>
 	<script src="<?php echo $asset_url;?>js/mustache.js"></script>
-	<!--<script type="text/javascript" src="<?php echo $asset_url; ?>js/jquery.history.js"></script>
-	<script type="text/javascript" src="<?php echo $asset_url; ?>js/jquery.dataTables.js"></script>
+	<script type="text/javascript" src="<?php echo $asset_url; ?>js/jquery.history.js"></script>
+	<!--<script type="text/javascript" src="<?php echo $asset_url; ?>js/jquery.dataTables.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/custom-form-elements.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/dataTables.bootstrap.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/FixedHeader.js"></script>
@@ -267,16 +267,23 @@
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/application.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/script.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/settings.js"></script>-->
-	<script type="text/javascript" id="computerTemplate">
-		$.ajax({
-			url : root+"computer/23?token="+userInfo.getCookie("token"),
-			success: function (data) {
-				$("#computer_id").html(Mustache.render($("#computer_id").html(), data.Computer));
-				$("div.accordion-body").each(function(index,element){
-					$(element).find("div.object:last").next("hr").remove();
-				});
-			}
-		});
+	<script type="mustache/template" id="computerTemplate">
+		<?php $this->load->view("computer_view"); ?>
+	</script>
+	<script type="text/javascript">
+		var locationParts = window.location.pathname.split( '/' );
+
+		if (locationParts.length > 0 && locationParts[1] == "computer" && typeof locationParts[2] != "undefined") {
+			$.ajax({
+				url : root+"computer/"+locationParts[2]+"?token="+userInfo.getCookie("token"),
+				success: function (data) {
+					$("#computer_id").html(Mustache.render($("#computerTemplate").html(), data.Computer));
+					$("div.accordion-body").each(function(index,element){
+						$(element).find("div.object:last").next("hr").remove();
+					});
+				}
+			});
+		}
 	</script>
 	<script type="text/javascript">
 		$('#save-selections').toggleButtons({

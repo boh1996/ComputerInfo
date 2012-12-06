@@ -12,14 +12,14 @@
 	        </ul>
 	        {{/model.image_url}}
 	        {{^model.image_url}}
-	        	<ul class="thumbnails">
+	        	<!--<ul class="thumbnails">
 		            <li class="span12">
 		              <a class="thumbnail">
 		                <div class="img-outer"><img src="https://placehold.it/360x360" class="img-rounded model-image"></div>
 		              </a>
 		            </li>
-	        	</ul>
-	        ({{/model.image_url}}
+	        	</ul>-->
+	        {{/model.image_url}}
 
 			<div class="well well-large description">
 				<strong class="center title"><h3>{{identifier}}</h3></strong>
@@ -30,7 +30,10 @@
 				{{/date_of_purchase}}
 
 				<strong class="space-right"><?php echo $this->lang->line('computer_screen_size'); ?>:</strong>{{screen_size.detection_string}}<br>
+
+				{{#location.name.length}}
 				<strong class="space-right"><?php echo $this->lang->line('computer_location'); ?>:</strong>{{location.name}}<br>
+				{{/location.name.length}}
 
 				{{#operating_system.core.name.length}}
 				<strong class="space-right"><?php echo $this->lang->line('computer_operating_system'); ?>:</strong>{{operating_system.core.name}} {{operating_system.edition.name}}<br>
@@ -194,6 +197,7 @@
 
 				      		{{#logical_drives}}
 					        <div class="object" href="logical_drive/{{id}}">
+
 						        <strong class="space-right"><?php echo $this->lang->line('computer_disk_space'); ?>:</strong>{{free_space}}/{{disk_size}} <?php echo $this->lang->line('gigabytes'); ?><br>
 						        <strong class="space-right"><?php echo $this->lang->line('computer_drive_name'); ?>:</strong>{{volume_name}}<br>
 						        <strong class="space-right"><?php echo $this->lang->line('computer_drive_letter'); ?>:</strong>{{name}}<br>
