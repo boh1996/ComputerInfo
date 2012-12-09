@@ -42,6 +42,10 @@
   width:auto;
 }
 
+.center-text {
+  text-align: center;
+}
+
 .object[href] {
     cursor: pointer;
 }

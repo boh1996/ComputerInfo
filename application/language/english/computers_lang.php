@@ -77,7 +77,11 @@ $lang["computer_is_empty"] = "Empty";
 
 $lang["computer_capacity"] = "Capacity";
 
-$lang["megabytes"] = "MB";
+$lang["megabytes"] = "Megabytes";
 
-$lang["gigabytes"] = "GB";
+$lang["megabytes_abbrevation"] = "MB";
+
+$lang["gigabytes"] = "Gigabytes";
+
+$lang["gigabytes_abbrevation"] = "GB";
 ?>

@@ -144,5 +144,21 @@ class User_Control{
 		}
 		return $value;
 	}
+
+	/**
+	 * This function replaces all the template variables with the desired value
+	 * @param array $variables An array of the keys to replace and the values to replace them with
+	 * @param string $template  The template as string
+	 * @return string
+	 * @since 1.0
+	 * @access private
+	 */
+	public function Template ( $variables, $template ) {
+		$content = $template;
+		foreach ($variables as $variable => $value) {
+			$content = str_replace($variable, $value, $content);
+		}
+		return $content;
+	}
 }
 ?>

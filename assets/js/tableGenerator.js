@@ -117,6 +117,8 @@ tableGenerator.prototype = {
 	 */
 	container : $("#computer"),
 
+	objectTitlePrefix : "Computer",
+
 	/**
 	 * The node to look for in the response
 	 * @type {String}
@@ -375,8 +377,12 @@ tableGenerator.prototype = {
 	/**
 	 * This function gets all the computers for a specific organization
 	 * @param  {integer} id The organization id
+	 * @param {function} callback Runtime ready callback
 	 */
-	getNodes : function(id){
+	getNodes : function(id,callback){
+		if (typeof callback == "function") {
+			this.doneCallback = callback;
+		}
 		var requestUrl = this.root + "get/" + this.multipleRequestType + "/{id}";
 		requestUrl = requestUrl.replace("{id}",id);
 		requestUrl = this.createAutherizedUrl(requestUrl);
@@ -984,7 +990,10 @@ tableGenerator.prototype = {
 			if ($(event.target).attr("data-launch") == "false") {
 					return;
 			}
-			this.tableRowClicked($(event.target).parent("th"));
+			var id = $(event.target).parent("th").parent("tr").attr("data-id");
+			var title = this.objectTitlePrefix || "";
+			window.History.pushState({id : id},title + " - " + id,root + this.requestType + "/"+id);
+			//this.tableRowClicked($(event.target).parent("th"));
 		},this));	
 	},
 

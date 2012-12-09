@@ -35,6 +35,12 @@ var application = {
 
 	current : null,
 
+	/**
+	 * If the application has been initialized
+	 * @type {Boolean}
+	 */
+	initialized : false,
+
 	language : null,
 
 	/**
@@ -42,6 +48,8 @@ var application = {
 	 * @type {Boolean}
 	 */
 	callbackOnFirst : false,
+
+	initializedGenerators : [],
 
 	/**
 	 * This function adds a active geneerator to the list of generators
@@ -155,7 +163,7 @@ var application = {
 					application.readyCallback("unitsGenerator");
 				}
 			});
-			application.addGenerator(application.unitsGenerator,"unitsGenerator");
+			//application.addGenerator(application.unitsGenerator,"unitsGenerator");
 
 			//Printers
 			application.printerGenerator = new tableGenerator({
@@ -202,7 +210,9 @@ var application = {
 					application.readyCallback("screenGenerator");
 				}
 			});
-			application.addGenerator(application.screenGenerator,"screenGenerator");
+			//application.addGenerator(application.screenGenerator,"screenGenerator");
+
+			application.initialized = true;
 			if (typeof initializeCallback == "function") {
 				application.initializeCallback();
 			}
@@ -227,6 +237,21 @@ var application = {
 		$.each(generators,function(index,element){
 			element.getNodes(application.organization);
 		});
+	},
+
+	/**
+	 * This function initiliazed a generator
+	 * @param  {string} generator The generator to initiliaze
+	 */
+	launchGenerator : function (generator,callback) {
+		if (typeof application.initializedGenerators[generator] != "undefined" && application.initializedGenerators[generator] == true) {
+			if (typeof callback == "function") {
+				callback();
+			}
+			return;
+		}
+		application.generators[generator].getNodes(application.organization,callback);
+		application.initializedGenerators[generator] = true;
 	},
 
 	/**

@@ -18,6 +18,7 @@
 		<script type="text/javascript">var root = "<?php echo $base_url; ?>";</script>
 		<script type="text/javascript">var method = "<?php echo $method; ?>";</script>
 		<script type="text/javascript">var language = "<?php echo $language; ?>";</script>
+		<script type="text/javascript">var front_translations = <?php echo $front_translations; ?>;</script>
 	</head>
 	<body>
 
@@ -42,22 +43,22 @@
 		    <div class="nav-collapse">
 		     	<ul class="nav">
 		     		<li>
-			    		<a data-target="computer" data-title="<?php echo $this->lang->line('ui_title_brand'); ?> - <?php echo $this->lang->line('ui_computers_page'); ?>" href="#"><?php echo $this->lang->line('ui_computers_page'); ?></a>
+			    		<a data-target="computers" href="#"><?php echo $this->lang->line('ui_computers_page'); ?></a>
 			  		</li>
 				  	<li>
-				  		<a data-target="printer" data-title="<?php echo $this->lang->line('ui_title_brand'); ?> - <?php echo $this->lang->line('ui_printers_page'); ?>" href="#"><?php echo $this->lang->line('ui_printers_page'); ?></a>
+				  		<a data-target="printers" href="#"><?php echo $this->lang->line('ui_printers_page'); ?></a>
 				  	</li>
 					<li>
-				    	<a data-target="units" data-title="<?php echo $this->lang->line('ui_title_brand'); ?> - <?php echo $this->lang->line('ui_units_page'); ?>" href="#"><?php echo $this->lang->line('ui_units_page'); ?></a>
+				    	<a data-target="units" href="#"><?php echo $this->lang->line('ui_units_page'); ?></a>
 				  	</li>
 				  	<li>
-				  		<a data-target="locations" data-title="<?php echo $this->lang->line('ui_title_brand'); ?> - <?php echo $this->lang->line('ui_rooms_page'); ?>" href="#"><?php echo $this->lang->line('ui_rooms_page'); ?></a>
+				  		<a data-target="locations" href="#"><?php echo $this->lang->line('ui_rooms_page'); ?></a>
 				  	</li>
 				  	<li>
-				  		<a data-target="screens" data-title="<?php echo $this->lang->line('ui_title_brand'); ?> - <?php echo $this->lang->line('ui_screens_page'); ?>" href="#"><?php echo $this->lang->line('ui_screens_page'); ?></a>
+				  		<a data-target="screens" href="#"><?php echo $this->lang->line('ui_screens_page'); ?></a>
 				  	</li>
 				  	<li>
-				  		<a data-target="users" data-title="<?php echo $this->lang->line('ui_title_brand'); ?> - <?php echo $this->lang->line('ui_users_page'); ?>" href="#"><?php echo $this->lang->line('ui_users_page'); ?></a>
+				  		<a data-target="users" href="#"><?php echo $this->lang->line('ui_users_page'); ?></a>
 				  	</li>
 				</ul>
 				<ul class="nav pull-right">
@@ -86,9 +87,7 @@
 					<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="computer"><thead></thead><tbody></tbody></table>
 				</div>	
 
-				<div id="computer_id">
-					
-				</div>	
+				<div id="computer_id" class="disabled_page"></div>	
 
 				<div id="printers" class="disabled_page">
 					<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="printer"><thead></thead><tbody></tbody></table>
@@ -104,6 +103,12 @@
 
 				<div id="users" class="disabled_page">
 
+				</div>
+
+				<div id="errorPage" class="disabled_page">
+					<h1 class="center center-text">
+						<?php echo $this->lang->line('error_sorry_no_object_found'); ?>
+					</h1>
 				</div>
 
 				<div id="settings" class="settings disabled_page">
@@ -228,7 +233,7 @@
 
 	<?php $this->load->view("models_view"); ?>
 
-	<!--<div id="loading">
+	<div id="loading">
 		<div id="floatingCirclesG">
 			<div class="f_circleG" id="frotateG_01"></div>
 			<div class="f_circleG" id="frotateG_02"></div>
@@ -241,7 +246,7 @@
 		</div>
 	</div>
 
-	<div class="modal-backdrop in" id="loading-background"></div>-->
+	<div class="modal-backdrop in" id="loading-background"></div>
 
 	<!-- Include jquery,boostrap and script -->
 	<?php 
@@ -254,7 +259,9 @@
 	<script type="text/javascript" src="<?php echo $asset_url; ?>bootstrap/js/bootstrap.js"></script>
 	<script src="<?php echo $asset_url;?>js/mustache.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/jquery.history.js"></script>
-	<!--<script type="text/javascript" src="<?php echo $asset_url; ?>js/jquery.dataTables.js"></script>
+	<script type="text/javascript" src="<?php echo $asset_url; ?>js/signals.min.js"></script>
+	<script type="text/javascript" src="<?php echo $asset_url; ?>js/crossroads.min.js"></script>
+	<script type="text/javascript" src="<?php echo $asset_url; ?>js/jquery.dataTables.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/custom-form-elements.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/dataTables.bootstrap.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/FixedHeader.js"></script>
@@ -262,28 +269,12 @@
 	<script type="text/javascript" src="<?php echo $base_url.'translate/settings';?>"></script>
 	<script type="text/javascript" src="<?php echo $base_url.'translate/datatable';?>"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/objx.js"></script>
-	--><script type="text/javascript" src="<?php echo $asset_url; ?>js/userInfo.js"></script><!--
+	<script type="text/javascript" src="<?php echo $asset_url; ?>js/userInfo.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/tableGenerator.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/application.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/script.js"></script>
-	<script type="text/javascript" src="<?php echo $asset_url; ?>js/settings.js"></script>-->
 	<script type="mustache/template" id="computerTemplate">
 		<?php $this->load->view("computer_view"); ?>
-	</script>
-	<script type="text/javascript">
-		var locationParts = window.location.pathname.split( '/' );
-
-		if (locationParts.length > 0 && locationParts[1] == "computer" && typeof locationParts[2] != "undefined") {
-			$.ajax({
-				url : root+"computer/"+locationParts[2]+"?token="+userInfo.getCookie("token"),
-				success: function (data) {
-					$("#computer_id").html(Mustache.render($("#computerTemplate").html(), data.Computer));
-					$("div.accordion-body").each(function(index,element){
-						$(element).find("div.object:last").next("hr").remove();
-					});
-				}
-			});
-		}
 	</script>
 	<script type="text/javascript">
 		$('#save-selections').toggleButtons({
@@ -308,7 +299,7 @@
 	</script>
 	<script type="text/javascript">
 		$(".object[href]").live('click',function(){
-			window.location = $(this).attr("href");
+			window.location = root + $(this).attr("href");
 		});
 	</script>
 	</body>

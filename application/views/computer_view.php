@@ -12,18 +12,21 @@
 	        </ul>
 	        {{/model.image_url}}
 	        {{^model.image_url}}
-	        	<!--<ul class="thumbnails">
+	        	<ul class="thumbnails">
 		            <li class="span12">
 		              <a class="thumbnail">
-		                <div class="img-outer"><img src="https://placehold.it/360x360" class="img-rounded model-image"></div>
+		                <div class="img-outer"><img src="<?php echo $base_url; ?>assets/images/computer_model_image.png" class="img-rounded model-image"></div>
 		              </a>
 		            </li>
-	        	</ul>-->
+	        	</ul>
 	        {{/model.image_url}}
 
 			<div class="well well-large description">
 				<strong class="center title"><h3>{{identifier}}</h3></strong>
+
+				{{#serial}}
 				<strong class="space-right"><?php echo $this->lang->line('computer_serial'); ?>:</strong>{{serial}}<br>
+				{{/serial}}
 
 				{{#date_of_purchase}}
 				<strong class="space-right"><?php echo $this->lang->line('computer_date_of_purchase'); ?>:</strong>{{date_of_purchase}}<br>
@@ -50,9 +53,14 @@
 			<div class="well well-large description">
 				<strong class="center title object" href="{{model.url}}"><h3>{{model.name}}</h3></strong>
 
-				{{#model.manufacturer}}
-				<strong class="space-right"><?php echo $this->lang->line('computer_manufacturer'); ?>:</strong><a href="{{model.manufacturer.website}}">{{model.manufacturer.name}}</a><br>
-				{{/model.manufacturer}}
+				{{#model.manufacturer.name.length}}
+					{{#model.manufacturer.website}}
+						<strong class="space-right"><?php echo $this->lang->line('computer_manufacturer'); ?>:</strong><a href="{{model.manufacturer.website}}">{{model.manufacturer.name}}</a><br>
+					{{/model.manufacturer.website}}
+					{{^model.manufacturer.website}}
+						<strong class="space-right"><?php echo $this->lang->line('computer_manufacturer'); ?>:</strong><a href="{{model.manufacturer.website}}">{{model.manufacturer.name}}</a><br>
+					{{/model.manufacturer.website}}
+				{{/model.manufacturer.name.length}}
 
 				{{#model.type}}
 				<strong class="space-right"><?php echo $this->lang->line('computer_type'); ?>:</strong>{{model.type.name}}<br>
@@ -166,15 +174,21 @@
 
 				      		{{#network_cards}}
 					        <div class="object" href="network_card/{{id}}">
-						        <strong class="space-right"><?php echo $this->lang->line('computer_model'); ?>:</strong><a href="{{model.url}}">{{model.name}}</a><br>
-						        <strong class="space-right"><?php echo $this->lang->line('computer_manufacturer'); ?>:</strong><a href="{{model.manufacturer.website}}">{{model.manufacturer.name}}</a><br>
+
+					        	{{#model.name.length}}
+						        	<strong class="space-right"><?php echo $this->lang->line('computer_model'); ?>:</strong><a href="{{model.url}}">{{model.name}}</a><br>
+						        	<strong class="space-right"><?php echo $this->lang->line('computer_manufacturer'); ?>:</strong><a href="{{model.manufacturer.website}}">{{model.manufacturer.name}}</a><br>
+						        {{/model.name.length}}
 						        <strong class="space-right"><?php echo $this->lang->line('computer_mac_address'); ?>:</strong>{{mac_address}}<br>
-						        <strong class="space-right"><?php echo $this->lang->line('computer_ip_addresses'); ?></strong><br>
-						        <div class="pull-in-left well well-small">
-						       		{{#ip_addresses}}
-						       			{{.}}<br>
-						       		{{/ip_addresses}}
-						       </div>
+
+						        {{#ip_addresses.length}}
+							        <strong class="space-right"><?php echo $this->lang->line('computer_ip_addresses'); ?></strong><br>
+							        <div class="pull-in-left well well-small">
+							       		{{#ip_addresses}}
+							       			{{.}}<br>
+							       		{{/ip_addresses}}
+							       </div>
+						        {{/ip_addresses.length}}
 					   		</div>
 					   		<hr>
 					   		{{/network_cards}}
@@ -198,11 +212,14 @@
 				      		{{#logical_drives}}
 					        <div class="object" href="logical_drive/{{id}}">
 
-						        <strong class="space-right"><?php echo $this->lang->line('computer_disk_space'); ?>:</strong>{{free_space}}/{{disk_size}} <?php echo $this->lang->line('gigabytes'); ?><br>
+						        <strong class="space-right"><?php echo $this->lang->line('computer_disk_space'); ?>:</strong>{{free_space}}/{{disk_size}} <abbr title="<?php echo $this->lang->line('gigabytes'); ?>"><?php echo $this->lang->line('gigabytes_abbrevation'); ?></abbr><br>
 						        <strong class="space-right"><?php echo $this->lang->line('computer_drive_name'); ?>:</strong>{{volume_name}}<br>
 						        <strong class="space-right"><?php echo $this->lang->line('computer_drive_letter'); ?>:</strong>{{name}}<br>
 						        <strong class="space-right"><?php echo $this->lang->line('computer_file_system'); ?>:</strong>{{file_system}}<br>
+
+						        {{#drive_type.name.length}}
 						        <strong class="space-right"><?php echo $this->lang->line('computer_drive_type'); ?>:</strong>{{drive_type.name}}<br>
+						        {{/drive_type.name.length}}
 					   		</div>
 					   		<hr>
 					   		{{/logical_drives}}
@@ -225,8 +242,11 @@
 
 				      		{{#physical_drives}}
 					        <div class="object" href="physical_drive/{{id}}">
-					        	<strong class="space-right"><?php echo $this->lang->line('computer_model'); ?>:</strong><a href="{{model.url}}">{{model.name}}</a><br>
-					        	<strong class="space-right"><?php echo $this->lang->line('computer_manufacturer'); ?>:</strong><a href="{{model.manufacturer.website}}">{{manufacturer.name}}</a><br>
+					        	{{#model.name.length}}
+					        		<strong class="space-right"><?php echo $this->lang->line('computer_model'); ?>:</strong><a href="{{model.url}}">{{model.name}}</a><br>
+					        		<strong class="space-right"><?php echo $this->lang->line('computer_manufacturer'); ?>:</strong><a href="{{model.manufacturer.website}}">{{manufacturer.name}}</a><br>
+					        	{{/model.name.length}}
+
 						        <strong class="space-right"><?php echo $this->lang->line('computer_disk_size'); ?>:</strong>{{disk_size}}<br>
 					   		</div>
 					   		<hr>
@@ -296,18 +316,25 @@
 				    <div id="memory" class="accordion-body collapse">
 				      	<div class="accordion-inner">
 					        {{#memory.total_physical_memory}}
-					        <strong class="space-right"><?php echo $this->lang->line('computer_total_memory'); ?>:</strong>{{memory.total_physical_memory}}<br>
+					        <strong class="space-right"><?php echo $this->lang->line('computer_total_memory'); ?>:</strong>{{memory.total_physical_memory}} <abbr title="<?php echo $this->lang->line('megabytes'); ?>"><?php echo $this->lang->line('megabytes_abbrevation'); ?></abbr><br>
 					        {{/memory.total_physical_memory}}
 
 					        {{#memory.slots.length}}
-					        <h4><?php echo $this->lang->line('computer_memory_slots'); ?> <?php echo $this->lang->line('megabytes'); ?></h4>
+					        <h4><?php echo $this->lang->line('computer_memory_slots'); ?></h4>
 					        {{/memory.slots.length}}
 
 					        {{#memory.slots}}
 					        	<div class="object">					        
 					   				<strong class="space-right"><?php echo $this->lang->line('computer_is_empty'); ?>:</strong>{{empty}}<br>
+
+					   				{{#serial}}
 					   				<strong class="space-right"><?php echo $this->lang->line('computer_serial'); ?>:</strong>{{serial}}<br>
-					   				<strong class="space-right"><?php echo $this->lang->line('computer_manufacturer'); ?>:</strong><a href="{{manufacturer.website}}">{{manufacturer.name}}</a><br>
+					   				{{/serial}}
+
+					   				{{#manufacturer.name.length}}
+					   					<strong class="space-right"><?php echo $this->lang->line('computer_manufacturer'); ?>:</strong><a href="{{manufacturer.website}}">{{manufacturer.name}}</a><br>
+					   				{{/manufacturer.name.length}}
+
 					   				<strong class="space-right"><?php echo $this->lang->line('computer_capacity'); ?>:</strong>{{capacity}}<br>
 					   			</div>
 					   			<hr>
