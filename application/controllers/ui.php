@@ -9,6 +9,14 @@ class UI extends CI_Controller {
 	public function _remap($method = NULL,$params = array()) {
 		$languages = $this->config->item("languages");
 		$language = $this->user_control->GetUserLanguage();
+		$this->user_control->batch_load_lang_files(array(
+			"modals",
+			"user_settings",
+			"computers",
+			"front",
+			"device",
+			"printer"
+		));
 		$data = array(
 			"method" => $method,
 			"params" => json_encode($params),
@@ -17,6 +25,7 @@ class UI extends CI_Controller {
 			"save_selections" => $this->user_control->GetSetting("save_selection","true"),
 			"front_translations" => json_encode(array(
 				"computer_page" 	=> $this->lang->line('ui_computer_page'),
+				"device_page"		=> $this->lang->line('ui_device_page'),
 				"computers_page" 	=> $this->lang->line('ui_computers_page'),
 				"brand_title" 		=> $this->lang->line('ui_title_brand'),
 				"page_template" 	=> $this->lang->line("ui_page_title_template"),
@@ -26,15 +35,14 @@ class UI extends CI_Controller {
 				"screens_page"		=> $this->lang->line("ui_screens_page"),
 				"users_page"		=> $this->lang->line("ui_users_page"),
 				"settings_page"		=> $this->lang->line("ui_settings_page"),
-				"computer_not_found"	=> $this->lang->line("ui_computer_not_found")
+				"computer_not_found"	=> $this->lang->line("ui_computer_not_found"),
+				"page_not_found"	=> $this->lang->line("error_page_not_found"),
+				"element_not_found" => $this->lang->line("ui_element_not_found"),
+				"printer_page"		=> $this->lang->line("ui_printer_page"),
+				"color_printer"		=> $this->lang->line("printer_color"),
+				"black_white_printer"		=> $this->lang->line("printer_black_white"),
 			))
 		);
-		$this->user_control->batch_load_lang_files(array(
-			"modals",
-			"user_settings",
-			"computers",
-			"front"
-		));
 		$this->load->view("front_view",$this->computerinfo_security->ControllerInfo($data));
 	}
 }

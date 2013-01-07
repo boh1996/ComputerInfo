@@ -16,6 +16,10 @@
   overflow: hidden;
 }
 
+select:focus {
+   outline-color: transparent !important;
+}
+
 .pull-down {
   margin-top: 20px;
 }

@@ -102,6 +102,14 @@ class Printer extends Std_Library{
 	 */
 	public $groups = NULL;
 
+	/**
+	 * The year the printer was aquired
+	 * @since 1.0
+	 * @access public
+	 * @var integer
+	 */
+	public $year_of_purchase = null;
+
 	### Class Settings ###
 
 	/**

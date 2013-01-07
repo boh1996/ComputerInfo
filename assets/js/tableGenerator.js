@@ -227,12 +227,6 @@ tableGenerator.prototype = {
 	},
 
 	/**
-	 * The code/object/string to use as length filtering
-	 * @type {[type]}
-	 */
-	length_menu : '<form class="jqtransform"><select class="length_select"><option selected="selected">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select></form>',
-
-	/**
 	 * This function generates the computers row
 	 * @param  {object} data The api response data
 	 * @param {integer} id The node id
@@ -599,23 +593,18 @@ tableGenerator.prototype = {
 	 * @private
 	 */
 	_lengthSelect : function (parent) {
-		$(parent).find(".dataTables_length label").replaceWith('<form class="jqtransform">'+$(parent).find(".dataTables_length label").html()+'</form>');
-		$(parent).find(".dataTables_length form select").addClass("length_select");
+		var name = $(parent).find(".dataTables_length label select").attr("name");
+		$(parent).find(".dataTables_length label").replaceWith($("#length_select_template").html());
 
-		var lengthSelect = $(parent).find(".length_select");
+		if ($(parent).find(".dataTables_length").find("input").val() == "") {
+			$(parent).find(".dataTables_length").find("input").val(this.filter_value).attr("name",name);
+		}
 
-		$(parent).find(".jqtransform").jqTransform();
-		$(parent).find(".jqtransform").find("select").css("display","none");
-
-		$(parent).find("div.jqTransformSelectWrapper ul li a").click($.proxy(function (index,element){ 
-			var value = $(parent).find("div.jqTransformSelectWrapper span").text();
+		$(parent).find(".dataTables_length").find("input").live("change",$.proxy(function () {
+			var value = $(parent).find(".dataTables_length").find("input").val();
 			this.filter_value = value;
-		    $(lengthSelect).val(value);
-		    localStorage.setItem(this.localStorageLengthKey,$(lengthSelect).val());
-			$(lengthSelect).trigger("change");
-			$(window).trigger("resize");
-		    return false;
-		}, this));
+			localStorage.setItem(this.localStorageLengthKey,value);
+		},this));
 	},
 
 	/**
@@ -632,10 +621,10 @@ tableGenerator.prototype = {
 			"sPaginationType": "bootstrap",
 			"oLanguage": {},
 			"bScrollCollapse": true,
+			"sWrapper": "dataTables_wrapper form-inline",
             "bAutoWidth": false,
             "iDisplayLength" : this.filter_value,
-             "sWrapper": "dataTables_wrapper form-inline",
-             "fnDrawCallback": $.proxy(function (){ 
+            "fnDrawCallback": $.proxy(function (){ 
              	this._lengthSelect(parent);
              	this.initialize = false;
    				if ($(parent).find(".fields").find("ul").length == 0) {

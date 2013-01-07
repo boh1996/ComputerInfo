@@ -137,7 +137,7 @@ var application = {
 					application.readyCallback("locationGenerator");
 				}
 			});
-			//application.addGenerator(application.locationGenerator,"locationGenerator");
+			application.addGenerator(application.locationGenerator,"locationGenerator");
 
 			//Units
 			application.unitsGenerator = new tableGenerator({
@@ -163,7 +163,7 @@ var application = {
 					application.readyCallback("unitsGenerator");
 				}
 			});
-			//application.addGenerator(application.unitsGenerator,"unitsGenerator");
+			application.addGenerator(application.unitsGenerator,"unitsGenerator");
 
 			//Printers
 			application.printerGenerator = new tableGenerator({
@@ -187,7 +187,7 @@ var application = {
 					application.readyCallback("printerGenerator");
 				}
 			});
-			//application.addGenerator(application.printerGenerator,"printerGenerator");
+			application.addGenerator(application.printerGenerator,"printerGenerator");
 
 			//Screeens
 			application.screenGenerator = new tableGenerator({
@@ -210,7 +210,7 @@ var application = {
 					application.readyCallback("screenGenerator");
 				}
 			});
-			//application.addGenerator(application.screenGenerator,"screenGenerator");
+			application.addGenerator(application.screenGenerator,"screenGenerator");
 
 			application.initialized = true;
 			if (typeof initializeCallback == "function") {

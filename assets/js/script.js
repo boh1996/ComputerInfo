@@ -73,6 +73,50 @@ $(window).ready(function(){
     	});
     });
 
+    crossroads.addRoute("units",function () {
+		$("#loading-background").show();
+		$("#loading").show();
+    	application.launchGenerator("unitsGenerator",function () {
+    		showPage("units");
+    		setTitle({
+	    		"page" : front_translations.units_page
+	    	});
+    	});
+    });
+
+    crossroads.addRoute("screens",function () {
+		$("#loading-background").show();
+		$("#loading").show();
+    	application.launchGenerator("screenGenerator",function () {
+    		showPage("screens");
+    		setTitle({
+	    		"page" : front_translations.screens_page
+	    	});
+    	});
+    });
+
+    crossroads.addRoute("locations",function () {
+		$("#loading-background").show();
+		$("#loading").show();
+    	application.launchGenerator("locationGenerator",function () {
+    		showPage("locations");
+    		setTitle({
+	    		"page" : front_translations.roomts_page
+	    	});
+    	});
+    });
+
+    crossroads.addRoute("printers",function () {
+		$("#loading-background").show();
+		$("#loading").show();
+    	application.launchGenerator("printerGenerator",function () {
+    		showPage("printers");
+    		setTitle({
+	    		"page" : front_translations.printers_page
+	    	});
+    	});
+    });
+
     crossroads.addRoute("",function () {
     	$("#loading-background").show();
 		$("#loading").show();
@@ -112,10 +156,63 @@ $(window).ready(function(){
 		});
     });
 
+    crossroads.addRoute("device/{id}",function (id) {
+    	$("#loading-background").show();
+		$("#loading").show();
+		$.ajax({
+			url : root+"device/"+id+"?token="+userInfo.getCookie("token"),
+			success: function (data) {
+				$("#device_id").html(Mustache.render($("#deviceTemplate").html(), data.Device));
+				$("div.accordion-body").each(function(index,element){
+					$(element).find("div.object:last").next("hr").remove();
+				});
+				setTitle({
+					"page" : front_translations.device_page,
+					"identifier"   : data.Device.identifier
+				});
+				showPage("device_id");
+			}, error : function () {
+				setTitle({
+					"page" : front_translations.element_not_found
+				});
+				showPage("error");
+			}
+		});
+    });
+
+    crossroads.addRoute("printer/{id}",function (id) {
+    	$("#loading-background").show();
+		$("#loading").show();
+		$.ajax({
+			url : root+"printer/"+id+"?token="+userInfo.getCookie("token"),
+			success: function (data) {
+				var printer = data.Printer;
+				printer.model.type = (printer.model.color == 1) ? front_translations.color_printer : front_translations.black_white_printer;
+				$("#printer_id").html(Mustache.render($("#printerTemplate").html(), printer));
+				$("div.accordion-body").each(function(index,element){
+					$(element).find("div.object:last").next("hr").remove();
+				});
+				setTitle({
+					"page" : front_translations.printer_page,
+					"name"   : data.Printer.name
+				});
+				showPage("printer_id");
+			}, error : function () {
+				setTitle({
+					"page" : front_translations.element_not_found
+				});
+				showPage("error");
+			}
+		});
+    });
+
 	crossroads.bypassed.add(function(request){
 		$("#loading-background").show();
 		$("#loading").show();
 	   	showPage("errorPage");
+	   	setTitle({
+			"page" : front_translations.page_not_found
+		});
 	});
 
 	application.initialize(organization,function () {
@@ -129,6 +226,10 @@ $(window).ready(function(){
     });
 });
 
+/**
+ * This function shows a page and change the navbar link properly
+ * @param  {string} newPage The name of the page to change too
+ */
 function showPage (newPage) {
 	$("#loading-background").hide();
 	$("#loading").hide();
@@ -167,59 +268,3 @@ function showPage (newPage) {
 function getPage () {
 	return History.getState().url.replace(root,"");
 }
-
-/*function initialize () {
-	page = getPage();
-   	if ($("#"+page).length > 0) {
-		$(".active_page").addClass("disabled_page").removeClass("active_page");
-		$("#"+page).removeClass("disabled_page").addClass("active_page");
-		if ($('a[data-target="'+findPageString(page,"computers")+'"]').length > 0 && !$('a[data-target="'+findPageString(page,"computers")+'"]').parent("li").hasClass("active")) {
-			$(".active").removeClass("active");
-			if ($('a[data-target="'+findPageString(page,"computers")+'"]').attr("data-no-active") != "true") {
-   				$('a[data-target="'+findPageString(page,"computers")+'"]').parent("li").addClass("active");
-   			}
-		}
-	}
-}*/
-
-/*function showPage () {
-	var currentPage = $(".active_page");
-	if (objx.get(generators,currentPage.attr("id")) != null) {
-		var id = objx.get(generators,currentPage.attr("id"));
-		objx.get(application,id).hide();
-	}
-	page = getPage();
-	if (page == "") {
-		page == "computers";
-	}
-   	if ($("#"+page).length > 0) {
-   		$(".active_page").addClass("disabled_page").removeClass("active_page");
-   		$("#"+page).removeClass("disabled_page").addClass("active_page");
-   		if ($('a[data-target="'+findPageString(page,"computers")+'"]').length > 0 && !$('a[data-target="'+findPageString(page,"computers")+'"]').parent("li").hasClass("active")) {
-   			$(".active").removeClass("active");
-   			if ($('a[data-target="'+findPageString(page,"computers")+'"]').attr("data-no-active") != "true") {
-   				$('a[data-target="'+findPageString(page,"computers")+'"]').parent("li").addClass("active");
-   			}
-   		}
-   	}
-	var newPage = $("#"+page);
-	if (newPage.length == 0) {
-		newPage = currentPage;
-	}
-	if (objx.get(generators,newPage.attr("id")) != null) {
-		var id = objx.get(generators,newPage.attr("id"));
-		if (objx.get(application,id) != null) {
-			objx.get(application,id).show();
-		}
-	}
-}
-
-function findPageString (str,std) {
-	var returnValue = std || "";
-	$.each(data,function(index,element){
-		if (element == str) {
-			returnValue = index;
-		}
-	});
-	return returnValue;
-}/*/

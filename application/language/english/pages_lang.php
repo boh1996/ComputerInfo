@@ -46,9 +46,15 @@ $lang["ui_reset_password_page"] = "Reset Password";
 
 $lang["ui_settings_page"] = "Settings";
 
-$lang["ui_computer_page"] = "{id}";
+$lang["ui_computer_page"] = "{identifier}";
+
+$lang["ui_device_page"] = "{identifier}";
+
+$lang["ui_printer_page"] = "{name}";
 
 $lang["ui_page_title_template"] = "{page}";
 
 $lang["ui_computer_not_found"] = "Not found";
+
+$lang["ui_element_not_found"] = "Not found";
 ?>

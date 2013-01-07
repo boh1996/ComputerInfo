@@ -1564,6 +1564,32 @@ class Api extends CI_Controller {
 	}
 
 	/**
+	 * This endpoint outputs specifik data about a screen
+	 * @param integer $id The database id of the screen to load
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _Screen ($id = null) {
+		if(!is_null($id)){
+			$this->load->library("Screen");
+			$this->api_response->ResponseKey = "Screen";
+			$Screen = new Screen();
+			if($Screen->Load($id)){
+				if(self::_Has_Access("organizations",$this->_User,$Screen->organization)){
+					$this->api_response->Code = 200;
+					$this->api_response->Response = $Screen->Export();
+				} else {
+					$this->api_response->Code = 401;
+				}
+			} else {
+				$this->api_response->Code = 404;
+			}
+		} else {	
+			$this->api_response->Code = 400;
+		}
+	}
+
+	/**
 	 * This function deletes a specific device, if the user has access to it
 	 * @param integer $Id The id of the device to delete
 	 * @since 1.0

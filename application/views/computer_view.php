@@ -29,13 +29,14 @@
 				{{/serial}}
 
 				{{#date_of_purchase}}
+				<!-- <time datetime="2012:04:04"></time>-->
 				<strong class="space-right"><?php echo $this->lang->line('computer_date_of_purchase'); ?>:</strong>{{date_of_purchase}}<br>
 				{{/date_of_purchase}}
 
 				<strong class="space-right"><?php echo $this->lang->line('computer_screen_size'); ?>:</strong>{{screen_size.detection_string}}<br>
 
 				{{#location.name.length}}
-				<strong class="space-right"><?php echo $this->lang->line('computer_location'); ?>:</strong>{{location.name}}<br>
+				<strong class="space-right"><?php echo $this->lang->line('computer_location'); ?>:</strong><a href="<?php echo $base_url; ?>location/{{location.id}}">{{location.name}}</a><br>
 				{{/location.name.length}}
 
 				{{#operating_system.core.name.length}}
@@ -58,7 +59,7 @@
 						<strong class="space-right"><?php echo $this->lang->line('computer_manufacturer'); ?>:</strong><a href="{{model.manufacturer.website}}">{{model.manufacturer.name}}</a><br>
 					{{/model.manufacturer.website}}
 					{{^model.manufacturer.website}}
-						<strong class="space-right"><?php echo $this->lang->line('computer_manufacturer'); ?>:</strong><a href="{{model.manufacturer.website}}">{{model.manufacturer.name}}</a><br>
+						<strong class="space-right"><?php echo $this->lang->line('computer_manufacturer'); ?>:</strong><a>{{model.manufacturer.name}}</a><br>
 					{{/model.manufacturer.website}}
 				{{/model.manufacturer.name.length}}
 

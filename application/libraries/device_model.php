@@ -26,6 +26,14 @@ class Device_Model extends Std_Library{
 	public $type = NULL;
 
 	/**
+	 * The url to an image representing the model
+	 * @since 1.0
+	 * @access public
+	 * @var string
+	 */
+	public $image_url = null;
+
+	/**
 	 * The name of the model
 	 * @var string
 	 * @since 1.0

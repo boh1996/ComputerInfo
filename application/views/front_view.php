@@ -89,6 +89,10 @@
 
 				<div id="computer_id" class="disabled_page"></div>	
 
+				<div id="device_id" class="disabled_page"></div>
+
+				<div id="printer_id" class="disabled_page"></div>	
+
 				<div id="printers" class="disabled_page">
 					<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="printer"><thead></thead><tbody></tbody></table>
 				</div>	
@@ -233,6 +237,22 @@
 
 	<?php $this->load->view("models_view"); ?>
 
+	<div id="length_select_template" style="display:none;">
+		<form>
+			<div class="input-append dropdown combobox" style="float:left;">
+				<input class="span8" type="text">
+				<button class="btn" data-toggle="dropdown" style="outline-color: transparent;">
+				<i class="caret"></i></button>
+				<ul class="dropdown-menu">
+					<li><a href="#">10</a></li>
+					<li><a href="#">25</a></li>
+					<li><a href="#">50</a></li>
+					<li><a href="#">100</a></li>
+				</ul>
+			</div>
+		</form>
+	</div>
+
 	<div id="loading">
 		<div id="floatingCirclesG">
 			<div class="f_circleG" id="frotateG_01"></div>
@@ -275,6 +295,12 @@
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/script.js"></script>
 	<script type="mustache/template" id="computerTemplate">
 		<?php $this->load->view("computer_view"); ?>
+	</script>
+	<script type="mustache/template" id="deviceTemplate">
+		<?php $this->load->view("device_view"); ?>
+	</script>
+	<script type="mustache/template" id="printerTemplate">
+		<?php $this->load->view("printer_view"); ?>
 	</script>
 	<script type="text/javascript">
 		$('#save-selections').toggleButtons({

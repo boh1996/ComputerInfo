@@ -26,6 +26,14 @@ class Printer_Model extends Std_Library{
 	public $model_name = NULL;
 
 	/**
+	 * The url to an image representing the model
+	 * @since 1.0
+	 * @access public
+	 * @var string
+	 */
+	public $image_url = null;
+
+	/**
 	 * The manufacturer of the printer
 	 * @var object
 	 * @since 1.0
