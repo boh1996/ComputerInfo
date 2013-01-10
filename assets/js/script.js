@@ -149,7 +149,31 @@ $(window).ready(function(){
 				showPage("computer_id");
 			}, error : function () {
 				setTitle({
-					"page" : front_translations.computer_not_found
+					"page" : front_translations.computer_not_found,
+				});
+				showPage("error");
+			}
+		});
+    });
+
+    crossroads.addRoute("location/{id}",function (id) {
+    	$("#loading-background").show();
+		$("#loading").show();
+		$.ajax({
+			url : root+"location/"+id+"?token="+userInfo.getCookie("token"),
+			success: function (data) {
+				$("#location_id").html(Mustache.render($("#locationTemplate").html(), data.Location));
+				$("div.accordion-body").each(function(index,element){
+					$(element).find("div.object:last").next("hr").remove();
+				});
+				setTitle({
+					"page" : front_translations.location_page,
+					"name" : data.Location.name
+				});
+				showPage("location_id");
+			}, error : function () {
+				setTitle({
+					"page" : front_translations.element_not_found
 				});
 				showPage("error");
 			}

@@ -15,7 +15,8 @@ class UI extends CI_Controller {
 			"computers",
 			"front",
 			"device",
-			"printer"
+			"printer",
+			"location"
 		));
 		$data = array(
 			"method" => $method,
@@ -25,6 +26,7 @@ class UI extends CI_Controller {
 			"save_selections" => $this->user_control->GetSetting("save_selection","true"),
 			"front_translations" => json_encode(array(
 				"computer_page" 	=> $this->lang->line('ui_computer_page'),
+				"location_page"		=> $this->lang->line('ui_location_page'),
 				"device_page"		=> $this->lang->line('ui_device_page'),
 				"computers_page" 	=> $this->lang->line('ui_computers_page'),
 				"brand_title" 		=> $this->lang->line('ui_title_brand'),

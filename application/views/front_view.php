@@ -93,6 +93,8 @@
 
 				<div id="printer_id" class="disabled_page"></div>	
 
+				<div id="location_id" class="disabled_page"></div>	
+
 				<div id="printers" class="disabled_page">
 					<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="printer"><thead></thead><tbody></tbody></table>
 				</div>	
@@ -301,6 +303,9 @@
 	</script>
 	<script type="mustache/template" id="printerTemplate">
 		<?php $this->load->view("printer_view"); ?>
+	</script>
+	<script type="mustache/template" id="locationTemplate">
+		<?php $this->load->view("location_view"); ?>
 	</script>
 	<script type="text/javascript">
 		$('#save-selections').toggleButtons({

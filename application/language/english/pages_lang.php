@@ -34,6 +34,8 @@ $lang["ui_screens_page"] = "Screens";
  */
 $lang["ui_users_page"] = "Users";
 
+$lang["ui_location_page"] = "Location - {name}";
+
 $lang["ui_login_page"] = "Login";
 
 $lang["ui_register_page"] = "Register";

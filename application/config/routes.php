@@ -37,13 +37,13 @@
 | in the URL cannot be matched to a valid route.
 |
 */
-
-$whitelist = array("localhost","127.0.0.1");
-if (in_array($_SERVER["HTTP_HOST"],$whitelist)) {
-	$route["update/codeigniter/check"] = "api/codeigniter_version_check";
-	$route["update/codeigniter/version"] = "api/ci/version";
-	$route["update/codeigniter/remote"] = "api/ci_version_remote";
+$whitelist = array("localhost","127.0.0.1","176.34.227.131");
+if (in_array(trim($_SERVER["REMOTE_ADDR"]),$whitelist)) {
+	$route["update/codeigniter/check"] = "api/codeigniter_version_check"; //Returns true if CodeIgniter should be updated
+	$route["update/codeigniter/version"] = "api/ci/version"; //The Ser CodeIgniter version
+	$route["update/codeigniter/remote"] = "api/ci_version_remote"; //The newest CodeIgnitor Version
 }
+
 /**
  * Api Routes
  */
@@ -70,6 +70,7 @@ if ((!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_RE
 	$route["computer/search"] = "api/computer/search";
 	$route["device/(:num)"] = "api/device/$1";
 	$route["device"] = "api/device";
+	$route["location/(:num)"] = "api/location/$1";
 	$route["computer/model"] = "api/computer_model";
 	$route["device/model"] = "api/device_model";
 	$route["device/model/search"] = "api/device/model/search";

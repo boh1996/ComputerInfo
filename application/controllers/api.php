@@ -1590,6 +1590,33 @@ class Api extends CI_Controller {
 	}
 
 	/**
+	 * This endpoint output data about a specific location,
+	 * found by id
+	 * @since 1.0
+	 * @access public
+	 * @param integer $id The database id of the location
+	 */
+	public function _Location ($id = null) {
+		if(!is_null($id)){
+			$this->load->library("Location");
+			$this->api_response->ResponseKey = "Location";
+			$Location = new Location();
+			if($Location->Load($id)){
+				if(self::_Has_Access("organizations",$this->_User,$Location->organization)){
+					$this->api_response->Code = 200;
+					$this->api_response->Response = $Location->Export();
+				} else {
+					$this->api_response->Code = 401;
+				}
+			} else {
+				$this->api_response->Code = 404;
+			}
+		} else {	
+			$this->api_response->Code = 400;
+		}
+	}
+
+	/**
 	 * This function deletes a specific device, if the user has access to it
 	 * @param integer $Id The id of the device to delete
 	 * @since 1.0

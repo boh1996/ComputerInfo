@@ -1,13 +1,13 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class MY_Lang extends CI_Lang{
 
-    function line($line, $params=null){
+    public function line ($line, $params = null) {
 
         $return = parent::line($line);
             
-        if($return === false){
+        if ( $return === false ) {
             return "$line";
-        }else{
+        } else{
             if (!is_null($params)){
                 $return = $this->_ni_line($return, $params); 
             }

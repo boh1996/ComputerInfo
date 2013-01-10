@@ -454,7 +454,7 @@ tableGenerator.prototype = {
 		var parent = $(this.container).parent("div");
 		var parentElement = $('<ul class="nav fields-select nav-pills"></ul>'), 
 		dropdown = $('<li class="dropdown"></li>'),
-		linkElement = $('<a class="dropdown-toggle" data-toggle="dropdown" data-target="#">'+text+'<b class="caret"></b></a>'),
+		linkElement = $('<a class="dropdown-toggle" data-toggle="dropdown">'+text+'<b class="caret"></b></a>'),
 		items = $('<ul class="dropdown-menu inputs-list"></ul>'),
 		length = this.countProperties(this.columns),
 		i = 0;
