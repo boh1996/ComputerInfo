@@ -119,6 +119,7 @@ else {
 		$route["login"] = "login";
 	}
 	$route["(:any)"] = "ui/$1";
+	$route["(:any)/(:any)"] = "ui/$1/$2";
 }
 /**
  * Standard routes

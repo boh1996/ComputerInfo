@@ -61,7 +61,6 @@ class Api extends CI_Controller {
 	    		$authenticated = true;
 	    	}
 	    	if($authenticated == true){
-	    		error_log("Calling methid: ".$method);
 	    		return call_user_func_array(array($this, $method), $params);
 	    	} else {
 	    		$this->api_response->Code = 403;
@@ -97,22 +96,17 @@ class Api extends CI_Controller {
 		    if (isset($_GET["token"]) && !empty($_GET["token"])) {
 		    	$token_string = htmlentities(mysql_real_escape_string($_GET["token"]));
 		    } else {
-		    	error_log("No token set");
 		    	return FALSE;
 		    }
 		    if (!$Token->Load(array("token" => $token_string))){
-		    	error_log("Token can't be loaded");
 		    	return FALSE;
 			}
 			if (!$Token->IsValid()) {
-				error_log("Token isn't valid");
 				return FALSE;
 			}
 		  	if($this->_User->Load($Token->user->id)){
-		  		error_log("Token is valid");
 		  		return TRUE;
 		  	} else {
-		  		error_log("No user found");
 		  		return FALSE;
 		  	}
 	  	}

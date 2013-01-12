@@ -144,7 +144,7 @@ $(window).ready(function(){
 				});
 				setTitle({
 					"page" : front_translations.computer_page,
-					"id"   : data.Computer.identifier
+					"identifier"   : data.Computer.identifier
 				});
 				showPage("computer_id");
 			}, error : function () {
