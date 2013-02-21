@@ -5,13 +5,18 @@ class MY_Lang extends CI_Lang{
      * This function fetches a line from the current selected langauge
      * @since 1.0
      * @access public
-     * @param  string $line   The language key to fetch0
+     * @param  string $line   The language key to fetch
+     * @param boolean $log_errors If language errros should be logged
      * @param  array $params Optional "tokens/variables" to replace in the line
      * @return string
      */
-    public function line ($line, $params = null) {
+    public function line ($line = "", $log_errors = true, $params = null) {
 
-        $return = parent::line($line);
+        if ( !is_bool($log_errors) ) {
+            $params = $log_errors;
+        }
+
+        $return = parent::line($line, $log_errors);
             
         if ( $return === false ) {
             return "$line";
