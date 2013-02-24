@@ -356,7 +356,7 @@ class CI_Form_validation {
 	 */
 	public function error_string($prefix = '', $suffix = '')
 	{
-		// No errrors, validation passes!
+		// No errors, validation passes!
 		if (count($this->_error_array) === 0)
 		{
 			return '';
@@ -511,13 +511,13 @@ class CI_Form_validation {
 	{
 		foreach ($this->_field_data as $field => $row)
 		{
-			if ( ! is_null($row['postdata']))
+			if ($row['postdata'] !== NULL)
 			{
 				if ($row['is_array'] === FALSE)
 				{
 					if (isset($_POST[$row['field']]))
 					{
-						$_POST[$row['field']] = $this->prep_for_form($row['postdata']);
+						$_POST[$row['field']] = $row['postdata'];
 					}
 				}
 				else
@@ -543,14 +543,14 @@ class CI_Form_validation {
 						$array = array();
 						foreach ($row['postdata'] as $k => $v)
 						{
-							$array[$k] = $this->prep_for_form($v);
+							$array[$k] = $v;
 						}
 
 						$post_ref = $array;
 					}
 					else
 					{
-						$post_ref = $this->prep_for_form($row['postdata']);
+						$post_ref = $row['postdata'];
 					}
 				}
 			}
@@ -583,7 +583,7 @@ class CI_Form_validation {
 
 		// If the field is blank, but NOT required, no further tests are necessary
 		$callback = FALSE;
-		if ( ! in_array('required', $rules) && is_null($postdata))
+		if ( ! in_array('required', $rules) && $postdata === NULL)
 		{
 			// Before we bail out, does the rule contain a callback?
 			if (preg_match('/(callback_\w+(\[.*?\])?)/', implode(' ', $rules), $match))
@@ -598,7 +598,7 @@ class CI_Form_validation {
 		}
 
 		// Isset Test. Typically this rule will only apply to checkboxes.
-		if (is_null($postdata) && $callback === FALSE)
+		if ($postdata === NULL && $callback === FALSE)
 		{
 			if (in_array('isset', $rules, TRUE) OR in_array('required', $rules))
 			{
@@ -1227,6 +1227,19 @@ class CI_Form_validation {
 	public function alpha_numeric($str)
 	{
 		return ctype_alnum((string) $str);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Alpha-numeric w/ spaces
+	 *
+	 * @param	string
+	 * @return	bool
+	 */
+	public function alpha_numeric_spaces($str)
+	{
+		return (bool) preg_match('/^[A-Z0-9 ]+$/i', $str);
 	}
 
 	// --------------------------------------------------------------------

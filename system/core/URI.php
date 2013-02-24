@@ -126,7 +126,7 @@ class CI_URI {
 				return;
 			}
 
-			// As a last ditch effort lets try using the $_GET array
+			// As a last ditch effort let's try using the $_GET array
 			if (is_array($_GET) && count($_GET) === 1 && trim(key($_GET), '/') !== '')
 			{
 				$this->_set_uri_string(key($_GET));
@@ -353,9 +353,16 @@ class CI_URI {
 	{
 		$suffix = (string) $this->config->item('url_suffix');
 
-		if ($suffix !== '' && ($offset = strrpos($this->uri_string, $suffix)) !== FALSE)
+		if ($suffix === '')
 		{
-			$this->uri_string = substr_replace($this->uri_string, '', $offset, strlen($suffix));
+			return;
+		}
+
+		$slen = strlen($suffix);
+
+		if (substr($this->uri_string, -$slen) === $suffix)
+		{
+			$this->uri_string = substr($this->uri_string, 0, -$slen);
 		}
 	}
 
