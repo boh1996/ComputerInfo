@@ -632,12 +632,20 @@ class Api extends CI_Controller {
 	 */
 	private function _Get_Devices($Id = NULL){
 		if (self::_Get_User_Organizations() !== null) {
-			$this->load->library("Device");
-			$Device = new Device();
+			$this->load->library("batch_loader");
+			$Loader = new Batch_Loader();
+
 			if(in_array($Id, self::_Get_User_Organizations())){
-				$Data = array("q" => $Id,"fields" => "organization");
-				$this->api_request->Request_Data($Data);
-				self::_Simple_Search("Device");
+				$result = $Loader->Load("devices", "Device", array("organization" => $Id));
+				if ( $result !== false ) {
+					$this->api_response->Response = $result;
+					$Query_Data = $Loader->Last();
+					$this->api_response->Count = $Query_Data["num_rows"];
+					$this->api_response->ResponseKey = "Devices";
+					$this->api_response->Code = 200;
+				} else {
+					$this->api_response->Code = 404;
+				}
 			} else {
 				$this->api_response->Code = 401;
 			}
@@ -733,12 +741,20 @@ class Api extends CI_Controller {
 	 */
 	private function _Get_Printers($Id = NULL){
 		if (self::_Get_User_Organizations() !== null) {
-			$this->load->library("Printer");
-			$Printer = new Printer();
+			$this->load->library("batch_loader");
+			$Loader = new Batch_Loader();
+
 			if(in_array($Id, self::_Get_User_Organizations())){
-				$Data = array("q" => $Id,"fields" => "organization");
-				$this->api_request->Request_Data($Data);
-				self::_Simple_Search("Printer");
+				$result = $Loader->Load("printers", "Printer", array("organization" => $Id));
+				if ( $result !== false ) {
+					$this->api_response->Response = $result;
+					$Query_Data = $Loader->Last();
+					$this->api_response->Count = $Query_Data["num_rows"];
+					$this->api_response->ResponseKey = "Printers";
+					$this->api_response->Code = 200;
+				} else {
+					$this->api_response->Code = 404;
+				}
 			} else {
 				$this->api_response->Code = 401;
 			}
@@ -753,12 +769,20 @@ class Api extends CI_Controller {
 	 */
 	private function _Get_Screens($Id = NULL){
 		if (self::_Get_User_Organizations() !== null) {
-			$this->load->library("Screen");
-			$Screen = new Screen();
+			$this->load->library("batch_loader");
+			$Loader = new Batch_Loader();
+
 			if(in_array($Id, self::_Get_User_Organizations())){
-				$Data = array("q" => $Id,"fields" => "organization");
-				$this->api_request->Request_Data($Data);
-				self::_Simple_Search("Screen");
+				$result = $Loader->Load("screens", "Screen", array("organization" => $Id));
+				if ( $result !== false ) {
+					$this->api_response->Response = $result;
+					$Query_Data = $Loader->Last();
+					$this->api_response->Count = $Query_Data["num_rows"];
+					$this->api_response->ResponseKey = "Screens";
+					$this->api_response->Code = 200;
+				} else {
+					$this->api_response->Code = 404;
+				}
 			} else {
 				$this->api_response->Code = 401;
 			}
@@ -773,12 +797,20 @@ class Api extends CI_Controller {
 	 */
 	private function _Get_Locations($Id = NULL){
 		if (self::_Get_User_Organizations() !== null) {
-			$this->load->library("Location");
-			$Location = new Location();
+			$this->load->library("batch_loader");
+			$Loader = new Batch_Loader();
+
 			if(in_array($Id, self::_Get_User_Organizations())){
-				$Data = array("q" => $Id,"fields" => "organization");
-				$this->api_request->Request_Data($Data);
-				self::_Simple_Search("Location");
+				$result = $Loader->Load("locations", "Locations", array("organization" => $Id));
+				if ( $result !== false ) {
+					$this->api_response->Response = $result;
+					$Query_Data = $Loader->Last();
+					$this->api_response->Count = $Query_Data["num_rows"];
+					$this->api_response->ResponseKey = "Locations";
+					$this->api_response->Code = 200;
+				} else {
+					$this->api_response->Code = 404;
+				}
 			} else {
 				$this->api_response->Code = 401;
 			}
