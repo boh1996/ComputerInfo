@@ -493,10 +493,9 @@ class Google{
 		$result = curl_exec($ch);
 
 		$data = json_decode($result);
-		print_r($data);
 	
 		curl_close($ch);
-		if(!isset($data->error)){
+		if ( ! isset($data->error) ) {
 			self::_set_data($data);
 			return TRUE;
 		} else {

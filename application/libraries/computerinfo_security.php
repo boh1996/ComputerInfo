@@ -196,5 +196,25 @@ class Computerinfo_Security{
 			return array_unique($settings);
 		}
 	}
+
+	/**
+	 * This function replaces the base_url with a proxy url if set
+	 * @since 1.0
+	 * @access public
+	 * @param string $url The url to check proxy for
+	 */
+	public function Proxy ( $url ) {
+		if ( isset($_SERVER["HTTP_X_FORWARDED_HOST"]) ) {
+			if ( array_key_exists($_SERVER["HTTP_X_FORWARDED_HOST"], $this->_CI->config->item("proxy_host_base_urls")) ) {
+				$proxies = $this->_CI->config->item("proxy_host_base_urls");
+				$proxy = $proxies[$_SERVER["HTTP_X_FORWARDED_HOST"]];
+			} else {
+				$proxy = $_SERVER["HTTP_X_FORWARDED_HOST"]."/";
+			}
+			return self::CheckHTTPS($proxy.$url);
+		} else {
+			return self::CheckHTTPS(base_url().$url);
+		}
+	}
 }
 ?>

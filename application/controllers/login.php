@@ -50,10 +50,11 @@ class Login extends CI_Controller {
 			$this->load->model("login_model");
 			$Google = new Google();
 			$Google->client();
-			$Google->redirect_uri($this->computerinfo_security->CheckHTTPS(base_url()."login/google/callback"));
+			$Google->redirect_uri($this->computerinfo_security->Proxy("login/google/callback"));
 			$Google->scopes(array("userinfo.profile","userinfo.email"));
 			$Google->state($platform);
 			$Google->access_type("offline");
+
 			if($page == "auth"){
 				self::Logout(false);
 				$Google->auth();
@@ -61,11 +62,11 @@ class Login extends CI_Controller {
 				$Google->callback();
 				if ($Google->state() != "web") {
 					if (!$Google->access_token()) {
-						self::_redirect(base_url() . "login/windows");
+						self::_redirect("login/windows");
 						return;
 					}
 					if ($Google->state() == "windows") {
-						header("Location: ".$this->computerinfo_security->CheckHTTPS(base_url() . "login/windows?access_token=".$Google->access_token()));
+						header("Location: ".$this->computerinfo_security->Proxy("login/windows?access_token=".$Google->access_token()));
 						return;
 					}
 				}
@@ -103,9 +104,9 @@ class Login extends CI_Controller {
 	 * @return 
 	 */
 	private function _redirect ( $url ) {
-		redirect($this->computerinfo_security->CheckHTTPS(site_url($url)));
+		redirect($this->computerinfo_security->Proxy($url));
 	}
-
+	
 	public function Reset () {
 		self::Logout(false);
 		self::_redirect("home/login");
@@ -282,13 +283,13 @@ class Login extends CI_Controller {
 				$authenticated = true;
 			}
 		}	
-		if ($authenticated) {
+		if ($authenticated === true) {
 			$this->load->config("api");
 			$Token->Create($User->id,true,true);
 			$this->load->helper("cookie");
 			echo '<div style="display:none;" id="token">'.$Token->token.'</div>';
 		} else {
-			if (isset($_COOKIE["token"]) && $Token->Load(array("token" => $_COOKIE["token"]))) {
+			if (isset($_COOKIE["token"]) && $Token->Load(array("token" => $_COOKIE["token"])) && $Token->IsValid() ) {
 				echo '<div style="display:none;" id="token">'.$Token->token.'</div>';
 			}
 		}

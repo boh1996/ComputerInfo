@@ -88,27 +88,23 @@ class Api extends CI_Controller {
 	private function _Authenticate(){
 		$this->load->library("User");
 	    $this->_User = new User();
-	    if ($this->config->item("dev_mode") == true && $this->config->item("login_off") == true) {
-	    	return $this->_User->Load(1);
+	    $this->load->library("Token");
+	    $Token = new Token();
+	    if (isset($_GET["token"]) && !empty($_GET["token"])) {
+	    	$token_string = htmlentities(mysql_real_escape_string($_GET["token"]));
 	    } else {
-		    $this->load->library("Token");
-		    $Token = new Token();
-		    if (isset($_GET["token"]) && !empty($_GET["token"])) {
-		    	$token_string = htmlentities(mysql_real_escape_string($_GET["token"]));
-		    } else {
-		    	return FALSE;
-		    }
-		    if (!$Token->Load(array("token" => $token_string))){
-		    	return FALSE;
-			}
-			if (!$Token->IsValid()) {
-				return FALSE;
-			}
-		  	if($this->_User->Load($Token->user->id)){
-		  		return TRUE;
-		  	} else {
-		  		return FALSE;
-		  	}
+	    	return FALSE;
+	    }
+	    if (!$Token->Load(array("token" => $token_string))){
+	    	return FALSE;
+		}
+		if (!$Token->IsValid()) {
+			return FALSE;
+		}
+	  	if($this->_User->Load($Token->user->id)){
+	  		return TRUE;
+	  	} else {
+	  		return FALSE;
 	  	}
 	}
 
@@ -604,11 +600,16 @@ class Api extends CI_Controller {
 	 */
 	private function _Get_Computers($Id = NULL){
 		if (self::_Get_User_Organizations() != null) {
+			$fields = null;
+			if ( $this->input->get("fields") ) {
+				$fields = explode(",", $this->input->get("fields"));
+			}
+
 			$this->load->library("batch_loader");
 			$Loader = new Batch_Loader();
 
 			if(in_array($Id, self::_Get_User_Organizations())){
-				$result = $Loader->Load("computers", "Computer", array("organization" => $Id));
+				$result = $Loader->Load("computers", "Computer", array("organization" => $Id),$fields);
 				if ( $result !== false ) {
 					$this->api_response->Response = $result;
 					$Query_Data = $Loader->Last();
@@ -632,11 +633,16 @@ class Api extends CI_Controller {
 	 */
 	private function _Get_Devices($Id = NULL){
 		if (self::_Get_User_Organizations() !== null) {
+			$fields = null;
+			if ( $this->input->get("fields") ) {
+				$fields = explode(",", $this->input->get("fields"));
+			}
+
 			$this->load->library("batch_loader");
 			$Loader = new Batch_Loader();
 
 			if(in_array($Id, self::_Get_User_Organizations())){
-				$result = $Loader->Load("devices", "Device", array("organization" => $Id));
+				$result = $Loader->Load("devices", "Device", array("organization" => $Id),$fields);
 				if ( $result !== false ) {
 					$this->api_response->Response = $result;
 					$Query_Data = $Loader->Last();
@@ -720,14 +726,29 @@ class Api extends CI_Controller {
 	 */
 	private function _Get_Buildings ( $organization = null, $name = null ) {
 		if (self::_Get_User_Organizations() != null && in_array($organization, self::_Get_User_Organizations())) {
+			$fields = null;
+			if ( $this->input->get("fields") ) {
+				$fields = explode(",", $this->input->get("fields"));
+			}
+
+			$this->load->library("batch_loader");
+			$Loader = new Batch_Loader();
 			$data = array(
 				"organization" => $organization
 			);
 			if (!is_null($name)){
 				$data["name"] = $name;
 			}
-			$this->api_request->Request_Data($data);
-			self::_Simple_Search("Building");
+			$result = $Loader->Load("buildings", "Building", $data,$fields);
+			if ( $result !== false ) {
+				$this->api_response->Response = $result;
+				$Query_Data = $Loader->Last();
+				$this->api_response->Count = $Query_Data["num_rows"];
+				$this->api_response->ResponseKey = "Buildings";
+				$this->api_response->Code = 200;
+			} else {
+				$this->api_response->Code = 404;
+			}
 		} else {
 			$this->api_response->Code = 401;
 		}
@@ -741,11 +762,15 @@ class Api extends CI_Controller {
 	 */
 	private function _Get_Printers($Id = NULL){
 		if (self::_Get_User_Organizations() !== null) {
+			$fields = null;
+			if ( $this->input->get("fields") ) {
+				$fields = explode(",", $this->input->get("fields"));
+			}
 			$this->load->library("batch_loader");
 			$Loader = new Batch_Loader();
 
-			if(in_array($Id, self::_Get_User_Organizations())){
-				$result = $Loader->Load("printers", "Printer", array("organization" => $Id));
+			if ( in_array($Id, self::_Get_User_Organizations())) {
+				$result = $Loader->Load("printers", "Printer", array("organization" => $Id),$fields);
 				if ( $result !== false ) {
 					$this->api_response->Response = $result;
 					$Query_Data = $Loader->Last();
@@ -769,11 +794,15 @@ class Api extends CI_Controller {
 	 */
 	private function _Get_Screens($Id = NULL){
 		if (self::_Get_User_Organizations() !== null) {
+			$fields = null;
+			if ( $this->input->get("fields") ) {
+				$fields = explode(",", $this->input->get("fields"));
+			}
 			$this->load->library("batch_loader");
 			$Loader = new Batch_Loader();
 
 			if(in_array($Id, self::_Get_User_Organizations())){
-				$result = $Loader->Load("screens", "Screen", array("organization" => $Id));
+				$result = $Loader->Load("screens", "Screen", array("organization" => $Id),$fields);
 				if ( $result !== false ) {
 					$this->api_response->Response = $result;
 					$Query_Data = $Loader->Last();
@@ -797,11 +826,15 @@ class Api extends CI_Controller {
 	 */
 	private function _Get_Locations($Id = NULL){
 		if (self::_Get_User_Organizations() !== null) {
+			$fields = null;
+			if ( $this->input->get("fields") ) {
+				$fields = explode(",", $this->input->get("fields"));
+			}
 			$this->load->library("batch_loader");
 			$Loader = new Batch_Loader();
 
 			if(in_array($Id, self::_Get_User_Organizations())){
-				$result = $Loader->Load("locations", "Locations", array("organization" => $Id));
+				$result = $Loader->Load("locations", "Location", array("organization" => $Id),null,null,$fields);
 				if ( $result !== false ) {
 					$this->api_response->Response = $result;
 					$Query_Data = $Loader->Last();
@@ -848,6 +881,7 @@ class Api extends CI_Controller {
 			$this->load->library("User");
 			$this->api_response->ResponseKey = "User";
 			$User = new User();
+			$me = false;
 			if (!is_null($id)) {	
 				$fields = array(
 					"id",
@@ -855,14 +889,15 @@ class Api extends CI_Controller {
 					"email",
 					"name"
 				);
-				if ( $id == "me") {
-					$User = $this->_User;
-					$fields[] = "google";
-				} else {
-					if (!$User->Load($id)) {
-						$this->api_response->Code = 500;
-						return;
-					}
+				if ( $id == "me" ) {
+					$id = (int)$this->_User->id;
+					$me = true;
+				}
+				if (!$User->Load($id)) {
+					$this->api_response->Code = 500;
+					return;
+				}
+				if ( $me == false ) {
 					if (self::_Share_Organization($User) === false) {
 						$this->api_response->Code = 403;
 						return;

@@ -29,6 +29,15 @@ $config["not_logged_in_page"] = "home";
 $config["asset_url"] = "assets/";
 
 /**
+ * Use this to set a directory for proxy url´s,
+ * the format is "HTTP_X_FORWARDED_HOST" => "DIRECTORY"
+ * @var array
+ */
+$config["proxy_host_base_urls"] = array(
+	"illution.dk" => "https://illution.dk/ci/"
+);
+
+/**
  * The email of the webmaster hosting this solution
  */
 $config["webmaster_email"] = "support@illution.dk";

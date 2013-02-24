@@ -293,7 +293,7 @@ class Computer extends Std_Library{
 			"connected_devices" 		=> array("connected_devices",				array("connected_id" 		=> "id"),"device_id",array("connected_id","device_id")),
 			"groups" 					=> array("computer_group_members",			array("computer_id" 		=> "id"),"group_id"),
 			"graphics_cards"			=> array("graphics_cards",					array("computer_id" 		=> "id"),null,array("device_identifier","computer_id")),
-			"network_cards"				=> array("computer_network_cards",			array("computer_id" 		=> "id"),null,array("device_identifier","computer_id")),
+			"network_cards"				=> array("network_cards",					array("computer_id" 		=> "id"),null,array("device_identifier","computer_id")),
 			"logical_drives"			=> array("logical_drives",					array("computer_id" 		=> "id"),null,array("device_identifier","computer_id")),
 			"physical_drives"			=> array("physical_drives",					array("computer_id" 		=> "id"),null,array("device_identifier","computer_id")),
 			"processors" 				=> array("computer_processors",				array("computer_id" 		=> "id"),null,array("device_identifier","computer_id")),
