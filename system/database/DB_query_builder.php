@@ -644,7 +644,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 				? $this->_group_get_type('')
 				: $this->_group_get_type($type);
 
-			if ( ! is_null($v))
+			if ($v !== NULL)
 			{
 				if ($escape === TRUE)
 				{
@@ -937,7 +937,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$this->qb_where[] = array('condition' => $like_statement, 'escape' => $escape);
 			if ($this->qb_caching === TRUE)
 			{
-				$this->qb_cache_where[] = $like_statement;
+				$this->qb_cache_where[] = array('condition' => $like_statement, 'escape' => $escape);
 				$this->qb_cache_exists[] = 'where';
 			}
 		}
@@ -1382,7 +1382,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 			$this->from($table);
 		}
 
-		if ( ! is_null($where))
+		if ($where !== NULL)
 		{
 			$this->where($where);
 		}
@@ -1411,7 +1411,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	public function insert_batch($table = '', $set = NULL, $escape = NULL)
 	{
-		if ( ! is_null($set))
+		if ($set !== NULL)
 		{
 			$this->set_insert_batch($set, '', $escape);
 		}
@@ -1567,7 +1567,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	public function insert($table = '', $set = NULL, $escape = NULL)
 	{
-		if ( ! is_null($set))
+		if ($set !== NULL)
 		{
 			$this->set($set, '', $escape);
 		}
@@ -1633,7 +1633,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	public function replace($table = '', $set = NULL)
 	{
-		if ( ! is_null($set))
+		if ($set !== NULL)
 		{
 			$this->set($set);
 		}
@@ -1742,7 +1742,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		// Combine any cached components with the current statements
 		$this->_merge_cache();
 
-		if ( ! is_null($set))
+		if ($set !== NULL)
 		{
 			$this->set($set);
 		}
@@ -1815,12 +1815,12 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		// Combine any cached components with the current statements
 		$this->_merge_cache();
 
-		if (is_null($index))
+		if ($index === NULL)
 		{
 			return ($this->db_debug) ? $this->display_error('db_must_use_index') : FALSE;
 		}
 
-		if ( ! is_null($set))
+		if ($set !== NULL)
 		{
 			$this->set_update_batch($set, $index);
 		}
@@ -2627,6 +2627,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		$this->_reset_run(array(
 			'qb_set'	=> array(),
 			'qb_from'	=> array(),
+			'qb_join'	=> array(),
 			'qb_where'	=> array(),
 			'qb_orderby'	=> array(),
 			'qb_keys'	=> array(),

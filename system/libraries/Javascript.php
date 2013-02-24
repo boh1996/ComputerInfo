@@ -69,7 +69,7 @@ class CI_Javascript {
 		$this->CI =& get_instance();
 
 		// load the requested js library
-		$this->CI->load->library('javascript/'.$js_library_driver, array('autoload' => $autoload));
+		$this->CI->load->library('Javascript/'.$js_library_driver, array('autoload' => $autoload));
 		// make js to refer to current library
 		$this->js =& $this->CI->$js_library_driver;
 
@@ -737,7 +737,7 @@ class CI_Javascript {
 	{
 		// JSON data can optionally be passed to this function
 		// either as a database result object or an array, or a user supplied array
-		if ( ! is_null($result))
+		if ($result !== NULL)
 		{
 			if (is_object($result))
 			{
@@ -823,7 +823,7 @@ class CI_Javascript {
 	 */
 	protected function _prep_args($result, $is_key = FALSE)
 	{
-		if (is_null($result))
+		if ($result === NULL)
 		{
 			return 'null';
 		}
