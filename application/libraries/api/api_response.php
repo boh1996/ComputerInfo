@@ -236,6 +236,9 @@ class Api_Response{
 					}
 					$this->ResponseString = $this->Callback."(".json_encode($this->ResponseData).")";
 					break;
+				case "text" :
+					$this->ResponseString = json_encode($this->ResponseData);
+					break;
 			}
 		}
 	}
@@ -313,7 +316,8 @@ class Api_Response{
 		$Mimes = array(
 			"json" => "application/json",
 			"xml" => "application/xml",
-			"jsonp" => "application/json"
+			"jsonp" => "application/json",
+			"text" => "text/plain"
 		);
 		return (isset($Mimes[$this->Format]))? $Mimes[$this->Format] : $Mimes["json"];
 	}

@@ -22,21 +22,25 @@
 	        {{/model.image_url}}
 
 			<div class="well well-large description">
-				<strong class="center title"><h3>{{identifier}}</h3></strong>
+
+				{{#identifier}}
+					<strong class="center title"><h3>{{identifier}}</h3></strong>
+				{{/identifier}}
 
 				{{#serial}}
-				<strong class="space-right"><?php echo $this->lang->line('computer_serial'); ?>:</strong>{{serial}}<br>
+					<strong class="space-right"><?php echo $this->lang->line('computer_serial'); ?>:</strong>{{serial}}<br>
 				{{/serial}}
 
 				{{#date_of_purchase}}
-				<!-- <time datetime="2012:04:04"></time>-->
-				<strong class="space-right"><?php echo $this->lang->line('computer_date_of_purchase'); ?>:</strong>{{date_of_purchase}}<br>
+					<strong class="space-right"><?php echo $this->lang->line('computer_date_of_purchase'); ?>:</strong>{{date_of_purchase}}<br>
 				{{/date_of_purchase}}
 
-				<strong class="space-right"><?php echo $this->lang->line('computer_screen_size'); ?>:</strong>{{screen_size.detection_string}}<br>
+				{{#screen_size.detection_string}}
+					<strong class="space-right"><?php echo $this->lang->line('computer_screen_size'); ?>:</strong>{{screen_size.detection_string}}<br>
+				{{/screen_size.detection_string}}
 
 				{{#location.name.length}}
-				<strong class="space-right"><?php echo $this->lang->line('computer_location'); ?>:</strong><a href="<?php echo $base_url; ?>location/{{location.id}}">{{location.name}}</a><br>
+					<strong class="space-right"><?php echo $this->lang->line('computer_location'); ?>:</strong><a href="<?php echo $base_url; ?>location/{{location.id}}">{{location.name}}</a><br>
 				{{/location.name.length}}
 
 				{{#operating_system.core.name.length}}
@@ -64,11 +68,11 @@
 				{{/model.manufacturer.name.length}}
 
 				{{#model.type}}
-				<strong class="space-right"><?php echo $this->lang->line('computer_type'); ?>:</strong>{{model.type.name}}<br>
+					<strong class="space-right"><?php echo $this->lang->line('computer_type'); ?>:</strong>{{model.type.name}}<br>
 				{{/model.type}}
 
 				{{#model.series.name}}
-				<strong class="space-right"><?php echo $this->lang->line('computer_series'); ?>:</strong>{{model.series.name}}<br>
+					<strong class="space-right"><?php echo $this->lang->line('computer_series'); ?>:</strong>{{model.series.name}}<br>
 				{{/model.series.name}}
 			</div>
 			{{/model.name.length}}
@@ -211,15 +215,26 @@
 				      	<div class="accordion-inner">
 
 				      		{{#logical_drives}}
-					        <div class="object" href="logical_drive/{{id}}">
+					        <div class="object">
 
-						        <strong class="space-right"><?php echo $this->lang->line('computer_disk_space'); ?>:</strong>{{free_space}}/{{disk_size}} <abbr title="<?php echo $this->lang->line('gigabytes'); ?>"><?php echo $this->lang->line('gigabytes_abbrevation'); ?></abbr><br>
-						        <strong class="space-right"><?php echo $this->lang->line('computer_drive_name'); ?>:</strong>{{volume_name}}<br>
-						        <strong class="space-right"><?php echo $this->lang->line('computer_drive_letter'); ?>:</strong>{{name}}<br>
-						        <strong class="space-right"><?php echo $this->lang->line('computer_file_system'); ?>:</strong>{{file_system}}<br>
+					        	{{#free_space}}
+						        	<strong class="space-right"><?php echo $this->lang->line('computer_disk_space'); ?>:</strong>{{free_space}}/{{disk_size}} <abbr title="<?php echo $this->lang->line('gigabytes'); ?>"><?php echo $this->lang->line('gigabytes_abbrevation'); ?></abbr><br>
+						        {{/free_space}}
+
+						        {{#volume_name}}
+						        	<strong class="space-right"><?php echo $this->lang->line('computer_drive_name'); ?>:</strong>{{volume_name}}<br>
+						        {{/volume_name}}
+
+						        {{#name}}
+						        	<strong class="space-right"><?php echo $this->lang->line('computer_drive_letter'); ?>:</strong>{{name}}<br>
+						        {{/name}}
+
+						        {{#file_system}}
+						      		<strong class="space-right"><?php echo $this->lang->line('computer_file_system'); ?>:</strong>{{file_system}}<br>
+						        {{/file_system}}
 
 						        {{#drive_type.name.length}}
-						        <strong class="space-right"><?php echo $this->lang->line('computer_drive_type'); ?>:</strong>{{drive_type.name}}<br>
+						        	<strong class="space-right"><?php echo $this->lang->line('computer_drive_type'); ?>:</strong>{{drive_type.name}}<br>
 						        {{/drive_type.name.length}}
 					   		</div>
 					   		<hr>

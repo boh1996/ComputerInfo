@@ -1356,6 +1356,11 @@ class Api extends CI_Controller {
 					$this->api_response->Code = 400;
 					return;
 				}
+				if ( ! is_null($Request_Data["printers"]) ) {
+					foreach ($Request_Data["printers"] as $key => $value) {
+						$Request_Data["printers"][$key] = $Request_Data["organization"];
+					}
+				}
 				$this->api_response->ResponseKey = "Computer";
 				if(isset($Request_Data["id"])){
 					unset($Request_Data["id"]);

@@ -37,6 +37,22 @@ class Printer extends Std_Library{
 	public $created_time = NULL;
 
 	/**
+	 * If the printer is a local or network printer
+	 * @since 1.0
+	 * @access public
+	 * @var string
+	 */
+	public $local = null;
+
+	/**
+	 * Indicicates what the printer is capable of
+	 * @since 1.0
+	 * @access public
+	 * @var array
+	 */
+	public $capabilities = null;
+
+	/**
 	 * The UNIX timestap when the printer last was
 	 * updated using the API
 	 * @var integer
@@ -130,10 +146,10 @@ class Printer extends Std_Library{
 		parent::__construct();
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("identifier");
-		$this->_INTERNAL_FORCE_ARRAY = array("connected_devices");
+		$this->_INTERNAL_FORCE_ARRAY = array("connected_devices","capabilities");
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS_ABORT_ON_NULL = true;
-		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = array("model","organization","location","connected_devices");
-		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id","groups");
+		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = array("model","organization","location");
+		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id","groups","connected_devices","capabilities");
 		$this->_INTERNAL_LAST_UPDATED_PROPERTY = array("last_updated");
 		$this->_INTERNAL_CREATED_TIME_PROPERTY = array("created_time");
 		$this->_INTERNAL_LOAD_FROM_CLASS = array(
@@ -141,7 +157,8 @@ class Printer extends Std_Library{
 			"organization" => "Organization",
 			"connected_devices" => "Computer",
 			"location" => "Location",
-			"groups" => "Printer_Group"
+			"groups" => "Printer_Group",
+			"capabilities" => "Printer_Capability"
 		);
 		$this->_INTERNAL_ROW_NAME_CONVERT = array(
 			"organization_id" => "organization",
@@ -156,7 +173,11 @@ class Printer extends Std_Library{
 			"ip",
 			"location"
 		);
-		$this->_INTERNAL_SIMPLE_LOAD = array("connected_devices" => true);
-		$this->_INTERNAL_LINK_PROPERTIES = array("connected_devices" => array("connected_to_printers",array("printer_id" => "id"),"device_id"),"groups" => array("printer_group_members",array("printer_id" => "id"),"group_id"));
+		$this->_INTERNAL_SIMPLE_LOAD = array("connectd_devices" => true);
+		$this->_INTERNAL_LINK_PROPERTIES = array(
+			"connected_devices" => array("connected_to_printers",array("printer_id" => "id"),"device_id"),
+			"groups" => array("printer_group_members",array("printer_id" => "id"),"group_id"),
+			"capabilities" => array("printer_capabilities",array("printer_id" => "id"),"printer_capability_type_id",array("printer_capability_type_id","printer_id"))
+		);
 	}
 }

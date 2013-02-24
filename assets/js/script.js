@@ -60,7 +60,7 @@ function computersPage () {
 }
 
 $(window).ready(function(){
-	var organization = 1;
+	var organization = 2;
 	$(".logout").live("click",function(){
 		window.location = root + "logout";
 	});

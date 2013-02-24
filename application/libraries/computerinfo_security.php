@@ -184,8 +184,8 @@ class Computerinfo_Security{
 	 */
 	public function ControllerInfo ($params = null) {
 		$settings = array(
-			"base_url" => $this->CheckHTTPS(base_url()),
-			"asset_url" => $this->CheckHTTPS(base_url().$this->_CI->config->item("asset_url")),
+			"base_url" => $this->Proxy(""),
+			"asset_url" => $this->Proxy($this->_CI->config->item("asset_url")),
 			"jquery_url" => $this->_CI->config->item("jquery_url"),
 			"jqueryui_version" => $this->_CI->config->item("jqueryui_version"),
 			"dev_mode" => $this->_CI->config->item("dev_mode")
