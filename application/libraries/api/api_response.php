@@ -24,6 +24,14 @@ class Api_Response{
 	public $Debug = true;
 
 	/**
+	 * The number of objects outputted
+	 * @since 1.1
+	 * @access public
+	 * @var integer
+	 */
+	public $Count = null;
+
+	/**
 	 * An error containg the errors to send
 	 * @var array
 	 * @since 1.0
@@ -104,7 +112,7 @@ class Api_Response{
 	 * @since 1.0
 	 * @access public
 	 */
-	public $Age = "1";
+	public $Age = "3600";
 
 	/**
 	 * The time alive of the content
@@ -112,7 +120,7 @@ class Api_Response{
 	 * @since 1.0
 	 * @access public
 	 */
-	public $Expires = 1;
+	public $Expires = 3600;
 
 	/**
 	 * How many seconds the content is going to be stored in cache
@@ -120,7 +128,7 @@ class Api_Response{
 	 * @since 1.0
 	 * @access public
 	 */
-	public $CacheControl = "no-store, no-cache, must-revalidate";
+	public $CacheControl = "private;max-age=3600"/*"no-store, no-cache, must-revalidate"*/;
 
 	/**
 	 * The response location, the host of the api
@@ -244,11 +252,19 @@ class Api_Response{
 			if(!is_null($this->ResponseKey)){
 				$Response[$this->ResponseKey] = $this->Response;
 				if ($this->Debug) {
-					$Response["count"] = count($Response[$this->ResponseKey]);
+					if ( is_null($this->Count) ) {
+						$Response["count"] = count($Response[$this->ResponseKey]);
+					} else {
+						$Response["count"] = $this->Count;
+					}
 				}
 			} else {
 				$Response = $this->Response;
-				$Response["count"] = count($this->Response);
+				if ( is_null($this->Count) ) {
+					$Response["count"] = count($this->Response);
+				} else {
+					$Response["count"] = $this->Count;
+				}
 			}
 			if((is_array($Response) || $this->Code == 200) && $this->Debug){
 				$Response["error_message"] = NULL;
@@ -263,7 +279,7 @@ class Api_Response{
 		}
 		if ($this->Debug) {
 			$this->_CI->benchmark->mark('code_end');
-			$Response["script_excecution_time"] = $this->_CI->benchmark->elapsed_time('code_start', 'code_end');;
+			$Response["script_excecution_time"] = $this->_CI->benchmark->elapsed_time('code_start', 'code_end');
 			$Response["server_time"] = time();
 		}
 		$this->ResponseData = $Response;

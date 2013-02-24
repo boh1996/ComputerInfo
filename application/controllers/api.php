@@ -156,6 +156,7 @@ class Api extends CI_Controller {
 			if($Computer->Load($Id)){
 				if(self::_Has_Access("organizations",$this->_User,$Computer->organization)){
 					$this->api_response->Code = 200;
+					$this->api_response->Count = 1;
 					$this->api_response->Response = $Computer->Export(null,false);
 				} else {
 					$this->api_response->Code = 401;
@@ -603,12 +604,20 @@ class Api extends CI_Controller {
 	 */
 	private function _Get_Computers($Id = NULL){
 		if (self::_Get_User_Organizations() != null) {
-			$this->load->library("Computer");
-			$Computer = new Computer();
+			$this->load->library("batch_loader");
+			$Loader = new Batch_Loader();
+
 			if(in_array($Id, self::_Get_User_Organizations())){
-				$Data = array("q" => $Id,"fields" => "organization");
-				$this->api_request->Request_Data($Data);
-				self::_Simple_Search("Computer");
+				$result = $Loader->Load("computers", "Computer", array("organization" => $Id));
+				if ( $result !== false ) {
+					$this->api_response->Response = $result;
+					$Query_Data = $Loader->Last();
+					$this->api_response->Count = $Query_Data["num_rows"];
+					$this->api_response->ResponseKey = "Computers";
+					$this->api_response->Code = 200;
+				} else {
+					$this->api_response->Code = 404;
+				}
 			} else {
 				$this->api_response->Code = 401;
 			}
@@ -863,9 +872,7 @@ class Api extends CI_Controller {
 				return;
 			}
 			$Computer->Import($Request_Data,$Overwrite);
-			$this->api_response->Response = $Computer->Export(null,null,array("organization","groups"));
-			$this->api_response->Code = 200;
-			/*if(!is_null($Computer->organization)){
+			if(!is_null($Computer->organization)){
 				if(!self::_Has_Access("organizations",$this->_User,$Computer->organization)){
 					$this->api_response->Code = 401;
 					return;
@@ -880,7 +887,7 @@ class Api extends CI_Controller {
 				$this->api_response->Code = 200;
 			} else {
 				$this->api_response->Code = 409;
-			}*/
+			}
 		} else {
 			$this->api_response->Code = 400;
 		}
@@ -898,6 +905,7 @@ class Api extends CI_Controller {
 			$Token = new Token();
 			if ($Token->Load(array("token" => $token))){
 				$this->api_response->Code = 200;
+				$this->api_response->Count = 4;
 				if ($Token->offline == 0) {
 					$Token->time_left = round(($Token->created + $Token->time_to_live) - time());
 				}

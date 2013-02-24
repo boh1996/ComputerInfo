@@ -12,6 +12,7 @@ class Translations extends CI_Controller {
 			"ui_table",
 			"datatables"
 		));
+		header("Cache-Control: public; max-age=3600;");
 		header("Content-Type: text/javascript");
 	}
 

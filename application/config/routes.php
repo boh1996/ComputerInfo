@@ -56,6 +56,7 @@ $route["device/logout"] = "login/token/logout";
 $route["login/device/google"] = "login/device/google";
 
 if ((!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') || (isset($_GET["dev"]) && $_GET["dev"] == "true") || (isset($_SERVER["HTTP_USER_AGENT"]) && $_SERVER["HTTP_USER_AGENT"] == "CI/Windows")) {
+  	header("CI-API: true");
   	$route["computer"] = "api/computer";
   	$route["options/(:any)"] = "api/options/$1";
 	$route["printer/model"] = "api/printer_model";

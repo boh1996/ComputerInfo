@@ -10,7 +10,7 @@
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>bootstrap/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>bootstrap/css/bootstrap-responsive.min.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/dataTables.bootstrap.css">
-		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/jqtransform.css">
+		<!--<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/jqtransform.css">-->
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/style.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/form.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/loading.css">
@@ -21,6 +21,14 @@
 		<script type="text/javascript">var front_translations = <?php echo $front_translations; ?>;</script>
 	</head>
 	<body>
+
+	<script type="text/javascript">
+		<?= $this->load->view("settings",true); ?>
+	</script>
+
+	<script type="text/javascript">
+		<?= $this->load->view("datatables",true); ?>
+	</script>
 
 	<!--<div class="navbar navbar-fixed-top navbar-inverse">-->
 	<div class="navbar navbar-fixed-top">
@@ -287,9 +295,6 @@
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/custom-form-elements.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/dataTables.bootstrap.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/FixedHeader.js"></script>
-	<script type="text/javascript" src="<?php echo $asset_url; ?>js/jquery.jqtransform.js"></script>
-	<script type="text/javascript" src="<?php echo $base_url.'translate/settings';?>"></script>
-	<script type="text/javascript" src="<?php echo $base_url.'translate/datatable';?>"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/objx.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/userInfo.js"></script>
 	<script type="text/javascript" src="<?php echo $asset_url; ?>js/tableGenerator.js"></script>

@@ -16,7 +16,9 @@ class UI extends CI_Controller {
 			"front",
 			"device",
 			"printer",
-			"location"
+			"location",
+			"ui_table",
+			"datatables"
 		));
 		$data = array(
 			"method" => $method,
