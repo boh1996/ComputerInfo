@@ -54,6 +54,7 @@ var dataCompare = {
 						if (options.log)
 							console.log("Unchanged: ", clientObject, serverObject);
 					}
+					break;
 				}
 			}
 
@@ -77,6 +78,7 @@ var dataCompare = {
 
 				if (clientId == serverId) {
 					found = true;
+					break;
 				}
 			}
 
