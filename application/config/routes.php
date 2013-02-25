@@ -65,6 +65,7 @@ if ((!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_RE
 	$route["printer/(:num)"] = "api/printer/$1";
 	$route["printer"] = "api/printer";
 	$route["printer/search"] = "api/printer/search";
+	$route["computers/timestamps/(:num)"] = "api/computers/timestamps/$1";
 	$route["screen/(:num)"] = "api/screen/$1";
 	$route["computer/(:num)"] = "api/computer/$1";
 	$route["computer/model/(:num)"] = "api/computer/model/$1";

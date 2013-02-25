@@ -166,6 +166,39 @@ class Api extends CI_Controller {
 	}
 
 	/**
+	 * This function outputs an organizations computers with ids and last_updated
+	 * @since 1.1
+	 * @access private
+	 * @param integer $organization_id The organization to search for
+	 */
+	private function _Computers_Timestamps ( $organization_id ) {
+		$this->load->library("batch_loader");
+		$Loader = new Batch_Loader();
+
+		if( ! is_null($organization_id) ){
+			if(!self::_Has_Access("organizations",$this->_User,$organization_id)){
+				$this->api_response->Code = 401;
+				return;
+			}
+
+			$result = $Loader->Load("computers", "Computer", array("organization" => $organization_id), null, null, array("id","last_updated"));
+			if ( $result !== false ) {
+				$this->api_response->Response = $result;
+				$Query_Data = $Loader->Last();
+				$this->api_response->Count = $Query_Data["num_rows"];
+				$this->api_response->ResponseKey = "Computers";
+				$this->api_response->Code = 200;
+			} else {
+				$this->api_response->Code = 404;
+				return;
+			}
+		} else  {
+			$this->api_response->Code = 400;
+			return;
+		}
+	}
+
+	/**
 	 * This function get's the id for the has access function
 	 * @since 1.0
 	 * @access private
@@ -948,7 +981,6 @@ class Api extends CI_Controller {
 				$this->api_response->Code = 400;
 				return;
 			}
-			$Computer->last_updated = time();
 			if($Computer->Save()){
 				$this->api_response->Response = $Computer->Export(null,null,array("organization","groups"));
 				$this->api_response->Code = 200;
@@ -1269,7 +1301,7 @@ class Api extends CI_Controller {
 	 * @since 1.0
 	 * @access private
 	 */
-	private function _Computer_Search(){
+	private function _Computer_Search () {
 		$Request_Data = $this->api_request->Request_Data();
 		if(isset($Request_Data["q"]) && is_array($this->api_request->Request_Data()) && count($this->api_request->Request_Data()) > 0 && ($this->api_request->Request_Method() === "post" || "get")){		
 			$this->load->library("Computer");
@@ -1328,8 +1360,6 @@ class Api extends CI_Controller {
 				$Computer->organization = $this->_User->organizations[0]->id;
 			}
 			//Ensure that all the parameters are right
-			$Computer->created_time = time();
-			$Computer->last_updated = time();
 			if($Computer->Save()){
 				$this->api_response->Code = 200;
 				$this->api_response->Response = $Computer->Export();
@@ -1416,8 +1446,6 @@ class Api extends CI_Controller {
 			} else {
 				$Printer->organization = $this->_User->organizations[0]->id;
 			}
-			$Printer->created_time = time();
-			$Printer->last_updated = time();
 			if($Printer->Save()){
 				$this->api_response->Code = 200;
 				$this->api_response->Response = array("id" => $Printer->id);
@@ -1463,7 +1491,6 @@ class Api extends CI_Controller {
 				$this->api_response->Code = 400;
 				return;
 			}
-			$Printer->last_updated = time();
 			if($Printer->Save()){
 				$this->api_response->Code = 200;
 				$this->api_response->Response = array();
@@ -1500,8 +1527,6 @@ class Api extends CI_Controller {
 			} else {
 				$Device->organization = $this->_User->organizations[0]->id;
 			}
-			$Device->created_time = time();
-			$Device->last_updated = time();
 			if($Device->Save()){
 				$this->api_response->Code = 200;
 				$this->api_response->Response = array("id" => $Device->id);
@@ -1548,7 +1573,6 @@ class Api extends CI_Controller {
 				$this->api_response->Code = 400;
 				return;
 			}
-			$Device->last_updated = time();
 			if($Device->Save()){
 				$this->api_response->Code = 200;
 				$this->api_response->Response = $Device->Export();
