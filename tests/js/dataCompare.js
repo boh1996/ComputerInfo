@@ -1,19 +1,4 @@
-<script type="text/javascript" src="assets/js/jquery.min.js"></script>
-<script type="text/javascript">
-var clientArray = [
-	{id: 1, last_updated: 12},
-	{id: 2, last_updated: 15},
-	{id: 3, last_updated: 9},
-	{id: 5, last_updated: 12}
-];
-
-var serverArray = [
-	{id: 1, last_updated: 12},
-	{id: 2, last_updated: 20},
-	{id: 3, last_updated: 10},
-	{id: 4, last_updated: 15}
-]
-var DataCompare = {
+var dataCompare = {
 
 	defaultOptions: {
 		log: 1,
@@ -39,7 +24,7 @@ var DataCompare = {
 		var updateArray = [];
 
 		
-		if (this.log) {
+		if (options.log) {
 			console.log("Client array: ", JSON.stringify(clientArray));
 			console.log("Server array: ", JSON.stringify(serverArray));
 		}
@@ -62,11 +47,11 @@ var DataCompare = {
 					if (clientLastUpdated < serverLastUpdated) {
 						// Update now!
 						updateArray.push(clientId);
-						if (this.log)
+						if (options.log)
 							console.log("Update: ", clientObject, serverObject);
 					} else {
 						// Unchanged
-						if (this.log)
+						if (options.log)
 							console.log("Unchanged: ", clientObject, serverObject);
 					}
 				}
@@ -75,7 +60,7 @@ var DataCompare = {
 			if (!found) {
 				// Remove from client now!
 				removeArray.push(clientId);
-				if (this.log)
+				if (options.log)
 					console.log("Remove: ", clientObject);
 			}
 		}
@@ -98,7 +83,7 @@ var DataCompare = {
 			if (!found) {
 				// Add to client now!
 				addArray.push(serverId);
-				if (this.log)
+				if (options.log)
 					console.log("Add: ", serverObject);
 			}
 		}
@@ -106,12 +91,3 @@ var DataCompare = {
 		return {add: addArray, remove: removeArray, update: updateArray};
 	}
 }
-
-console.log("Result: ", DataCompare.check(clientArray, serverArray));
-/*
-console.time("DataCompare");
-for (var i = 0; i < 1000; i++) {
-	DataCompare.check(clientArray, serverArray);
-}
-console.timeEnd("DataCompare");*/
-</script>

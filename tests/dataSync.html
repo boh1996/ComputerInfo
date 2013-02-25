@@ -1,0 +1,26 @@
+<script type="text/javascript" src="../assets/js/jquery.min.js"></script>
+<script type="text/javascript" src="js/dataCompare.js"></script>
+<script type="text/javascript" src="js/dummyData.js"></script>
+<script type="text/javascript">
+
+var localStorageClientArray = localStorage.getItem('computers');
+var clientArray;
+var token = 'lbtumoyFCT6Az3k7cOBR81ldvLIHVQ7xArZofqzaroTSkvhmDeco8NzGULclHPlz';
+var baseUrl = 'https://ci.illution.dk'
+
+if (localStorageClientArray != null) {
+	clientArray = JSON.parse(localStorageClientArray);
+} else {
+	clientArray = dummyClientArray;
+	localStorage.setItem('computers', JSON.stringify(dummyClientArray));
+}
+
+
+$.get(baseUrl + '/computers/timestamps/2?token=' + token + '&dev=true&format=json', function(data) {
+	var serverArray = data.Computers;
+	console.log(dataCompare.check(clientArray, serverArray, {log: 0}));
+});
+
+
+
+</script>
