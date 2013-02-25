@@ -1,3 +1,4 @@
+<script type="text/javascript" src="assets/js/jquery.min.js"></script>
 <script type="text/javascript">
 var clientArray = [
 	{id: 1, last_updated: 12},
@@ -14,11 +15,24 @@ var serverArray = [
 ]
 var DataCompare = {
 
-	log: 1,
+	defaultOptions: {
+		log: 1,
+		idAttribute: "id",
+		lastUpdatedAttribute: "last_updated"
+	},
 
-	check: function (clientArray, serverArray) {
+	check: function (clientArray, serverArray, options) {
 		var clientCount = clientArray.length;
 		var serverCount = serverArray.length;
+		
+		if (options != null) {
+			options = $.extend(true, this.defaultOptions, options);
+		} else {
+			options = this.defaultOptions;
+		}
+
+		var idAttribute = options.idAttribute;
+		var lastUpdatedAttribute = options.lastUpdatedAttribute;
 
 		var addArray = [];
 		var removeArray = [];
@@ -32,19 +46,19 @@ var DataCompare = {
 
 		for (var i = 0; i <= clientCount - 1; i ++) {
 			var clientObject = clientArray[i];
-			var clientId = clientObject.id;
+			var clientId = clientObject[idAttribute];
 			var found = false;
 
 			// Run through the list to update and remove items
 			for (var j = 0; j <= serverCount - 1; j++) {
 				var serverObject = serverArray[j];
-				var serverId = serverObject.id;
+				var serverId = serverObject[idAttribute];
 
 				if (clientId == serverId) {
-					var clientLastUpdated = clientObject.last_updated;
-					var serverLastUpdated = serverObject.last_updated;
+					var clientLastUpdated = clientObject[lastUpdatedAttribute];
+					var serverLastUpdated = serverObject[lastUpdatedAttribute];
 					found = true;
-
+					
 					if (clientLastUpdated < serverLastUpdated) {
 						// Update now!
 						updateArray.push(clientId);
@@ -68,13 +82,13 @@ var DataCompare = {
 
 		for (var i = 0; i <= serverCount - 1; i ++) {
 			var serverObject = serverArray[i];
-			var serverId = serverObject.id;
+			var serverId = serverObject[idAttribute];
 			var found = false;
 
 			// Run through the list to update and remove items
 			for (var j = 0; j <= clientCount - 1; j++) {
 				var clientObject = clientArray[j];
-				var clientId = clientObject.id;
+				var clientId = clientObject[idAttribute];
 
 				if (clientId == serverId) {
 					found = true;
@@ -94,5 +108,10 @@ var DataCompare = {
 }
 
 console.log("Result: ", DataCompare.check(clientArray, serverArray));
-
+/*
+console.time("DataCompare");
+for (var i = 0; i < 1000; i++) {
+	DataCompare.check(clientArray, serverArray);
+}
+console.timeEnd("DataCompare");*/
 </script>
