@@ -53,7 +53,9 @@ var dataSync = {
 	},
 	updateProgress: function () {
 		dataSync.progress++;
+		document.getElementById('meter1').setAttribute('value', '' + dataSync.progress / dataSync.actionCount);
 		if (dataSync.progress >= dataSync.actionCount) {
+			document.getElementById('meter1').setAttribute('value', '1.0');
 			console.log("Finished: ", dataSync.clientArray);
 			dataSync.working = false;
 			if (dataSync.callback != null && typeof(dataSync.callback) == "function") {
@@ -114,3 +116,4 @@ dataSync.execute(clientArray, function (data) {
 	});
 });
 </script>
+<meter id="meter1" value="0">0%</meter>
