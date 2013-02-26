@@ -166,6 +166,46 @@ class Api extends CI_Controller {
 	}
 
 	/**
+	 * This endpoint responds to POST request,
+	 * and outputs the request "computers" with the requested "fields"
+	 * @since 1.2
+	 * @access private
+	 */
+	private function _Computers_Select_Create () {
+		$post = $this->api_request->Request_Data();
+		$this->api_response->ResponseKey = "Computers";
+
+		$this->load->library("batch_loader");
+		$Loader = new Batch_Loader();
+
+		if ( ! isset($post["computers"]) || ! is_array(explode(",", $post["computers"])) ) {
+			$this->api_response->Code = 400;
+			return;
+		}
+
+		$fields = null;
+
+		if ( isset($post["fields"]) ) {
+			$fields = explode(",", $post["fields"]);
+		} else if ( isset($_GET["fields"]) ) {
+			$fields = explode(",", $_GET["fields"]);
+		}
+
+		$this->db->where_in("id", explode(",", $post["computers"]));
+
+		$result = $Loader->Load("computers", "Computer",null,null,null,$fields);
+
+		if ( $result !== false ) {
+			$this->api_response->Response = $result;
+			$Query_Data = $Loader->Last();
+			$this->api_response->Count = $Query_Data["num_rows"];
+			$this->api_response->Code = 200;
+		} else {
+			$this->api_response->Code = 404;
+		}
+	}
+
+	/**
 	 * This function outputs an organizations computers with ids and last_updated
 	 * @since 1.1
 	 * @access private

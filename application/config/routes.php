@@ -73,6 +73,7 @@ if ((!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_RE
 	$route["device/(:num)"] = "api/device/$1";
 	$route["device"] = "api/device";
 	$route["location/(:num)"] = "api/location/$1";
+	$route["computers/select"] = "api/computers_select";
 	$route["computer/model"] = "api/computer_model";
 	$route["device/model"] = "api/device_model";
 	$route["device/model/search"] = "api/device/model/search";
