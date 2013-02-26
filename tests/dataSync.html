@@ -1,0 +1,119 @@
+<script type="text/javascript" src="../assets/js/jquery.min.js"></script>
+<script type="text/javascript" src="js/lzw-compression.min.js"></script>
+<script type="text/javascript" src="js/dataCompare.js"></script>
+<script type="text/javascript" src="js/dummyData.js"></script>
+<script type="text/javascript">
+var localStorageClientArray = localStorage.getItem('computers');
+var clientArray;
+var token = 'DfoxP7DHmdz4JfNmbJVbECPkXzFD3ksp19m4GOX7HQFnerFnDgsFvTdJIjNBK6qA';
+var baseUrl = 'https://ci.illution.dk'
+
+if (localStorageClientArray != null) {
+	clientArray = JSON.parse(lzw_decode(localStorageClientArray));
+} else {
+	clientArray = dummyClientArray;
+	localStorage.setItem('computers', lzw_encode(JSON.stringify(dummyClientArray)));
+	localStorage.setItem('computers-nocomp', JSON.stringify(dummyClientArray));
+}
+	var dummy = JSON.stringify(dummyClientArray);
+	console.log("Uncompressed: ", dummy.length);
+	console.time("LZW");
+	//console.log("Compressed LZW: ", lzw_encode(dummy).length);
+		lzw_decode(lzw_encode(dummy));
+	console.timeEnd("LZW");
+	
+
+var dataSync = {
+	progress: 0,
+	actionCount: 0,
+	callback: null,
+	working: 0,
+	clientArray: null,
+
+	add: function (id) {
+		$.get(baseUrl + '/computer/' + id + '?token=' + token + '&dev=true&format=json', function(data) {
+			dataSync.clientArray.push(data.Computer);
+			console.log("Added: ", data.Computer);
+			dataSync.updateProgress();
+		});
+	},
+	remove: function (id) {
+		var clientArrayCount = dataSync.clientArray.length;
+
+		for (var j = 0; j <= clientArrayCount - 1; j++) {
+			if (id == dataSync.clientArray[j].id) {
+				console.log("Removed: ", dataSync.clientArray.splice(j,1));
+				break;
+			}
+		};
+	},
+	update: function (id) {
+		dataSync.remove(id);
+		dataSync.add(id);
+	},
+	updateProgress: function () {
+		dataSync.progress++;
+		document.getElementById('meter1').setAttribute('value', '' + dataSync.progress / dataSync.actionCount);
+		if (dataSync.progress >= dataSync.actionCount) {
+			document.getElementById('meter1').setAttribute('value', '1.0');
+			console.log("Finished: ", dataSync.clientArray);
+			dataSync.working = false;
+			if (dataSync.callback != null && typeof(dataSync.callback) == "function") {
+				dataSync.callback(dataSync.clientArray);
+			}
+		}
+	},
+	execute: function (clientArray, callback) {
+		if (dataSync.working) {
+			return false;
+		} else {
+			dataSync.working = true;
+		}
+		$.get(baseUrl + '/computers/timestamps/2?token=' + token + '&dev=true&format=json', function(data) {
+			var serverArray = data.Computers;
+			var actions = dataCompare.check(clientArray, serverArray, {log: 0});
+
+			var addCount = actions.add.length;
+			var removeCount = actions.remove.length;
+			var updateCount = actions.update.length;
+
+			dataSync.actionCount = addCount + updateCount;
+			dataSync.progress = 0;
+			dataSync.callback = callback;
+			dataSync.clientArray = clientArray;
+			console.log("Actions: ", actions);
+
+			if (dataSync.actionCount == 0) {
+				dataSync.updateProgress();
+				return true;
+			}
+
+			// Adds
+			var addCount = actions.add.length;
+			for (var i = 0; i <= addCount - 1; i++) {
+				dataSync.add(actions.add[i]);
+			}
+
+			// Removes
+			for (var i = 0; i <= removeCount - 1; i++) {
+				dataSync.remove(actions.remove[i]);
+			};
+
+			// Updates
+			for (var i = 0; i <= updateCount - 1; i++) {
+				dataSync.update(actions.update[i]);
+			};
+		});
+		return true;
+	}
+}
+
+dataSync.execute(clientArray, function (data) {
+	clientArray = data;
+	console.log("Received callback!");
+	dataSync.execute(clientArray, function (data) {
+		console.log("Received second callback!");
+	});
+});
+</script>
+<meter id="meter1" value="0">0%</meter>
