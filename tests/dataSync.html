@@ -1,19 +1,27 @@
 <script type="text/javascript" src="../assets/js/jquery.min.js"></script>
+<script type="text/javascript" src="js/lzw-compression.min.js"></script>
 <script type="text/javascript" src="js/dataCompare.js"></script>
 <script type="text/javascript" src="js/dummyData.js"></script>
 <script type="text/javascript">
-
 var localStorageClientArray = localStorage.getItem('computers');
 var clientArray;
-var token = 'ikgv6cpoamRoXgR16hFSDLU4AFgfdJDEqz0IenjH5NebeVWCapFl0af0gBeALiE2';
+var token = 'DfoxP7DHmdz4JfNmbJVbECPkXzFD3ksp19m4GOX7HQFnerFnDgsFvTdJIjNBK6qA';
 var baseUrl = 'https://ci.illution.dk'
 
 if (localStorageClientArray != null) {
-	clientArray = JSON.parse(localStorageClientArray);
+	clientArray = JSON.parse(lzw_decode(localStorageClientArray));
 } else {
 	clientArray = dummyClientArray;
-	localStorage.setItem('computers', JSON.stringify(dummyClientArray));
+	localStorage.setItem('computers', lzw_encode(JSON.stringify(dummyClientArray)));
+	localStorage.setItem('computers-nocomp', JSON.stringify(dummyClientArray));
 }
+	var dummy = JSON.stringify(dummyClientArray);
+	console.log("Uncompressed: ", dummy.length);
+	console.time("LZW");
+	//console.log("Compressed LZW: ", lzw_encode(dummy).length);
+		lzw_decode(lzw_encode(dummy));
+	console.timeEnd("LZW");
+	
 
 var dataSync = {
 	progress: 0,
