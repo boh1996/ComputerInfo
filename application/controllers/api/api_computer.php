@@ -4,6 +4,9 @@ require(APPPATH.'libraries/api/CI_API_Controller.php');
 
 class API_Computer extends CI_API_Controller {
 
+	/**
+	 * Class Contructor
+	 */
 	public function __construct () {
 		parent::__construct();
 		$this->load->library("Computer");
@@ -56,6 +59,6 @@ class API_Computer extends CI_API_Controller {
 	}
 
 	public function index_patch () {
-		
+
 	}
 }

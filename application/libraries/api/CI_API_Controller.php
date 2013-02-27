@@ -94,6 +94,16 @@ class CI_API_Controller extends API_Controller {
 	}
 
 	/**
+	 * Wraps output data in "result" object
+	 * 
+	 * @param  string|integer|array|object $data Data to output
+	 * @param  null|integer $code Error code
+	 */
+	public function response ( $data = null, $code = null) {
+		parent::response(array("result" => $data,"error_code" => null,"error_message" => null), $code);
+	}
+
+	/**
 	 * This function get's the id for the has access function
 	 * @since 1.0
 	 * @access protected
