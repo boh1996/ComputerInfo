@@ -37,12 +37,16 @@
 | in the URL cannot be matched to a valid route.
 |
 */
-$whitelist = array("localhost","127.0.0.1","176.34.227.131");
-if (in_array(trim($_SERVER["REMOTE_ADDR"]),$whitelist)) {
-	$route["update/codeigniter/check"] = "api/codeigniter_version_check"; //Returns true if CodeIgniter should be updated
-	$route["update/codeigniter/version"] = "api/ci/version"; //The Ser CodeIgniter version
-	$route["update/codeigniter/remote"] = "api/ci_version_remote"; //The newest CodeIgnitor Version
-}
+
+########### New Api Routes ###################
+
+$route["update/codeigniter/check"] = "api/api_codeigniter/version_check";
+$route["update/codeigniter/version"] = "api/api_codeigniter/version";
+$route["update/codeigniter/remote"] = "api/api_codeigniter/remote_version";
+
+##############################################
+
+$route["logout"] = "login/logout";
 
 /**
  * Api Routes
@@ -55,43 +59,50 @@ $route["login/device"] = "login/device";
 $route["device/logout"] = "login/token/logout";
 $route["login/device/google"] = "login/device/google";
 
-if ((!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') || (isset($_GET["dev"]) && $_GET["dev"] == "true") || (isset($_SERVER["HTTP_USER_AGENT"]) && $_SERVER["HTTP_USER_AGENT"] == "CI/Windows")) {
-  	header("CI-API: true");
-  	$route["computer"] = "api/computer";
-  	$route["options/(:any)"] = "api/options/$1";
-	$route["printer/model"] = "api/printer_model";
-	$route["printer/model/(:num)"] = "api/printer_model/$1";
-	$route["printer/model/search"] = "api/printer/model/search";
-	$route["printer/(:num)"] = "api/printer/$1";
-	$route["printer"] = "api/printer";
-	$route["printer/search"] = "api/printer/search";
-	$route["computers/timestamps/(:num)"] = "api/computers/timestamps/$1";
-	$route["screen/(:num)"] = "api/screen/$1";
-	$route["computer/(:num)"] = "api/computer/$1";
-	$route["computer/model/(:num)"] = "api/computer/model/$1";
-	$route["computer/search"] = "api/computer/search";
-	$route["device/(:num)"] = "api/device/$1";
-	$route["device"] = "api/device";
-	$route["location/(:num)"] = "api/location/$1";
-	$route["computers/select"] = "api/computers_select";
-	$route["computer/model"] = "api/computer_model";
-	$route["device/model"] = "api/device_model";
-	$route["device/model/search"] = "api/device/model/search";
-	$route["token"] = "api/generate_token";
-	$route["token/(:any)"] = "api/token/$1";
-	$route["manufaturer/(:any)"] = "api/manufaturer/$1";
-	$route["manufaturer/search"] = "api/manufaturer/search";
-	$route["cpu/(:any)"] = "api/cpu/$1";
-	$route["logout"] = "login/logout";
-	$route["user/settings"] = "api/user_settings";
-	$route["user/(:any)"] = "api/user/$1";
-	$route["get/computers/(:num)"] = "api/get/computers/$1";
-	$route["get/devices/(:num)"] = "api/get/devices/$1";
-	$route["get/printers/(:num)"] = "api/get/printers/$1";
-	$route["get/screens/(:num)"] = "api/get/screens/$1";
-	$route["get/locations/(:num)"] = "api/get/locations/$1";
-	$route["client/computer"] = "api/computer_client";
-	$route["token/$1"] = "api/token/$1";
+if ((!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') 
+	|| (isset($_GET["dev"]) && $_GET["dev"] == "true") 
+	|| (isset($_SERVER["HTTP_USER_AGENT"]) && ($_SERVER["HTTP_USER_AGENT"] == "CI/Windows" || $_SERVER["HTTP_USER_AGENT"] == "CI/Android"))
+) {
+
+	### New ###
+	$route["token/(:any)"] = "api/api_token/token/$1";
+	$route["computer/(:num)"] = "api/api_computer/index/$1";
+
+	### Old ###
+  	/*$route["computer"] = "api_old/computer";
+  	$route["options/(:any)"] = "api_old/options/$1";
+	$route["printer/model"] = "api_old/printer_model";
+	$route["printer/model/(:num)"] = "api_old/printer_model/$1";
+	$route["printer/model/search"] = "api_old/printer/model/search";
+	$route["printer/(:num)"] = "api_old/printer/$1";
+	$route["printer"] = "api_old/printer";
+	$route["printer/search"] = "api_old/printer/search";
+	$route["computers/timestamps/(:num)"] = "api_old/computers/timestamps/$1";
+	$route["screen/(:num)"] = "api_old/screen/$1";
+	$route["computer/(:num)"] = "api_old/computer/$1";
+	$route["computer/model/(:num)"] = "api_old/computer/model/$1";
+	$route["computer/search"] = "api_old/computer/search";
+	$route["device/(:num)"] = "api_old/device/$1";
+	$route["device"] = "api_old/device";
+	$route["location/(:num)"] = "api_old/location/$1";
+	$route["computers/select"] = "api_old/computers_select";
+	$route["computer/model"] = "api_old/computer_model";
+	$route["device/model"] = "api_old/device_model";
+	$route["device/model/search"] = "api_old/device/model/search";
+	$route["token"] = "api_old/generate_token";
+	$route["token/(:any)"] = "api_old/token/$1";
+	$route["manufaturer/(:any)"] = "api_old/manufaturer/$1";
+	$route["manufaturer/search"] = "api_old/manufaturer/search";
+	$route["cpu/(:any)"] = "api_old/cpu/$1";
+	$route["user/settings"] = "api_old/user_settings";
+	$route["user/(:any)"] = "api_old/user/$1";
+	$route["computers/(:num)"] = "api_old/get/computers/$1";
+	$route["devices/(:num)"] = "api_old/get/devices/$1";
+	$route["printers/(:num)"] = "api_old/get/printers/$1";
+	$route["screens/(:num)"] = "api_old/get/screens/$1";
+	$route["locations/(:num)"] = "api_old/get/locations/$1";
+	$route["client/computer"] = "api_old/computer_client";
+	$route["token/$1"] = "api_old/token/$1";*/
 } 
 /**
  * User Routes

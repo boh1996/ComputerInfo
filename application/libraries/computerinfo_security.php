@@ -31,6 +31,11 @@ class Computerinfo_Security{
 	 * @return booelan
 	 */
 	private function _RequiresSecurity () {
+		$segments = explode("/",$this->_CI->uri->ruri_string());
+		if ( $segments[0] == "api" ) {
+			return false;
+		}
+
 		$this->_CI->load->helper("array_data");
 		$pass = $this->_CI->config->item("non_security");
 		$segments = $this->_CI->uri->rsegment_array();
