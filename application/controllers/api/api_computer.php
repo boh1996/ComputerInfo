@@ -2,6 +2,11 @@
 
 require(APPPATH.'libraries/api/CI_API_Controller.php');  
 
+/**
+ * The endpoints used to recieve, update and create single computers
+ * 
+ * @author Bo Thomsen <bo@illution.dk>
+ */
 class API_Computer extends CI_API_Controller {
 
 	/**
@@ -25,11 +30,7 @@ class API_Computer extends CI_API_Controller {
 
 		$Computer = new Computer();
 
-		$fields = ($this->get("fields") !== false) ? $this->get("fields") : null;
-
-		$fields = explode(",", $fields);
-
-		$db_fields = $fields;
+		$db_fields = $this->fields();
 
 		if ( ! in_array("organization", $db_fields) ) {
 			$db_fields[] = "organization";
@@ -43,22 +44,146 @@ class API_Computer extends CI_API_Controller {
 			self::error(401);
 		}
 
-		$this->response($Computer->Export($fields));
+		$this->response($Computer->Export($this->fields()));
 	}
 
+	/**
+	 * Deletes a Computer from the database
+	 *
+	 * @since 1.0
+	 * @param  integer $id The database id of the Computer to delete
+	 */
 	public function index_delete ( $id = null ) {
+		if ( is_null($id) ) {
+			self::error(400);
+		}
 
+		$Computer = new Computer();
+
+		if ( ! $Computer->Load($id) ) {
+			$this->response(array());
+		}
+
+		if ( ! $this->has_access("organizations",$this->user,$Computer->organization) ) {
+			self::error(403);
+		}
+
+		$Computer->Delete(true);		
+
+		$this->response(array(),200);
 	}
 
+	/**
+	 * Outputs the same as index_get
+	 *
+	 * @see index_get
+	 * @param  integer $id The computer db id to load
+	 */
+	public function index_head ( $id = null ) {
+		self::index_get($id);
+	}
+
+	/**
+	 * This endpoint overwrites every property that is being updated,
+	 * use PATCH for a merge update
+	 *
+	 * @since 1.0
+	 * @param  integer $id The id of the computer to update
+	 * @return array
+	 */
 	public function index_put ( $id = null ) {
+		if ( ! $this->put() || is_null($id) ) {
+			self::error(400);
+		}
+
+		$Computer = new Computer();
+
+		if ( ! $Computer->Load($id) ) {
+			self::error(404);
+		}
+
+		if ( ! $Computer->Import($this->put(),true,false,array(
+			"organization"
+		)) ) {
+			self::error(400);
+		}
+
+		if ( ! $this->has_access("organizations",$this->user,$Computer->organization) ) {
+			self::error(401);
+		}
+
+		if ( ! $Computer->Save() ) {
+			self::error(409);
+		}
+
+		$this->response($Computer->Export($this->fields()),202);
 
 	}
 
+	/**
+	 * Responds to PATCH requests, it performs partial merge operations,
+	 * use PUT for overwriting arrays
+	 *
+	 * @since 1.0
+	 * @return array
+	 */
+	public function index_patch ( $id = null ) {
+		if ( ! $this->patch() || is_null($id) ) {
+			self::error(400);
+		}
+
+		$Computer = new Computer();
+
+		if ( ! $Computer->Load($id) ) {
+			self::error(404);
+		}
+
+		if ( ! $Computer->Import($this->patch(),false,false, array(
+			"organization"
+		)) ) {
+			self::error(400);
+		}
+
+		if ( ! $this->has_access("organizations",$this->user,$Computer->organization) ) {
+			self::error(401);
+		}
+
+		if ( ! $Computer->Save() ) {
+			self::error(409);
+		}
+
+		$this->response($Computer->Export($this->fields()),200);
+	}
+
+	/**
+	 * Saves a Computer
+	 *
+	 * @since 1.0
+	 * @return array
+	 */
 	public function index_post () {
+		if ( ! $this->post() ) {
+			self::error(400);
+		}
 
-	}
+		$Computer = new Computer ();
 
-	public function index_patch () {
+		if ( ! $Computer->Import($this->post()) ) {
+			self::error(400);
+		}
 
+		if ( is_null($Computer->organization) ) {
+			self::error(400);
+		}
+
+		if ( ! is_null($Computer->organization) && ! $this->has_access("organizations",$this->user,$Computer->organization) ) {
+			self::error(403);
+		}
+
+		if ( ! $Computer->Save() ) {
+			self::error(409);
+		}
+
+		$this->response($Computer->Export($this->fields()),201);
 	}
 }

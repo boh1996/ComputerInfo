@@ -224,8 +224,9 @@ class API_Controller extends REST_Controller{
 		if ( $code !== 404 ) {
 			$this->load->helper("http");
 			$this->response(array(
-				"code" => $code,
-				"message" => Status_Message($code)
+				"error_code" => $code,
+				"error" => Status_Message($code),
+				"status" => false
 			), $code);
 			die();
 		} else {

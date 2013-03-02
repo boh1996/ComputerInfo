@@ -29,7 +29,7 @@ class API_Token extends CI_API_Controller {
 	 */
 	public function token_get ( $token = null ) {
 		if ( is_null($token) ) {
-			if ( self::is_application() ) {
+			if ( $this->is_application() ) {
 				die("false");
 			} else {
 				self::error(400);
@@ -38,22 +38,27 @@ class API_Token extends CI_API_Controller {
 
 		$Token = new Token();
 
-		if ( ! $Token->Load(array("token" => $token)) ) {
-			if ( self::is_application() ) {
+		if ( ! $Token->Load(array(
+			"token" => $token
+		)) ) {
+			if ( $this->is_application() ) {
 				die("false");
 			} else {
 				self::error(404);
 			}
 		}
 
-		if ($Token->offline == 0) {
+		if ( $Token->offline == 0 ) {
 			$Token->time_left = round(($Token->created + $Token->time_to_live) - time());
 		}
 
-		if (self::is_application()) {
+		if ( $this->is_application() ) {
 			die("true");
 		} else {
-			$this->response($Token->Export(null, false, array("user","created")));
+			$this->response($Token->Export(null, false, array(
+				"user",
+				"created"
+			)));
 		}
 	}
 }

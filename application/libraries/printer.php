@@ -95,14 +95,6 @@ class Printer extends Std_Library{
 	public $model = NULL;
 
 	/**
-	 * This property holds all the computers connected to this printer
-	 * @var array
-	 * @since 1.0
-	 * @access public
-	 */
-	public $connected_devices = NULL;
-
-	/**
 	 * The owner organization of the device
 	 * @var object
 	 * @since 1.0
@@ -144,12 +136,13 @@ class Printer extends Std_Library{
 	 */
 	public function __construct(){
 		parent::__construct();
+		$this->_INTERNAL_OVERWRITE_ON_DUBLICATE = true;
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("identifier");
-		$this->_INTERNAL_FORCE_ARRAY = array("connected_devices","capabilities");
+		$this->_INTERNAL_FORCE_ARRAY = array("capabilities");
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS_ABORT_ON_NULL = true;
 		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = array("model","organization","location");
-		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id","groups","connected_devices","capabilities");
+		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id","groups","capabilities");
 		$this->_INTERNAL_LAST_UPDATED_PROPERTY = array("last_updated");
 		$this->_INTERNAL_CREATED_TIME_PROPERTY = array("created_time");
 		$this->_INTERNAL_LOAD_FROM_CLASS = array(
@@ -173,9 +166,7 @@ class Printer extends Std_Library{
 			"ip",
 			"location"
 		);
-		$this->_INTERNAL_SIMPLE_LOAD = array("connectd_devices" => true);
 		$this->_INTERNAL_LINK_PROPERTIES = array(
-			"connected_devices" => array("connected_to_printers",array("printer_id" => "id"),"device_id"),
 			"groups" => array("printer_group_members",array("printer_id" => "id"),"group_id"),
 			"capabilities" => array("printer_capabilities",array("printer_id" => "id"),"printer_capability_type_id",array("printer_capability_type_id","printer_id"))
 		);

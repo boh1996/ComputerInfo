@@ -239,6 +239,13 @@ class Computer extends Std_Library{
 			"organization",
 			"screen_size"
 		);
+		$this->_INTERNAL_IMPORT_IGNORE = array(
+			"id",
+			"last_updated",
+			"created_time",
+			"last_updated_user",
+			"creator_user"
+		);
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array(
 			"id",
 			"printers",

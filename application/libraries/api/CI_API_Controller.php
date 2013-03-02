@@ -26,11 +26,38 @@ class CI_API_Controller extends API_Controller {
 	public $user = null;
 
 	/**
+	 * The requested fields to use
+	 * @since 1.0
+	 * @var array
+	 */
+	public $fields = null;
+
+	/**
 	 * The constructor
 	 */
 	public function __construct () {
 		parent::__construct();
 		$this->load->library("user");
+	}
+
+	/**
+	 * This function is called just before the controller methods
+	 *
+	 * @since 1.0
+	 * @access protected
+	 */
+	protected function before_method () {
+		$this->fields = ($this->get("fields") != false) ? explode(",", $this->get("fields")) : null;
+	}
+
+	/**
+	 * Returns an array of selected fields
+	 *
+	 * @since 1.0
+	 * @return array|null
+	 */
+	protected function fields () {
+		return ( ! is_null($this->fields) ) ? $this->fields : null;
 	}
 
 	/**
@@ -43,6 +70,7 @@ class CI_API_Controller extends API_Controller {
 	protected function _is_key_valid ( $row ) {
 		$this->user = new User();
 		$this->user->Load($row->user_id);
+		define("STD_LIBRARY_CURRENT_USER",$this->user->id);
 		if ( $row->offline == "1" ) {
 			return $this->user->_INTERNAL_LOADED === true;
 		} else {
@@ -99,8 +127,14 @@ class CI_API_Controller extends API_Controller {
 	 * @param  string|integer|array|object $data Data to output
 	 * @param  null|integer $code Error code
 	 */
-	public function response ( $data = null, $code = null) {
-		parent::response(array("result" => $data,"error_code" => null,"error_message" => null), $code);
+	public function response ( $data = null, $code = 200) {
+		if ( count($data) > 0 && ! isset($data["status"]) ) {
+			parent::response(array("result" => $data,"error_code" => null,"error" => null,"status" => true), $code);
+		} else if ( count($data) > 0 ) {
+			parent::response($data, $code);
+		} else {
+			parent::response(array(), $code);
+		}
 	}
 
 	/**

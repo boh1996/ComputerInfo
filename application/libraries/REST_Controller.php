@@ -189,7 +189,7 @@ abstract class REST_Controller extends CI_Controller
 		}
 
 		// Set up our GET variables
-		$this->_get_args = array_merge($this->_get_args, $this->uri->ruri_to_assoc());
+		$this->_get_args = array_merge($_GET, $this->uri->ruri_to_assoc(),$this->_get_args);
 
 		$this->load->library('security');
 
@@ -642,7 +642,7 @@ abstract class REST_Controller extends CI_Controller
 
 		// Find the key from server or arguments
 		if (($key = isset($this->_args[$api_key_variable]) ? $this->_args[$api_key_variable] : $this->input->server($key_name)))
-		{
+		{	
 			if ( ! ($row = $this->rest->db->where(config_item('rest_key_column'), $key)->get(config_item('rest_keys_table'))->row()))
 			{
 				return FALSE;

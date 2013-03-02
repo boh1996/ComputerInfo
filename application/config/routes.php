@@ -1,4 +1,7 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+require(APPPATH."helpers/ci_helper.php");
+
 /*
 | -------------------------------------------------------------------------
 | URI ROUTING
@@ -47,10 +50,6 @@ $route["update/codeigniter/remote"] = "api/api_codeigniter/remote_version";
 ##############################################
 
 $route["logout"] = "login/logout";
-
-/**
- * Api Routes
- */
 $route["login/windows"] = "login/desktop/windows";
 $route["windows/logout"] = "login/token/logout/windows";
 $route["login/windows/google"] = "login/google/auth/windows";
@@ -59,38 +58,42 @@ $route["login/device"] = "login/device";
 $route["device/logout"] = "login/token/logout";
 $route["login/device/google"] = "login/device/google";
 
-if ((!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') 
-	|| (isset($_GET["dev"]) && $_GET["dev"] == "true") 
-	|| (isset($_SERVER["HTTP_USER_AGENT"]) && ($_SERVER["HTTP_USER_AGENT"] == "CI/Windows" || $_SERVER["HTTP_USER_AGENT"] == "CI/Android"))
-) {
+if ( is_ajax() || (isset($_GET["dev"]) && $_GET["dev"] == "true") || is_application() ) {
+	############ Computer ##############
+		if ( is_windows() ) {
+			$route["computer"] = "api/api_computer_client/index";
+		} else {
+			$route["computer"] = "api/api_computer/index";
+		}
 
-	### New ###
-	$route["token/(:any)"] = "api/api_token/token/$1";
-	$route["computer/(:num)"] = "api/api_computer/index/$1";
+		$route["computer/(:num)"] = "api/api_computer/index/$1";
+
+	########## Token #############
+		$route["token/(:any)"] = "api/api_token/token/$1";
+
+	########## Printer ###########
+		$route["printer"] = "api/api_printer/index";
+		$route["printer/(:num)"] = "api/api_printer/index/$1";
+
+	########## Device  ###########
+		$route["device"] = "api/api_device/index";
+		$route["device/(:num)"] = "api/api_device/index/$1";
 
 	### Old ###
-  	/*$route["computer"] = "api_old/computer";
   	$route["options/(:any)"] = "api_old/options/$1";
 	$route["printer/model"] = "api_old/printer_model";
 	$route["printer/model/(:num)"] = "api_old/printer_model/$1";
 	$route["printer/model/search"] = "api_old/printer/model/search";
-	$route["printer/(:num)"] = "api_old/printer/$1";
-	$route["printer"] = "api_old/printer";
 	$route["printer/search"] = "api_old/printer/search";
 	$route["computers/timestamps/(:num)"] = "api_old/computers/timestamps/$1";
 	$route["screen/(:num)"] = "api_old/screen/$1";
-	$route["computer/(:num)"] = "api_old/computer/$1";
 	$route["computer/model/(:num)"] = "api_old/computer/model/$1";
 	$route["computer/search"] = "api_old/computer/search";
-	$route["device/(:num)"] = "api_old/device/$1";
-	$route["device"] = "api_old/device";
 	$route["location/(:num)"] = "api_old/location/$1";
 	$route["computers/select"] = "api_old/computers_select";
 	$route["computer/model"] = "api_old/computer_model";
 	$route["device/model"] = "api_old/device_model";
 	$route["device/model/search"] = "api_old/device/model/search";
-	$route["token"] = "api_old/generate_token";
-	$route["token/(:any)"] = "api_old/token/$1";
 	$route["manufaturer/(:any)"] = "api_old/manufaturer/$1";
 	$route["manufaturer/search"] = "api_old/manufaturer/search";
 	$route["cpu/(:any)"] = "api_old/cpu/$1";
@@ -101,8 +104,6 @@ if ((!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_RE
 	$route["printers/(:num)"] = "api_old/get/printers/$1";
 	$route["screens/(:num)"] = "api_old/get/screens/$1";
 	$route["locations/(:num)"] = "api_old/get/locations/$1";
-	$route["client/computer"] = "api_old/computer_client";
-	$route["token/$1"] = "api_old/token/$1";*/
 } 
 /**
  * User Routes
@@ -123,7 +124,7 @@ else {
 	$route["user/reset/password/resend/(:any)"] = "user_management/password_resend/$1";
 	$route["user/reset/password/check"] = "user_management/reset_password";
 	$route["user/reset/password/new/(:any)"] = "user_management/create_new_password/$1";
-	if (!empty($_POST["username"])) {
+	if ( ! empty($_POST["username"]) ) {
 		$route["login/check"] = "login/enter";
 	} else {
 		$route["logout"] = "login/logout";
