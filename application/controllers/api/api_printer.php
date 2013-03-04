@@ -53,6 +53,18 @@ class API_Printer extends CI_API_Controller {
 	}
 
 	/**
+	 * Called on HEAD requests, outputs headers, used for testing access and existing of an object
+	 * 
+	 * @since 1.0
+	 * @param  integer $id The printer to check for
+	 * @return headers
+	 */
+	public function index_head ( $id = null ) {
+		$this->fields = array("id");
+		$this->index_head($id);
+	}
+
+	/**
 	 * Creates a printer with the posted data
 	 *
 	 * @since 1.0
@@ -69,7 +81,7 @@ class API_Printer extends CI_API_Controller {
 			self::error(400);
 		}
 
-		if ( is_null($Printer->organization) ) {
+		if ( ! isset($Printer->organization->id) ) {
 			self::error(400);
 		}
 

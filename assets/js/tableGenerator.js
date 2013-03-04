@@ -377,7 +377,7 @@ tableGenerator.prototype = {
 		if (typeof callback == "function") {
 			this.doneCallback = callback;
 		}
-		var requestUrl = this.root + "get/" + this.multipleRequestType + "/{id}";
+		var requestUrl = this.root + this.multipleRequestType + "/{id}";
 		requestUrl = requestUrl.replace("{id}",id);
 		requestUrl = this.createAutherizedUrl(requestUrl);
 		$.ajax({

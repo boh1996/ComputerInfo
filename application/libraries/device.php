@@ -98,8 +98,10 @@ class Device extends Std_Library{
 	 */
 	public function __construct(){
 		parent::__construct();
+		$this->_INTERNAL_OVERWRITE_ON_DUBLICATE = true;
+		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS_ABORT_ON_NULL = true;
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
-		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("identifier","organization","model");
+		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("identifier","organization");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
 		$this->_INTERNAL_SAVE_THESE_CHILDS_FIRST = array("location","organization","model");
 		$this->_INTERNAL_LAST_UPDATED_PROPERTY = array("last_updated");
@@ -113,6 +115,13 @@ class Device extends Std_Library{
 			"organization" => "Organization",
 			"model" => "Device_Model",
 			"location" => "Location"
+		);
+		$this->_INTERNAL_IMPORT_IGNORE = array(
+			"id",
+			"last_updated",
+			"created_time",
+			"last_updated_user",
+			"creator_user"
 		);
 		$this->_INTERNAL_IMPORT_OVERWRITE = array(
 			"identifier",

@@ -80,6 +80,7 @@ class API_Computer extends CI_API_Controller {
 	 * @param  integer $id The computer db id to load
 	 */
 	public function index_head ( $id = null ) {
+		$this->fields = array("id");
 		self::index_get($id);
 	}
 
@@ -140,7 +141,7 @@ class API_Computer extends CI_API_Controller {
 
 		if ( ! $Computer->Import($this->patch(),false,false, array(
 			"organization"
-		)) ) {
+		))) {
 			self::error(400);
 		}
 
@@ -152,7 +153,7 @@ class API_Computer extends CI_API_Controller {
 			self::error(409);
 		}
 
-		$this->response($Computer->Export($this->fields()),200);
+		$this->response($Computer->Export($this->fields()),202);
 	}
 
 	/**
@@ -172,11 +173,11 @@ class API_Computer extends CI_API_Controller {
 			self::error(400);
 		}
 
-		if ( is_null($Computer->organization) ) {
+		if ( ! isset($Computer->organization->id) ) {
 			self::error(400);
 		}
 
-		if ( ! is_null($Computer->organization) && ! $this->has_access("organizations",$this->user,$Computer->organization) ) {
+		if ( ! $this->has_access("organizations",$this->user,$Computer->organization) ) {
 			self::error(403);
 		}
 
