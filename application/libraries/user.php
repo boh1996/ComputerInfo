@@ -101,7 +101,7 @@ class User extends Std_Library{
 			"login_token",
 			"hashing_iterations"
 		);
-		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
+		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id","organizations");
 		$this->_INTERNAL_LOAD_FROM_CLASS = array(
 			"organizations" => "Organization"
 		);

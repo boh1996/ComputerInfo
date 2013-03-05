@@ -82,6 +82,12 @@ if ( is_ajax() || (isset($_GET["dev"]) && $_GET["dev"] == "true") || is_applicat
 	########## Location ##########
 		$route["location"] = "api/api_location/index";
 		$route["location/(:num)"] = "api/api_location/index/$1";
+	########## User     ##########
+		$route["user/me"] = "api/api_user/me";
+		$route["user"] = "api/api_user/index";
+		$route["user/(:num)"] = "api/api_user/index/$1";
+	########## Computers #########
+		$route["computers/(:num)"] = "api/api_organization/computers/$1";
 
 	### Old ###
   	$route["options/(:any)"] = "api_old/options/$1";
@@ -89,20 +95,16 @@ if ( is_ajax() || (isset($_GET["dev"]) && $_GET["dev"] == "true") || is_applicat
 	$route["printer/model/(:num)"] = "api_old/printer_model/$1";
 	$route["printer/model/search"] = "api_old/printer/model/search";
 	$route["printer/search"] = "api_old/printer/search";
-	$route["computers/timestamps/(:num)"] = "api_old/computers/timestamps/$1";
 	$route["screen/(:num)"] = "api_old/screen/$1";
 	$route["computer/model/(:num)"] = "api_old/computer/model/$1";
 	$route["computer/search"] = "api_old/computer/search";
-	$route["computers/select"] = "api_old/computers_select";
 	$route["computer/model"] = "api_old/computer_model";
 	$route["device/model"] = "api_old/device_model";
 	$route["device/model/search"] = "api_old/device/model/search";
 	$route["manufaturer/(:any)"] = "api_old/manufaturer/$1";
 	$route["manufaturer/search"] = "api_old/manufaturer/search";
 	$route["cpu/(:any)"] = "api_old/cpu/$1";
-	$route["user/settings"] = "api_old/user_settings";
-	$route["user/(:any)"] = "api_old/user/$1";
-	$route["computers/(:num)"] = "api_old/get/computers/$1";
+	
 	$route["devices/(:num)"] = "api_old/get/devices/$1";
 	$route["printers/(:num)"] = "api_old/get/printers/$1";
 	$route["screens/(:num)"] = "api_old/get/screens/$1";
@@ -123,6 +125,7 @@ else {
 	$route["user/activate/(:any)"] = "user_management/activate/$1";
 	$route["user/password/new/check"] = "user_management/reset_password_check";
 	$route["user/reset/password"] = "user_management/forgot_password";
+	$route["user/settings"] = "user_management/update_user_settings";
 	$route["user/remove/new/password/(:any)"] = "user_management/remove_new_password/$1";
 	$route["user/reset/password/resend/(:any)"] = "user_management/password_resend/$1";
 	$route["user/reset/password/check"] = "user_management/reset_password";

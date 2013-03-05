@@ -31,7 +31,7 @@ class API_Computer extends CI_API_Controller {
 
 		$Device = new Device();
 
-		$db_fields = $this->fields();
+		$db_fields = ( $this->fields() !== null ) ? $this->fields() : array();
 
 		if ( ! in_array("organization", $db_fields) ) {
 			$db_fields[] = "organization";

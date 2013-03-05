@@ -33,11 +33,83 @@ class CI_API_Controller extends API_Controller {
 	public $fields = null;
 
 	/**
+	 * The number of objects to return for mass data functions
+	 * @since 1.0
+	 * @var integer
+	 */
+	public $limit = null;
+
+	/**
+	 * The starting point offset when loading mass data
+	 * @since 1.0
+	 * @var integer
+	 */
+	public $offset = null;
+
+	/**
 	 * The constructor
 	 */
 	public function __construct () {
 		parent::__construct();
 		$this->load->library("user");
+	}
+
+	/**
+	 * This function creates a array containing all the users organizations
+	 * @since 1.0
+	 * @param object $user An optional user to get the organizations from
+	 * @access protected
+	 * @return array|boolean
+	 */
+	protected function get_user_organization ( $user = null){
+		$organizations = array();
+
+		if ( is_null($user) ) {
+			$user = $this->user;
+		}
+
+		if ( is_null($user->organizations) ) {
+			return false;
+		}
+
+		if ( is_array($user->organizations) ) {
+			foreach ( $user->organizations as $organization ) {
+				if ( is_object($organizations) ) {
+					if ( property_exists($organization, "id") ) {
+						$organizations[] = (int)$organization->id;
+					}
+				} else {
+					if ( is_object($organization)){
+						if ( property_exists($organization, "id") ) {
+							$organizations[] = (int)$organization->id;
+						}
+					} else {
+						$organizations[] = (int)$organization;
+					}
+				}
+			}
+		} else if ( is_integer($user->organizations) ) {
+			$organizations[] = (int)$user->organizations;
+		}
+
+		return $organizations;
+	}
+
+	/**
+	 * This function checks if two users share minimum one organization
+	 * @param object $user The user to check the current user agains
+	 * @since 1.0
+	 * @return boolean
+	 * @access protected
+	 */
+	protected function share_organization ( $user) {
+		$user_organizations = self::get_user_organization($user);
+
+		if ( self::get_user_organization() === false || $user_organizations === null || ! is_array($user_organizations) ) {
+			return false;
+		}
+
+		return ( count(array_intersect(self::get_user_organization(), $user_organizations)) > 0 );
 	}
 
 	/**
@@ -47,7 +119,15 @@ class CI_API_Controller extends API_Controller {
 	 * @access protected
 	 */
 	protected function before_method () {
-		$this->fields = ($this->get("fields") != false) ? explode(",", $this->get("fields")) : null;
+		if ( $this->get("fields") !== false ) {
+			$this->fields = explode(",", $this->get("fields"));
+		} else if ( $this->post("fields") !== false ) {
+			$this->fields = explode(",", $this->post("fields"));
+		}
+
+		$this->limit = ( $this->get("limit") !== false ) ? $this->get("limit") : null;
+
+		$this->offset = ( $this->get("offset") !== false ) ? $this->get("offset") : null;
 	}
 
 	/**
@@ -71,11 +151,13 @@ class CI_API_Controller extends API_Controller {
 		$this->user = new User();
 		$this->user->Load($row->user_id);
 		define("STD_LIBRARY_CURRENT_USER",$this->user->id);
+
 		if ( $row->offline == "1" ) {
 			return $this->user->_INTERNAL_LOADED === true;
 		} else {
 			$current_time = (int)time();
 			$valid = $row->created_time + $row->time_to_live > $current_time;
+
 			return $valid && $this->user->_INTERNAL_LOADED === true;
 		}
 	}
@@ -168,24 +250,24 @@ class CI_API_Controller extends API_Controller {
 	 * @return boolean
 	 */
 	protected function check_access ( $element = null, $id = null,$node = null ) {
-		if( ! is_null($node) && is_string($node) && ! is_null($element) && is_object($element) && ! is_null($id) && is_integer($id) && property_exists($element, $node) ){
-			if( is_array($element->{$node}) ){
+		if ( ! is_null($node) && is_string($node) && ! is_null($element) && is_object($element) && ! is_null($id) && is_integer($id) && property_exists($element, $node) ) {
+			if ( is_array($element->{$node}) ) {
 				$return = false;
 				foreach ( $element->{$node} as $object ) {
-					if( is_object($object) ){
-						if( property_exists($object, "id") && $object->id == $id ){
+					if ( is_object($object) ) {
+						if ( property_exists($object, "id") && $object->id == $id ) {
 							$return = true;
 						}
 					} else {
-						if( $object == $id ){
+						if ( $object == $id ) {
 							$return = true;
 						}
 					}
 				}
 				return $return;
 			} else {
-				if( is_object($element->{$node}) ){
-					if( property_exists($element->{$node}, "id") ){
+				if ( is_object($element->{$node}) ) {
+					if ( property_exists($element->{$node}, "id") ) {
 						return ( $element->{$node}->id == $id );
 					} else {
 						return false;

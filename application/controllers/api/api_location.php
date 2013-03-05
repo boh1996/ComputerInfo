@@ -28,7 +28,7 @@ class API_Location extends CI_API_Controller {
 
 		$Location = new Location();
 
-		$db_fields = $this->fields();
+		$db_fields = ( $this->fields() !== null ) ? $this->fields() : array();
 
 		if ( ! in_array("organization", $db_fields) ) {
 			$db_fields[] = "organization";

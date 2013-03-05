@@ -666,4 +666,48 @@ class User_Management extends CI_Controller {
 			)));
 		}
 	}
+
+	/**
+	 * This function saves the users settings
+	 * @since 1.0
+	 * @access public
+	 */
+	public function Update_User_Settings () {
+		$this->load->model("settings");
+		$this->load->library("auth/login_security");
+
+		$data = array();
+
+		if ( $this->input->post("save_selection") !== false && in_array($this->input->post("save_selection"), array("true","false")) ) {
+			$data["save_selection"] = $this->input->post("save_selection");
+		}
+
+		if ( $this->input->post("language") && array_search($this->input->post("language"), $this->config->item("languages")) !== false ) {
+			$data["language"] = array_search($this->input->post("language"), $this->config->item("languages"));
+		}
+
+		//Only promt for password if the user has a password
+		if ( $this->user_control->user->password != "" ) {
+			if ( $this->input->post("user_password") !== false && $this->login_security->check($this->input->post("user_password"), $this->user_control->user->password, $this->user_control->user->login_token,$this->user_control->user->hashing_iterations,$userHash) ) {
+				
+				if ($this->user_control->user->password != $userHash) {
+					$this->user_control->user->password = $userHash;
+					$this->user_control->user->hashing_iterations = $this->config->item("hashing_iterations");
+				}
+
+				if ($this->input->post("user_email") !== false && filter_var($this->input->post("user_email"), FILTER_VALIDATE_EMAIL)) {
+					$User->email = $this->input->post("user_email");
+				}
+				
+				$this->user_control->user->Save();
+			}
+		}
+
+		if ( count($data) > 0 ) {
+			$this->settings->set($this->user_control->user->id,$data);
+			die(json_encode(array("status" => "Success")));
+		} else {
+			header('HTTP/1.1:  400');
+		}
+	}
 }

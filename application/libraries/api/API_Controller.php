@@ -221,18 +221,13 @@ class API_Controller extends REST_Controller{
 	 * @access private
 	 */
 	protected function error ( $code ) {
-		if ( $code !== 404 ) {
-			$this->load->helper("http");
-			$this->response(array(
-				"error_code" => $code,
-				"error" => Status_Message($code),
-				"status" => false
-			), $code);
-			die();
-		} else {
-			$this->response(array());
-			die();
-		}
+		$this->load->helper("http");
+		$this->response(array(
+			"error_code" => $code,
+			"error" => Status_Message($code),
+			"status" => false
+		), $code);
+		die();
 	}
 
 	/**
