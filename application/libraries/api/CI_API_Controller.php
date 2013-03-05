@@ -141,6 +141,26 @@ class CI_API_Controller extends API_Controller {
 	}
 
 	/**
+	 * Getter for the selected limit of data
+	 *
+	 * @since 1.0
+	 * @return integer|null
+	 */
+	protected function limit () {
+		return ( ! is_null($this->limit) ) ? $this->limit : null;
+	}
+
+	/**
+	 * Getter for the selected offset
+	 *
+	 * @since 1.0
+	 * @return integer|null
+	 */
+	protected function offset () {
+		return ( ! is_null($this->offset) ) ? $this->offset : null;
+	}
+
+	/**
 	 * This function checks if the token is valid
 	 * 
 	 * @see REST_Controller->_is_key_valid
