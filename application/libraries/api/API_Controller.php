@@ -17,6 +17,14 @@ require(APPPATH.'libraries/REST_Controller.php');
 class API_Controller extends REST_Controller{
 
 	/**
+	 * Extra headers to send
+	 *
+	 * @since 1.0
+	 * @var array
+	 */
+	protected $headers = array();
+
+	/**
 	 * The constructor
 	 */
 	public function API_Controller () {
@@ -41,6 +49,24 @@ class API_Controller extends REST_Controller{
 		}
 
 		return false;
+	}
+
+	/**
+	 * Overrides the REST_Controller->before_output,
+	 * and use the output to send extra headers
+	 *
+	 * @since 1.0
+	 * @param  string $output The data that is being outputted
+	 */
+	protected function before_output ( &$output ) {
+		header("Content-MD5: ".base64_encode(md5($output)));
+		header("Access-Control-Allow-Origin: *");	
+
+		if ( count($this->headers) > 0 ) {
+			foreach ( $this->headers as $header => $value ) {
+				header($header.": ".$value);
+			}
+		}
 	}
 
 	/**

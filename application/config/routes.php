@@ -82,12 +82,17 @@ if ( is_ajax() || (isset($_GET["dev"]) && $_GET["dev"] == "true") || is_applicat
 	########## Location ##########
 		$route["location"] = "api/api_location/index";
 		$route["location/(:num)"] = "api/api_location/index/$1";
+
 	########## User     ##########
 		$route["user/me"] = "api/api_user/me";
 		$route["user"] = "api/api_user/index";
 		$route["user/(:num)"] = "api/api_user/index/$1";
+
 	########## Computers #########
 		$route["computers/(:num)"] = "api/api_organization/computers/$1";
+
+	########## Devices   #########
+		$route["devices/(:num)"] = "api/api_organization/devices/$1";
 
 	### Old ###
   	$route["options/(:any)"] = "api_old/options/$1";
@@ -105,7 +110,6 @@ if ( is_ajax() || (isset($_GET["dev"]) && $_GET["dev"] == "true") || is_applicat
 	$route["manufaturer/search"] = "api_old/manufaturer/search";
 	$route["cpu/(:any)"] = "api_old/cpu/$1";
 	
-	$route["devices/(:num)"] = "api_old/get/devices/$1";
 	$route["printers/(:num)"] = "api_old/get/printers/$1";
 	$route["screens/(:num)"] = "api_old/get/screens/$1";
 	$route["locations/(:num)"] = "api_old/get/locations/$1";

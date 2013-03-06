@@ -15,6 +15,8 @@ class API_Computer extends CI_API_Controller {
 	public function __construct () {
 		parent::__construct();
 		$this->load->library("Computer");
+		$this->headers["Allow"] = implode(",", array("GET","POST","PATCH","PUT","DELETE","HEAD"));
+		$this->headers["Expires"] = gmdate('D, d M Y H:i:s \G\M\T', time() + 86400);
 	}
 
 	/**
@@ -36,13 +38,19 @@ class API_Computer extends CI_API_Controller {
 			$db_fields[] = "organization";
 		}
 
+		$db_fields[] = "last_updated";
+
+		array_unique($db_fields);
+
 		if ( ! $Computer->Load($id, false, $db_fields) ) {
-			$this->response(array());
+			$this->response(array(),404);
 		}
 
 		if ( ! $this->has_access("organizations",$this->user,$Computer->organization) ) {
 			self::error(401);
 		}
+
+		$this->headers["Last-Modified"] = gmdate('D, d M Y H:i:s \G\M\T', $Computer->last_updated);
 
 		$this->response($Computer->Export($this->fields()));
 	}

@@ -448,6 +448,8 @@ abstract class REST_Controller extends CI_Controller
 		header('HTTP/1.1: ' . $http_code);
 		header('Status: ' . $http_code);
 
+		$this->before_output($output);
+
 		// If zlib.output_compression is enabled it will compress the output,
 		// but it will not modify the content-length header to compensate for
 		// the reduction, causing the browser to hang waiting for more data.
@@ -459,6 +461,12 @@ abstract class REST_Controller extends CI_Controller
 
 		exit($output);
 	}
+
+	/**
+	 * Override this with your own method to send headers etc
+	 * @param string &$output The output being sent
+	 */
+	protected function before_output ( &$output ) {}
 
 	/*
 	 * Detect SSL use

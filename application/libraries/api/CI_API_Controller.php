@@ -230,6 +230,10 @@ class CI_API_Controller extends API_Controller {
 	 * @param  null|integer $code Error code
 	 */
 	public function response ( $data = null, $code = 200) {
+		if ( is_array($data) && count($data) == 0 ) {
+			self::error(404);
+		}
+
 		if ( count($data) > 0 && ! isset($data["status"]) ) {
 			parent::response(array("result" => $data,"error_code" => null,"error" => null,"status" => true), $code);
 		} else if ( count($data) > 0 ) {
