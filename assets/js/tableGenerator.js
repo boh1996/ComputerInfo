@@ -385,7 +385,7 @@ tableGenerator.prototype = {
 			timeoutNumber : 2500,
 			success : $.proxy(function (data, code, XMLHttpRequest){
 				if (data != null) {
-					this.response = objx.get(data,this.multipleResponseNode); 
+					this.response = objx.get(data,"result"); 
 					data = this.response;
 					if (data != null && data != undefined) {
 						$.each(data, $.proxy(function (index,element){ 

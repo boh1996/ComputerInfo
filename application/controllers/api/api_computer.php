@@ -32,15 +32,18 @@ class API_Computer extends CI_API_Controller {
 
 		$Computer = new Computer();
 
-		$db_fields = ( $this->fields() !== null ) ? $this->fields() : array();
+		$db_fields = ( $this->fields() !== null ) ? $this->fields() : null;
 
-		if ( ! in_array("organization", $db_fields) ) {
-			$db_fields[] = "organization";
+		if ( ! is_null($db_fields) ) {
+
+			if ( ! in_array("organization", $db_fields) ) {
+				$db_fields[] = "organization";
+			}
+
+			$db_fields[] = "last_updated";
+
+			array_unique($db_fields);
 		}
-
-		$db_fields[] = "last_updated";
-
-		array_unique($db_fields);
 
 		if ( ! $Computer->Load($id, false, $db_fields) ) {
 			$this->response(array(),404);

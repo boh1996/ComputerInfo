@@ -267,7 +267,7 @@ class API_Controller extends REST_Controller{
 	public function args ( $key = null ) {
 		if ( is_null($key) ) return $this->_args;
 
-		return ( array_key_exists($key, $this->_args) ) ? $this->_args : false;
+		return ( array_key_exists($key, $this->_args) ) ? $this->_args[$key] : false;
 	}
 }
 ?>

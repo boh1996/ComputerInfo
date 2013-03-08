@@ -45,6 +45,9 @@ class Building extends Std_Library{
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("organization","name");
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS_ABORT_ON_NULL = true;
+		$this->_INTERNAL_SIMPLE_LOAD = array(
+			"organization" => true
+		);
 		$this->_INTERNAL_ROW_NAME_CONVERT = array(
 			"organization_id" => "organization"
 		);

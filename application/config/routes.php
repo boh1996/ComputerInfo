@@ -88,31 +88,49 @@ if ( is_ajax() || (isset($_GET["dev"]) && $_GET["dev"] == "true") || is_applicat
 		$route["user"] = "api/api_user/index";
 		$route["user/(:num)"] = "api/api_user/index/$1";
 
+	########## Screen   ##########
+		$route["screen"] = "api/api_screen/index";
+		$route["screen/(:num)"] = "api/api_screen/index/$1";
+
 	########## Computers #########
 		$route["computers/(:num)"] = "api/api_organization/computers/$1";
 
 	########## Devices   #########
 		$route["devices/(:num)"] = "api/api_organization/devices/$1";
 
+	########## Printers  #########
+		$route["printers/(:num)"] = "api//api_organization/printers/$1";
+
+	########## Screens   #########
+		$route["screens/(:num)"] = "api/api_organization/screens/$1";
+
+	########## Locations #########
+		$route["locations/(:num)"] = "api/api_organization/locations/$1";
+
+	########## Floors ############
+		$route["floors/(:num)"] = "api/api_organization/floors/$1";
+
+	########## Buildings #########
+		$route["buildings/(:num)"] = "api/api_organization/buildings/$1";
+
+	########## Manufacturers #####
+		$route["manufacturers"] = "api/api_lists/manufacturers";
+
+	########## Printer Models ####
+		$route["printer/models"] = "api/api_lists/printer_models";
+
+	########## Computer Models ###
+		$route["computer/models"] = "api/api_lists/computer_models";
+
+	########## Device Models #####
+		$route["device/models"] = "api/api_lists/device_models";
+	
+	########## Screen Models #####
+		$route["screen/models"] = "api/api_lists/screen_models";
+
 	### Old ###
   	$route["options/(:any)"] = "api_old/options/$1";
-	$route["printer/model"] = "api_old/printer_model";
-	$route["printer/model/(:num)"] = "api_old/printer_model/$1";
-	$route["printer/model/search"] = "api_old/printer/model/search";
-	$route["printer/search"] = "api_old/printer/search";
-	$route["screen/(:num)"] = "api_old/screen/$1";
-	$route["computer/model/(:num)"] = "api_old/computer/model/$1";
-	$route["computer/search"] = "api_old/computer/search";
-	$route["computer/model"] = "api_old/computer_model";
-	$route["device/model"] = "api_old/device_model";
-	$route["device/model/search"] = "api_old/device/model/search";
 	$route["manufaturer/(:any)"] = "api_old/manufaturer/$1";
-	$route["manufaturer/search"] = "api_old/manufaturer/search";
-	$route["cpu/(:any)"] = "api_old/cpu/$1";
-	
-	$route["printers/(:num)"] = "api_old/get/printers/$1";
-	$route["screens/(:num)"] = "api_old/get/screens/$1";
-	$route["locations/(:num)"] = "api_old/get/locations/$1";
 } 
 /**
  * User Routes

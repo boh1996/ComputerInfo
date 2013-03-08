@@ -96,6 +96,26 @@ class CI_API_Controller extends API_Controller {
 	}
 
 	/**
+	 * Used to check input arguments an assembly them in an array,
+	 * to use for database querying
+	 * 
+	 * @param  array  $parameters The input arguments to fetch, if set
+	 * @return array|null
+	 * @since 1.0
+	 */
+	protected function query ( array $parameters ) {
+		$query = array();
+
+		foreach ( $parameters as $parameter ) {
+			if ( $this->args($parameter) !== false ) {
+				$query[$parameter] = $this->args($parameter);
+			}
+		}
+
+		return ( count($query) > 0 ) ? $query : null;
+	}
+
+	/**
 	 * This function checks if two users share minimum one organization
 	 * @param object $user The user to check the current user agains
 	 * @since 1.0
@@ -119,6 +139,7 @@ class CI_API_Controller extends API_Controller {
 	 * @access protected
 	 */
 	protected function before_method () {
+
 		if ( $this->get("fields") !== false ) {
 			$this->fields = explode(",", $this->get("fields"));
 		} else if ( $this->post("fields") !== false ) {

@@ -31,9 +31,9 @@ class API_Printer extends CI_API_Controller {
 
 		$Printer = new Printer();
 
-		$db_fields = ( $this->fields() !== null ) ? $this->fields() : array();
+		$db_fields = ( $this->fields() !== null ) ? $this->fields() : null;
 
-		if ( ! in_array("organization", $db_fields) ) {
+		if ( ! is_null($db_fields) && ! in_array("organization", $db_fields) ) {
 			$db_fields[] = "organization";
 		}
 
