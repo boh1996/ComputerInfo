@@ -7,7 +7,7 @@ require(APPPATH.'libraries/api/CI_API_Controller.php');
  * 
  * @author Bo Thomsen <bo@illution.dk>
  */
-class API_Computer extends CI_API_Controller {
+class API_Device extends CI_API_Controller {
 
 	/**
 	 * Class Contructor

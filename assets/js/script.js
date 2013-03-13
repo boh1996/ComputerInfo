@@ -32,7 +32,7 @@ function template (string,data, propagate) {
 		if (variable.indexOf("{") !== -1 && variable.indexOf("}") !== -1 && propagate !== false) {
 			variable = template(variable,data,false);
 		}
-		if (replacement.indexOf("{") !== -1 && replacement.indexOf("}") !== -1 && propagate !== false) {
+		if (typeof replacement != "undefined" && replacement != null && replacement.indexOf("{") !== -1 && replacement.indexOf("}") !== -1 && propagate !== false) {
 			replacement = template(replacement,data,false);
 		}
 		
@@ -138,13 +138,25 @@ $(window).ready(function(){
 		$.ajax({
 			url : root+"computer/"+id+"?token="+userInfo.getCookie("token"),
 			success: function (data) {
-				$("#computer_id").html(Mustache.render($("#computerTemplate").html(), data.Computer));
+				data.result.calculate_progress = function () {
+					return {
+						"used" : parseInt(this.free_space) / parseInt(this.disk_size) * 100,
+						"left" : 100 - (parseInt(this.free_space) / parseInt(this.disk_size) * 100)
+					};
+				}
+				data.result.serial_is_set = function () {
+					return typeof this.serial != "undefined" && this.serial != null;
+				}
+				data.result.disk_space_available = function () {
+					return (typeof this.free_space != "undefined" && this.free_space != null && typeof this.disk_size != "undefined" && this.disk_size != null ) ? true : false;
+				}
+				$("#computer_id").html(Mustache.render($("#computerTemplate").html(), data.result));
 				$("div.accordion-body").each(function(index,element){
 					$(element).find("div.object:last").next("hr").remove();
 				});
 				setTitle({
 					"page" : front_translations.computer_page,
-					"identifier"   : data.Computer.identifier
+					"identifier"   : data.result.identifier
 				});
 				showPage("computer_id");
 			}, error : function () {
@@ -162,13 +174,13 @@ $(window).ready(function(){
 		$.ajax({
 			url : root+"location/"+id+"?token="+userInfo.getCookie("token"),
 			success: function (data) {
-				$("#location_id").html(Mustache.render($("#locationTemplate").html(), data.Location));
+				$("#location_id").html(Mustache.render($("#locationTemplate").html(),data.result));
 				$("div.accordion-body").each(function(index,element){
 					$(element).find("div.object:last").next("hr").remove();
 				});
 				setTitle({
 					"page" : front_translations.location_page,
-					"name" : data.Location.name
+					"name" :data.result.name
 				});
 				showPage("location_id");
 			}, error : function () {
@@ -186,13 +198,13 @@ $(window).ready(function(){
 		$.ajax({
 			url : root+"device/"+id+"?token="+userInfo.getCookie("token"),
 			success: function (data) {
-				$("#device_id").html(Mustache.render($("#deviceTemplate").html(), data.Device));
+				$("#device_id").html(Mustache.render($("#deviceTemplate").html(), data.result));
 				$("div.accordion-body").each(function(index,element){
 					$(element).find("div.object:last").next("hr").remove();
 				});
 				setTitle({
 					"page" : front_translations.device_page,
-					"identifier"   : data.Device.identifier
+					"identifier"   : data.result.identifier
 				});
 				showPage("device_id");
 			}, error : function () {
@@ -210,7 +222,7 @@ $(window).ready(function(){
 		$.ajax({
 			url : root+"printer/"+id+"?token="+userInfo.getCookie("token"),
 			success: function (data) {
-				var printer = data.Printer;
+				var printer = data.result;
 				printer.model.type = (printer.model.color == 1) ? front_translations.color_printer : front_translations.black_white_printer;
 				$("#printer_id").html(Mustache.render($("#printerTemplate").html(), printer));
 				$("div.accordion-body").each(function(index,element){
@@ -218,7 +230,7 @@ $(window).ready(function(){
 				});
 				setTitle({
 					"page" : front_translations.printer_page,
-					"name"   : data.Printer.name
+					"name"   : data.result.name || data.result.identifier
 				});
 				showPage("printer_id");
 			}, error : function () {

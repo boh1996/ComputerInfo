@@ -45,7 +45,7 @@ class API_Screen extends CI_API_Controller {
 		}
 
 		if ( ! $Screen->Load($id, false, $db_fields) ) {
-			$this->response(array((, 404);
+			$this->response(array(), 404);
 		}
 
 		if ( ! $this->has_access("organizations",$this->user,$Screen->organization) ) {
@@ -57,20 +57,133 @@ class API_Screen extends CI_API_Controller {
 		$this->response($Screen->Export($this->fields()));
 	}
 
+	/**
+	 * Creates a screen with the suplied data
+	 * 
+	 * @since 1.0
+	 * @return array
+	 */
 	public function index_post () {
+		if ( ! $this->post() ) {
+			self::error(400);
+		}
 
+		$Screen = new Screen();
+
+		if ( ! $Screen->Import($this->post()) ) {
+			self::error(400);
+		}
+
+		if ( ! isset($Screen->organization->id) ) {
+			self::error(400);
+		}
+
+		if ( ! $this->has_access("organizations", $this->user, $Screen->organization) ) {
+			self::error(403);
+		}
+
+		if ( ! $Screen->Save() ) {
+			self::error(409);
+		}
+
+		$this->response($Computer->Export($this->fields()),201);
 	}
 
+	/**
+	 * Removes a screen from the database
+	 *
+	 * @since 1.0
+	 * @param  integer $id The screen to remove
+	 * @return array
+	 */
+	public function index_delete ( $id = null ) {
+		if ( is_null($id) ) {
+			self::error(400);
+		}
+
+		$Screen = new Screen();
+
+		if ( ! $Screen->Load($id) ) {
+			$this->response(array(), 404);
+		}
+
+		if ( ! $this->has_access("organizations", $this->user, $Screen->organization) ) {
+			self::error(403);
+		}
+
+		$Computer->Delete(true);
+
+		$this->response(array(), 202);
+	}
+
+	/**
+	 * Used to perform overwrite update operations
+	 *
+	 * @since 1.0
+	 * @param  integer $id The screen to update
+	 * @return array
+	 */
 	public function index_put ( $id = null ) {
+		if ( ! $this->put() || is_null($id) ) {
+			self::error(400);
+		}
 
+		$Screen = new Screen();
+		
+		if ( ! $Screen->Load($id) ) {
+			$this->response(array(), 404);
+		}
+
+		if ( ! $Screen->Import($this->put(), true, false, array(
+			"organization"
+		)) ) {
+			self::error(400);
+		}
+
+		if ( ! $this->has_access("organizations", $this->user, $Screen->organization) ) {
+			self::error(401);
+		}
+
+		if ( ! $Screen->Save() ) {
+			self::error(409);
+		}
+
+		$this->response($Screen->Export($this->fields()),202);
 	}
 
-	public function index_put ( $id = null ) {
-
-	}
-
+	/**
+	 * Performs a merge update operation
+	 *
+	 * @since 1.0
+	 * @param  integer $id The screen to update
+	 * @return array
+	 */
 	public function index_patch ( $id = null ) {
+		if ( ! $this->patch() || is_null($id) ) {
+			self::error(400);
+		}
 
+		$Screen = new Screen();
+
+		if ( ! $Screen->Load($id) ) {
+			$this->response(array(), 404);
+		}
+
+		if ( ! $Screen->Import($this->patch(), false, false, array(
+			"organization"
+		)) ) {
+			self::error(400);
+		}
+
+		if ( ! $this->has_access("organizations", $this->user, $Screen->organization) ) {
+			self::error(401);
+		}
+
+		if ( ! $Screen->Save() ) {
+			self::error(409);
+		}
+
+		$this->response($Screen->Export($this->fields()), 202);
 	}
 
 	/**

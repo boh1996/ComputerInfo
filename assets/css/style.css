@@ -16,6 +16,10 @@
   overflow: hidden;
 }
 
+.disk-space-indicator {
+  width: 40%;
+}
+
 select:focus {
    outline-color: transparent !important;
 }

@@ -19,6 +19,7 @@
 		<script type="text/javascript">var method = "<?php echo $method; ?>";</script>
 		<script type="text/javascript">var language = "<?php echo $language; ?>";</script>
 		<script type="text/javascript">var front_translations = <?php echo $front_translations; ?>;</script>
+		<script>if (location.hostname == "127.0.0.1") { document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=2"></' + 'script>') }</script>
 	</head>
 	<body>
 

@@ -56,5 +56,4 @@ class API_Computer_Client extends CI_API_Controller {
 
 		$this->response($Computer->Export($this->fields()),201);
 	}
-
 }

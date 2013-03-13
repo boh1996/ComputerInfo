@@ -81,7 +81,7 @@ class API_Computer extends CI_API_Controller {
 
 		$Computer->Delete(true);		
 
-		$this->response(array(),200);
+		$this->response(array(),202);
 	}
 
 	/**
