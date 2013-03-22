@@ -1,24 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
 		<title><?php echo $this->lang->line('ui_title_brand'); ?> - <?php echo $this->lang->line('ui_home_page'); ?></title>
 
-		<!-- charset -->
 		<meta charset="utf-8">
-		<!-- viewport -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>bootstrap/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>bootstrap/css/bootstrap-responsive.min.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/dataTables.bootstrap.css">
-		<!--<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/jqtransform.css">-->
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/style.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/form.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/loading.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo $asset_url; ?>css/scrollbar.css">
+
 		<script type="text/javascript">var root = "<?php echo $base_url; ?>";</script>
 		<script type="text/javascript">var method = "<?php echo $method; ?>";</script>
 		<script type="text/javascript">var language = "<?php echo $language; ?>";</script>
 		<script type="text/javascript">var front_translations = <?php echo $front_translations; ?>;</script>
+
 		<script>if (location.hostname == "127.0.0.1") { document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=2"></' + 'script>') }</script>
 	</head>
 	<body>
@@ -311,7 +310,12 @@
 		<?php $this->load->view("printer_view"); ?>
 	</script>
 	<script type="mustache/template" id="locationTemplate">
-		<?php $this->load->view("location_view"); ?>
+		<?php /*$this->load->view("location_view");*/ ?>
+
+		<?= $this->load->template("location_view",true); ?>
+	</script>
+	<script type="mustache/template" id="editablePropertyTemplate">
+
 	</script>
 	<script type="text/javascript">
 		$('#save-selections').toggleButtons({

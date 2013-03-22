@@ -4,29 +4,33 @@
 
 			{{#model.image_url}} 		
 				<ul class="thumbnails">
-		            <li class="span12">
-		              <a href="{{model.url}}" class="thumbnail">
-		                <div class="img-outer"><img src="{{model.image_url}}" class="img-rounded model-image"></div>
-		              </a>
-		            </li>
-		        </ul>
-	        {{/model.image_url}}
+					<li class="span12">
+						<a href="{{model.url}}" class="thumbnail">
+							<div class="img-outer">
+								<img src="{{model.image_url}}" class="img-rounded model-image">
+							</div>
+						</a>
+					</li>
+				</ul>
+			{{/model.image_url}}
 
-	        {{^model.image_url}}
-	        	<ul class="thumbnails">
-		            <li class="span12">
-		              <a class="thumbnail">
-		                <div class="img-outer"><img src="<?php echo $base_url; ?>assets/images/computer_model_image.png" class="img-rounded model-image"></div>
-		              </a>
-		            </li>
-	        	</ul>
-	        {{/model.image_url}}
+			{{^model.image_url}}
+				<ul class="thumbnails">
+					<li class="span12">
+						<a class="thumbnail">
+							<div class="img-outer">
+								<img src="{{base_url}}assets/images/computer_model_image.png" class="img-rounded model-image">
+							</div>
+						</a>
+					</li>
+				</ul>
+			{{/model.image_url}}
 
-	        {{#model}}
+			{{#model}}
 				<div class="well well-large description">
 
 					{{#identifier}}
-						<strong class="center title"><h3>{{identifier}}</h3></strong>
+						<strong class="center title"><h3 class="editable" data-index="{{computer_id}}" data-endpoint="computer/{id}" data-property-name="identifier" data-method="PUT" data-editable-type="text">{{identifier}}</h3></strong>
 					{{/identifier}}
 
 					{{#serial_is_set}}
@@ -42,7 +46,7 @@
 					{{/screen_size.detection_string}}
 
 					{{#location.name.length}}
-						<strong class="space-right"><?php echo $this->lang->line('computer_location'); ?>:</strong><a href="<?php echo $base_url; ?>location/{{location.id}}">{{location.name}}</a><br>
+						<strong class="space-right"><?php echo $this->lang->line('computer_location'); ?>:</strong><a href="{{base_url}}location/{{location.id}}">{{location.name}}</a><br>
 					{{/location.name.length}}
 
 					{{#operating_system.core.name.length}}
@@ -83,324 +87,335 @@
 			</div>
 			{{/model.name.length}}
 
-    	</div>
+		</div>
 
-    	<div class="span9">
-    		<div class="accordion">
+		<div class="span9">
+			<div class="accordion">
 
-    			<!-- Processors -->
-    			{{#processors.length}}
-				  	<div class="accordion-group">
-					    <div class="accordion-heading">
-					      	<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#processors">
-					        	<?php echo $this->lang->line('computer_processors'); ?>
-					      	</a>
-					    </div>
-					    <div id="processors" class="accordion-body collapse">
-					      	<div class="accordion-inner">
+				<!-- Processors -->
+				{{#processors.length}}
+					<div class="accordion-group">
 
-					      		{{#processors}}
-						      		<div class="object" href="processor/{{id}}">
+						<div class="accordion-heading">
+							<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#processors">
+								<?php echo $this->lang->line('computer_processors'); ?>
+							</a>
+						</div>
 
-						      			{{#model.name.length}}
+						<div id="processors" class="accordion-body collapse">
+							<div class="accordion-inner">
 
-						      				{{#model.name}}
-								        		<strong class="space-right"><?php echo $this->lang->line('computer_model'); ?>:</strong><a href="{{model.url}}">{{model.name}}</a><br>
-								        	{{/model.name}}
-								        	
-								        	{{#model.manufacturer.name.length}}
-								        		<strong class="space-right"><?php echo $this->lang->line('computer_manufacturer'); ?>:</strong><a href="{{model.manufacturer.website}}">{{model.manufacturer.name}}</a><br>
-								      		{{/model.manufacturer.name.length}}
+								{{#processors}}
+									<div class="object">
 
-								        {{/model.name.length}}
+										{{#model.name.length}}
 
-								        {{#architecture.length}}
-								        	<strong class="space-right"><?php echo $this->lang->line('computer_architecture'); ?>:</strong>{{architecture}}<br>
-								        {{/architecture.length}}
+											{{#model.name}}
+												<strong class="space-right"><?php echo $this->lang->line('computer_model'); ?>:</strong><a href="{{model.url}}">{{model.name}}</a><br>
+											{{/model.name}}
+											
+											{{#model.manufacturer.name.length}}
+												<strong class="space-right"><?php echo $this->lang->line('computer_manufacturer'); ?>:</strong><a href="{{model.manufacturer.website}}">{{model.manufacturer.name}}</a><br>
+											{{/model.manufacturer.name.length}}
 
-								        {{#data_width.length}}
-								        	<strong class="space-right"><?php echo $this->lang->line('computer_instruction_set'); ?>:</strong>{{data_width}}<br>
-								        {{/data_width.length}}
+										{{/model.name.length}}
 
-								        {{#model.cores.length}}
-								        	<strong class="space-right"><?php echo $this->lang->line('computer_cores'); ?>:</strong>{{model.cores}}<br>
-								        {{/model.cores.length}}
+										{{#architecture.length}}
+											<strong class="space-right"><?php echo $this->lang->line('computer_architecture'); ?>:</strong>{{architecture}}<br>
+										{{/architecture.length}}
 
-								        {{#model.threads.length}}
-								        	<strong class="space-right"><?php echo $this->lang->line('computer_threads'); ?>:</strong>{{model.threads}}<br>
-								        {{/model.threads.length}}
-						   			</div>
+										{{#data_width.length}}
+											<strong class="space-right"><?php echo $this->lang->line('computer_instruction_set'); ?>:</strong>{{data_width}}<br>
+										{{/data_width.length}}
 
-							   		<hr>
-						   		{{/processors}}
+										{{#model.cores.length}}
+											<strong class="space-right"><?php echo $this->lang->line('computer_cores'); ?>:</strong>{{model.cores}}<br>
+										{{/model.cores.length}}
 
-					      	</div>
-					    </div>
+										{{#model.threads.length}}
+											<strong class="space-right"><?php echo $this->lang->line('computer_threads'); ?>:</strong>{{model.threads}}<br>
+										{{/model.threads.length}}
+									</div>
+
+									<hr>
+								{{/processors}}
+
+							</div>
+						</div>
 					</div>
 				{{/processors.length}}
 
 				<!-- Graphics Cards -->
 				{{#graphics_cards.length}}
 					<div class="accordion-group">
-					    <div class="accordion-heading">
-						    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#graphics-cards">
-						    	<?php echo $this->lang->line('computer_graphics_cards'); ?>
-						    </a>
-					    </div>
-					    <div id="graphics-cards" class="accordion-body collapse">
-					      	<div class="accordion-inner">
 
-					      		{{#graphics_cards}}
-						        <div class="object" href="graphics_card/{{id}}">
+						<div class="accordion-heading">
+							<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#graphics-cards">
+								<?php echo $this->lang->line('computer_graphics_cards'); ?>
+							</a>
+						</div>
 
-						        	{{#model.name.length}}
+						<div id="graphics-cards" class="accordion-body collapse">
+							<div class="accordion-inner">
 
-						        		{{#model.name}}
-							       			<strong class="space-right"><?php echo $this->lang->line('computer_model'); ?>:</strong><a href="{{model.url}}">{{model.name}}</a><br>
-							       		{{/model.name}}
+								{{#graphics_cards}}
+								<div class="object">
 
-							        	{{#model.manufacturer.name.length}}
-							        		<strong class="space-right"><?php echo $this->lang->line('computer_manufacturer'); ?>:</strong><a href="{{model.manufacturer.webiste}}">{{model.manufacturer.name}}</a><br>
-							       		{{/model.manufacturer.name.length}}
+									{{#model.name.length}}
 
-							        {{/model.name.length}}
+										{{#model.name}}
+											<strong class="space-right"><?php echo $this->lang->line('computer_model'); ?>:</strong><a href="{{model.url}}">{{model.name}}</a><br>
+										{{/model.name}}
 
-							        {{#ram_size.length}}
-							        	<strong class="space-right"><?php echo $this->lang->line('computer_memory_size'); ?>:</strong>{{ram_size}}<br>
-							        {{/ram_size.length}}
+										{{#model.manufacturer.name.length}}
+											<strong class="space-right"><?php echo $this->lang->line('computer_manufacturer'); ?>:</strong><a href="{{model.manufacturer.webiste}}">{{model.manufacturer.name}}</a><br>
+										{{/model.manufacturer.name.length}}
 
-							        {{#driver_version}}
-							        	<strong class="space-right"><?php echo $this->lang->line('computer_driver_version'); ?>:</strong>{{driver_version}}<br>
-							        {{/driver_version}}
+									{{/model.name.length}}
 
-						   		</div>
-						   		<hr>
-						   		{{/graphics_cards}}
+									{{#ram_size.length}}
+										<strong class="space-right"><?php echo $this->lang->line('computer_memory_size'); ?>:</strong>{{ram_size}}<br>
+									{{/ram_size.length}}
 
-					    	</div>
-					    </div>
+									{{#driver_version}}
+										<strong class="space-right"><?php echo $this->lang->line('computer_driver_version'); ?>:</strong>{{driver_version}}<br>
+									{{/driver_version}}
+
+								</div>
+								<hr>
+								{{/graphics_cards}}
+
+							</div>
+						</div>
 					</div>
 				{{/graphics_cards.length}}
 
 				<!-- Network Cards -->
 				{{#network_cards.length}}
 					<div class="accordion-group">
-					    <div class="accordion-heading">
-						    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#network-cards">
-						    	<?php echo $this->lang->line('computer_network_cards'); ?>
-						    </a>
-					    </div>
-					    <div id="network-cards" class="accordion-body collapse">
-					      	<div class="accordion-inner">
 
-					      		{{#network_cards}}
-							        <div class="object" href="network_card/{{id}}">
+						<div class="accordion-heading">
+							<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#network-cards">
+								<?php echo $this->lang->line('computer_network_cards'); ?>
+							</a>
+						</div>
 
-							        	{{#model}}
-								        	<strong class="space-right"><?php echo $this->lang->line('computer_model'); ?>:</strong><a href="{{url}}">{{model.name}}</a><br>
-								        	<strong class="space-right"><?php echo $this->lang->line('computer_manufacturer'); ?>:</strong><a href="{{manufacturer.website}}">{{model.manufacturer.name}}</a><br>
-								        {{/model}}
+						<div id="network-cards" class="accordion-body collapse">
+							<div class="accordion-inner">
 
-								        {{#mac_address}}
-								       		<strong class="space-right"><?php echo $this->lang->line('computer_mac_address'); ?>:</strong>{{mac_address}}<br>
-								        {{/mac_address}}
+								{{#network_cards}}
+									<div class="object">
 
-								        {{#ip_addresses.length}}
-									        <strong class="space-right"><?php echo $this->lang->line('computer_ip_addresses'); ?></strong><br>
+										{{#model}}
+											<strong class="space-right"><?php echo $this->lang->line('computer_model'); ?>:</strong><a href="{{url}}">{{model.name}}</a><br>
+											<strong class="space-right"><?php echo $this->lang->line('computer_manufacturer'); ?>:</strong><a href="{{manufacturer.website}}">{{model.manufacturer.name}}</a><br>
+										{{/model}}
 
-									        <div class="pull-in-left well well-small">
-									       		{{#ip_addresses}}
-									       			{{.}}<br>
-									       		{{/ip_addresses}}
-									       </div>
-								        {{/ip_addresses.length}}
-							   		</div>
-							   		<hr>
-						   		{{/network_cards}}
+										{{#mac_address}}
+											<strong class="space-right"><?php echo $this->lang->line('computer_mac_address'); ?>:</strong>{{mac_address}}<br>
+										{{/mac_address}}
 
-					      	</div>
-					    </div>
+										{{#ip_addresses.length}}
+											<strong class="space-right"><?php echo $this->lang->line('computer_ip_addresses'); ?></strong><br>
+
+											<div class="pull-in-left well well-small">
+												{{#ip_addresses}}
+													{{.}}<br>
+												{{/ip_addresses}}
+										   </div>
+										{{/ip_addresses.length}}
+									</div>
+
+									<hr>
+								{{/network_cards}}
+
+							</div>
+						</div>
 					</div>
 				{{/network_cards.length}}
 
 				<!-- Logical Drives -->
 				{{#logical_drives.length}}
 				<div class="accordion-group">
-				    <div class="accordion-heading">
-					     <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion4" href="#logical-drives">
-					        <?php echo $this->lang->line('computer_logical_drives'); ?>
-					     </a>
-				    </div>
-				    <div id="logical-drives" class="accordion-body collapse">
-				      	<div class="accordion-inner">
+					<div class="accordion-heading">
+						 <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion4" href="#logical-drives">
+							<?php echo $this->lang->line('computer_logical_drives'); ?>
+						 </a>
+					</div>
+					<div id="logical-drives" class="accordion-body collapse">
+						<div class="accordion-inner">
 
-				      		{{#logical_drives}}
-					        <div class="object">
+							{{#logical_drives}}
+								<div class="object">
 
-					        	{{#free_space}}
-						        	<strong class="space-right"><?php echo $this->lang->line('computer_disk_space'); ?>:</strong>{{free_space}}/{{disk_size}} <abbr title="<?php echo $this->lang->line('gigabytes'); ?>"><?php echo $this->lang->line('gigabytes_abbrevation'); ?></abbr><br>
-						        {{/free_space}}
+									{{#free_space}}
+										<strong class="space-right"><?php echo $this->lang->line('computer_disk_space'); ?>:</strong>{{free_space}}/{{disk_size}} <abbr title="<?php echo $this->lang->line('gigabytes'); ?>"><?php echo $this->lang->line('gigabytes_abbrevation'); ?></abbr><br>
+									{{/free_space}}
 
-						        {{#disk_space_available}}
-						        	{{#calculate_progress}}
-								        <div class="progress disk-space-indicator">
-										  	<div class="bar bar-danger" style="width: {{used}}%;"></div>
-										  	<div class="bar bar-success" style="width: {{left}}%;"></div>
-										</div>
+									{{#disk_space_available}}
+										{{#calculate_progress}}
+											<div class="progress disk-space-indicator">
+												<div class="bar bar-danger" style="width: {{used}}%;"></div>
+												<div class="bar bar-success" style="width: {{left}}%;"></div>
+											</div>
 										{{/calculate_progress}}
-								{{/disk_space_available}}
+									{{/disk_space_available}}
 
-						        {{#volume_name}}
-						        	<strong class="space-right"><?php echo $this->lang->line('computer_drive_name'); ?>:</strong>{{volume_name}}<br>
-						        {{/volume_name}}
+									{{#volume_name}}
+										<strong class="space-right"><?php echo $this->lang->line('computer_drive_name'); ?>:</strong>{{volume_name}}<br>
+									{{/volume_name}}
 
-						        {{#name}}
-						        	<strong class="space-right"><?php echo $this->lang->line('computer_drive_letter'); ?>:</strong>{{name}}<br>
-						        {{/name}}
+									{{#name}}
+										<strong class="space-right"><?php echo $this->lang->line('computer_drive_letter'); ?>:</strong>{{name}}<br>
+									{{/name}}
 
-						        {{#file_system}}
-						      		<strong class="space-right"><?php echo $this->lang->line('computer_file_system'); ?>:</strong>{{file_system}}<br>
-						        {{/file_system}}
+									{{#file_system}}
+										<strong class="space-right"><?php echo $this->lang->line('computer_file_system'); ?>:</strong>{{file_system}}<br>
+									{{/file_system}}
 
-						        {{#drive_type.name.length}}
-						        	<strong class="space-right"><?php echo $this->lang->line('computer_drive_type'); ?>:</strong>{{drive_type.name}}<br>
-						        {{/drive_type.name.length}}
-					   		</div>
-					   		<hr>
-					   		{{/logical_drives}}
+									{{#drive_type.name.length}}
+										<strong class="space-right"><?php echo $this->lang->line('computer_drive_type'); ?>:</strong>{{drive_type.name}}<br>
+									{{/drive_type.name.length}}
+								</div>
 
-				      	</div>
-				    </div>
+								<hr>
+							{{/logical_drives}}
+
+						</div>
+					</div>
 				</div>
 				{{/logical_drives.length}}
 
 				<!-- Physical Drives -->
 				{{#physical_drives.length}}
-				<div class="accordion-group">
-				    <div class="accordion-heading">
-					    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion5" href="#physical-drives">
-					        <?php echo $this->lang->line('computer_physical_drives'); ?>
-					    </a>
-				    </div>
-				    <div id="physical-drives" class="accordion-body collapse">
-				      	<div class="accordion-inner">
+					<div class="accordion-group">
+						<div class="accordion-heading">
+							<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion5" href="#physical-drives">
+								<?php echo $this->lang->line('computer_physical_drives'); ?>
+							</a>
+						</div>
+						<div id="physical-drives" class="accordion-body collapse">
+							<div class="accordion-inner">
 
-				      		{{#physical_drives}}
-					        <div class="object" href="physical_drive/{{id}}">
-					        	{{#model.name.length}}
-					        		<strong class="space-right"><?php echo $this->lang->line('computer_model'); ?>:</strong><a href="{{model.url}}">{{model.name}}</a><br>
-					        		<strong class="space-right"><?php echo $this->lang->line('computer_manufacturer'); ?>:</strong><a href="{{model.manufacturer.website}}">{{manufacturer.name}}</a><br>
-					        	{{/model.name.length}}
+								{{#physical_drives}}
+									<div class="object">
+										{{#model.name.length}}
+											<strong class="space-right"><?php echo $this->lang->line('computer_model'); ?>:</strong><a href="{{model.url}}">{{model.name}}</a><br>
+											<strong class="space-right"><?php echo $this->lang->line('computer_manufacturer'); ?>:</strong><a href="{{model.manufacturer.website}}">{{manufacturer.name}}</a><br>
+										{{/model.name.length}}
 
-						        <strong class="space-right"><?php echo $this->lang->line('computer_disk_size'); ?>:</strong>{{disk_size}}<br>
-					   		</div>
-					   		<hr>
-					   		{{/physical_drives}}
+										<strong class="space-right"><?php echo $this->lang->line('computer_disk_size'); ?>:</strong>{{disk_size}}<br>
+									</div>
 
-				      	</div>
-				    </div>
-			 	</div>
-			 	{{/physical_drives.length}}
+									<hr>
+								{{/physical_drives}}
 
-			 	<!-- Printers -->
-			 	{{#printers.length}}
-				 	<div class="accordion-group">
-					    <div class="accordion-heading">
-						    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion6" href="#printers">
-						        <?php echo $this->lang->line('computer_printers'); ?>
-						    </a>
-					    </div>
-					    <div id="printers" class="accordion-body collapse">
-					      	<div class="accordion-inner">
+							</div>
+						</div>
+					</div>
+				{{/physical_drives.length}}
 
-					      		{{#printers}}
-						        <div class="object" href="printer/{{id}}">
+				<!-- Printers -->
+				{{#printers.length}}
+					<div class="accordion-group">
+						<div class="accordion-heading">
+							<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion6" href="#printers">
+								<?php echo $this->lang->line('computer_printers'); ?>
+							</a>
+						</div>
+						<div id="printers" class="accordion-body collapse">
+							<div class="accordion-inner">
 
-						        	{{#model.length}}
-							    		<strong class="space-right"><?php echo $this->lang->line('computer_model'); ?>:</strong><a href="{{model.url}}">{{model.name}}</a><br>
+								{{#printers}}
+									<div class="object" href="printer/{{id}}">
 
-							    		{{#model.manufacturer.name}}
-							        		<strong class="space-right"><?php echo $this->lang->line('computer_manufacturer'); ?>:</strong><a href="{{model.manufacturer.website}}">{{model.manufacturer.name}}</a><br>
-							        	{{/model.manufacturer.name}}
+										{{#model.length}}
+											<strong class="space-right"><?php echo $this->lang->line('computer_model'); ?>:</strong><a href="{{model.url}}">{{model.name}}</a><br>
 
-							        {{/model.length}}
+											{{#model.manufacturer.name}}
+												<strong class="space-right"><?php echo $this->lang->line('computer_manufacturer'); ?>:</strong><a href="{{model.manufacturer.website}}">{{model.manufacturer.name}}</a><br>
+											{{/model.manufacturer.name}}
 
-							        {{#name.length}}
-							        	<strong class="space-right"><?php echo $this->lang->line('computer_printer_name'); ?>:</strong>{{name}}<br>
-							        {{/name.length}}
+										{{/model.length}}
 
-							        {{#identifier.length}}
-							       		<strong class="space-right"><?php echo $this->lang->line('computer_identifier'); ?>:</strong>{{identifier}}<br>
-							        {{/identifier.length}}
+										{{#name.length}}
+											<strong class="space-right"><?php echo $this->lang->line('computer_printer_name'); ?>:</strong>{{name}}<br>
+										{{/name.length}}
 
-							        {{#color.length}}
-							        	<strong class="space-right"><?php echo $this->lang->line('computer_color_printer'); ?>:</strong>{{color}}<br>
-							        {{/color.length}}
-							        
-							        {{#ip.length}}
-							        	<strong class="space-right"><?php echo $this->lang->line('computer_ip'); ?>:</strong>{{ip}}<br>
-							        {{/ip.length}}
+										{{#identifier.length}}
+											<strong class="space-right"><?php echo $this->lang->line('computer_identifier'); ?>:</strong>{{identifier}}<br>
+										{{/identifier.length}}
 
-							        {{#location.name.length}}
-							        	<strong class="space-right"><?php echo $this->lang->line('computer_location'); ?>:</strong>{{location.name}}<br>
-							        {{/location.name.length}}
+										{{#color.length}}
+											<strong class="space-right"><?php echo $this->lang->line('computer_color_printer'); ?>:</strong>{{color}}<br>
+										{{/color.length}}
+										
+										{{#ip.length}}
+											<strong class="space-right"><?php echo $this->lang->line('computer_ip'); ?>:</strong>{{ip}}<br>
+										{{/ip.length}}
 
-						   		</div>
-						   		<hr>
-						   		{{/printers}}
+										{{#location.name.length}}
+											<strong class="space-right"><?php echo $this->lang->line('computer_location'); ?>:</strong>{{location.name}}<br>
+										{{/location.name.length}}
 
-					      	</div>
-				    	</div>
+									</div>
+
+									<hr>
+								{{/printers}}
+
+							</div>
+						</div>
 					</div>
 				{{/printers.length}}
 
 				<!-- Memory -->
 				{{#memory.length}}
 					<div class="accordion-group">
-					    <div class="accordion-heading">
-						    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion7" href="#memory">
-						        <?php echo $this->lang->line('computer_memory'); ?>
-						    </a>
-					    </div>
 
-					    {{#memory}}
-						    <div id="memory" class="accordion-body collapse">
-						      	<div class="accordion-inner">
-							        {{#total_physical_memory}}
-							        	<strong class="space-right"><?php echo $this->lang->line('computer_total_memory'); ?>:</strong>{{total_physical_memory}} <abbr title="<?php echo $this->lang->line('megabytes'); ?>"><?php echo $this->lang->line('megabytes_abbrevation'); ?></abbr><br>
-							        {{/total_physical_memory}}
+						<div class="accordion-heading">
+							<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion7" href="#memory">
+								<?php echo $this->lang->line('computer_memory'); ?>
+							</a>
+						</div>
 
-							        {{#slots.length}}
-							        	<h4>
-							        		<?php echo $this->lang->line('computer_memory_slots'); ?>
-							        	</h4>
-							        {{/slots.length}}
+						{{#memory}}
+							<div id="memory" class="accordion-body collapse">
+								<div class="accordion-inner">
+									{{#total_physical_memory}}
+										<strong class="space-right"><?php echo $this->lang->line('computer_total_memory'); ?>:</strong>{{total_physical_memory}} <abbr title="<?php echo $this->lang->line('megabytes'); ?>"><?php echo $this->lang->line('megabytes_abbrevation'); ?></abbr><br>
+									{{/total_physical_memory}}
 
-							        {{#slots}}
-							        	<div class="object">					        
-							   				<strong class="space-right"><?php echo $this->lang->line('computer_is_empty'); ?>:</strong>{{empty}}<br>
+									{{#slots.length}}
+										<h4>
+											<?php echo $this->lang->line('computer_memory_slots'); ?>
+										</h4>
+									{{/slots.length}}
 
-							   				{{#serial_is_set}}
-							   					<strong class="space-right"><?php echo $this->lang->line('computer_serial'); ?>:</strong>{{serial}}<br>
-							   				{{/serial_is_set}}
+									{{#slots}}
+										<div class="object">					        
+											<strong class="space-right"><?php echo $this->lang->line('computer_is_empty'); ?>:</strong>{{empty}}<br>
 
-							   				{{#manufacturer.name.length}}
-							   					<strong class="space-right"><?php echo $this->lang->line('computer_manufacturer'); ?>:</strong><a href="{{manufacturer.website}}">{{manufacturer.name}}</a><br>
-							   				{{/manufacturer.name.length}}
+											{{#serial_is_set}}
+												<strong class="space-right"><?php echo $this->lang->line('computer_serial'); ?>:</strong>{{serial}}<br>
+											{{/serial_is_set}}
 
-							   				<strong class="space-right"><?php echo $this->lang->line('computer_capacity'); ?>:</strong>{{capacity}} <abbr title="<?php echo $this->lang->line('megabytes'); ?>"><?php echo $this->lang->line('megabytes_abbrevation'); ?></abbr><br>
-							   			</div>
-							   			<hr>
-							   		{{/slots}}
+											{{#manufacturer.name.length}}
+												<strong class="space-right"><?php echo $this->lang->line('computer_manufacturer'); ?>:</strong><a href="{{manufacturer.website}}">{{manufacturer.name}}</a><br>
+											{{/manufacturer.name.length}}
 
-						      	</div>
-					    	</div>
-				    	{{/memory}}
+											<strong class="space-right"><?php echo $this->lang->line('computer_capacity'); ?>:</strong>{{capacity}} <abbr title="<?php echo $this->lang->line('megabytes'); ?>"><?php echo $this->lang->line('megabytes_abbrevation'); ?></abbr><br>
+										</div>
+										<hr>
+									{{/slots}}
+
+								</div>
+							</div>
+						{{/memory}}
 
 					</div>
 				{{/memory.length}}
 
 			</div>
-    	</div>
+		</div>
 	</div>
 </div>

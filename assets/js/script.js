@@ -138,6 +138,8 @@ $(window).ready(function(){
 		$.ajax({
 			url : root+"computer/"+id+"?token="+userInfo.getCookie("token"),
 			success: function (data) {
+				data.result.base_url = root;
+				data.result.computer_id = data.result.id;
 				data.result.calculate_progress = function () {
 					return {
 						"used" : parseInt(this.free_space) / parseInt(this.disk_size) * 100,
@@ -303,4 +305,56 @@ function showPage (newPage) {
  */
 function getPage () {
 	return History.getState().url.replace(root,"");
+}
+
+
+
+$(document).on("click",'.editable[data-editable-type="text"]', function (event) {
+	var that = this;
+	event.stopPropagation();
+	if ( $(this).find('[data-editable]') .length == 0) {
+		var value = $(this).html();
+		var input = $(
+			'<div class="input-append">'+
+				'<input data-editable="true" data-original="'+value+'" type="text" value="'+value+'" />'+
+				'<i class="btn add-on icon-ok"></i>'+
+				'<i class="btn add-on icon-remove"></i>'+
+			'</div>'
+		);
+		$(this).html(input);
+		$(input).find(".icon-ok").click(function () {
+			var value = $(this).prev("input").val();
+			var object = $(that);
+			var data = {};
+			objx.set(data, $(object).attr("data-property-name"), value);
+			saveObject(object, data, function () {
+				crossroads.parse(getPage());
+				crossroads.resetState();
+			}, function () {
+				setTitle({
+					"page" : front_translations.error_an_error_occured,
+				});
+				showPage("error");
+			});
+		});
+	}
+});
+
+$(document).on("click", 'body', function () {
+	$('input[data-editable="true"]').each(function (index, element) {
+		$(element).parent("div").replaceWith($(element).attr("data-original"));
+	});
+});
+
+function saveObject ( settingsObject, object, success, error ) {
+	var endpoint = root + $(settingsObject).attr("data-endpoint") + "?token=" + userInfo.getCookie("token");
+	var settings = {
+		"type" : ( $(settingsObject).attr("data-method") != undefined ) ? $(settingsObject).attr("data-method") : "POST",
+		"url" : endpoint.replace("{id}", $(settingsObject).attr("data-index")),
+		"success" : success,
+		"error" : error,
+		"data" : JSON.stringify(object),
+		"contentType" : "application/json" 
+	}
+	$.ajax(settings);
 }

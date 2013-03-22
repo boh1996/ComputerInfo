@@ -22,6 +22,17 @@ $config['base_url']	= 'http://127.0.0.1/ci/';
  */
 $config["https"] = false;
 
+/**
+* The directory where to look for templates,
+* set to "{{APPPATH}}/templates" as default
+ */
+$config["template_dir"] = "{{APPPATH}}templates";
+	
+/**
+ * The file extension for the template files
+ */
+$config["template_ext"] = ".php";
+
 /*
 |--------------------------------------------------------------------------
 | Index File

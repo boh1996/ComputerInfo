@@ -27,6 +27,7 @@ class UI extends CI_Controller {
 			"language" => $language,
 			"save_selections" => $this->user_control->GetSetting("save_selection","true"),
 			"front_translations" => json_encode(array(
+				"error_an_error_occured" => $this->lang->line('error_an_error_occured'),
 				"computer_page" 	=> $this->lang->line('ui_computer_page'),
 				"location_page"		=> $this->lang->line('ui_location_page'),
 				"device_page"		=> $this->lang->line('ui_device_page'),
