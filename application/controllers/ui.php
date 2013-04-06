@@ -20,7 +20,40 @@ class UI extends CI_Controller {
 			"ui_table",
 			"datatables"
 		));
-		$data = array(
+
+		$header_data = array(
+			"page" => $this->lang->line("ui_home_page"),
+			"style_includes" => array(
+				"bootstrap/css/bootstrap.min.css",
+				"bootstrap/css/bootstrap-responsive.min.css",
+				"css/dataTables.bootstrap.css",
+				"css/style.css",
+				"css/form.css",
+				"css/scrollbar.css",
+			)
+		);
+
+		$footer_data = array(
+			"script_includes" => array(
+				"js/jquery.min.js",
+				"js/mustache.js",
+				"bootstrap/js/bootstrap.js",
+				"js/jquery.history.js",
+				"js/signals.min.js",
+				"js/crossroads.min.js",
+				"js/jquery.dataTables.js",
+				"js/custom-form-elements.js",
+				"js/dataTables.bootstrap.js",
+				"js/FixedHeader.js",
+				"js/objx.js",
+				"js/userInfo.js",
+				"js/tableGenerator.js",
+				"js/application.js",
+				"js/script.js",
+			)
+		);
+
+		$front_data = array(
 			"method" => $method,
 			"params" => json_encode($params),
 			"languageString" => $languages[$language],
@@ -48,6 +81,11 @@ class UI extends CI_Controller {
 				"black_white_printer"		=> $this->lang->line("printer_black_white"),
 			))
 		);
-		$this->load->view("front_view",$this->computerinfo_security->ControllerInfo($data));
+
+		$this->load->view("header_view",$this->computerinfo_security->ControllerInfo($header_data));
+
+		$this->load->view("front_view",$this->computerinfo_security->ControllerInfo($front_data));
+
+		$this->load->view("footer_view",$this->computerinfo_security->ControllerInfo($footer_data));
 	}
 }

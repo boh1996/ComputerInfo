@@ -18,6 +18,46 @@ $(".nav li a[data-target],ul li a[data-target]").live('click', function (event) 
 	}
 });
 
+$(document).on(".object[href]",'click',function(){
+	window.location = root + $(this).attr("href");
+});
+
+$("#user-language").typeahead({
+	source : function(typeahead, query) {
+	    $.ajax({
+	    	url : root + "languages?token" + userInfo.getCookie("token") + "&name="+query,
+	    	contentType : "application/json",
+	    	success : function (data) {
+	    		var languages = new Array();
+	    		for ( var i in data.result) {
+	    			languages.push(i);
+	    		};
+
+	    		console.log(languages);
+
+	    		typeahead.process(languages);
+	    	}
+	    });
+	}
+});
+
+function countProperties (obj) {
+		  var prop;
+		  var propCount = 0;
+
+		  for (prop in obj) {
+		    propCount++;
+		  }
+		return propCount;
+	}
+
+$('#save-selections').toggleButtons({
+    style: {
+        enabled: "success",
+        disabled: "danger"
+    }
+});
+
 /**
  * This function replaces the template variables with the correct data
  * @param  {string} string The template

@@ -15,12 +15,8 @@ class API_Lists extends CI_API_Controller {
 	 * @since 1.0
 	 */
 	protected $methods = array(
-		"manufacturers_get" => array("key" => false),
-		"screen_models_get" => array("key" => false),
-		"computer_models_get" => array("key" => false),
-		"printer_models_get" => array("key" => false),
-		"device_models_get" => array("key" => false),
-		"data_endpoint_get" => array("key" => false)
+		"data_endpoint_get" => array("key" => false),
+		"languages_get" => array("key" => false),
 	);
 
 	/**
@@ -98,6 +94,19 @@ class API_Lists extends CI_API_Controller {
 		}
 
 		$this->response($result);
+	}
+
+	/**
+	 * Outputs all languages
+	 * 
+	 * @return array
+	 */
+	public function languages_get () {
+		if ( $this->config->item("languages") != "" ) {
+			$this->response($this->config->item("languages"));
+		} else {
+			self::error(404);
+		}
 	}
 }
 ?>

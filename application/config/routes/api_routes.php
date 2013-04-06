@@ -86,6 +86,7 @@
 		$route["video/architectures"] = "api/api_lists/data_endpoint/video_architectures";
 		$route["screen/pixel/types"] = "api/api_lists/data_endpoint/screen_pixel_types";
 		$route["printer/capabilities"] = "api/api_lists/data_endpoint/printer_capabilities";
+		$route["languages"] = "api/api_lists/languages";
 
 	### Old ###
   	$route["options/(:any)"] = "api_old/options/$1";
