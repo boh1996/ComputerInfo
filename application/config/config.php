@@ -33,6 +33,8 @@ $config["template_dir"] = "{{APPPATH}}templates";
  */
 $config["template_ext"] = ".php";
 
+$config["template_suffix"] = "_template";
+
 /*
 |--------------------------------------------------------------------------
 | Index File

@@ -21,6 +21,14 @@ class MY_Loader extends CI_Loader {
 			} else {
 				define('TEMPLATE_FILE_EXTENSION', '.php');
 			}
+
+			$suffix = config_item("template_suffix");
+
+			if ( $suffix != "" || $suffix !== false ) {
+				define("TEMPLATE_FILE_SUFFIX", $suffix);
+			} else {
+				define('TEMPLATE_FILE_SUFFIX', '');
+			}
 		}
 
 		parent::__construct();
@@ -51,7 +59,7 @@ class MY_Loader extends CI_Loader {
 		$template = ltrim($template,"/");
 		$template = rtrim($template,"/");
 
-		$template_path = TEMPLATE_PATH . "/" . $template . TEMPLATE_FILE_EXTENSION;
+		$template_path = TEMPLATE_PATH . "/" . $template . TEMPLATE_FILE_SUFFIX . TEMPLATE_FILE_EXTENSION;
 
 		if ( ! file_exists($template_path) ) return false;
 
